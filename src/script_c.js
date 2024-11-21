@@ -256,7 +256,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                                 .then(response => response)
                                 .then(data => {
                                         console.log('Category Retrived:', data);
-                                        test = data;
+                                      
                                 })
                                 .catch(error => {
                                         console.error('Error Getting category:', error);
@@ -265,6 +265,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                                 
 
                 const categories = await response;
+                categoriesToRender = categories.data['Saleman_bot'];
 
                 // Clear previous list
                 categoriesList.innerHTML = '';
@@ -287,8 +288,10 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                 alert('Failed to fetch categories');
             }
         };
+
+
 let categoryPath = [];
-let categoriesToRender = categories.data['Saleman_bot']; // Starting point for level 1 categories
+let categoriesToRender; // Starting point for level 1 categories
 let searchQuery = ''; // To store the search query
 
 // Set to track unique category IDs and prevent duplication
