@@ -490,7 +490,12 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
 
 
 // Initial Render
+async function rendderpage() {
+await fetchdata()
 renderCategories();
+}
+
+rendderpage()
 
 function GoToProduct(name){
   document.getElementById('AproductModal').classList.remove('hidden');
