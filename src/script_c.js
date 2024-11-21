@@ -256,7 +256,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                                 })
                                 .then(response => response.json())
                                 .then(data => {
-                                        console.log('Category Retrived:', data['Saleman_bot']);
+                                        console.log('Category Retrived:', data.json()['Saleman_bot']);
                                 })
                                 .catch(error => {
                                         console.error('Error Getting category:', error);
