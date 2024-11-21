@@ -4,7 +4,7 @@ services:
 # NGINX Service
   webserver:
     image: nginx:alpine
-    container_name: aimoonhub-webserver
+    container_name: baztab-webserver
     restart: always
     tty: true
     ports:
