@@ -237,7 +237,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
     }
     };
 
-
+let test 
     
         // Handle Fetch All Categories Button
         async function fetchdata(){
@@ -254,13 +254,10 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                                         },
                                         // body: JSON.stringify({})
                                 })
-                                .then(response => {
-                                  response.json();
-                                  console.log(response.json())
-
-                                })
+                                .then(response => response.json())
                                 .then(data => {
                                         console.log('Category Retrived:', data);
+                                        test = data;
                                 })
                                 .catch(error => {
                                         console.error('Error Getting category:', error);
