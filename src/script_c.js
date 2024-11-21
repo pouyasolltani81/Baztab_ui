@@ -240,6 +240,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 let categories = {}; // Initialize the categories variable
 
 // Handle Fetch All Categories Button
+// Handle Fetch All Categories Button
 async function fetchdata() {
     try {
         const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
@@ -254,18 +255,29 @@ async function fetchdata() {
             },
         });
 
-        const data = await response.json();
-        console.log('Categories Retrieved:', data);
-        test = data; // Store the fetched data
-        categories = test.data['Saleman_bot']; // Store specific categories
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-        renderCategories(); // Render categories once data is fetched
+        const data = await response.json();
+
+        // Check if the response contains valid categories data
+        if (data && data.data && data.data['Saleman_bot']) {
+            console.log('Categories Retrieved:', data);
+            test = data; // Store the fetched data
+            categories = data.data['Saleman_bot']; // Store specific categories
+            renderCategories(); // Render categories once data is fetched
+        } else {
+            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+        }
+
     } catch (error) {
+        // Log and display the error to the user
         console.error('Error Getting categories:', error);
-        alert('Error Getting categories');
+        alert('Failed to load categories: ' + error.message);
     }
 }
-
 let categoryPath = [];
 let categoriesToRender = categories; // Initially set categories to 'Saleman_bot'
 let searchQuery = ''; // To store the search query
