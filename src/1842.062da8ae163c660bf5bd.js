@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkaimoonhub=self.webpackChunkaimoonhub||[]).push([[1842],{1842:(a,e,t)=>{t.d(e,{A:()=>n});var o=t(6540),s=t(101);const n=function(a){var e=a.data,t=a.colors,n=a.labels;return o.createElement(s.gI,{type:"pie",data:{labels:n,datasets:[{data:e,backgroundColor:t}]}})}}}]);
