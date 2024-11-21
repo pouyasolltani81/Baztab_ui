@@ -246,17 +246,17 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
                                         method: 'POST',
                                         headers: {
                                         'Content-Type': 'application/json',
-                                        "Accept-Version": 1,
-                                        'Accept': "application/json",
-                                        "Access-Control-Allow-Origin": "*",
-                                        "Content-Type": "application/json; charset=utf-8",
-                                        'authorization' : user_token , 
+                                        // "Accept-Version": 1,
+                                        // 'Accept': "application/json",
+                                        // "Access-Control-Allow-Origin": "*",
+                                        // "Content-Type": "application/json; charset=utf-8",
+                                        // 'authorization' : user_token , 
                                         },
                                         // body: JSON.stringify({})
                                 })
                                 .then(response => response.json())
                                 .then(data => {
-                                        console.log('Category Retrived:', data);
+                                        console.log('Category Retrived:', data['Saleman_bot']);
                                 })
                                 .catch(error => {
                                         console.error('Error Getting category:', error);
