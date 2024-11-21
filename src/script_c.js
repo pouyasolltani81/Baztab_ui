@@ -172,124 +172,102 @@
 //     }
 // });
 
-const user_token = '9fc0fe536ea09fed645f9f791fc15e65'
+// //  Sample Data with Multiple Level 1 Categories
+//  const categories = {
+//       "Saleman_bot": {
+//       "زیبایی و سلامت": {
+//         "_id": "67358d34fd1372fc4a6d61a8",
+//         "name": "",
+//         "name_fa": "زیبایی و سلامت",
+//         "parent_id": null,
+//         "slug": "",
+//         "slug_fa": "زیبایی-و-سلامت",
+//         "level": 1,
+//         "created_at": "2024-11-14T05:40:04.262",
+//         "level_2": [
+//           {
+//             "_id": "67358d34fd1372fc4a6d61a9",
+//             "name": "",
+//             "name_fa": "لوازم آرایشی",
+//             "parent_id": "67358d34fd1372fc4a6d61a8",
+//             "slug": " > ",
+//             "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
+//             "level": 2,
+//             "created_at": "2024-11-14T05:40:04.266",
+//             "level_3": [
+//               {
+//                 "_id": "67358d34fd1372fc4a6d61aa",
+//                 "name": "",
+//                 "name_fa": "کرم پودر",
+//                 "parent_id": "67358d34fd1372fc4a6d61a9",
+//                 "slug": " >  > ",
+//                 "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
+//                 "level": 3,
+//                 "created_at": "2024-11-14T05:40:04.267",
+//                 "updatedAt": "2024-11-20T07:14:28.529"
+//               },
+//               {
+//                 "_id": "673839a3fd1372fc4a6d9518",
+//                 "name": "",
+//                 "name_fa": "پنکک",
+//                 "parent_id": "67358d34fd1372fc4a6d61a9",
+//                 "slug": " >  > ",
+//                 "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
+//                 "level": 3,
+//                 "created_at": "2024-11-16T06:20:19.766",
+//                 "updatedAt": "2024-11-20T07:14:33.175"
+//               },
+//               {
+//                 "_id": "6739e5ddfd1372fc4a6db9b1",
+//                 "name": "",
+//                 "name_fa": "کانسیلر",
+//                 "parent_id": "67358d34fd1372fc4a6d61a9",
+//                 "slug": " >  > ",
+//                 "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
+//                 "level": 3,
+//                 "created_at": "2024-11-17T12:47:25.775",
+//                 "updatedAt": "2024-11-20T07:14:35.383"
+//               }
+//             ]
+//           }
+//         ]
+//       }
+//     }
+//     };
 
-//  Sample Data with Multiple Level 1 Categories
- const categories = {
-      "Saleman_bot": {
-      "زیبایی و سلامت": {
-        "_id": "67358d34fd1372fc4a6d61a8",
-        "name": "",
-        "name_fa": "زیبایی و سلامت",
-        "parent_id": null,
-        "slug": "",
-        "slug_fa": "زیبایی-و-سلامت",
-        "level": 1,
-        "created_at": "2024-11-14T05:40:04.262",
-        "level_2": [
-          {
-            "_id": "67358d34fd1372fc4a6d61a9",
-            "name": "",
-            "name_fa": "لوازم آرایشی",
-            "parent_id": "67358d34fd1372fc4a6d61a8",
-            "slug": " > ",
-            "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
-            "level": 2,
-            "created_at": "2024-11-14T05:40:04.266",
-            "level_3": [
-              {
-                "_id": "67358d34fd1372fc4a6d61aa",
-                "name": "",
-                "name_fa": "کرم پودر",
-                "parent_id": "67358d34fd1372fc4a6d61a9",
-                "slug": " >  > ",
-                "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
-                "level": 3,
-                "created_at": "2024-11-14T05:40:04.267",
-                "updatedAt": "2024-11-20T07:14:28.529"
-              },
-              {
-                "_id": "673839a3fd1372fc4a6d9518",
-                "name": "",
-                "name_fa": "پنکک",
-                "parent_id": "67358d34fd1372fc4a6d61a9",
-                "slug": " >  > ",
-                "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
-                "level": 3,
-                "created_at": "2024-11-16T06:20:19.766",
-                "updatedAt": "2024-11-20T07:14:33.175"
-              },
-              {
-                "_id": "6739e5ddfd1372fc4a6db9b1",
-                "name": "",
-                "name_fa": "کانسیلر",
-                "parent_id": "67358d34fd1372fc4a6d61a9",
-                "slug": " >  > ",
-                "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
-                "level": 3,
-                "created_at": "2024-11-17T12:47:25.775",
-                "updatedAt": "2024-11-20T07:14:35.383"
-              }
-            ]
-          }
-        ]
-      }
+let test;
+const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
+let categories = {}; // Initialize the categories variable
+
+// Handle Fetch All Categories Button
+async function fetchdata() {
+    try {
+        const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
+        });
+
+        const data = await response.json();
+        console.log('Categories Retrieved:', data);
+        test = data; // Store the fetched data
+        categories = test.data['Saleman_bot']; // Store specific categories
+
+        renderCategories(); // Render categories once data is fetched
+    } catch (error) {
+        console.error('Error Getting categories:', error);
+        alert('Error Getting categories');
     }
-    };
+}
 
-let test 
-    
-        // Handle Fetch All Categories Button
-        async function fetchdata(){
-            try {
-                const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
-                                        method: 'POST',
-                                        headers: {
-                                        'Content-Type': 'application/json',
-                                        "Accept-Version": 1,
-                                        'Accept': "application/json",
-                                        "Access-Control-Allow-Origin": "*",
-                                        "Content-Type": "application/json; charset=utf-8",
-                                        'authorization' : user_token , 
-                                        },
-                                        // body: JSON.stringify({})
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                        console.log('Category Retrived:', data);
-                                        test = data;
-                                })
-                                .catch(error => {
-                                        console.error('Error Getting category:', error);
-                                        alert('Error Getting category');
-                                });
-                                
-
-                const categories = await response.json();
-
-                // Clear previous list
-                categoriesList.innerHTML = '';
-
-                if (Array.isArray(categories) && categories.length > 0) {
-                    categories.forEach(category => {
-                        const categoryDiv = document.createElement('div');
-                        categoryDiv.classList.add('p-4', 'bg-white', 'shadow-md', 'rounded-md', 'border', 'border-gray-200');
-                        categoryDiv.innerHTML = `
-                            <h3 class="font-semibold text-xl text-gray-700">${category.name}</h3>
-                            <p class="text-gray-600">${category.description}</p>
-                        `;
-                        categoriesList.appendChild(categoryDiv);
-                    });
-                } else {
-                    categoriesList.innerHTML = '<p class="text-gray-500">No categories available.</p>';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to fetch categories');
-            }
-        };
 let categoryPath = [];
-let categoriesToRender = categories['Saleman_bot']; // Starting point for level 1 categories
+let categoriesToRender = categories; // Initially set categories to 'Saleman_bot'
 let searchQuery = ''; // To store the search query
 
 // Set to track unique category IDs and prevent duplication
@@ -491,7 +469,7 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
 
 
 // Initial Render
-renderCategories();
+fetchdata(); 
 
 function GoToProduct(name){
   document.getElementById('AproductModal').classList.remove('hidden');
