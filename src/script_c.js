@@ -246,11 +246,11 @@ let test
                                         method: 'POST',
                                         headers: {
                                         'Content-Type': 'application/json',
-                                        // "Accept-Version": 1,
-                                        // 'Accept': "application/json",
-                                        // "Access-Control-Allow-Origin": "*",
-                                        // "Content-Type": "application/json; charset=utf-8",
-                                        // 'authorization' : user_token , 
+                                        "Accept-Version": 1,
+                                        'Accept': "application/json",
+                                        "Access-Control-Allow-Origin": "*",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        'authorization' : user_token , 
                                         },
                                         // body: JSON.stringify({})
                                 })
