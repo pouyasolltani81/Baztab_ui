@@ -264,9 +264,10 @@ async function fetchdata() {
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
-            console.log('Categories Retrieved:', data);
             test = data; // Store the fetched data
             categories = data.data['Saleman_bot']; // Store specific categories
+            console.log('Categories Retrieved:', categories);
+
             renderCategories(); // Render categories once data is fetched
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
@@ -284,130 +285,120 @@ let searchQuery = ''; // To store the search query
 
 // Set to track unique category IDs and prevent duplication
 let seen = new Set();
-
 // Recursive function to search through all categories and subcategories (dynamic levels)
 function searchAllCategories(categories, query) {
-  let results = [];
+    let results = [];
+    categories.forEach(category => {
+        if (category.name_fa.toLowerCase().includes(query.toLowerCase()) && !seen.has(category._id)) {
+            results.push(category);
+            seen.add(category._id);
+        }
 
-  categories.forEach(category => {
-    // Check if category matches the search query and hasn't been added before (by unique ID)
-    if (category.name_fa.toLowerCase().includes(query.toLowerCase()) && !seen.has(category._id)) {
-      results.push(category);
-      seen.add(category._id); // Mark this category as seen
-    }
-
-    // Dynamically check for subcategories at any level (level_2, level_3, etc.)
-    Object.keys(category).forEach(key => {
-      if (key.startsWith('level_') && Array.isArray(category[key])) {
-        category[key].forEach(subCategory => {
-          results = results.concat(searchAllCategories([subCategory], query)); // Recursively search subcategories
+        Object.keys(category).forEach(key => {
+            if (key.startsWith('level_') && Array.isArray(category[key])) {
+                category[key].forEach(subCategory => {
+                    results = results.concat(searchAllCategories([subCategory], query)); // Recursively search subcategories
+                });
+            }
         });
-      }
     });
-  });
 
-  return results;
+    return results;
 }
 
 // Function to render categories based on the current path
 function renderCategories() {
-  const categoryListContainer = document.getElementById('categoryList');
-  const breadcrumbContainer = document.getElementById('breadcrumb');
-  const goHigherBtn = document.getElementById('goHigherBtn');
-  const searchInput = document.getElementById('searchInput');
-  categoryListContainer.innerHTML = '';
+    const categoryListContainer = document.getElementById('categoryList');
+    const breadcrumbContainer = document.getElementById('breadcrumb');
+    const goHigherBtn = document.getElementById('goHigherBtn');
+    const searchInput = document.getElementById('searchInput');
+    categoryListContainer.innerHTML = '';
 
-  let breadcrumbHtml = 'کتگوری مورد نظر را انتخاب کنید';
-
-  if (categoryPath.length > 0) {
-    breadcrumbHtml = categoryPath.map(cat => cat.name_fa).join(' > ');
-    const lastCategory = categoryPath[categoryPath.length - 1];
-
-    // Dynamically determine categories to render based on the last level in the breadcrumb path
-    Object.keys(lastCategory).forEach(key => {
-      if (key.startsWith('level_') && Array.isArray(lastCategory[key])) {
-        categoriesToRender = lastCategory[key];
-      }
-    });
-  } else {
-    // If search query is empty, render only top-level categories
-    if (!searchQuery) {
-      categoriesToRender = Object.values(categories['Saleman_bot']);
+    // If categories are empty or undefined, display a message
+    if (!categories || Object.keys(categories).length === 0) {
+        console.error('No categories available to render');
+        categoryListContainer.innerHTML = '<p class="text-gray-500">No categories available.</p>';
+        return;
     }
-  }
 
-  // Filter categories based on the search query (case insensitive)
-  if (searchQuery) {
-    // Reset the seen set before each search to avoid persisting previous results
-    seen.clear();
-    categoriesToRender = searchAllCategories(categoriesToRender, searchQuery);
-  }
+    let breadcrumbHtml = 'کتگوری مورد نظر را انتخاب کنید';
 
-  breadcrumbContainer.innerHTML = breadcrumbHtml;
+    if (categoryPath.length > 0) {
+        breadcrumbHtml = categoryPath.map(cat => cat.name_fa).join(' > ');
+        const lastCategory = categoryPath[categoryPath.length - 1];
 
-  // Ensure categoriesToRender is an array before calling .forEach
-  if (Array.isArray(categoriesToRender)) {
-    categoriesToRender.forEach(category => {
-      const categoryElement = document.createElement('div');
-      categoryElement.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'hover:shadow-lg', 'transition-all', 'duration-200');
-      
-      // Count the number of subcategories
-      let subCategoryCount = 0;
-      Object.keys(category).forEach(key => {
-        if (key.startsWith('level_') && Array.isArray(category[key])) {
-          subCategoryCount += category[key].length;
+        Object.keys(lastCategory).forEach(key => {
+            if (key.startsWith('level_') && Array.isArray(lastCategory[key])) {
+                categoriesToRender = lastCategory[key];
+            }
+        });
+    } else {
+        if (!searchQuery) {
+            categoriesToRender = Object.values(categories);
         }
-      });
+    }
 
-      // Convert to Persian (Jalaali) date
-      let persianDate_Create = moment(category.created_at).format('jYYYY/jMM/jDD HH:mm:ss');
-      let persianDate_Update = moment(category.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss');
+    if (searchQuery) {
+        seen.clear();
+        categoriesToRender = searchAllCategories(categoriesToRender, searchQuery);
+    }
 
+    breadcrumbContainer.innerHTML = breadcrumbHtml;
 
+    if (Array.isArray(categoriesToRender) && categoriesToRender.length > 0) {
+        categoriesToRender.forEach(category => {
+            const categoryElement = document.createElement('div');
+            categoryElement.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'hover:shadow-lg', 'transition-all', 'duration-200');
+            
+            let subCategoryCount = 0;
+            Object.keys(category).forEach(key => {
+                if (key.startsWith('level_') && Array.isArray(category[key])) {
+                    subCategoryCount += category[key].length;
+                }
+            });
 
+            let persianDate_Create = moment(category.created_at).format('jYYYY/jMM/jDD HH:mm:ss');
+            let persianDate_Update = moment(category.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss');
 
-      categoryElement.innerHTML = `
-        <div class="flex justify-between items-center">
-          <span class="text-sm text-gray-500">سطح: ${category.level}</span>
-          <span class="text-sm text-gray-500">شناسه: ${category._id}</span>
-         
+            categoryElement.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-500">سطح: ${category.level}</span>
+                    <span class="text-sm text-gray-500">شناسه: ${category._id}</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2">${category.name_fa}</h3>
+                <div class="flex flex-col p-4" dir="ltr">
+                    <span class="text-base text-gray-500 py-2">تاریخ ایجاد:</span>
+                    <span class="text-base text-gray-500">${persianDate_Create}</span>
+                    <span class="text-base text-gray-500 py-2">تاریخ اخرین تغییر:</span>
+                    <span class="text-base text-gray-500"> ${persianDate_Update ? persianDate_Update : persianDate_Create}</span>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-400">زیر دسته‌ها: ${subCategoryCount}</span>
+                    ${categoryPath.length > 0 ? `<button class="text-gray-600 hover:text-gray-800" onclick="goHigher()">بازگشت به بالا</button>` : ''}
+                    ${Object.keys(category).some(key => key.startsWith('level_') && Array.isArray(category[key])) ? 
+                        `<button class="text-blue-600 hover:text-blue-800" onclick="goDeeper('${category.name_fa}', '${category._id}')">رفتن به عمق بیشتر</button>` : 
+                        `<button class="text-teal-600 hover:text-teal-800" onclick="GoToProduct('${category.name_fa}')">دریافت محصولات</button>`
+                    }
+                </div>
+            `;
+            categoryListContainer.appendChild(categoryElement);
+        });
+    } else {
+        // If no categories to render
+        categoryListContainer.innerHTML = '<p class="text-gray-500">No categories to display at this level.</p>';
+    }
 
-        </div>
-        <h3 class="text-lg font-semibold text-gray-800 mt-2">${category.name_fa}</h3>
-        <div class="flex flex-col p-4" dir="ltr">
-          <span class="text-base text-gray-500 py-2">تاریخ ایجاد:</span>
-          <span class="text-base text-gray-500">${persianDate_Create}</span>
-          <span class="text-base text-gray-500 py-2">تاریخ اخرین تغییر:</span>
-          <span class="text-base text-gray-500"> ${persianDate_Update ? persianDate_Update : persianDate_Create}</span>
-
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-          <span class="text-sm text-gray-400">زیر دسته‌ها: ${subCategoryCount}</span>
-         
-          ${categoryPath.length > 0 ? `<button class="text-gray-600 hover:text-gray-800" onclick="goHigher()">بازگشت به بالا</button>` : ''}
-          
-          ${Object.keys(category).some(key => key.startsWith('level_') && Array.isArray(category[key])) ? 
-            `<button class="text-blue-600 hover:text-blue-800" onclick="goDeeper('${category.name_fa}', '${category._id}')">رفتن به عمق بیشتر</button>` : `<button class="text-teal-600 hover:text-teal-800" onclick="GoToProduct('${category.name_fa}')">دریافت محصولات</button>`}
-        </div>
-      `;
-      categoryListContainer.appendChild(categoryElement);
-    });
-  }
-
-  // Show or hide Go Higher button
-  if (categoryPath.length === 0) {
-    goHigherBtn.setAttribute('disabled', true);
-    goHigherBtn.classList.add('cursor-not-allowed');
-    goHigherBtn.classList.remove('hover:bg-blue-600');
-    goHigherBtn.classList.remove('hover:text-white');
-  } else {
-    goHigherBtn.removeAttribute('disabled');
-    goHigherBtn.classList.remove('cursor-not-allowed');
-    goHigherBtn.classList.add('hover:bg-blue-600');
-    goHigherBtn.classList.add('hover:text-white');
-
-
-  }
+    if (categoryPath.length === 0) {
+        goHigherBtn.setAttribute('disabled', true);
+        goHigherBtn.classList.add('cursor-not-allowed');
+        goHigherBtn.classList.remove('hover:bg-blue-600');
+        goHigherBtn.classList.remove('hover:text-white');
+    } else {
+        goHigherBtn.removeAttribute('disabled');
+        goHigherBtn.classList.remove('cursor-not-allowed');
+        goHigherBtn.classList.add('hover:bg-blue-600');
+        goHigherBtn.classList.add('hover:text-white');
+    }
 }
 
 // Handle Go Deeper (Level Down)
