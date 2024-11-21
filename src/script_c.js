@@ -434,7 +434,7 @@ function goHigher() {
 
   // After popping, determine the categories to render at the previous level
   if (categoryPath.length === 0) {
-    categoriesToRender = Object.values(categories['Saleman_bot']);
+    categoriesToRender = Object.values(categories);
   } else {
     const previousCategory = categoryPath[categoryPath.length - 1];
 
@@ -464,7 +464,7 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
   categoryPath = [];
 
   // Set categoriesToRender to top-level categories
-  categoriesToRender = Object.values(categories['Saleman_bot']);
+  categoriesToRender = Object.values(categories);
 
   // Re-render the categories
   renderCategories();
