@@ -118,8 +118,8 @@ function fetchLocalData(page, limit, search, type, order) {
   }
 
   // Slice products to simulate pagination
-  const startIndex = (page - 1) * limit;
-  console.log(startIndex , page)
+  const startIndex = (1 - 1) * limit;
+  // console.log(startIndex , page)
   const paginatedProducts = products.slice(startIndex, startIndex + limit);
 
   createProductCards(paginatedProducts);
