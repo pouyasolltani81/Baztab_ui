@@ -171,14 +171,14 @@ function initializeCharts(priceData, desertized_price_distribution) {
     percentile_4.frequency,
     percentile_5.frequency
   ];
+  
   const percentileRanges = [
-    `${percentile_1.lower_bound} - ${percentile_1.upper_bound}`,
-    `${percentile_2.lower_bound} - ${percentile_2.upper_bound}`,
-    `${percentile_3.lower_bound} - ${percentile_3.upper_bound}`,
-    `${percentile_4.lower_bound} - ${percentile_4.upper_bound}`,
-    `${percentile_5.lower_bound} - ${percentile_5.upper_bound}`
+    `${percentile_1.lower_bound} - ${percentile_1.upper_bound}: ${percentile_1.frequency} items`,
+    `${percentile_2.lower_bound} - ${percentile_2.upper_bound}: ${percentile_2.frequency} items`,
+    `${percentile_3.lower_bound} - ${percentile_3.upper_bound}: ${percentile_3.frequency} items`,
+    `${percentile_4.lower_bound} - ${percentile_4.upper_bound}: ${percentile_4.frequency} items`,
+    `${percentile_5.lower_bound} - ${percentile_5.upper_bound}: ${percentile_5.frequency} items`
   ];
-
   // Initialize Donut Chart
   const donutChartCtx = donutChartCanvas.getContext('2d');
   new Chart(donutChartCtx, {
