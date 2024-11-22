@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Distribution with LLM Tags</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 h-full">
+
+<!-- Navbar with Back Button -->
+<div class="bg-white shadow-md" dir="ltr">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <!-- Back Button -->
+    <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200"><a href="./index.html">
+      ← بازگشت
+    </a>
+    </button>
+  </div>
+</div>
+
+<!-- Basic Information Section -->
+<section class="bg-white p-6 rounded-lg shadow-md mb-6 mt-6 max-w-lg mx-auto">
+  <header class="mb-4">
+    <h2 class="text-2xl font-semibold text-gray-800">اطلاعات پایه</h2>
+  </header>
+
+  <div class="space-y-4">
+    <!-- Total Products -->
+    <div class="flex items-center text-gray-700">
+      <p class="text-lg">تعداد کل محصولات: <span id="total-product-count" class="font-medium">0</span></p>
+    </div>
+
+    <!-- In Stock -->
+    <div class="flex items-center text-gray-700">
+      <p class="text-lg">تعداد محصولات موجود: <span id="in-stock-count" class="font-medium">0</span></p>
+    </div>
+
+    <!-- Out of Stock -->
+    <div class="flex items-center text-gray-700">
+      <p class="text-lg">تعداد محصولات ناموجود: <span id="out-of-stock-count" class="font-medium">0</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- Modal and Chart Containers -->
+<main class="bg-white p-8 rounded-lg shadow-xl w-full max-w-screen-lg mx-auto">
+  <div class="space-y-8 h-full">
+
+    <!-- Donut Chart Container -->
+    <section class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center mb-6 max-h-[600px]">
+      <div class="flex justify-between items-center w-full">
+        <h2 id="donut-chart-title" class="text-lg font-semibold">محدوده قیمت: از 1٪ تا 5٪</h2>
+        <button id="donut-explanation" class="bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer hover:bg-teal-600 transition-all duration-200">توضیح نمودار</button>
+      </div>
+      <canvas id="priceDistributionChart" class="w-full max-w-lg h-72 mt-6"></canvas>
+    </section>
+
+    <!-- Line Chart Container -->
+    <section class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center mb-6">
+      <div class="flex justify-between items-center w-full">
+        <h2 class="text-lg font-semibold">نمودار خطی توزیع قیمت</h2>
+        <button id="line-explanation" class="bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer hover:bg-teal-600 transition-all duration-200">توضیح نمودار</button>
+      </div>
+      <canvas id="priceLineChart" class="mt-6"></canvas>
+    </section>
+
+    <!-- Cloud Chart Container -->
+    <section class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center mb-8">
+      <div class="flex justify-between items-center w-full mb-6">
+        <h2 id="cloud-chart-title" class="text-xl font-semibold text-gray-800">نمودار ابر کلمات</h2>
+        <button id="cloud-explanation" class="bg-teal-500 text-white py-2 px-5 rounded-lg font-medium cursor-pointer hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+          توضیح نمودار
+        </button>
+      </div>
+
+      <!-- Dropdown and Tag Information Section -->
+      <div class="flex flex-col sm:flex-row justify-between items-center space-y-6 sm:space-y-0 sm:space-x-6 w-full">
+        <select id="categorySelector" class="w-full sm:w-2/5 bg-teal-500 text-white text-lg font-medium py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 hover:bg-teal-600 transition-all duration-300">
+          <option value="شماره رنگ">شماره رنگ</option>
+          <option value="جنس محفظه">جنس محفظه</option>
+          <option value="نوع محفظه">نوع محفظه</option>
+          <option value="مناسب برای رنگ پوست">مناسب برای رنگ پوست</option>
+        </select>
+
+        <div id="tag-info" class="text-right sm:w-2/5">
+          <p id="total-tags" class="text-lg font-medium text-gray-700">تعداد برچسب‌ها: 0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tag Cloud Section -->
+    <section id="tagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
+    <section id="cloudTagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
+
+  </div>
+</main>
+
+<!-- Explanation Modal -->
+<div id="explanationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
+    <h3 id="modalTitle" class="text-lg font-bold mb-4">توضیح نمودار</h3>
+    <p id="modalDescription" class="text-base leading-6">در اینجا توضیح نمودار قرار می‌گیرد...</p>
+    <button id="closeModalButton" class="block w-full mt-4 py-2 bg-red-500 text-white rounded-lg cursor-pointer hover:bg-red-600 transition-all duration-200">بستن</button>
+  </div>
+</div>
+
+<script src="./charts_logic.js"></script>
+
+</body>
+</html>

@@ -3,6 +3,9 @@ let test;
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 let categories = {}; 
 
+
+    
+//       localStorage.setItem('productResponse', JSON.stringify(data));  
 // Handle Fetch All Categories Button
 async function fetchdata() {
     try {
@@ -141,6 +144,8 @@ function renderCategories() {
                     ${Object.keys(category).some(key => key.startsWith('level_') && Array.isArray(category[key])) ? 
                         `<button class="text-blue-600 hover:text-blue-800" onclick="goDeeper('${category.name_fa}', '${category._id}')">رفتن به عمق بیشتر</button>` : 
                         `<button class="text-teal-600 hover:text-teal-800" onclick="GoToProduct('${category.name_fa}')">دریافت محصولات</button>`
+                        `<button class="text-teal-600 hover:text-teal-800" onclick="GoToCharts('${category.name_fa}')">اطلاعات بیشتر</button>`
+
                     }
                 </div>
             `;
@@ -285,11 +290,24 @@ function GoToProduct(name) {
     // });
   });
 
-  
   document.getElementById('closeAProductModal').addEventListener('click', function() {
     document.getElementById('AproductModal').classList.add('hidden');
   });
 }
+
+
+  function GoToCharts(name) {
+  
+      localStorage.setItem('name_far', JSON.stringify(data));  
+            
+      const data = {
+            category_name_fa: name,
+          };
+
+      // console.log(data)
+      window.location.href = '/charts.html';
+
+  };
 
 
 document.getElementById('closeAProductModal').addEventListener('click', function() {

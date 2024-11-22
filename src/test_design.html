@@ -3,111 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Find Category</title>
+  <title>Price Distribution - Donut and Line Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-container {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 900px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1E3A8A;
+      margin-bottom: 1rem;
+    }
+
+    .chart-container {
+      padding: 1.5rem;
+      border-radius: 15px;
+      background-color: #f8fafc;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-  <!-- Navbar -->
-  <div class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <button class="text-gray-700 font-semibold">← Back</button>
-      <div class="flex space-x-4">
-        <button id="findCategoryBtn" class="text-gray-600 hover:text-gray-800">Products</button>
-        <button id="createCategoryBtn" class="text-gray-600 hover:text-gray-800">Update</button>
+  <div class="modal-container">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <!-- Donut Chart Container -->
+      <div class="chart-container">
+        <h2 id="donut-chart-title">Price Range: 1st Percentile to 5th Percentile</h2>
+        <canvas id="priceDistributionChart"></canvas>
       </div>
-      <div class="flex space-x-4">
 
-        <button id="productBtn" class="text-blue-600 hover:text-blue-800">Products</button>
-        <button id="loginBtn" class="text-blue-600 hover:text-blue-800">Login</button>
-        <button id="registerBtn" class="text-blue-600 hover:text-blue-800">Register</button>
+      <!-- Line Chart Container -->
+      <div class="chart-container">
+        <h2>Price Distribution Line Chart</h2>
+        <canvas id="priceLineChart"></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Display Product Section -->
-  <div id="findCategoryContent" class="max-w-7xl mx-auto pt-20 px-6">
-
-        <div class="flex justify-between items-center p-4 border-b">
-        <!-- Page Number (Left) -->
-        <span id="pageNumber" class="text-sm text-gray-500"></span>
-
-        <!-- Product Name (Center) -->
-        <h2 id="productName" class="text-lg font-semibold text-gray-800"></h2>
-
-        <!-- Number of Products Displayed (Right) -->
-        <span id="productCount" class="text-sm text-gray-500"></span>
-        </div>
-
-        <!-- Items Per Page Selector -->
-        <div class="flex justify-center items-center gap-4 p-4">
-        <label for="itemsPerPage" class="text-sm text-gray-600">Items per page:</label>
-        <select id="itemsPerPage" class="border rounded-md p-2">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-        </select>
-        </div>
-
-        <!-- Product Cards Section -->
-        <div id="productCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4"></div>
-
-        <!-- Pagination Controls -->
-        <div class="flex justify-center gap-4 p-4">
-        <button id="prevPage" class="bg-gray-500 text-white px-4 py-2 rounded-md" disabled>Previous</button>
-        <input type="number" id="jumpToPage" class="border rounded-md p-2 text-center" placeholder="Go to page">
-        <button id="goToPage" class="bg-blue-600 text-white px-4 py-2 rounded-md">Go</button>
-        <button id="nextPage" class="bg-gray-500 text-white px-4 py-2 rounded-md">Next</button>
-        </div>
-
-
-  </div>
-
-<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-
-  
-  <!-- Login Popup -->
-  <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-8 rounded-lg w-96">
-      <h3 class="text-xl font-semibold mb-4">Login</h3>
-      <form>
-        <label for="loginEmail" class="block text-gray-700">Email</label>
-        <input type="email" id="loginEmail" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Email">
-        <label for="loginPassword" class="block text-gray-700">Password</label>
-        <input type="password" id="loginPassword" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Password">
-        <div class="flex justify-end">
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Login</button>
-        </div>
-      </form>
-      <button id="closeLoginModal" class="absolute top-4 right-4 text-gray-200 hover:text-red-900">X</button>
-    </div>
-  </div>
-
-  <!-- Register Popup -->
-  <div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-8 rounded-lg w-96">
-      <h3 class="text-xl font-semibold mb-4">Register</h3>
-      <form>
-        <label for="registerEmail" class="block text-gray-700">Email</label>
-        <input type="email" id="registerEmail" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Email">
-        <label for="registerPassword" class="block text-gray-700">Password</label>
-        <input type="password" id="registerPassword" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="Password">
-        <div class="flex justify-end">
-          <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">Register</button>
-        </div>
-      </form>
-      <button id="closeRegisterModal" class="absolute top-4 right-4 text-gray-200 hover:text-red-900">X</button>
-
-    </div>
-  </div>
 
   
 
+  <script>
+    // Price Data
+    const priceData = [
+      390000, 450000, 450000, 550000, 550000, 600000, 600000, 725000, 790000, 790000, 790000, 790000, 
+      790000, 790000, 790000, 800000, 800000, 800000, 800400, 830000, 831500, 840000, 840000, 866300, 
+      868400, 878400, 880000, 880000, 890000, 890000, 890000, 899900, 904000, 910000, 919500, 920400, 
+      950000, 981300, 990500, 1000000, 1000000, 1010000, 1020000, 1020200, 1030000, 1030000, 1030000, 
+      1040000, 1044000, 1074400, 1090000, 1090000, 1092500, 1098700, 1100000, 1100000, 1100000, 1100000,
+      1120000, 1130000, 1170000, 1190000, 1196700, 1200000, 1209000, 1220000, 1243800, 1245500, 1245800, 
+      1250000, 1270000, 1279100, 1280000, 1288000, 1300000, 1300000, 1300000, 1319500, 1320000, 1320000, 
+      1320000, 1329200, 1340000, 1345100, 1350000, 1350000, 1360900, 1377000, 1387000, 1390000, 1390000,
+      1395100, 1396200, 1400000, 1400000, 1400000, 1400000, 1400000, 1400000, 1400000, 1420000, 1430000,
+      1430000, 1450000, 1450000, 1450000, 1470000, 1479700, 1480000, 1483800, 1483800, 1490000, 1490000,
+      1490000, 1490000, 1498100, 1500000, 1500000, 1500000, 1500000, 1500000, 1500000, 1500000, 1500000,
+      1528300, 1541000, 1541000, 1548000, 1550000, 1550000, 1580000, 1580000, 1590000, 1594000, 1600000,
+      1600000, 1603200, 1609000, 1610000, 1650000, 1650000, 1670000, 1673600, 1680000, 1680000, 1690000,
+      1690000, 1690800, 1695100, 1700000, 1700000, 1700000, 1700000, 1700000, 1705500, 1708000, 1716900,
+      1716900, 1720000, 1720400, 1730000, 1730000, 1740000, 1745000, 1750000, 1750000, 1750000, 1750000,
+      1750000, 1750000, 1757700, 1760000, 1770000, 1779000, 1780000, 1780000, 1780000, 1780000, 1780000,
+      1785000, 1790000, 1799000, 1799000, 1800000, 1800000, 1800000, 1800000, 1800000, 1800000, 1800000,
+      1800000, 1800000, 1800000, 1800000, 1800000, 1800000, 1800000, 1800000, 1818800, 1822900, 1830000,
+      1835000, 1840000, 1850000, 1850000, 1850000, 1850000, 1860000, 1880000, 1900000, 1900000, 1900000
+    ];
 
-  </div>
+    // Calculate Percentile Values
+    function calculatePercentiles(data) {
+      data.sort((a, b) => a - b);
+      const percentiles = [1, 2, 3, 4, 5].map(p => {
+        const index = Math.floor((p / 100) * data.length);
+        return data[index];
+      });
+      return percentiles;
+    }
 
-  <script src="./ui_logic_p.js"></script>
-  <script src="./script_p.js"></script>
+    const percentiles = calculatePercentiles(priceData);
+
+    // Create Labels for Donut Chart with Upper and Lower Limits & Item Counts
+    const createLabel = (lowerLimit, upperLimit) => {
+      const count = priceData.filter(price => price >= lowerLimit && price <= upperLimit).length;
+      return `$${lowerLimit} - $${upperLimit}: ${count} items`;
+    };
+
+    const labels = [
+      createLabel(0, percentiles[0]),
+      createLabel(percentiles[0], percentiles[1]),
+      createLabel(percentiles[1], percentiles[2]),
+      createLabel(percentiles[2], percentiles[3]),
+      createLabel(percentiles[3], percentiles[4])
+    ];
+
+    // Donut Chart Data
+    const donutData = {
+      labels: labels,
+      datasets: [{
+        label: 'Frequency of Price Distribution',
+        data: labels.map(label => parseInt(label.split(': ')[1].split(' ')[0])), // Extract counts from labels
+        backgroundColor: [
+          '#3B82F6', '#14B8A6', '#F59E0B', '#10B981', '#9333EA'
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+      }]
+    };
+
+    const donutConfig = {
+      type: 'pie',
+      data: donutData,
+      options: {
+        responsive: true,
+        cutout: '70%', // This creates the donut effect
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: 'Inter, sans-serif',
+                weight: '600',
+                size: 14
+              },
+              boxWidth: 14
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return `${tooltipItem.label}: ${tooltipItem.raw} items`;
+              }
+            },
+            backgroundColor: '#333',
+            bodyColor: '#fff',
+            borderColor: '#fff',
+            borderWidth: 1
+          }
+        }
+      }
+    };
+
+    const donutCtx = document.getElementById('priceDistributionChart').getContext('2d');
+    new Chart(donutCtx, donutConfig);
+
+    // Create Histogram Bins for Line Chart
+    function createHistogramBins(data, binSize = 50000) {
+      const minValue = Math.min(...data);
+      const maxValue = Math.max(...data);
+      const bins = [];
+      for (let i = minValue; i <= maxValue; i += binSize) {
+        bins.push(i);
+      }
+
+      const histogram = bins.map((binStart, index) => {
+        const binEnd = binStart + binSize;
+        const count = data.filter(value => value >= binStart && value < binEnd).length;
+        return { bin: `${binStart} - ${binEnd}`, count };
+      });
+
+      return histogram;
+    }
+
+    const histogramData = createHistogramBins(priceData);
+    const formattedLabels = histogramData.map(item => `${formatNumber(parseInt(item.bin.split('-')[0]))} - ${formatNumber(parseInt(item.bin.split('-')[1]))}`);
+    const histogramDataValues = histogramData.map(item => item.count);
+
+    // Helper function to format numbers as K or M
+    function formatNumber(num) {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+      } else {
+        return num;
+      }
+    }
+
+    // Line Chart Configuration
+    const lineCtx = document.getElementById('priceLineChart').getContext('2d');
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: formattedLabels,
+        datasets: [{
+          label: 'Price Distribution',
+          data: histogramDataValues,
+          borderColor: '#3B82F6',
+          backgroundColor: 'rgba(59, 130, 246, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return `${tooltipItem.label}: ${tooltipItem.raw} items`;
+              }
+            },
+            bodyColor: '#fff',
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              font: {
+                size: 10,
+                weight: '600'
+              },
+              color: '#333'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              font: {
+                size: 12,
+                weight: '600'
+              },
+              color: '#333',
+              callback: function(value) {
+                return formatNumber(value);
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+
 </body>
 </html>
