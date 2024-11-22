@@ -26,29 +26,23 @@ function loadLocalJsonData() {
   const productData = JSON.parse(localStorage.getItem('productResponse'));
   if (productData) {
     localJsonData = productData;
-    currentPage = localJsonData.page;
-    itemsPerPage = localJsonData.page_limit
-    // totalPages = Math.ceil(totalProducts / itemsPerPage);
+    totalProducts = localJsonData.data.total_count;
+    totalPages = Math.ceil(totalProducts / itemsPerPage);
+    updatePageUI();
+  } else {
     // If no local data, fetch from API (for the initial load or first page)
-    fetchInitialData(localJsonData);
+    fetchInitialData();
   }
 }
 
-
-function navigationdata(page_n,limit){
-
-   const productData = JSON.parse(localStorage.getItem('productResponse'));
-    let data = {
-      category_name_fa: productData.category_name_fa,
-      page: page_n,
-      page_limit: limit
-    };
-   
-  fetchInitialData(data);
-}
 // Initial data fetch from API (for first load)
-function fetchInitialData(data) {
-  
+function fetchInitialData() {
+  const data = {
+    category_name_fa: 'کرم پودر', // Example category, replace as needed
+    page: currentPage,
+    page_limit: itemsPerPage,
+  };
+
   fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
     method: 'POST',
     headers: {
@@ -63,7 +57,7 @@ function fetchInitialData(data) {
   })
   .then(response => response.json())
   .then(data => {
- 
+    localStorage.setItem('productResponse', JSON.stringify(data)); // Save to localStorage
     localJsonData = data;
     totalProducts = localJsonData.data.total_count;
     totalPages = Math.ceil(totalProducts / itemsPerPage);
@@ -192,15 +186,14 @@ function createProductCards(products) {
 prevPageButton.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
-    navigationdata(currentPage,itemsPerPage);
+    updatePageUI();
   }
 });
 
 nextPageButton.addEventListener("click", () => {
   if (currentPage < totalPages) {
     currentPage++;
-      navigationdata(currentPage,itemsPerPage);
-
+    updatePageUI();
   }
 });
 
@@ -208,8 +201,7 @@ nextPageButton.addEventListener("click", () => {
 itemsPerPageSelector.addEventListener("change", (e) => {
   itemsPerPage = parseInt(e.target.value);
   totalPages = Math.ceil(totalProducts / itemsPerPage);
-  navigationdata(currentPage,itemsPerPage);
-
+  updatePageUI();
 });
 
 // Event listener for the "Jump to Page" functionality
@@ -217,8 +209,7 @@ goToPageButton.addEventListener("click", () => {
   const targetPage = parseInt(jumpToPageInput.value);
   if (targetPage >= 1 && targetPage <= totalPages) {
     currentPage = targetPage;
-    navigationdata(currentPage,itemsPerPage);
-
+    updatePageUI();
   }
 });
 
