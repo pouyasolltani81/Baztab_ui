@@ -97,6 +97,7 @@ function fetchLocalData(page, limit, search, type, order) {
   if (!localJsonData.data) return; // Prevent errors if data hasn't been loaded yet
 
   let products = localJsonData.data.result;
+  console.log(products)
 
   // Apply search filter
   if (search) {
