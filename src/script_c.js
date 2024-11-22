@@ -143,8 +143,8 @@ function renderCategories() {
                     ${categoryPath.length > 0 ? `<button class="text-gray-600 hover:text-gray-800" onclick="goHigher()">بازگشت به بالا</button>` : ''}
                     ${Object.keys(category).some(key => key.startsWith('level_') && Array.isArray(category[key])) ? 
                         `<button class="text-blue-600 hover:text-blue-800" onclick="goDeeper('${category.name_fa}', '${category._id}')">رفتن به عمق بیشتر</button>` : 
-                        `<button class="text-teal-600 hover:text-teal-800" onclick="GoToProduct('${category.name_fa}')">دریافت محصولات</button>`
-                        `<button class="text-teal-600 hover:text-teal-800" onclick="GoToCharts('${category.name_fa}')">اطلاعات بیشتر</button>`
+                        `<button class="text-teal-600 hover:text-teal-800" onclick="GoToProduct('${category.name_fa}')">دریافت محصولات</button>
+                        <button class="text-teal-600 hover:text-teal-800" onclick="GoToCharts('${category.name_fa}')">اطلاعات بیشتر</button>`
 
                     }
                 </div>
