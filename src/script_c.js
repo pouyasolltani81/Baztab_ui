@@ -1,245 +1,8 @@
 
-
-
-        // // API URLs
-        // const apiUrlCreate = 'http://49.175.177.113:21800/api/category/create';  // Replace with actual endpoint
-        // const apiUrlGetCategories = 'http://49.175.177.113:21800/api/category/get-categories';  // Replace with actual endpoint
-        // const apiUrlGetCategoryByName = 'http://49.175.177.113:21800/api/category/get-category-by-name';  // Replace with actual endpoint
-
-        // // Form Elements
-        // const createCategoryForm = document.getElementById('createCategoryForm');
-        // const fetchCategoriesBtn = document.getElementById('fetchCategoriesBtn');
-        // const searchCategoryForm = document.getElementById('searchCategoryForm');
-        // const categoriesList = document.getElementById('categoriesList');
-
-        // // Handle Create Category Form Submission
-        // createCategoryForm.addEventListener('submit', async (e) => {
-        //     e.preventDefault();
-
-        //     const name = document.getElementById('categoryName').value;
-        //     const description = document.getElementById('categoryDescription').value;
-
-        //     try {
-        //         const response = await fetch(apiUrlCreate, {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             },
-        //             body: JSON.stringify({ name, description })
-        //         });
-
-        //         if (response.ok) {
-        //             alert('Category created successfully!');
-        //             createCategoryForm.reset();
-        //         } else {
-        //             alert('Failed to create category');
-        //         }
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //         alert('An error occurred');
-        //     }
-        // });
-
-        // // Handle Fetch All Categories Button
-        // fetchCategoriesBtn.addEventListener('click', async () => {
-        //     try {
-        //         const response = await fetch(apiUrlGetCategories);
-        //         const categories = await response.json();
-
-        //         // Clear previous list
-        //         categoriesList.innerHTML = '';
-
-        //         if (Array.isArray(categories) && categories.length > 0) {
-        //             categories.forEach(category => {
-        //                 const categoryDiv = document.createElement('div');
-        //                 categoryDiv.classList.add('p-4', 'bg-white', 'shadow-md', 'rounded-md', 'border', 'border-gray-200');
-        //                 categoryDiv.innerHTML = `
-        //                     <h3 class="font-semibold text-xl text-gray-700">${category.name}</h3>
-        //                     <p class="text-gray-600">${category.description}</p>
-        //                 `;
-        //                 categoriesList.appendChild(categoryDiv);
-        //             });
-        //         } else {
-        //             categoriesList.innerHTML = '<p class="text-gray-500">No categories available.</p>';
-        //         }
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //         alert('Failed to fetch categories');
-        //     }
-        // });
-
-        // // Handle Search Category by Name Form
-        // searchCategoryForm.addEventListener('submit', async (e) => {
-        //     e.preventDefault();
-
-        //     const categoryName = document.getElementById('searchName').value;
-
-        //     try {
-        //         const response = await fetch(`${apiUrlGetCategoryByName}?name=${categoryName}`);
-        //         const category = await response.json();
-
-        //         // Clear previous list
-        //         categoriesList.innerHTML = '';
-
-        //         if (category && category.name) {
-        //             const categoryDiv = document.createElement('div');
-        //             categoryDiv.classList.add('p-4', 'bg-white', 'shadow-md', 'rounded-md', 'border', 'border-gray-200');
-        //             categoryDiv.innerHTML = `
-        //                 <h3 class="font-semibold text-xl text-gray-700">${category.name}</h3>
-        //                 <p class="text-gray-600">${category.description}</p>
-        //             `;
-        //             categoriesList.appendChild(categoryDiv);
-        //         } else {
-        //             categoriesList.innerHTML = '<p class="text-gray-500">No category found.</p>';
-        //         }
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //         alert('Failed to search for category');
-        //     }
-        // });
-
-
-//         // Sample data to mock API responses
-// const sampleCategories = [
-//     { id: 1, name: 'Technology', description: 'All things tech related' },
-//     { id: 2, name: 'Science', description: 'Scientific discoveries and research' },
-//     { id: 3, name: 'Health', description: 'Topics related to health and wellness' },
-// ];
-
-// // Form Elements
-// const createCategoryForm = document.getElementById('createCategoryForm');
-// const fetchCategoriesBtn = document.getElementById('fetchCategoriesBtn');
-// const searchCategoryForm = document.getElementById('searchCategoryForm');
-// const categoriesList = document.getElementById('categoriesList');
-
-// // Handle Create Category Form Submission
-// createCategoryForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-
-//     const name = document.getElementById('categoryName').value;
-//     const description = document.getElementById('categoryDescription').value;
-
-//     // Simulate adding a new category to the list
-//     const newCategory = { id: sampleCategories.length + 1, name, description };
-//     sampleCategories.push(newCategory);
-
-//     alert('Category created successfully!');
-//     createCategoryForm.reset();
-// });
-
-// // Handle Fetch All Categories Button
-// fetchCategoriesBtn.addEventListener('click', () => {
-//     // Simulating API response by using the sampleCategories array
-//     categoriesList.innerHTML = ''; // Clear previous list
-
-//     if (sampleCategories.length > 0) {
-//         sampleCategories.forEach((category) => {
-//             const categoryDiv = document.createElement('div');
-//             categoryDiv.classList.add('p-4', 'bg-white', 'shadow-md', 'rounded-md', 'border', 'border-gray-200');
-//             categoryDiv.innerHTML = `
-//                 <h3 class="font-semibold text-xl text-gray-700">${category.name}</h3>
-//                 <p class="text-gray-600">${category.description}</p>
-//             `;
-//             categoriesList.appendChild(categoryDiv);
-//         });
-//     } else {
-//         categoriesList.innerHTML = '<p class="text-gray-500">No categories available.</p>';
-//     }
-// });
-
-// // Handle Search Category by Name Form
-// searchCategoryForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-
-//     const categoryName = document.getElementById('searchName').value.toLowerCase();
-//     const foundCategory = sampleCategories.find(
-//         (category) => category.name.toLowerCase() === categoryName
-//     );
-
-//     // Clear previous list
-//     categoriesList.innerHTML = '';
-
-//     if (foundCategory) {
-//         const categoryDiv = document.createElement('div');
-//         categoryDiv.classList.add('p-4', 'bg-white', 'shadow-md', 'rounded-md', 'border', 'border-gray-200');
-//         categoryDiv.innerHTML = `
-//             <h3 class="font-semibold text-xl text-gray-700">${foundCategory.name}</h3>
-//             <p class="text-gray-600">${foundCategory.description}</p>
-//         `;
-//         categoriesList.appendChild(categoryDiv);
-//     } else {
-//         categoriesList.innerHTML = '<p class="text-gray-500">No category found.</p>';
-//     }
-// });
-
-// //  Sample Data with Multiple Level 1 Categories
-//  const categories = {
-//       "Saleman_bot": {
-//       "زیبایی و سلامت": {
-//         "_id": "67358d34fd1372fc4a6d61a8",
-//         "name": "",
-//         "name_fa": "زیبایی و سلامت",
-//         "parent_id": null,
-//         "slug": "",
-//         "slug_fa": "زیبایی-و-سلامت",
-//         "level": 1,
-//         "created_at": "2024-11-14T05:40:04.262",
-//         "level_2": [
-//           {
-//             "_id": "67358d34fd1372fc4a6d61a9",
-//             "name": "",
-//             "name_fa": "لوازم آرایشی",
-//             "parent_id": "67358d34fd1372fc4a6d61a8",
-//             "slug": " > ",
-//             "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
-//             "level": 2,
-//             "created_at": "2024-11-14T05:40:04.266",
-//             "level_3": [
-//               {
-//                 "_id": "67358d34fd1372fc4a6d61aa",
-//                 "name": "",
-//                 "name_fa": "کرم پودر",
-//                 "parent_id": "67358d34fd1372fc4a6d61a9",
-//                 "slug": " >  > ",
-//                 "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
-//                 "level": 3,
-//                 "created_at": "2024-11-14T05:40:04.267",
-//                 "updatedAt": "2024-11-20T07:14:28.529"
-//               },
-//               {
-//                 "_id": "673839a3fd1372fc4a6d9518",
-//                 "name": "",
-//                 "name_fa": "پنکک",
-//                 "parent_id": "67358d34fd1372fc4a6d61a9",
-//                 "slug": " >  > ",
-//                 "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
-//                 "level": 3,
-//                 "created_at": "2024-11-16T06:20:19.766",
-//                 "updatedAt": "2024-11-20T07:14:33.175"
-//               },
-//               {
-//                 "_id": "6739e5ddfd1372fc4a6db9b1",
-//                 "name": "",
-//                 "name_fa": "کانسیلر",
-//                 "parent_id": "67358d34fd1372fc4a6d61a9",
-//                 "slug": " >  > ",
-//                 "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
-//                 "level": 3,
-//                 "created_at": "2024-11-17T12:47:25.775",
-//                 "updatedAt": "2024-11-20T07:14:35.383"
-//               }
-//             ]
-//           }
-//         ]
-//       }
-//     }
-//     };
-
 let test;
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
-let categories = {}; // Initialize the categories variable
+let categories = {}; 
 
-// Handle Fetch All Categories Button
 // Handle Fetch All Categories Button
 async function fetchdata() {
     try {
@@ -264,11 +27,11 @@ async function fetchdata() {
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
-            test = data; // Store the fetched data
-            categories = data.data['Saleman_bot']; // Store specific categories
+            test = data; 
+            categories = data.data['Saleman_bot']; 
             console.log('Categories Retrieved:', categories);
 
-            renderCategories(); // Render categories once data is fetched
+            renderCategories(); 
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
@@ -285,7 +48,7 @@ let searchQuery = ''; // To store the search query
 
 // Set to track unique category IDs and prevent duplication
 let seen = new Set();
-// Recursive function to search through all categories and subcategories (dynamic levels)
+// Recursive function to search through all categories and subcategories
 function searchAllCategories(categories, query) {
     let results = [];
     categories.forEach(category => {
@@ -306,7 +69,7 @@ function searchAllCategories(categories, query) {
     return results;
 }
 
-// Function to render categories based on the current path
+// Function to render categories
 function renderCategories() {
     const categoryListContainer = document.getElementById('categoryList');
     const breadcrumbContainer = document.getElementById('breadcrumb');
@@ -314,7 +77,7 @@ function renderCategories() {
     const searchInput = document.getElementById('searchInput');
     categoryListContainer.innerHTML = '';
 
-    // If categories are empty or undefined, display a message
+   
     if (!categories || Object.keys(categories).length === 0) {
         console.error('No categories available to render');
         categoryListContainer.innerHTML = '<p class="text-gray-500">No categories available.</p>';
@@ -384,7 +147,7 @@ function renderCategories() {
             categoryListContainer.appendChild(categoryElement);
         });
     } else {
-        // If no categories to render
+       
         categoryListContainer.innerHTML = '<p class="text-gray-500">No categories to display at this level.</p>';
     }
 
@@ -450,8 +213,8 @@ function goHigher() {
 
 // Handle Search Input
 function handleSearch(event) {
-  searchQuery = event.target.value.trim(); // Capture the search input
-  renderCategories(); // Re-render categories based on the updated search query
+  searchQuery = event.target.value.trim(); 
+  renderCategories(); 
 }
 
 // Initialize Search
@@ -460,24 +223,69 @@ document.getElementById('searchInput').addEventListener('input', handleSearch);
 
 //Reset Button
 document.getElementById('backToFirstLevelBtn').addEventListener('click', function() {
-  // Reset the category path to the first level (empty path)
+ 
   categoryPath = [];
-
-  // Set categoriesToRender to top-level categories
   categoriesToRender = Object.values(categories);
-
-  // Re-render the categories
   renderCategories();
 });
 
 
 // Initial Render
 fetchdata(); 
-
-function GoToProduct(name){
+function GoToProduct(name) {
+  
   document.getElementById('AproductModal').classList.remove('hidden');
   document.getElementById('Automated_product_name').innerText = name;
+
+  
+  document.querySelector('#AproductModal form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    
+    const productPage = document.getElementById('productPage').value || 1;  
+    const productLimit = document.getElementById('productLimit').value || 10; 
+    const category_name_fa = name;  
+  
+    const data = {
+      category_name_fa: category_name_fa,
+      page: productPage,
+      page_limit: productLimit
+    };
+
+    
+    fetch('http://79.175.177.113:21800//Products/get_products_paginated/', {
+      method: 'POST',
+     headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+    
+      localStorage.setItem('productResponse', JSON.stringify(data));  
+      document.getElementById('AproductModal').classList.add('hidden');
+      console.log(data)
+      // window.location.href = '/Products.html';
+
+    })
+    .catch(error => {
+      console.error('Error fetching products:', error);
+      alert('Error fetching products');
+    });
+  });
+
+  
+  document.getElementById('closeAProductModal').addEventListener('click', function() {
+    document.getElementById('AproductModal').classList.add('hidden');
+  });
 }
+
 
 document.getElementById('closeAProductModal').addEventListener('click', function() {
   document.getElementById('AproductModal').classList.add('hidden');
@@ -491,25 +299,30 @@ document.getElementById('closeAProductModal').addEventListener('click', function
       const name_fa = document.getElementById('name_fa').value;
       const name = document.getElementById('name').value;
       const parent_id = document.getElementById('parent_id').value;
-
+          
       const data = {
-        name_fa,
-        name,
-        parent_id
+        parent_id: parent_id,  // include parent_id as the first key
+        name: name,            // name field
+        name_fa: name_fa       // name_fa field
       };
 
-      fetch('https://your-api-endpoint.com/create-category', {
+      fetch('http://79.175.177.113:21800/Categories/create/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
         body: JSON.stringify(data)
       })
       .then(response => response.json())
       .then(data => {
         console.log('Category created:', data);
         alert('Category created successfully!');
-        document.getElementById('createCategoryForm').reset();  // Reset the form
+        document.getElementById('createCategoryForm').reset();  
       })
       .catch(error => {
         console.error('Error creating category:', error);
