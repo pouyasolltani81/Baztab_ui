@@ -30,7 +30,7 @@ function showModal(title, description) {
 // Event listener for the explanation buttons
 donutExplanationButton.addEventListener('click', () => {
   const description = `
-    این نمودار دایره‌ای (Donut Chart) توزیع قیمت محصولات را در 5 درصد اول تا 5 درصد آخر از لحاظ قیمت نمایش می‌دهد.
+    این نمودار دایره‌ای (Donut Chart) 
     هر بخش از این نمودار نشان‌دهنده یک بازه از قیمت‌ها است که درصدی از کل محصولات را تشکیل می‌دهد.
   `;
   showModal("توضیح نمودار دایره‌ای قیمت", description);
@@ -39,15 +39,13 @@ donutExplanationButton.addEventListener('click', () => {
 lineExplanationButton.addEventListener('click', () => {
   const description = `
     این نمودار خطی توزیع قیمت‌ها را در طول بازه‌های مختلف نمایش می‌دهد.
-    داده‌ها به صورت میانگین متحرک صاف شده‌اند تا روند کلی قیمت‌ها را نشان دهند.
+   
   `;
   showModal("توضیح نمودار خطی توزیع قیمت", description);
 });
 
 cloudExplanationButton.addEventListener('click', () => {
-  const description = `
-    این نمودار ابر کلمات، برچسب‌های مختلف محصولات را در دسته‌های مختلف نشان می‌دهد.
-    اندازه هر کلمه نشان‌دهنده تعداد محصولات مرتبط با آن برچسب است.
+  const description = ` توضیح این قسمت اضافه میشود.
   `;
   showModal("توضیح نمودار ابر کلمات", description);
 });
