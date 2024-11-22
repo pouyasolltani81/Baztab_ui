@@ -47,19 +47,19 @@
 
 
 
-    // Login Modal
-    document.getElementById('loginBtn').addEventListener('click', function() {
-      document.getElementById('loginModal').classList.remove('hidden');
-    });
+    // // Login Modal
+    // document.getElementById('loginBtn').addEventListener('click', function() {
+    //   document.getElementById('loginModal').classList.remove('hidden');
+    // });
 
-    document.getElementById('closeLoginModal').addEventListener('click', function() {
-      document.getElementById('loginModal').classList.add('hidden');
-    });
+    // document.getElementById('closeLoginModal').addEventListener('click', function() {
+    //   document.getElementById('loginModal').classList.add('hidden');
+    // });
 
-    // Register Modal
-    document.getElementById('registerBtn').addEventListener('click', function() {
-      document.getElementById('registerModal').classList.remove('hidden');
-    });
+    // // Register Modal
+    // document.getElementById('registerBtn').addEventListener('click', function() {
+    //   document.getElementById('registerModal').classList.remove('hidden');
+    // });
 
     document.getElementById('closeRegisterModal').addEventListener('click', function() {
       document.getElementById('registerModal').classList.add('hidden');
