@@ -309,7 +309,7 @@ initialize();
         setTimeout(() => {
           // Simulate loading process (e.g., fetching data)
           resolve('Page Loaded');
-        }, 2000); // Simulating a 2-second load time
+        }, 8000); // Simulating a 2-second load time
       });
     }
 
