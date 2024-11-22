@@ -253,31 +253,36 @@ function GoToProduct(name) {
     };
 
     
-    fetch('http://79.175.177.113:21800//Products/get_products_paginated/', {
-      method: 'POST',
-     headers: {
-                'Content-Type': 'application/json',
-                "Accept-Version": 1,
-                'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset=utf-8",
-                'authorization': user_token,
-            },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-    
       localStorage.setItem('productResponse', JSON.stringify(data));  
       document.getElementById('AproductModal').classList.add('hidden');
       // console.log(data)
       window.location.href = '/Products.html';
 
-    })
-    .catch(error => {
-      console.error('Error fetching products:', error);
-      alert('Error fetching products');
-    });
+    // fetch('http://79.175.177.113:21800//Products/get_products_paginated/', {
+    //   method: 'POST',
+    //  headers: {
+    //             'Content-Type': 'application/json',
+    //             "Accept-Version": 1,
+    //             'Accept': "application/json",
+    //             "Access-Control-Allow-Origin": "*",
+    //             "Content-Type": "application/json; charset=utf-8",
+    //             'authorization': user_token,
+    //         },
+    //   body: JSON.stringify(data)
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    
+    //   localStorage.setItem('productResponse', JSON.stringify(data));  
+    //   document.getElementById('AproductModal').classList.add('hidden');
+    //   // console.log(data)
+    //   window.location.href = '/Products.html';
+
+    // })
+    // .catch(error => {
+    //   console.error('Error fetching products:', error);
+    //   alert('Error fetching products');
+    // });
   });
 
   
