@@ -165,28 +165,29 @@
     </div>
   </div>
 
-  
   <!-- Automated Product Popup -->
-  <div id="AproductModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-8 rounded-lg w-96">
-      <h3 class="text-xl font-semibold mb-4">دریافت محصولات</h3>
-      <form>
-        <label for="productName" class="block text-gray-700 p-2">نام (فارسی)</label>
-        <p id="Automated_product_name">تست</p>
-        <label for="productPage" class="block text-gray-700 p-2">صفحه</label>
-        <input type="number" id="productPage" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="مثال: 1">
-        <label for="productLimit" class="block text-gray-700 p-2">محدودیت صفحه</label>
-        <input type="number" id="productLimit" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="مثال: 10">
-        
-        <div class="flex justify-end">
-          <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">یافتن</button>
-        </div>
-      </form>
-      <button id="closeAProductModal" class="absolute top-4 right-4 text-gray-200 hover:text-red-900">X</button>
+<div id="AproductModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+  <div class="bg-white p-8 rounded-lg w-96">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold">دریافت محصولات</h3>
+      <!-- Close button inside the modal -->
+      <button id="closeAProductModal" class="text-gray-200 hover:text-red-900">X</button>
     </div>
+    <form>
+      <label for="productName" class="block text-gray-700 p-2">نام (فارسی)</label>
+      <p id="Automated_product_name">تست</p>
+      <label for="productPage" class="block text-gray-700 p-2">صفحه</label>
+      <input type="number" id="productPage" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="مثال: 1">
+      <label for="productLimit" class="block text-gray-700 p-2">محدودیت صفحه</label>
+      <input type="number" id="productLimit" class="w-full p-2 border border-gray-300 rounded-lg mb-4" placeholder="مثال: 10">
+      
+      <div class="flex justify-end">
+        <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">یافتن</button>
+      </div>
+    </form>
   </div>
-
 </div>
+
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 <div id="creat_category_container" dir="rtl">
 

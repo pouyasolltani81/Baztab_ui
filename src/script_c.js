@@ -253,15 +253,15 @@ function GoToProduct(name) {
   
     const data = {
       category_name_fa: category_name_fa,
-      page: productPage,
-      page_limit: productLimit
+      page: parseInt(productPage) ,
+      page_limit:   parseInt(productLimit)
     };
-    console.log(data)
+    // console.log(data)
     
       localStorage.setItem('productResponse', JSON.stringify(data));  
       document.getElementById('AproductModal').classList.add('hidden');
       // console.log(data)
-      // window.location.href = '/Products.html';
+      window.location.href = '/Products.html';
 
     // fetch('http://79.175.177.113:21800//Products/get_products_paginated/', {
     //   method: 'POST',
