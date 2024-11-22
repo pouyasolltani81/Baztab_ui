@@ -191,9 +191,9 @@ function createProductCards(products) {
     detailButton.className = "text-blue-600 hover:text-blue-800 text-sm px-4 py-2 border border-blue-600 rounded-md transition-all duration-200";
     detailButton.textContent = "مشاهده جزئیات کامل";
 
-    // افزودن دکمه‌ها به کارت
-    buttonsContainer.appendChild(updateButton);
-    buttonsContainer.appendChild(detailButton);
+    // // افزودن دکمه‌ها به کارت
+    // buttonsContainer.appendChild(updateButton);
+    // buttonsContainer.appendChild(detailButton);
 
     card.appendChild(availability);
     card.appendChild(productName);
