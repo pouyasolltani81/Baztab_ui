@@ -270,8 +270,8 @@ function GoToProduct(name) {
     
       localStorage.setItem('productResponse', JSON.stringify(data));  
       document.getElementById('AproductModal').classList.add('hidden');
-      console.log(data)
-      // window.location.href = '/Products.html';
+      // console.log(data)
+      window.location.href = '/Products.html';
 
     })
     .catch(error => {

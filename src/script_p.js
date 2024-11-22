@@ -329,17 +329,14 @@ let sortOrder = 'asc';  // Default sort order (ascending)
 
 // Fetch the JSON data from the local file (products.json)
 function loadLocalJsonData() {
-  fetch('products.json') // Assuming the JSON file is called 'products.json' and in the same directory
-    .then(response => response.json())
-    .then(data => {
-      localJsonData = data; // Assign the fetched data to the localJsonData variable
-      totalProducts = localJsonData.data.total_count; // Update total products from the JSON
-      totalPages = Math.ceil(totalProducts / itemsPerPage); // Recalculate total pages based on the data
-      updatePageUI(); // Initialize the page UI with the fetched data
-    })
-    .catch(error => {
-      console.error('Error fetching the local JSON data:', error);
-    });
+       
+      const productData = JSON.parse(localStorage.getItem('productResponse'));
+      console.log(productData);
+      localJsonData = productData; 
+      totalProducts = localJsonData.data.total_count; 
+      totalPages = Math.ceil(totalProducts / itemsPerPage); 
+      updatePageUI(); 
+    
 }
 
 // Call the loadLocalJsonData function when the page loads
