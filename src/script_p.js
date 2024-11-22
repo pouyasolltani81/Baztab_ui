@@ -48,9 +48,13 @@ function navigationdata(page_n,limit){
   fetchInitialData(data);
 }
 // Initial data fetch from API (for first load)
-function fetchInitialData(data) {
-  
-  fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+async function fetchInitialData(data) {
+  showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+      
+  await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -72,6 +76,17 @@ function fetchInitialData(data) {
     updatePageUI();
   })
   .catch(err => console.error('Error fetching initial data:', err));
+}
+
+
+// Simulate the loading process with a 2-second delay
+function pageInitialization() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      // Simulate a 2-second load time (e.g., fetching data)
+      resolve('Page Loaded');
+    }, 2000);
+  });
 }
 
 // Call loadLocalJsonData when the page loads
