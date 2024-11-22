@@ -66,6 +66,7 @@ function fetchInitialData(data) {
  
     localJsonData = data;
     totalProducts = localJsonData.data.total_count;
+    console.log(loadLocalJsonData)
     totalPages = Math.ceil(totalProducts / itemsPerPage);
     updatePageUI();
   })
