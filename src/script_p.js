@@ -1,4 +1,4 @@
-
+const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 const pageNumberElement = document.getElementById("pageNumber");
 const productNameElement = document.getElementById("productName");
 const productCountElement = document.getElementById("productCount");
@@ -57,7 +57,7 @@ function fetchInitialData(data) {
       'Accept': "application/json",
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json; charset=utf-8",
-      'authorization': 'user_token_here', // Replace with actual user token
+      'authorization': user_token, 
     },
     body: JSON.stringify(data),
   })
