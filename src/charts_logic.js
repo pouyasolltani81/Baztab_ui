@@ -270,3 +270,54 @@ function binPriceData(priceData, binSize) {
 
 // Initialize the app
 initialize();
+
+
+
+
+
+// Function to show loading overlay
+    function showLoader(asyncOperation) {
+      // Create and append the overlay with the spinner
+      const overlay = document.createElement('div');
+      overlay.classList.add('loading-overlay');
+      overlay.innerHTML = `
+        <div class="spinner">
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      // Perform the async operation and hide the loader when done
+      asyncOperation().finally(() => {
+        // Remove the overlay after the operation is done
+        overlay.remove();
+      });
+    }
+
+    // Example of an asynchronous operation (fetching or simulating an API call)
+    function pageInitialization() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          // Simulate loading process (e.g., fetching data)
+          resolve('Page Loaded');
+        }, 2000); // Simulating a 2-second load time
+      });
+    }
+
+    // Start loading and use `showLoader` to show the spinner
+    window.addEventListener('load', function() {
+      showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+    });
+
