@@ -304,7 +304,6 @@
 // // Initial page load
 // updatePageUI();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // Select elements
 const pageNumberElement = document.getElementById("pageNumber");
 const productNameElement = document.getElementById("productName");
@@ -318,6 +317,7 @@ const goToPageButton = document.getElementById("goToPage");
 const searchInput = document.getElementById("searchInput");
 const sortBySelect = document.getElementById("sortBySelect");
 const reverseSortButton = document.getElementById("reverseSortButton");
+
 let localJsonData = {}; // To hold the loaded JSON data
 let currentPage = 1;    // Initialize currentPage to 1
 let itemsPerPage = 10;  // Set default items per page
@@ -327,26 +327,57 @@ let searchQuery = '';   // Global search query
 let sortType = 'name';  // Default sort type (by name)
 let sortOrder = 'asc';  // Default sort order (ascending)
 
-// Fetch the JSON data from the local file (products.json)
+// Fetch the initial data from localStorage or use API to get it.
 function loadLocalJsonData() {
-       
-      const productData = JSON.parse(localStorage.getItem('productResponse'));
-      console.log(productData);
-      localJsonData = productData; 
-      totalProducts = localJsonData.data.total_count; 
-      totalPages = Math.ceil(totalProducts / itemsPerPage); 
-      updatePageUI(); 
-    
+  const productData = JSON.parse(localStorage.getItem('productResponse'));
+  if (productData) {
+    localJsonData = productData;
+    totalProducts = localJsonData.data.total_count;
+    totalPages = Math.ceil(totalProducts / itemsPerPage);
+    updatePageUI();
+  } else {
+    // If no local data, fetch from API (for the initial load or first page)
+    fetchInitialData();
+  }
 }
 
-// Call the loadLocalJsonData function when the page loads
+// Initial data fetch from API (for first load)
+function fetchInitialData() {
+  const data = {
+    category_name_fa: 'کرم پودر', // Example category, replace as needed
+    page: currentPage,
+    page_limit: itemsPerPage,
+  };
+
+  fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      "Accept-Version": 1,
+      'Accept': "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json; charset=utf-8",
+      'authorization': 'user_token_here', // Replace with actual user token
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+    localStorage.setItem('productResponse', JSON.stringify(data)); // Save to localStorage
+    localJsonData = data;
+    totalProducts = localJsonData.data.total_count;
+    totalPages = Math.ceil(totalProducts / itemsPerPage);
+    updatePageUI();
+  })
+  .catch(err => console.error('Error fetching initial data:', err));
+}
+
+// Call loadLocalJsonData when the page loads
 window.onload = loadLocalJsonData;
 
 // Function to update the page UI based on current page and items per page
 function updatePageUI() {
-  if (!localJsonData.data) {
-    return; // Prevent errors if data hasn't been loaded yet
-  }
+  if (!localJsonData.data) return;
 
   pageNumberElement.textContent = `صفحه: ${currentPage}`;
   productCountElement.textContent = `نمایش صفحه: ${itemsPerPage} از ${totalProducts}`;
@@ -355,11 +386,11 @@ function updatePageUI() {
   prevPageButton.disabled = currentPage === 1;
   nextPageButton.disabled = currentPage === totalPages;
 
-  // Update the product list from local data
+  // Update the product list from local data or API
   fetchLocalData(currentPage, itemsPerPage, searchQuery, sortType, sortOrder);
 }
 
-// Function to simulate fetching data from local JSON
+// Function to simulate fetching data from local JSON or API
 function fetchLocalData(page, limit, search, type, order) {
   if (!localJsonData.data) return; // Prevent errors if data hasn't been loaded yet
 
@@ -472,84 +503,36 @@ nextPageButton.addEventListener("click", () => {
   }
 });
 
+// Event listener for the items per page selector
+itemsPerPageSelector.addEventListener("change", (e) => {
+  itemsPerPage = parseInt(e.target.value);
+  totalPages = Math.ceil(totalProducts / itemsPerPage);
+  updatePageUI();
+});
+
+// Event listener for the "Jump to Page" functionality
 goToPageButton.addEventListener("click", () => {
-  const pageInput = parseInt(jumpToPageInput.value);
-  if (pageInput && pageInput > 0 && pageInput <= totalPages) {
-    currentPage = pageInput;
+  const targetPage = parseInt(jumpToPageInput.value);
+  if (targetPage >= 1 && targetPage <= totalPages) {
+    currentPage = targetPage;
     updatePageUI();
   }
 });
 
-// Event listener for items per page selection
-itemsPerPageSelector.addEventListener("change", (e) => {
-  itemsPerPage = parseInt(e.target.value);
-  totalPages = Math.ceil(totalProducts / itemsPerPage);
-  currentPage = 1; // Reset to the first page when items per page changes
-  updatePageUI();
-});
-
 // Event listener for search input
-searchInput.addEventListener("input", () => {
-  searchQuery = searchInput.value;
-  currentPage = 1; // Reset to the first page when search query changes
+searchInput.addEventListener("input", (e) => {
+  searchQuery = e.target.value;
   updatePageUI();
 });
 
-// Event listener for sorting type selection (dropdown)
-sortBySelect.addEventListener("change", () => {
-  sortType = sortBySelect.value;
-  currentPage = 1; // Reset to the first page when sorting type changes
+// Event listener for sort selection
+sortBySelect.addEventListener("change", (e) => {
+  sortType = e.target.value;
   updatePageUI();
 });
 
-// Event listener for reverse sorting button click
+// Event listener for reverse sort button
 reverseSortButton.addEventListener("click", () => {
-  // Toggle sort order
   sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-  reverseSortButton.textContent = `Reverse Sort Order (${sortOrder === 'asc' ? 'A-Z' : 'Z-A'})`;
   updatePageUI();
 });
-
-// Initial page load
-updatePageUI();
-
-
-
-// // Language toggle logic
-// let isPersian = false; // Track the current language
-
-// function toggleLanguage() {
-//   isPersian = !isPersian; // Switch language flag
-  
-//   // Update UI text based on language selection
-//   document.getElementById("pageNumber").textContent = isPersian ? `صفحه: ${currentPage}` : `Page: ${currentPage}`;
-//   document.getElementById("productName").textContent = isPersian ? "لیست محصولات" : "Product List";
-//   document.getElementById("productCount").textContent = isPersian ? `نمایش: ${itemsPerPage} از ${totalProducts}` : `Displaying: ${itemsPerPage} of ${totalProducts}`;
-  
-//   // Change button text
-//   document.getElementById("languageToggle").textContent = isPersian ? "Change Language" : "تغییر زبان";
-  
-//   // Update other dynamic content such as product names, availability, buttons, etc.
-//   updateProductCardsLanguage();
-// }
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-// function updateProductCardsLanguage() {
-//   // Go through each product card and update the text
-//   const productCards = document.querySelectorAll('.product-card');
-//   productCards.forEach(card => {
-//     const productName = card.querySelector('.product-name');
-//     const availability = card.querySelector('.availability');
-    
-//     // Update based on language
-//     if (isPersian) {
-//       productName.textContent = productName.textContent.replace('Product', 'محصول');
-//       availability.textContent = availability.textContent === 'Available' ? 'موجود' : 'ناموجود';
-//     } else {
-//       productName.textContent = productName.textContent.replace('محصول', 'Product');
-//       availability.textContent = availability.textContent === 'موجود' ? 'Available' : 'Out of Stock';
-//     }
-//   });
-// }
-
-// // Event listener for the language toggle button
-// document.getElementById("languageToggle").addEventListener("click", toggleLanguage);
