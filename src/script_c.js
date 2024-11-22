@@ -297,12 +297,14 @@ function GoToProduct(name) {
 
 
   function GoToCharts(name) {
+
+     const data = {
+            category_name_fa: name,
+          };
   
       localStorage.setItem('name_far', JSON.stringify(data));  
             
-      const data = {
-            category_name_fa: name,
-          };
+     
 
       // console.log(data)
       window.location.href = '/charts.html';
