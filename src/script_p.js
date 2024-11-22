@@ -97,7 +97,7 @@ function fetchLocalData(page, limit, search, type, order) {
   if (!localJsonData.data) return; // Prevent errors if data hasn't been loaded yet
 
   let products = localJsonData.data.result;
-  console.log(products)
+  // console.log(products)
 
   // Apply search filter
   if (search) {
@@ -119,6 +119,7 @@ function fetchLocalData(page, limit, search, type, order) {
 
   // Slice products to simulate pagination
   const startIndex = (page - 1) * limit;
+  console.log(startIndex , page)
   const paginatedProducts = products.slice(startIndex, startIndex + limit);
 
   createProductCards(paginatedProducts);
