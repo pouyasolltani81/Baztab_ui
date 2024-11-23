@@ -289,6 +289,9 @@ function getPriceLimits(priceData) {
   // Update the DOM elements with the min and max prices
   document.getElementById('min-price').textContent = formatNumber(minPrice);
   document.getElementById('max-price').textContent = formatNumber(maxPrice);
+   // Update the DOM elements with the min and max prices
+  document.getElementById('min-price-base').textContent = formatNumber(minPrice);
+  document.getElementById('max-price-base').textContent = formatNumber(maxPrice);
 }
 
 // Create Histogram Bins for Line Chart
@@ -329,7 +332,11 @@ new Chart(lineCtx, {
       borderColor: '#4BC0C0',  // Retaining your original color
       backgroundColor: 'rgba(59, 130, 246, 0.2)',  // Adjusting background color
       fill: true,
-      tension: 0.3
+      tension: 0.3,
+      // Don't show labels at data points
+      datalabels: {
+        display: false  // This ensures no labels will be shown on the data points
+      }
     }]
   },
   options: {
@@ -363,13 +370,14 @@ new Chart(lineCtx, {
           },
           color: '#333',
           callback: function(value) {
-            return formatNumber(value);
+            return formatNumber(value); // Custom format for y-axis numbers
           }
         }
       }
     }
   }
 });
+
 }
 
 // Initialize the app
