@@ -166,6 +166,11 @@ function calculateMovingAverage(data, windowSize) {
 // Initialize the price charts (Donut Chart and Line Chart)
 function initializeCharts(priceData, desertized_price_distribution) {
   // Calculate percentiles and frequencies for the donut chart
+  // Ensure chartjs-plugin-datalabels is properly registered
+  if (ChartDataLabels) {
+    Chart.register(ChartDataLabels);
+  }
+
   // Calculate percentiles and frequencies for the donut chart
   const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = desertized_price_distribution;
   const percentiles = [
@@ -221,9 +226,11 @@ function initializeCharts(priceData, desertized_price_distribution) {
     }
   ];
 
-  // Initialize Donut Chart
-  const donutChartCtx = donutChartCanvas.getContext('2d');
-  new Chart(donutChartCtx, {
+  // Get the canvas context
+  const donutChartCanvas = document.getElementById('donutChartCanvas').getContext('2d');
+
+  // Initialize the Donut Chart
+  new Chart(donutChartCanvas, {
     type: 'doughnut',
     data: {
       labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
@@ -235,9 +242,11 @@ function initializeCharts(priceData, desertized_price_distribution) {
     options: {
       responsive: true,
       plugins: {
-        legend: { position: 'top' },
+        legend: {
+          position: 'top',
+        },
         tooltip: {
-          enabled: false, // Disable tooltips, as we are adding the information on the chart
+          enabled: false, // Disable tooltips as we are adding labels inside the chart
         },
         datalabels: {
           display: true, // Enable datalabels plugin to show custom labels inside slices
@@ -257,8 +266,8 @@ function initializeCharts(priceData, desertized_price_distribution) {
             weight: 'bold',
             size: 10
           },
-          anchor: 'center', // Center the label inside the slice
-          align: 'center',
+          anchor: 'center', // Position the label inside the slice
+          align: 'center',  // Center the text inside each slice
         }
       }
     }
