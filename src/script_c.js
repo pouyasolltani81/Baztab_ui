@@ -237,10 +237,13 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
 function pageInitialization() {
   return new Promise((resolve, reject) => {
     // Wait for the DOM to be fully loaded
+        console.log('0')
+
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        // Wait for the fetchAllData function to complete (assuming it's async)
+        console.log('1')
         await fetchdata();; // Replace this with your actual fetch function
+        console.log('2')
         
         // After the data is fetched, resolve the promise
         resolve('Page Loaded and Data Fetched');
