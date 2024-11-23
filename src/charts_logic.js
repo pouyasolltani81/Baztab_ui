@@ -258,13 +258,11 @@ function initializeCharts(priceData, desertized_price_distribution) {
               ${range.percentage}%
               Min: ${range.minPrice}
               Max: ${range.maxPrice}
-              F: ${range.firstPrice} 
-              L: ${range.lastPrice}
             `;
           },
           font: {
             weight: 'bold',
-            size: 10
+            size: 18
           },
           anchor: 'center', // Position the label inside the slice
           align: 'center',  // Center the text inside each slice
