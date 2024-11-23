@@ -239,9 +239,6 @@ function createHistogramBins(data, binSize = 200000) {
   return histogram;
 }
 
-// Assuming priceData is your array of price values
-const priceData = [100000, 250000, 400000, 550000, 700000, 950000, 1200000];  // Example array of prices
-
 // Get and display min and max prices
 getPriceLimits(priceData);
 
