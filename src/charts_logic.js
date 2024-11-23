@@ -234,6 +234,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
   const donutChartCanvas = document.getElementById('priceDistributionChart').getContext('2d');
 
   // Initialize the Donut Chart
+// Initialize the Donut Chart
 new Chart(donutChartCanvas, {
   type: 'doughnut',
   data: {
@@ -250,7 +251,24 @@ new Chart(donutChartCanvas, {
         position: 'top',
       },
       tooltip: {
-        enabled: false, // Disable tooltips as we are adding labels inside the chart
+        enabled: true, // Enable tooltips to display information on hover
+        mode: 'index',  // Show tooltip on hovering over any section
+        callbacks: {
+          // Custom tooltip content
+          label: function(tooltipItem) {
+            const dataIndex = tooltipItem.dataIndex;
+            const range = percentileRanges[dataIndex];
+            const frequency = percentiles[dataIndex];
+            
+            // Format the tooltip content
+            return [
+              `Min: ${range.minPrice}`,
+              `Max: ${range.maxPrice}`,
+              `Count: ${frequency}`,
+              `Percentage: ${range.percentage}%`
+            ];
+          }
+        }
       },
       datalabels: {
         display: true, // Enable datalabels plugin to show custom labels inside slices
@@ -258,20 +276,21 @@ new Chart(donutChartCanvas, {
         formatter: function(value, context) {
           const dataIndex = context.dataIndex;
           const range = percentileRanges[dataIndex];
-          return `${range.percentage}%`; // Display percentage as label
+          return `${range.percentage}%`; // Display percentage as label inside the chart
         },
         font: {
           weight: 'bold',
           size: 14
         },
-        anchor: 'center', // Anchor the label to the center of the slice
-        align: 'center',  // Align the label to the center of the slice
+        anchor: 'center', // Position the label inside the slice
+        align: 'center',  // Center the text inside each slice
         offset: 0, // Set offset to zero to prevent misalignment
         padding: 0, // Remove any padding that could cause misalignment
       }
     }
   }
 });
+
 
 // Helper function to format numbers as K or M
 function formatNumber(num) {
