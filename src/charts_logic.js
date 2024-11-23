@@ -201,69 +201,6 @@ function initializeCharts(priceData, desertized_price_distribution) {
     }
   });
 
-  // Handle "chunky" data and bin it into ranges before smoothing
-  const binnedData = binPriceData(priceData, 200000);  // Adjusted bin size to $200,000
-  const smoothedPriceData = calculateMovingAverage(binnedData, 3); // Apply moving average with smaller window size (3)
-
-  console.log('Binned Data:', binnedData);
-  console.log('Smoothed Data:', smoothedPriceData);
-
-  // Ensure that we have enough data points
-  if (binnedData.length === 0) {
-    console.error('No binned data available.');
-    return;
-  }
-
-  // Initialize Line Chart
-  const lineChartCtx = lineChartCanvas.getContext('2d');
-  new Chart(lineChartCtx, {
-    type: 'line',
-    data: {
-      labels: Array.from({ length: smoothedPriceData.length }, (_, index) => `Price ${index + 1}`),
-      datasets: [{
-        label: 'Price Distribution',
-        data: smoothedPriceData,  // Use smoothed data
-        borderColor: '#4BC0C0',
-        fill: false,
-        tension: 0.1,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { position: 'top' } },
-    }
-  });
-}
-
-// Bin the price data into ranges (e.g., bin prices into $200,000 intervals)
-function binPriceData(priceData, binSize) {
-  const binnedData = [];
-  
-  // Sort prices in ascending order to ensure proper binning
-  priceData.sort((a, b) => a - b);
-
-  let currentBinSum = 0;
-  let currentBinCount = 0;
-  
-  // Iterate through price data, binning into ranges of `binSize`
-  for (let i = 0; i < priceData.length; i++) {
-    currentBinSum += priceData[i];
-    currentBinCount++;
-    
-    // When the bin reaches the bin size, finalize this bin and reset
-    if (currentBinSum >= (currentBinCount * binSize)) {
-      binnedData.push(currentBinSum / currentBinCount); // Average price in the bin
-      currentBinSum = 0;
-      currentBinCount = 0;
-    }
-  }
-  
-  // Push the last bin if there’s leftover data
-  if (currentBinCount > 0) {
-    binnedData.push(currentBinSum / currentBinCount);
-  }
-
-  return binnedData;
 }
 
 // Initialize the app
