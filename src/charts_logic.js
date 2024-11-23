@@ -227,7 +227,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
   ];
 
   // Get the canvas context
-  const donutChartCanvas = document.getElementById('donutChartCanvas').getContext('2d');
+  const donutChartCanvas = document.getElementById('priceDistributionChart').getContext('2d');
 
   // Initialize the Donut Chart
   new Chart(donutChartCanvas, {
