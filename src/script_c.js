@@ -83,7 +83,7 @@ function renderCategories() {
    
     if (!categories || Object.keys(categories).length === 0) {
         console.error('No categories available to render');
-        categoryListContainer.innerHTML = '<p class="text-gray-500">No categories available.</p>';
+        categoryListContainer.innerHTML = '<p class="text-gray-500">کتگوری ای وجود ندارد.</p>';
         return;
     }
 
@@ -153,7 +153,7 @@ function renderCategories() {
         });
     } else {
        
-        categoryListContainer.innerHTML = '<p class="text-gray-500">No categories to display at this level.</p>';
+        categoryListContainer.innerHTML = '<p class="text-gray-500">در این سطح کتگوری ای با این نام وجود ندارد.</p>';
     }
 
     if (categoryPath.length === 0) {
