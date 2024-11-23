@@ -95,8 +95,9 @@ async function fetchAllData() {
 // Initialize the app by fetching the data and setting everything up
 async function initialize() {
   
-  const { llm_tags, price_distribution, desertized_price_distribution, basic_info } = await fetchAllData();
+  let { llm_tags, price_distribution, desertized_price_distribution, basic_info } = await fetchAllData();
 
+  price_distribution = p.map(num => num / 10);
   
 
   // Update the basic info section
@@ -190,41 +191,41 @@ function initializeCharts(priceData, desertized_price_distribution) {
 
   const percentileRanges = [
     {
-      label: `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}`,
-      minPrice: percentile_1.lower_bound.toLocaleString(),
-      maxPrice: percentile_1.upper_bound.toLocaleString(),
+      label: `${(percentile_1.lower_bound/10).toLocaleString()} - ${(percentile_1.upper_bound/10).toLocaleString()}`,
+      minPrice: (percentile_1.lower_bound/10).toLocaleString(),
+      maxPrice: (percentile_1.upper_bound/10).toLocaleString(),
       firstPrice: priceData[0].price, // Assuming priceData[0] is the first price
       lastPrice: priceData[priceData.length - 1].price, // Assuming priceData is sorted
       percentage: ((percentile_1.frequency / total_items) * 100).toFixed(2)
     },
     {
-      label: `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}`,
-      minPrice: percentile_2.lower_bound.toLocaleString(),
-      maxPrice: percentile_2.upper_bound.toLocaleString(),
+      label: `${(percentile_2.lower_bound/10).toLocaleString()} - ${(percentile_2.upper_bound/10).toLocaleString()}`,
+      minPrice: (percentile_2.lower_bound/10).toLocaleString(),
+      maxPrice: (percentile_2.upper_bound/10).toLocaleString(),
       firstPrice: priceData[0].price,
       lastPrice: priceData[priceData.length - 1].price,
       percentage: ((percentile_2.frequency / total_items) * 100).toFixed(2)
     },
     {
-      label: `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}`,
-      minPrice: percentile_3.lower_bound.toLocaleString(),
-      maxPrice: percentile_3.upper_bound.toLocaleString(),
+      label: `${(percentile_3.lower_bound/10).toLocaleString()} - ${(percentile_3.upper_bound/10).toLocaleString()}`,
+      minPrice: (percentile_3.lower_bound/10).toLocaleString(),
+      maxPrice: (percentile_3.upper_bound/10).toLocaleString(),
       firstPrice: priceData[0].price,
       lastPrice: priceData[priceData.length - 1].price,
       percentage: ((percentile_3.frequency / total_items) * 100).toFixed(2)
     },
     {
-      label: `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}`,
-      minPrice: percentile_4.lower_bound.toLocaleString(),
-      maxPrice: percentile_4.upper_bound.toLocaleString(),
+      label: `${(percentile_4.lower_bound/10).toLocaleString()} - ${(percentile_4.upper_bound/10).toLocaleString()}`,
+      minPrice: (percentile_4.lower_bound/10).toLocaleString(),
+      maxPrice: (percentile_4.upper_bound/10).toLocaleString(),
       firstPrice: priceData[0].price,
       lastPrice: priceData[priceData.length - 1].price,
       percentage: ((percentile_4.frequency / total_items) * 100).toFixed(2)
     },
     {
-      label: `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}`,
-      minPrice: percentile_5.lower_bound.toLocaleString(),
-      maxPrice: percentile_5.upper_bound.toLocaleString(),
+      label: `${(percentile_5.lower_bound/10).toLocaleString()} - ${(percentile_5.upper_bound/10).toLocaleString()}`,
+      minPrice: (percentile_5.lower_bound/10).toLocaleString(),
+      maxPrice: (percentile_5.upper_bound/10).toLocaleString(),
       firstPrice: priceData[0].price,
       lastPrice: priceData[priceData.length - 1].price,
       percentage: ((percentile_5.frequency / total_items) * 100).toFixed(2)
@@ -263,8 +264,8 @@ new Chart(donutChartCanvas, {
             
             // Format the tooltip content
             return [
-              `Min: ${range.minPrice}`,
-              `Max: ${range.maxPrice}`,
+              `Min: ${range.minPrice/10}`,
+              `Max: ${range.maxPrice/10}`,
               `Count: ${frequency}`,
               `Percentage: ${range.percentage}%`
             ];
@@ -313,8 +314,8 @@ function getPriceLimits(priceData) {
   document.getElementById('min-price').textContent = formatNumber(minPrice);
   document.getElementById('max-price').textContent = formatNumber(maxPrice);
    // Update the DOM elements with the min and max prices
-  document.getElementById('min-price-base').textContent =  `${minPrice.toLocaleString()} ریال`;
-  document.getElementById('max-price-base').textContent =  `${maxPrice.toLocaleString()} ریال`;
+  document.getElementById('min-price-base').textContent =  `${minPrice.toLocaleString()} تومان`;
+  document.getElementById('max-price-base').textContent =  `${maxPrice.toLocaleString()} تومان`;
 }
 
 // Create Histogram Bins for Line Chart
