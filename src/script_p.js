@@ -50,11 +50,7 @@ function navigationdata(page_n,limit){
 // Initial data fetch from API (for first load)
 async function fetchInitialData(data) {
   showLoader(async function() {
-        await pageInitialization();  // Simulate page load logic
-        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
-      });
-      
-  await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+        await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -75,22 +71,36 @@ async function fetchInitialData(data) {
     totalPages = Math.ceil(totalProducts / itemsPerPage);
     updatePageUI();
   })
-  .catch(err => console.error('Error fetching initial data:', err));
+  .catch(err => console.error('Error fetching initial data:', err));  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+      
+  // await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     "Accept-Version": 1,
+  //     'Accept': "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //     "Content-Type": "application/json; charset=utf-8",
+  //     'authorization': user_token, 
+  //   },
+  //   body: JSON.stringify(data),
+  // })
+  // .then(response => response.json())
+  // .then(data => {
+ 
+  //   localJsonData = data;
+  //   totalProducts = localJsonData.data.total_count;
+  //   console.log(localJsonData)
+  //   totalPages = Math.ceil(totalProducts / itemsPerPage);
+  //   updatePageUI();
+  // })
+  // .catch(err => console.error('Error fetching initial data:', err));
 }
 
 
-// Simulate the loading process with a 2-second delay
-function pageInitialization() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      // Simulate a 2-second load time (e.g., fetching data)
-      resolve('Page Loaded');
-    }, 2000);
-  });
-}
 
-// Call loadLocalJsonData when the page loads
-window.onload = loadLocalJsonData;
 
 // Function to update the page UI based on current page and items per page
 function updatePageUI() {
@@ -258,3 +268,40 @@ reverseSortButton.addEventListener("click", () => {
   sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
   updatePageUI();
 });
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function pageInitialization() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Wait for fetchAllData to complete (assuming fetchAllData() is asynchronous)
+        console.log('0')
+
+      await loadLocalJsonData(); // Replace with your actual fetch function
+        console.log('1')
+
+      // Once the data is fetched, resolve the promise
+      resolve('Page Loaded and Data Fetched');
+    } catch (error) {
+      // In case fetchAllData() fails, reject the promise
+      reject('Error during data fetching: ' + error);
+    }
+  });
+}
+
+
+    // Start loading and use `showLoader` to show the spinner
+    window.addEventListener('load', function() {
+      showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+    });
+
+
+    
+// Call loadLocalJsonData when the page loads
+// window.onload = loadLocalJsonData;
