@@ -163,7 +163,9 @@ function calculateMovingAverage(data, windowSize) {
   return result;
 }
 
+// Initialize the price charts (Donut Chart and Line Chart)
 function initializeCharts(priceData, desertized_price_distribution) {
+ function initializeCharts(priceData, desertized_price_distribution) {
   // Calculate percentiles and frequencies for the donut chart
   const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = desertized_price_distribution;
   const percentiles = [
@@ -224,7 +226,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
   new Chart(donutChartCtx, {
     type: 'doughnut',
     data: {
-      labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`),
+      labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
       datasets: [{
         data: percentiles,
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
@@ -235,24 +237,44 @@ function initializeCharts(priceData, desertized_price_distribution) {
       plugins: {
         legend: { position: 'top' },
         tooltip: {
-          callbacks: {
-            label: (tooltipItem) => {
-              const dataIndex = tooltipItem.dataIndex;
-              const range = percentileRanges[dataIndex];
-              return `
-                ${range.label}
-                ${range.percentage}% 
-                Min Price: ${range.minPrice}
-                Max Price: ${range.maxPrice}
-                First Price: ${range.firstPrice}
-                Last Price: ${range.lastPrice}
-              `;
-            }
-          }
+          enabled: false, // Disable tooltips, as we are adding the information on the chart
+        },
+        datalabels: {
+          display: true, // Enable datalabels plugin to show custom labels inside slices
+          color: '#fff', // Label text color
+          formatter: function(value, context) {
+            const dataIndex = context.dataIndex;
+            const range = percentileRanges[dataIndex];
+            return `
+              ${range.percentage}%
+              Min: ${range.minPrice}
+              Max: ${range.maxPrice}
+              F: ${range.firstPrice} 
+              L: ${range.lastPrice}
+            `;
+          },
+          font: {
+            weight: 'bold',
+            size: 10
+          },
+          anchor: 'center', // Center the label inside the slice
+          align: 'center',
         }
-      },
+      }
     }
   });
+}
+
+// Helper function to format numbers as K or M
+function formatNumber(num) {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';
+  } else {
+    return num;
+  }
+}
 
 // Get the min and max values from price data
 function getPriceLimits(priceData) {
