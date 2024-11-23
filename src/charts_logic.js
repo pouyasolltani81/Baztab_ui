@@ -8,7 +8,7 @@ const categorySelector = document.getElementById('categorySelector');
 const totalTagsText = document.getElementById('total-tags');
 const tagNamesText = document.getElementById('tag-names');
 const cloudContainer = document.getElementById('cloudTagCloud');
-const donutChartCanvas = document.getElementById('priceDistributionChart');
+// const donutChartCanvas = document.getElementById('priceDistributionChart');
 const lineChartCanvas = document.getElementById('priceLineChart');
 const explanationModal = document.getElementById('explanationModal');
 const modalTitle = document.getElementById('modalTitle');
@@ -94,14 +94,15 @@ async function fetchAllData() {
 
 // Initialize the app by fetching the data and setting everything up
 async function initialize() {
+
   const { llm_tags, price_distribution, desertized_price_distribution, basic_info } = await fetchAllData();
 
-  console.log(llm_tags, Object.values(price_distribution), desertized_price_distribution, basic_info);
+  
 
   // Update the basic info section
   document.getElementById('total-product-count').textContent = basic_info.total_product_count;
-  document.getElementById('in-stock-count').textContent = basic_info.in_stock_count;
-  document.getElementById('out-of-stock-count').textContent = basic_info.out_of_stock_count;
+  document.getElementById('in-stock-count').textContent = `${basic_info.in_stock_count} ریال`;
+  document.getElementById('out-of-stock-count').textContent = `${basic_info.out_of_stock_count} ریال`;
 
   // Populate category selector and initialize tag cloud
   populateCategorySelector(llm_tags);
