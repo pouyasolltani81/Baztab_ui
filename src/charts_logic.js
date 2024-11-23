@@ -45,8 +45,7 @@ lineExplanationButton.addEventListener('click', () => {
 });
 
 cloudExplanationButton.addEventListener('click', () => {
-  const description = ` توضیح این قسمت اضافه میشود.
-  `;
+  const description = `لیست تگ هایی که توسط هوش مصنوعی که برای این دسته کالا نشانه گذاری شده اند.`;
   showModal("توضیح نمودار ابر کلمات", description);
 });
 
@@ -176,12 +175,14 @@ function initializeCharts(priceData, desertized_price_distribution) {
     percentile_5.frequency
   ];
   
+  const total_items = percentile_1.frequency + percentile_2.frequency + percentile_3.frequency + percentile_4.frequency + percentile_5.frequency ;
+
   const percentileRanges = [
-    `${percentile_1.lower_bound} - ${percentile_1.upper_bound}: ${percentile_1.frequency} items`,
-    `${percentile_2.lower_bound} - ${percentile_2.upper_bound}: ${percentile_2.frequency} items`,
-    `${percentile_3.lower_bound} - ${percentile_3.upper_bound}: ${percentile_3.frequency} items`,
-    `${percentile_4.lower_bound} - ${percentile_4.upper_bound}: ${percentile_4.frequency} items`,
-    `${percentile_5.lower_bound} - ${percentile_5.upper_bound}: ${percentile_5.frequency} items`
+    `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}: ${(percentile_1.frequency / total_items) * 100} %`,
+    `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}: ${( percentile_2.frequency / total_items ) * 100} %`,
+    `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}: ${( percentile_3.frequency / total_items ) * 100} %`,
+    `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}: ${( percentile_4.frequency / total_items ) * 100} %`,
+    `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}: ${( percentile_5.frequency / total_items ) * 100} %`
   ];
   // Initialize Donut Chart
   const donutChartCtx = donutChartCanvas.getContext('2d');
