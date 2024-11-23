@@ -200,7 +200,92 @@ function initializeCharts(priceData, desertized_price_distribution) {
       },
     }
   });
+// Create Histogram Bins for Line Chart
+function createHistogramBins(data, binSize = 200000) {
+  const minValue = Math.min(...data);
+  const maxValue = Math.max(...data);
+  const bins = [];
+  for (let i = minValue; i <= maxValue; i += binSize) {
+    bins.push(i);
+  }
 
+  const histogram = bins.map((binStart, index) => {
+    const binEnd = binStart + binSize;
+    const count = data.filter(value => value >= binStart && value < binEnd).length;
+    return { bin: `${binStart} - ${binEnd}`, count };
+  });
+
+  return histogram;
+}
+
+const histogramData = createHistogramBins(priceData);
+const formattedLabels = histogramData.map(item => `${formatNumber(parseInt(item.bin.split('-')[0]))} - ${formatNumber(parseInt(item.bin.split('-')[1]))}`);
+const histogramDataValues = histogramData.map(item => item.count);
+
+// Helper function to format numbers as K or M
+function formatNumber(num) {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';
+  } else {
+    return num;
+  }
+}
+
+// Line Chart Configuration
+const lineCtx = document.getElementById('priceLineChart').getContext('2d');
+new Chart(lineCtx, {
+  type: 'line',
+  data: {
+    labels: formattedLabels,
+    datasets: [{
+      label: 'Price Distribution',
+      data: histogramDataValues,
+      borderColor: '#4BC0C0',  // Retaining your original color
+      backgroundColor: 'rgba(59, 130, 246, 0.2)',  // Adjusting background color
+      fill: true,
+      tension: 0.3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(tooltipItem) {
+            return `${tooltipItem.label}: ${tooltipItem.raw} items`;
+          }
+        },
+        bodyColor: '#fff',
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 10,
+            weight: '600'
+          },
+          color: '#333'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          font: {
+            size: 12,
+            weight: '600'
+          },
+          color: '#333',
+          callback: function(value) {
+            return formatNumber(value);
+          }
+        }
+      }
+    }
+  }
+});
 }
 
 // Initialize the app
