@@ -102,14 +102,14 @@
     // });
 
     
-    // Product Modal
-    document.getElementById('productBtn').addEventListener('click', function() {
-      document.getElementById('productModal').classList.remove('hidden');
-    });
+    // // Product Modal
+    // document.getElementById('productBtn').addEventListener('click', function() {
+    //   document.getElementById('productModal').classList.remove('hidden');
+    // });
 
-    document.getElementById('closeProductModal').addEventListener('click', function() {
-      document.getElementById('productModal').classList.add('hidden');
-    });
+    // document.getElementById('closeProductModal').addEventListener('click', function() {
+    //   document.getElementById('productModal').classList.add('hidden');
+    // });
 
 
     

@@ -200,6 +200,27 @@ function initializeCharts(priceData, desertized_price_distribution) {
       },
     }
   });
+// Helper function to format numbers as K or M
+function formatNumber(num) {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';
+  } else {
+    return num;
+  }
+}
+
+// Get the min and max values from price data
+function getPriceLimits(priceData) {
+  const minPrice = Math.min(...priceData);
+  const maxPrice = Math.max(...priceData);
+
+  // Update the DOM elements with the min and max prices
+  document.getElementById('min-price').textContent = formatNumber(minPrice);
+  document.getElementById('max-price').textContent = formatNumber(maxPrice);
+}
+
 // Create Histogram Bins for Line Chart
 function createHistogramBins(data, binSize = 200000) {
   const minValue = Math.min(...data);
@@ -218,20 +239,16 @@ function createHistogramBins(data, binSize = 200000) {
   return histogram;
 }
 
+// Assuming priceData is your array of price values
+const priceData = [100000, 250000, 400000, 550000, 700000, 950000, 1200000];  // Example array of prices
+
+// Get and display min and max prices
+getPriceLimits(priceData);
+
+// Create histogram data for the line chart
 const histogramData = createHistogramBins(priceData);
 const formattedLabels = histogramData.map(item => `${formatNumber(parseInt(item.bin.split('-')[0]))} - ${formatNumber(parseInt(item.bin.split('-')[1]))}`);
 const histogramDataValues = histogramData.map(item => item.count);
-
-// Helper function to format numbers as K or M
-function formatNumber(num) {
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
-  } else if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'K';
-  } else {
-    return num;
-  }
-}
 
 // Line Chart Configuration
 const lineCtx = document.getElementById('priceLineChart').getContext('2d');

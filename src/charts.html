@@ -24,7 +24,7 @@
 <!-- Basic Information Section -->
 <section class="bg-white p-6 rounded-lg shadow-md mb-6 mt-6 max-w-lg mx-auto">
   <header class="mb-4">
-    <h2 class="text-2xl font-semibold text-gray-800">اطلاعات پایه</h2>
+    <h2 class="text-2xl font-semibold text-gray-800">اطلاعات پایه دسته کالا </h2>
   </header>
 
   <div class="space-y-4">
@@ -55,7 +55,7 @@
         <h2 id="donut-chart-title" class="text-lg font-semibold">محدوده قیمت: ٪</h2>
         <button id="donut-explanation" class="bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer hover:bg-teal-600 transition-all duration-200">توضیح نمودار</button>
       </div>
-      <canvas id="priceDistributionChart" class="w-full max-w-lg h-72 mt-6"></canvas>
+      <canvas id="priceDistributionChart" class="w-full max-w-lg h-72 mt-6" dir="ltr"></canvas>
     </section>
 
     <!-- Line Chart Container -->
@@ -64,8 +64,16 @@
         <h2 class="text-lg font-semibold">نمودار خطی توزیع قیمت</h2>
         <button id="line-explanation" class="bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer hover:bg-teal-600 transition-all duration-200">توضیح نمودار</button>
       </div>
+      
+      <!-- Display Min and Max prices -->
+      <div class="w-full mt-4 flex justify-between text-sm text-gray-700">
+        <span><strong>بیشینه قیمت:</strong> <span id="max-price"></span></span>
+        <span><strong>کمینه قیمت:</strong> <span id="min-price"></span></span>
+      </div>
+      
       <canvas id="priceLineChart" class="mt-6"></canvas>
     </section>
+
 
     <!-- Cloud Chart Container -->
     <section class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center mb-8">
