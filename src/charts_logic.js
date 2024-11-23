@@ -262,7 +262,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
           },
           font: {
             weight: 'bold',
-            size: 18
+            size: 14
           },
           anchor: 'center', // Position the label inside the slice
           align: 'center',  // Center the text inside each slice
