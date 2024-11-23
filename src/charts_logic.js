@@ -94,15 +94,15 @@ async function fetchAllData() {
 
 // Initialize the app by fetching the data and setting everything up
 async function initialize() {
-
+  
   const { llm_tags, price_distribution, desertized_price_distribution, basic_info } = await fetchAllData();
 
   
 
   // Update the basic info section
   document.getElementById('total-product-count').textContent = basic_info.total_product_count;
-  document.getElementById('in-stock-count').textContent = `${basic_info.in_stock_count} ریال`;
-  document.getElementById('out-of-stock-count').textContent = `${basic_info.out_of_stock_count} ریال`;
+  document.getElementById('in-stock-count').textContent = basic_info.in_stock_count;
+  document.getElementById('out-of-stock-count').textContent = basic_info.out_of_stock_count;
 
   // Populate category selector and initialize tag cloud
   populateCategorySelector(llm_tags);
@@ -313,8 +313,8 @@ function getPriceLimits(priceData) {
   document.getElementById('min-price').textContent = formatNumber(minPrice);
   document.getElementById('max-price').textContent = formatNumber(maxPrice);
    // Update the DOM elements with the min and max prices
-  document.getElementById('min-price-base').textContent = minPrice.toLocaleString();
-  document.getElementById('max-price-base').textContent = maxPrice.toLocaleString();
+  document.getElementById('min-price-base').textContent =  `${minPrice.toLocaleString()} ریال`;
+  document.getElementById('max-price-base').textContent =  `${maxPrice.toLocaleString()} ریال`;
 }
 
 // Create Histogram Bins for Line Chart
