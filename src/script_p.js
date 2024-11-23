@@ -28,6 +28,7 @@ function loadLocalJsonData() {
     localJsonData = productData;
     currentPage = localJsonData.page;
     itemsPerPage = localJsonData.page_limit
+    itemsPerPageSelector.value = localJsonData.page_limit
     // totalPages = Math.ceil(totalProducts / itemsPerPage);
     // If no local data, fetch from API (for the initial load or first page)
     console.log(localJsonData)
