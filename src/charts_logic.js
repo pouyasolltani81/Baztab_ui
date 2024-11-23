@@ -382,9 +382,6 @@ new Chart(lineCtx, {
 
 }
 
-// Initialize the app
-initialize();
-
 
 
 
@@ -435,3 +432,33 @@ initialize();
       });
     });
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+function pageInitialization() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Wait for fetchAllData to complete (assuming fetchAllData() is asynchronous)
+        console.log('0')
+
+      await initialize(); // Replace with your actual fetch function
+        console.log('1')
+
+      // Once the data is fetched, resolve the promise
+      resolve('Page Loaded and Data Fetched');
+    } catch (error) {
+      // In case fetchAllData() fails, reject the promise
+      reject('Error during data fetching: ' + error);
+    }
+  });
+}
+
+
+    // Start loading and use `showLoader` to show the spinner
+    window.addEventListener('load', function() {
+      showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+    });
+
+    
