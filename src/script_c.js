@@ -261,7 +261,7 @@ function pageInitialization() {
       // Wait for fetchAllData to complete (assuming fetchAllData() is asynchronous)
         console.log('0')
 
-      await fetchAllData(); // Replace with your actual fetch function
+      await fetchdata(); // Replace with your actual fetch function
         console.log('1')
 
       // Once the data is fetched, resolve the promise
