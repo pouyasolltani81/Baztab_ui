@@ -1,6 +1,7 @@
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 
-
+import Chart from 'chart.js/auto';  // Ensure you are importing Chart.js correctly
+import ChartDataLabels from 'chartjs-plugin-datalabels';  // Import the plugin
 let slug_fa
 
 // Get references to DOM elements
@@ -166,6 +167,9 @@ function calculateMovingAverage(data, windowSize) {
 // Initialize the price charts (Donut Chart and Line Chart)
 function initializeCharts(priceData, desertized_price_distribution) {
  function initializeCharts(priceData, desertized_price_distribution) {
+  // Ensure the datalabels plugin is registered
+  Chart.register(ChartDataLabels);
+
   // Calculate percentiles and frequencies for the donut chart
   const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = desertized_price_distribution;
   const percentiles = [
@@ -175,7 +179,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
     percentile_4.frequency,
     percentile_5.frequency
   ];
-  
+
   const total_items = percentiles.reduce((sum, freq) => sum + freq, 0); // Sum of all frequencies
 
   const percentileRanges = [
