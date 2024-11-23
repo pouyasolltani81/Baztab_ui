@@ -256,8 +256,6 @@ function initializeCharts(priceData, desertized_price_distribution) {
             const range = percentileRanges[dataIndex];
             return `
               ${range.percentage}%
-              Min: ${range.minPrice}
-              Max: ${range.maxPrice}
             `;
           },
           font: {
