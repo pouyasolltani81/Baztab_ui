@@ -97,7 +97,7 @@ async function initialize() {
   
   let { llm_tags, price_distribution, desertized_price_distribution, basic_info } = await fetchAllData();
 
-  price_distribution = p.map(num => num / 10);
+  price_distribution = price_distribution.map(num => num / 10);
   
 
   // Update the basic info section
