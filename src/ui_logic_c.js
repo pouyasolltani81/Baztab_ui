@@ -26,15 +26,15 @@
       });
     }
 
-    // Example of an asynchronous operation (fetching or simulating an API call)
-    function pageInitialization() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          // Simulate loading process (e.g., fetching data)
-          resolve('Page Loaded');
-        }, 2000); // Simulating a 2-second load time
-      });
-    }
+    // // Example of an asynchronous operation (fetching or simulating an API call)
+    // function pageInitialization() {
+    //   return new Promise(resolve => {
+    //     setTimeout(() => {
+    //       // Simulate loading process (e.g., fetching data)
+    //       resolve('Page Loaded');
+    //     }, 2000); // Simulating a 2-second load time
+    //   });
+    // }
 
     // Start loading and use `showLoader` to show the spinner
     window.addEventListener('load', function() {

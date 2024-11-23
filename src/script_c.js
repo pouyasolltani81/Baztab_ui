@@ -234,9 +234,37 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
   renderCategories();
 });
 
+function pageInitialization() {
+  return new Promise((resolve, reject) => {
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // Wait for the fetchAllData function to complete (assuming it's async)
+        await fetchdata();; // Replace this with your actual fetch function
+        
+        // After the data is fetched, resolve the promise
+        resolve('Page Loaded and Data Fetched');
+      } catch (error) {
+        // If there was an error during the data fetch, reject the promise
+        reject('Error during data fetching: ' + error);
+      }
+    });
+  });
+}
+
+
+
+    // Start loading and use `showLoader` to show the spinner
+    window.addEventListener('load', function() {
+      showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+    });
+
 
 // Initial Render
-fetchdata(); 
+
 function GoToProduct(name) {
   
   document.getElementById('AproductModal').classList.remove('hidden');
