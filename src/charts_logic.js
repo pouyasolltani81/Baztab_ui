@@ -178,11 +178,11 @@ function initializeCharts(priceData, desertized_price_distribution) {
   const total_items = percentile_1.frequency + percentile_2.frequency + percentile_3.frequency + percentile_4.frequency + percentile_5.frequency ;
 
   const percentileRanges = [
-    `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}: ${(percentile_1.frequency / total_items) * 100} %`,
-    `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}: ${( percentile_2.frequency / total_items ) * 100} %`,
-    `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}: ${( percentile_3.frequency / total_items ) * 100} %`,
-    `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}: ${( percentile_4.frequency / total_items ) * 100} %`,
-    `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}: ${( percentile_5.frequency / total_items ) * 100} %`
+    `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}: ${((percentile_1.frequency / total_items) * 100).toFixed(2)} %`,
+    `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}: ${(( percentile_2.frequency / total_items ) * 100).toFixed(2)} %`,
+    `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}: ${( (percentile_3.frequency / total_items ) * 100).toFixed(2)} %`,
+    `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}: ${((percentile_4.frequency / total_items ) * 100).toFixed(2)} %`,
+    `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}: ${(( percentile_5.frequency / total_items ) * 100).toFixed(2)} %`
   ];
   // Initialize Donut Chart
   const donutChartCtx = donutChartCanvas.getContext('2d');
@@ -201,7 +201,7 @@ function initializeCharts(priceData, desertized_price_distribution) {
         legend: { position: 'top' },
         tooltip: {
           callbacks: {
-            label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw} items`
+            label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw} counts`
           }
         }
       },
