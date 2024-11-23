@@ -234,44 +234,45 @@ function initializeCharts(priceData, desertized_price_distribution) {
   const donutChartCanvas = document.getElementById('priceDistributionChart').getContext('2d');
 
   // Initialize the Donut Chart
-  new Chart(donutChartCanvas, {
-    type: 'doughnut',
-    data: {
-      labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
-      datasets: [{
-        data: percentiles,
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
+new Chart(donutChartCanvas, {
+  type: 'doughnut',
+  data: {
+    labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
+    datasets: [{
+      data: percentiles,
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        enabled: false, // Disable tooltips as we are adding labels inside the chart
+      },
+      datalabels: {
+        display: true, // Enable datalabels plugin to show custom labels inside slices
+        color: '#fff', // Label text color
+        formatter: function(value, context) {
+          const dataIndex = context.dataIndex;
+          const range = percentileRanges[dataIndex];
+          return `${range.percentage}%`; // Display percentage as label
         },
-        tooltip: {
-          enabled: false, // Disable tooltips as we are adding labels inside the chart
+        font: {
+          weight: 'bold',
+          size: 14
         },
-        datalabels: {
-          display: true, // Enable datalabels plugin to show custom labels inside slices
-          color: '#fff', // Label text color
-          formatter: function(value, context) {
-            const dataIndex = context.dataIndex;
-            const range = percentileRanges[dataIndex];
-            return `
-              ${range.percentage}%
-            `;
-          },
-          font: {
-            weight: 'bold',
-            size: 14
-          },
-          anchor: 'center', // Position the label inside the slice
-          align: 'center',  // Center the text inside each slice
-        }
+        anchor: 'center', // Anchor the label to the center of the slice
+        align: 'center',  // Align the label to the center of the slice
+        offset: 0, // Set offset to zero to prevent misalignment
+        padding: 0, // Remove any padding that could cause misalignment
       }
     }
-  });
+  }
+});
+
 // Helper function to format numbers as K or M
 function formatNumber(num) {
   if (num >= 1000000) {
@@ -292,8 +293,8 @@ function getPriceLimits(priceData) {
   document.getElementById('min-price').textContent = formatNumber(minPrice);
   document.getElementById('max-price').textContent = formatNumber(maxPrice);
    // Update the DOM elements with the min and max prices
-  document.getElementById('min-price-base').textContent = formatNumber(minPrice);
-  document.getElementById('max-price-base').textContent = formatNumber(maxPrice);
+  document.getElementById('min-price-base').textContent = minPrice.toLocaleString();
+  document.getElementById('max-price-base').textContent = maxPrice.toLocaleString();
 }
 
 // Create Histogram Bins for Line Chart
