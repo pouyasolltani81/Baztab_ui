@@ -47,38 +47,38 @@
 
 
 
-// Toggle active tab (Create Category / Find Category)
-    document.getElementById('createCategoryBtn').addEventListener('click', function() {
-      document.getElementById('createCategoryContent').classList.remove('hidden');
-      document.getElementById('findCategoryContent').classList.add('hidden');
-      document.getElementById('createCategoryBtn').classList.add('text-teal-600');
-      document.getElementById('findCategoryBtn').classList.remove('text-teal-600');
-    });
+// // Toggle active tab (Create Category / Find Category)
+//     document.getElementById('createCategoryBtn').addEventListener('click', function() {
+//       document.getElementById('createCategoryContent').classList.remove('hidden');
+//       document.getElementById('findCategoryContent').classList.add('hidden');
+//       document.getElementById('createCategoryBtn').classList.add('text-teal-600');
+//       document.getElementById('findCategoryBtn').classList.remove('text-teal-600');
+//     });
 
-    document.getElementById('findCategoryBtn').addEventListener('click', function() {
-      document.getElementById('findCategoryContent').classList.remove('hidden');
-      document.getElementById('createCategoryContent').classList.add('hidden');
-      document.getElementById('findCategoryBtn').classList.add('text-teal-600');
-      document.getElementById('createCategoryBtn').classList.remove('text-teal-600');
-    });
-
-
+//     document.getElementById('findCategoryBtn').addEventListener('click', function() {
+//       document.getElementById('findCategoryContent').classList.remove('hidden');
+//       document.getElementById('createCategoryContent').classList.add('hidden');
+//       document.getElementById('findCategoryBtn').classList.add('text-teal-600');
+//       document.getElementById('createCategoryBtn').classList.remove('text-teal-600');
+//     });
 
 
-// Toggle active tab (Create Category / Find Category)
-    document.getElementById('createCategoryBtnMobile').addEventListener('click', function() {
-      document.getElementById('createCategoryContent').classList.remove('hidden');
-      document.getElementById('findCategoryContent').classList.add('hidden');
-      document.getElementById('createCategoryBtnMobile').classList.add('text-teal-600');
-      document.getElementById('findCategoryBtnMobile').classList.remove('text-teal-600');
-    });
 
-    document.getElementById('findCategoryBtnMobile').addEventListener('click', function() {
-      document.getElementById('findCategoryContent').classList.remove('hidden');
-      document.getElementById('createCategoryContent').classList.add('hidden');
-      document.getElementById('findCategoryBtnMobile').classList.add('text-teal-600');
-      document.getElementById('createCategoryBtnMobile').classList.remove('text-teal-600');
-    });
+
+// // Toggle active tab (Create Category / Find Category)
+//     document.getElementById('createCategoryBtnMobile').addEventListener('click', function() {
+//       document.getElementById('createCategoryContent').classList.remove('hidden');
+//       document.getElementById('findCategoryContent').classList.add('hidden');
+//       document.getElementById('createCategoryBtnMobile').classList.add('text-teal-600');
+//       document.getElementById('findCategoryBtnMobile').classList.remove('text-teal-600');
+//     });
+
+//     document.getElementById('findCategoryBtnMobile').addEventListener('click', function() {
+//       document.getElementById('findCategoryContent').classList.remove('hidden');
+//       document.getElementById('createCategoryContent').classList.add('hidden');
+//       document.getElementById('findCategoryBtnMobile').classList.add('text-teal-600');
+//       document.getElementById('createCategoryBtnMobile').classList.remove('text-teal-600');
+//     });
 
 
 
