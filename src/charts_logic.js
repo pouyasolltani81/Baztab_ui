@@ -163,7 +163,6 @@ function calculateMovingAverage(data, windowSize) {
   return result;
 }
 
-// Initialize the price charts (Donut Chart and Line Chart)
 function initializeCharts(priceData, desertized_price_distribution) {
   // Calculate percentiles and frequencies for the donut chart
   const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = desertized_price_distribution;
@@ -175,21 +174,57 @@ function initializeCharts(priceData, desertized_price_distribution) {
     percentile_5.frequency
   ];
   
-  const total_items = percentile_1.frequency + percentile_2.frequency + percentile_3.frequency + percentile_4.frequency + percentile_5.frequency ;
+  const total_items = percentiles.reduce((sum, freq) => sum + freq, 0); // Sum of all frequencies
 
   const percentileRanges = [
-    `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}: ${((percentile_1.frequency / total_items) * 100).toFixed(2)} %`,
-    `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}: ${(( percentile_2.frequency / total_items ) * 100).toFixed(2)} %`,
-    `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}: ${( (percentile_3.frequency / total_items ) * 100).toFixed(2)} %`,
-    `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}: ${((percentile_4.frequency / total_items ) * 100).toFixed(2)} %`,
-    `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}: ${(( percentile_5.frequency / total_items ) * 100).toFixed(2)} %`
+    {
+      label: `${percentile_1.lower_bound.toLocaleString()} - ${percentile_1.upper_bound.toLocaleString()}`,
+      minPrice: percentile_1.lower_bound.toLocaleString(),
+      maxPrice: percentile_1.upper_bound.toLocaleString(),
+      firstPrice: priceData[0].price, // Assuming priceData[0] is the first price
+      lastPrice: priceData[priceData.length - 1].price, // Assuming priceData is sorted
+      percentage: ((percentile_1.frequency / total_items) * 100).toFixed(2)
+    },
+    {
+      label: `${percentile_2.lower_bound.toLocaleString()} - ${percentile_2.upper_bound.toLocaleString()}`,
+      minPrice: percentile_2.lower_bound.toLocaleString(),
+      maxPrice: percentile_2.upper_bound.toLocaleString(),
+      firstPrice: priceData[0].price,
+      lastPrice: priceData[priceData.length - 1].price,
+      percentage: ((percentile_2.frequency / total_items) * 100).toFixed(2)
+    },
+    {
+      label: `${percentile_3.lower_bound.toLocaleString()} - ${percentile_3.upper_bound.toLocaleString()}`,
+      minPrice: percentile_3.lower_bound.toLocaleString(),
+      maxPrice: percentile_3.upper_bound.toLocaleString(),
+      firstPrice: priceData[0].price,
+      lastPrice: priceData[priceData.length - 1].price,
+      percentage: ((percentile_3.frequency / total_items) * 100).toFixed(2)
+    },
+    {
+      label: `${percentile_4.lower_bound.toLocaleString()} - ${percentile_4.upper_bound.toLocaleString()}`,
+      minPrice: percentile_4.lower_bound.toLocaleString(),
+      maxPrice: percentile_4.upper_bound.toLocaleString(),
+      firstPrice: priceData[0].price,
+      lastPrice: priceData[priceData.length - 1].price,
+      percentage: ((percentile_4.frequency / total_items) * 100).toFixed(2)
+    },
+    {
+      label: `${percentile_5.lower_bound.toLocaleString()} - ${percentile_5.upper_bound.toLocaleString()}`,
+      minPrice: percentile_5.lower_bound.toLocaleString(),
+      maxPrice: percentile_5.upper_bound.toLocaleString(),
+      firstPrice: priceData[0].price,
+      lastPrice: priceData[priceData.length - 1].price,
+      percentage: ((percentile_5.frequency / total_items) * 100).toFixed(2)
+    }
   ];
+
   // Initialize Donut Chart
   const donutChartCtx = donutChartCanvas.getContext('2d');
   new Chart(donutChartCtx, {
     type: 'doughnut',
     data: {
-      labels: percentileRanges,
+      labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`),
       datasets: [{
         data: percentiles,
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
@@ -201,22 +236,23 @@ function initializeCharts(priceData, desertized_price_distribution) {
         legend: { position: 'top' },
         tooltip: {
           callbacks: {
-            label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw} counts`
+            label: (tooltipItem) => {
+              const dataIndex = tooltipItem.dataIndex;
+              const range = percentileRanges[dataIndex];
+              return `
+                ${range.label}
+                ${range.percentage}% 
+                Min Price: ${range.minPrice}
+                Max Price: ${range.maxPrice}
+                First Price: ${range.firstPrice}
+                Last Price: ${range.lastPrice}
+              `;
+            }
           }
         }
       },
     }
   });
-// Helper function to format numbers as K or M
-function formatNumber(num) {
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
-  } else if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'K';
-  } else {
-    return num;
-  }
-}
 
 // Get the min and max values from price data
 function getPriceLimits(priceData) {
