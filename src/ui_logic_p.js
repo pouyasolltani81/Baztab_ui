@@ -76,11 +76,11 @@
 
 
 
-    document.getElementById('hamburgerMenuBtn').addEventListener('click', function() {
-  const mobileMenu = document.getElementById('mobileMenu');
-  const laptopAuth = document.getElementById('AUTH_BUTTONS_MAIN');
+//     document.getElementById('hamburgerMenuBtn').addEventListener('click', function() {
+//   const mobileMenu = document.getElementById('mobileMenu');
+//   const laptopAuth = document.getElementById('AUTH_BUTTONS_MAIN');
 
-  mobileMenu.classList.toggle('hidden'); // Toggle the visibility of the mobile menu
-  laptopAuth.classList.toggle('hidden'); // Toggle the visibility of the mobile menu
+//   mobileMenu.classList.toggle('hidden'); // Toggle the visibility of the mobile menu
+//   laptopAuth.classList.toggle('hidden'); // Toggle the visibility of the mobile menu
 
-});
+// });

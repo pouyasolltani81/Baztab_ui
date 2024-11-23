@@ -1,7 +1,7 @@
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 
 
-
+let slug_fa
 
 // Get references to DOM elements
 const categorySelector = document.getElementById('categorySelector');
@@ -59,6 +59,12 @@ closeModalButton.addEventListener('click', () => {
 async function fetchAllData() {
   try {
     const name_far = JSON.parse(localStorage.getItem('name_far'));
+
+    // adding the bread crumble
+    slug_fa = name_far.slug_fa
+    document.getElementById("breadcrumb-slug").textContent = slug_fa;
+
+
     let data_c = {
       name_fa: name_far.category_name_fa,
       

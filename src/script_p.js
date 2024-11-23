@@ -172,7 +172,7 @@ function createProductCards(products) {
     const price = document.createElement("p");
     price.className = "text-lg font-semibold text-gray-800 mb-4";
     if (product.price_stat && product.price_stat.avg) {
-      price.textContent = `قیمت: تومان${product.price_stat.avg}`; 
+      price.textContent = `قیمت: تومان${product.price_stat.avg.toLocaleString()}`; 
     } else {
       price.textContent = "قیمت: موجود نیست"; // در صورت نبود قیمت
     }
