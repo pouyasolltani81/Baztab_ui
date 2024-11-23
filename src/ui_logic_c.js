@@ -36,13 +36,13 @@
     //   });
     // }
 
-    // Start loading and use `showLoader` to show the spinner
-    window.addEventListener('load', function() {
-      showLoader(async function() {
-        await pageInitialization();  // Simulate page load logic
-        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
-      });
-    });
+    // // Start loading and use `showLoader` to show the spinner
+    // window.addEventListener('load', function() {
+    //   showLoader(async function() {
+    //     await pageInitialization();  // Simulate page load logic
+    //     document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+    //   });
+    // });
 
 
 

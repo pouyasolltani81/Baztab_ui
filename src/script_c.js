@@ -234,27 +234,44 @@ document.getElementById('backToFirstLevelBtn').addEventListener('click', functio
   renderCategories();
 });
 
+// function pageInitialization() {
+//   return new Promise((resolve, reject) => {
+//     // Wait for the DOM to be fully loaded
+//         console.log('0')
+
+//     document.addEventListener('DOMContentLoaded', async () => {
+//       try {
+//         console.log('1')
+//         await fetchdata();; // Replace this with your actual fetch function
+//         console.log('2')
+        
+//         // After the data is fetched, resolve the promise
+//         resolve('Page Loaded and Data Fetched');
+//       } catch (error) {
+//         // If there was an error during the data fetch, reject the promise
+//         reject('Error during data fetching: ' + error);
+//       }
+//     });
+//   });
+// }
+
 function pageInitialization() {
-  return new Promise((resolve, reject) => {
-    // Wait for the DOM to be fully loaded
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Wait for fetchAllData to complete (assuming fetchAllData() is asynchronous)
         console.log('0')
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
+      await fetchAllData(); // Replace with your actual fetch function
         console.log('1')
-        await fetchdata();; // Replace this with your actual fetch function
-        console.log('2')
-        
-        // After the data is fetched, resolve the promise
-        resolve('Page Loaded and Data Fetched');
-      } catch (error) {
-        // If there was an error during the data fetch, reject the promise
-        reject('Error during data fetching: ' + error);
-      }
-    });
+
+      // Once the data is fetched, resolve the promise
+      resolve('Page Loaded and Data Fetched');
+    } catch (error) {
+      // In case fetchAllData() fails, reject the promise
+      reject('Error during data fetching: ' + error);
+    }
   });
 }
-
 
 
     // Start loading and use `showLoader` to show the spinner
