@@ -264,7 +264,7 @@ new Chart(donutChartCanvas, {
             
             // Format the tooltip content
             return [
-              `Min: ${parseInt(range.minPrice)}`,
+              `Min: ${range.minPrice}`,
               `Max: ${range.maxPrice}`,
               `Count: ${frequency}`,
               `Percentage: ${range.percentage}%`
