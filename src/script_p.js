@@ -23,17 +23,17 @@ let sortOrder = 'asc';  // Default sort order (ascending)
 
 // Fetch the initial data from localStorage or use API to get it.
 function loadLocalJsonData() {
-  const productData = JSON.parse(localStorage.getItem('productResponse'));
-  if (productData) {
-    localJsonData = productData;
-    currentPage = localJsonData.page;
-    itemsPerPage = localJsonData.page_limit
-    itemsPerPageSelector.value = localJsonData.page_limit
-    // totalPages = Math.ceil(totalProducts / itemsPerPage);
-    // If no local data, fetch from API (for the initial load or first page)
-    console.log(localJsonData)
-    fetchInitialData(localJsonData);
-  }
+  // const productData = JSON.parse(localStorage.getItem('productResponse'));
+  
+    // localJsonData = productData;
+    // currentPage = localJsonData.page;
+    // itemsPerPage = localJsonData.page_limit
+    // itemsPerPageSelector.value = localJsonData.page_limit
+    // // totalPages = Math.ceil(totalProducts / itemsPerPage);
+    // // If no local data, fetch from API (for the initial load or first page)
+    // console.log(localJsonData)
+    fetchInitialData(1);
+  
 }
 
 
@@ -50,31 +50,37 @@ function navigationdata(page_n,limit){
 }
 // Initial data fetch from API (for first load)
 async function fetchInitialData(data) {
+  console.log('hello');
+  
   showLoader(async function() {
-        await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      "Accept-Version": 1,
-      'Accept': "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json; charset=utf-8",
-      'authorization': user_token, 
-    },
-    body: JSON.stringify(data),
+      try {
+          let response = await fetch('./products.json')
+          console.log(response)
+          let data = response.json
+          console.log(data)
+          localJsonData = data;
+          totalProducts = localJsonData.data.total_count;
+          console.log(localJsonData)
+          totalPages = Math.ceil(totalProducts / itemsPerPage);
+          updatePageUI();
+      }
+    catch (err){
+      console.error('Error fetching initial data:', err);  // Simulate page load logic
+      document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+    }
   })
-  .then(response => response.json())
-  .then(data => {
- 
-    localJsonData = data;
-    totalProducts = localJsonData.data.total_count;
-    console.log(localJsonData)
-    totalPages = Math.ceil(totalProducts / itemsPerPage);
-    updatePageUI();
-  })
-  .catch(err => console.error('Error fetching initial data:', err));  // Simulate page load logic
-        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
-      });
+  // .then(response => response.json())
+  // .then(data => {
+  //   console.log(data)
+  //   localJsonData = data;
+  //   totalProducts = localJsonData.data.total_count;
+  //   console.log(localJsonData)
+  //   totalPages = Math.ceil(totalProducts / itemsPerPage);
+  //   updatePageUI();
+  // })
+  // .catch(err => console.error('Error fetching initial data:', err));  // Simulate page load logic
+  //       document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+  //     });
       
   // await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
   //   method: 'POST',
