@@ -34,6 +34,9 @@ function updateui(data) {
 
     let products = data.data.result ;
     createProductTable(products);
+    
+
+    document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -120,7 +123,7 @@ function createProductTable(products) {
                             <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
                                  
                                 <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer">
+                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CI${product._id}'>
                                     <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
                                     <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
                                 </label>
@@ -130,7 +133,7 @@ function createProductTable(products) {
 
                             <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
                                 <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer">
+                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CR${product._id}'>
                                     <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
                                     <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
                                 </label>
@@ -142,7 +145,7 @@ function createProductTable(products) {
 
                             <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
                                 <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer">
+                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CP${product._id}'>
                                     <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
                                     <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
                                 </label>
@@ -152,9 +155,9 @@ function createProductTable(products) {
                             </div>
 
 
-                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
+                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700' '>
                                 <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer">
+                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer"  id ='CQ${product._id}'>
                                     <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
                                     <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
                                 </label>
@@ -200,15 +203,100 @@ function createProductTable(products) {
     Menu.classList.toggle('hidden')
   }
 
-
-
-
-  function CreateCard(){
-    console.log();
+  let cards_info = { I: {}, R: {}, P: {}, Q: {} };
+  function CreateCard(id){
+    const thirdLetter = id.charAt(1);
+    // console.log(Object.keys(cards_info[thirdLetter]).length);
     
+    if (Object.keys(cards_info[thirdLetter]).length == 0){
+        cards_info[thirdLetter][id] = true;
+        const card = document.createElement("div");
+        card.className = "bg-gradient-to-l from-slate-300 to-slate-100 text-slate-600 border border-slate-300 grid grid-col-2 justify-center p-4 m-4 gap-4 rounded-lg shadow-md col-span-2";
+        card.id = `C${id}`
+        card.innerHTML = `
+        
+            <div class="col-span-2 text-lg font-bold capitalize rounded-md">
+            ID : C${id}
+            </div>
+            <div class="col-span-2  rounded-md">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, reprehenderit. Ullam quod tenetur excepturi debitis laborum obcaecati asperiores aperiam soluta eius cupiditate! Nulla, consequuntur similique non ullam neque quibusdam assumenda.
+            </div>
+            <div class="col-span-1">
+            pqwoepowekpoqkeok
+            </div>
+
+            <div>
+            <label class="relative inline-block w-14 h-7">
+                <input type="checkbox" class="opacity-0 w-0 h-0 peer" '>
+                <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
+                <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
+            </label>
+            
+            </div>
+        
+
+        `
+
+        info_container.appendChild(card);
+    }
+
+    else if((Object.keys(cards_info[thirdLetter]).length == 1)) {
+        // console.log(`C${thirdLetter}${Object.keys(cards_info[thirdLetter])[0]}`);
+        
+        let L_Card = document.getElementById(`C${Object.keys(cards_info[thirdLetter])[0]}`);
+        L_Card.classList.toggle('col-span-2')
+        cards_info[thirdLetter][id] = true;
+        const card = document.createElement("div");
+        card.className = "bg-gradient-to-l from-slate-300 to-slate-100 text-slate-600 border border-slate-300 grid grid-col-2 justify-center p-4 m-4 gap-4 rounded-lg shadow-md col-span-1";
+        card.id = `C${id}`
+        card.innerHTML = `
+        
+            <div class="col-span-2 text-lg font-bold capitalize rounded-md">
+            ID : C${id}
+            </div>
+            <div class="col-span-2  rounded-md">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, reprehenderit. Ullam quod tenetur excepturi debitis laborum obcaecati asperiores aperiam soluta eius cupiditate! Nulla, consequuntur similique non ullam neque quibusdam assumenda.
+            </div>
+            <div class="col-span-1">
+            pqwoepowekpoqkeok
+            </div>
+
+            <div>
+            <label class="relative inline-block w-14 h-7">
+                <input type="checkbox" class="opacity-0 w-0 h-0 peer" '>
+                <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
+                <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
+            </label>
+            
+            </div>
+        
+
+        `
+
+        info_container.appendChild(card);
+
+
+    }
+
+    else if((Object.keys(cards_info[thirdLetter]).length == 2)) {
+
+        alert('NOOOOO MOOOOOREEE THAAAAAN TWOOOOOOO')
+
+
+    }
 
   }
 
+
+  function RemoveCard(id){
+    const thirdLetter = id.charAt(1);
+    let R_Card = document.getElementById(`C${id}`);
+    R_Card.innerHTML = 'should have been removed ???'
+    delete cards_info[thirdLetter][id];
+    R_Card.remove();
+
+    
+  }
 
   function initializePage(){
     GetProduct()
