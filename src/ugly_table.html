@@ -22,19 +22,16 @@
     </div>
 
     <!-- Table for Categories and Subcategories -->
-    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-      <table class="min-w-full table-auto">
-        <thead class="bg-teal-600 text-white">
-          <tr>
-            <th class="py-2 px-4 text-left text-lg font-medium">Category</th>
-            <th class="py-2 px-4 text-left text-lg font-medium">Subcategories</th>
-          </tr>
-        </thead>
-        <tbody id="categoryTableBody">
-          <!-- Dynamic rows will be injected here -->
-        </tbody>
-      </table>
-    </div>
+    <table class="min-w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
+      <thead class="bg-teal-600 text-white">
+        <tr>
+          <th class="py-2 px-4 text-left text-lg font-medium">Category</th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+        <!-- Dynamic rows will be injected here -->
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -100,33 +97,59 @@
       
       categoryTableBody.innerHTML = '';
 
-      function renderSubcategories(subcategories, level = 0) {
-        return subcategories.map((subcategory, index) => {
-          return `
-            <div class="relative group pl-${level * 4} py-2">
-              <div class="flex justify-between items-center bg-teal-50 p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                <p class="font-semibold text-sm text-teal-700">${subcategory.name}</p>
-                <div class="space-x-2">
-                  <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm hover:bg-teal-600 transition-colors duration-200">More Info</button>
-                  <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors duration-200">Get Product</button>
-                  <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition-colors duration-200">Add to Cart</button>
+      function renderSubcategories(subcategories, level = 0, columns = []) {
+        if (subcategories.length > 0) {
+          columns[level] = columns[level] || [];
+
+          subcategories.forEach((subcategory, index) => {
+            columns[level].push({
+              name: subcategory.name,
+              buttons: `
+                <div class="flex space-x-3">
+                  <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm">More Info</button>
+                  <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm">Get Product</button>
+                  <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm">Add to Cart</button>
                 </div>
-              </div>
-              ${subcategory.subcategories.length > 0 ? `
-                <div class="pl-4 mt-2">
-                  ${renderSubcategories(subcategory.subcategories, level + 1)}
-                </div>
-              ` : ''}
-            </div>
-          `;
-        }).join('');
+              `,
+              subcategories: subcategory.subcategories,
+              isLast: index === subcategories.length - 1 // Check if it's the last subcategory at this level
+            });
+
+            if (subcategory.subcategories.length > 0) {
+              renderSubcategories(subcategory.subcategories, level + 1, columns);
+            }
+          });
+        }
+
+        return columns;
       }
 
       categoryData.forEach(category => {
+        const subcategoryColumns = renderSubcategories(category.subcategories);
+
+        const columnsHtml = subcategoryColumns.map((col, index) => {
+          return `
+            <td class="py-2 px-4">
+              <div class="flex flex-col justify-evenly h-[35rem] gap-4">
+                ${col.map(sub => `
+                  <div class="relative category-card p-3">
+                    <div class="category-card-content">
+                      <p class="font-semibold text-sm">${sub.name}</p>
+                      ${sub.buttons}
+                    </div>
+                    <!-- Add a vertical line for the last subcategory -->
+                    ${sub.isLast ? '<div class="absolute inset-0 right-0 border-l-2 border-dashed border-gray-400"></div>' : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </td>
+          `;
+        }).join('');
+
         categoryTableBody.innerHTML += `
           <tr class="border-b">
-            <td class="py-4 px-6 font-semibold text-md bg-teal-100 text-teal-700">${category.name}</td>
-            <td class="py-4 px-6">${renderSubcategories(category.subcategories)}</td>
+            <td class="py-2 px-4 font-semibold text-md">${category.name}</td>
+            ${columnsHtml}
           </tr>
         `;
       });

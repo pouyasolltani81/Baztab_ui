@@ -41,8 +41,57 @@ function updateui(data) {
 }
 
 
+// Get DOM elements
+        const searchBar = document.getElementById('searchBar');
+        const searchColumn = document.getElementById('searchColumn');
+        const tableBody = document.getElementById('TableBody');
 
+        // Listen for input in the search bar
+        searchBar.addEventListener('input', function() {
+            const query = searchBar.value.toLowerCase();
+            const columnIndex = parseInt(searchColumn.value) +1;
 
+            const rows = tableBody.getElementsByTagName('tr');
+            Array.from(rows).forEach(row => {
+                // Collect all the cell data
+                const cells = row.getElementsByTagName('td');
+                
+                let shouldDisplay = false;
+
+                // Search logic depending on the selected column
+                if (columnIndex === 'all') {
+                    // Search all columns and their child elements
+                    for (let i = 0; i < cells.length; i++) {
+                        // Check if any text within child elements of the cell matches
+                        const cellText = getTextFromElement(cells[i]);
+                        if (cellText.toLowerCase().includes(query)) {
+                            shouldDisplay = true;
+                            break;
+                        }
+                    }
+                } else {
+                    // Search a specific column and its child elements
+                    const cell = cells[columnIndex];
+                    console.log(columnIndex);
+                    
+                    if (cell) {
+                        const cellText = getTextFromElement(cell);
+                        if (cellText.toLowerCase().includes(query)) {
+                            shouldDisplay = true;
+                        }
+                    }
+                }
+
+                // Display or hide the row based on the search result
+                row.style.display = shouldDisplay ? '' : 'none';
+            });
+        });
+
+        // Helper function to get all text content from a cell, including its child elements
+        function getTextFromElement(element) {
+            // Get the combined text of the element and its children
+            return element.textContent || element.innerText || '';
+        }
 
 function createProductTable(products) {
     productTableContainer.innerHTML = ''; // پاک کردن کارت‌های قبلی
@@ -52,6 +101,36 @@ function createProductTable(products) {
       row.className = "border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600";
       row.id = `TB${product._id}`
 
+      
+      // Product info
+      const info = document.createElement("td");
+      info.className = "bwhitespace-nowrap  px-6 py-4";
+      info.innerHTML = `<div class="flex flex-col">
+                                  <span class="text-gray-900 font-base">ID : ${ product.product_info.product_id}</span>
+                                  <span class="text-gray-900 font-base">Name : ${ product.product_info.product_name_fa}</span>
+                                  <span class="text-gray-900 font-base">Scrap url : ${ product.product_info.scrape_url}</span>
+                                  <span class="text-gray-900 font-base">Availibility : ${ product.product_info.is_available}</span>
+                                  
+                                 
+                          </div>` ;
+
+
+      // Product info
+      const brand = document.createElement("td");
+      brand.className = "bwhitespace-nowrap  px-6 py-4";
+      brand.innerHTML = `<div class="flex flex-col">
+                                  <span class="text-gray-900 font-base">ID : ${ product.product_info.product_id}</span>
+                                  <span class="text-gray-900 font-base">Name : ${ product.product_info.product_name_fa}</span>
+                                  <span class="text-gray-900 font-base">Scrap url : ${ product.product_info.scrape_url}</span>
+                                  <span class="text-gray-900 font-base">Availibility : ${ product.product_info.is_available}</span>
+                                  
+                                 
+                          </div>` ;
+
+
+
+
+        
        // Checkbox for selecting the row
         const checkbox = document.createElement("td");
         checkbox.className = "whitespace-nowrap px-6 py-4";
@@ -181,12 +260,15 @@ function createProductTable(products) {
       // Add click event listener to the row to delete other rows when selected 
       checkbox.addEventListener('click', () => { const allRows = document.querySelectorAll('tr'); const isSelected = row.classList.toggle('selected'); if (isSelected) { allRows.forEach((r, i) => { if (r !== row && i !== 0) { r.style.display = 'none'; } }); } else { allRows.forEach(r => r.style.display = ''); }});
       row.appendChild(checkbox);
-      row.appendChild(productId);
-      row.appendChild(productName);
-      row.appendChild(price);
-      row.appendChild(availability);
-      row.appendChild(productUrl);
-      row.appendChild(brandName);
+      // row.appendChild(productId);
+      // row.appendChild(productName);
+      // row.appendChild(price);
+      // row.appendChild(availability);
+      // row.appendChild(productUrl);
+      // row.appendChild(brandName);
+
+
+      row.appendChild(info);
       row.appendChild(dropdown);
 
   
@@ -204,99 +286,108 @@ function createProductTable(products) {
   }
 
   let cards_info = { I: {}, R: {}, P: {}, Q: {} };
-  function CreateCard(id){
-    const thirdLetter = id.charAt(1);
-    // console.log(Object.keys(cards_info[thirdLetter]).length);
-    
-    if (Object.keys(cards_info[thirdLetter]).length == 0){
-        cards_info[thirdLetter][id] = true;
+ // Function to create a card with animation
+// Function to create a card with animation
+function CreateCard(id) {
+    const thirdLetter = id.charAt(1); // Identify the third letter of the ID
+    const cardInfo = cards_info[thirdLetter]; // Store card info for easy reference
+
+    // Function to create a card with the given class and ID
+    function createCardElement(cardId, colSpanClass) {
         const card = document.createElement("div");
-        card.className = "bg-gradient-to-l from-slate-300 to-slate-100 text-slate-600 border border-slate-300 grid grid-col-2 justify-center p-4 m-4 gap-4 rounded-lg shadow-md col-span-2";
-        card.id = `C${id}`
+        card.className = `bg-gradient-to-l from-slate-300 to-slate-100 text-slate-600 border border-slate-300 grid grid-col-2 justify-center p-4 m-4 gap-4 rounded-lg shadow-md ${colSpanClass} opacity-0 transition-all duration-500 ease-in-out transform scale-0`; // Initial opacity 0 and scale 0 for animation
+        card.id = `C${cardId}`;
         card.innerHTML = `
-        
             <div class="col-span-2 text-lg font-bold capitalize rounded-md">
-            ID : C${id}
+                ID : C${cardId}
             </div>
             <div class="col-span-2  rounded-md">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, reprehenderit. Ullam quod tenetur excepturi debitis laborum obcaecati asperiores aperiam soluta eius cupiditate! Nulla, consequuntur similique non ullam neque quibusdam assumenda.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, reprehenderit. Ullam quod tenetur excepturi debitis laborum obcaecati asperiores aperiam soluta eius cupiditate! Nulla, consequuntur similique non ullam neque quibusdam assumenda.
             </div>
             <div class="col-span-1">
-            pqwoepowekpoqkeok
+                pqwoepowekpoqkeok
             </div>
-
             <div>
-            <label class="relative inline-block w-14 h-7">
-                <input type="checkbox" class="opacity-0 w-0 h-0 peer" '>
-                <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-            </label>
-            
+                <label class="relative inline-block w-14 h-7">
+                    <input type="checkbox" class="opacity-0 w-0 h-0 peer">
+                    <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
+                    <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
+                </label>
             </div>
-        
-
-        `
-
-        info_container.appendChild(card);
+        `;
+        return card;
     }
 
-    else if((Object.keys(cards_info[thirdLetter]).length == 1)) {
-        // console.log(`C${thirdLetter}${Object.keys(cards_info[thirdLetter])[0]}`);
+    // If there are no cards, create the first one
+    if (Object.keys(cardInfo).length === 0) {
+        cardInfo[id] = true;
+        const newCard = createCardElement(id, 'col-span-2');
+        info_container.appendChild(newCard);
+
+        // Animate the card into view
+        setTimeout(() => newCard.classList.remove('opacity-0', 'scale-0'), 50);
+    } 
+    // If there is one card, create a new one and move the existing card to col-span-2
+    else if (Object.keys(cardInfo).length === 1) {
+        let existingCardId = Object.keys(cardInfo)[0];
+        let existingCard = document.getElementById(`C${existingCardId}`);
         
-        let L_Card = document.getElementById(`C${Object.keys(cards_info[thirdLetter])[0]}`);
-        L_Card.classList.toggle('col-span-2')
-        cards_info[thirdLetter][id] = true;
-        const card = document.createElement("div");
-        card.className = "bg-gradient-to-l from-slate-300 to-slate-100 text-slate-600 border border-slate-300 grid grid-col-2 justify-center p-4 m-4 gap-4 rounded-lg shadow-md col-span-1";
-        card.id = `C${id}`
-        card.innerHTML = `
+        existingCard.classList.toggle('col-span-2'); // Move existing card to col-span-2
+        cardInfo[id] = true; // Add the new card info
         
-            <div class="col-span-2 text-lg font-bold capitalize rounded-md">
-            ID : C${id}
-            </div>
-            <div class="col-span-2  rounded-md">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, reprehenderit. Ullam quod tenetur excepturi debitis laborum obcaecati asperiores aperiam soluta eius cupiditate! Nulla, consequuntur similique non ullam neque quibusdam assumenda.
-            </div>
-            <div class="col-span-1">
-            pqwoepowekpoqkeok
-            </div>
-
-            <div>
-            <label class="relative inline-block w-14 h-7">
-                <input type="checkbox" class="opacity-0 w-0 h-0 peer" '>
-                <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-            </label>
-            
-            </div>
+        const newCard = createCardElement(id, 'col-span-1');
+        info_container.appendChild(newCard);
         
-
-        `
-
-        info_container.appendChild(card);
-
-
+        // Animate the card into view
+        setTimeout(() => newCard.classList.remove('opacity-0', 'scale-0'), 50);
+        
+        existingCard.remove(); // Remove the existing card
+        info_container.appendChild(existingCard); // Re-append the existing card
+    } 
+    // If there are already two cards, alert the user and disable toggle
+    else if (Object.keys(cardInfo).length === 2) {
+        alert('NO MORE THAN TWO CARDS ALLOWED');
+        
+        // // Disable all toggles in the grid if there are more than two cards
+        // const allToggles = document.querySelectorAll('input[type="checkbox"]');
+        // allToggles.forEach(toggle => {
+        //     toggle.disabled = true; // Disable toggles
+        // });
     }
+}
 
-    else if((Object.keys(cards_info[thirdLetter]).length == 2)) {
-
-        alert('NOOOOO MOOOOOREEE THAAAAAN TWOOOOOOO')
-
-
-    }
-
-  }
-
-
-  function RemoveCard(id){
+// Function to remove a card with animation and grid adjustment
+function RemoveCard(id) {
     const thirdLetter = id.charAt(1);
     let R_Card = document.getElementById(`C${id}`);
-    R_Card.innerHTML = 'should have been removed ???'
-    delete cards_info[thirdLetter][id];
-    R_Card.remove();
-
     
-  }
+    // Add fade-out animation to the card
+    R_Card.classList.add('opacity-0', 'scale-90', 'transition-all', 'duration-500');
+    
+    // After the animation, remove the card and update the grid layout
+    setTimeout(() => {
+        // Remove the card info from the data structure
+        delete cards_info[thirdLetter][id];
+
+        // Remove the card element from the DOM
+        R_Card.remove();
+
+        // Check if there is exactly one card left in the grid for this section (thirdLetter)
+        if (Object.keys(cards_info[thirdLetter]).length === 1) {
+            // Find the remaining card ID
+            let remainingCardId = Object.keys(cards_info[thirdLetter])[0];
+            let remainingCard = document.getElementById(`C${remainingCardId}`);
+            
+            // If a card remains, update its layout to span the full grid (col-span-2)
+            if (remainingCard) {
+                remainingCard.classList.add('col-span-2');  // Make the remaining card take the full grid space
+                
+                // Animate the grid layout change
+                remainingCard.classList.add('transition-all', 'duration-500', 'ease-in-out');
+            }
+        }
+    }, 500); // Wait for the animation to finish before removing and updating the grid
+}
 
   function initializePage(){
     GetProduct()
@@ -305,890 +396,265 @@ function createProductTable(products) {
 
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// drop downs
 const productss =  {
-    "return": true,
-    "message": "Ok",
-    "data": {
-      "next_page": "?pageLimit=10&page=2",
-      "prev_page": "?pageLimit=10&page=1",
-      "page": 1,
-      "showing": 10,
-      "total_count": 1909,
-      "result": [
-        {
-          "_id": "67358d34fd1372fc4a6d61ae",
-          "product_name": "",
-          "product_name_fa": "کرم پودر میستار شماره 102 حجم 40 میلی لیتر",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-7625033",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر میستار شماره 102 حجم 40 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": ""
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "102 "
-              },
-              {
-                "field_name": "مشخصات محصول",
-                "field_value": "حاوی SPF "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "پمپی "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "پمپی "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 100,
-              "reviewCount": 1
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "f1bef169e0bb9be0d13a7b255eeb6a4541342de3a4cd9b752b8dda3cbe7dfd7a",
-          "mpn": "f1bef169e0bb9be0d13a7b255eeb6a4541342de3a4cd9b752b8dda3cbe7dfd7a",
-          "price_stat": {
-            "avg": 1949500,
-            "variance": 0,
-            "min": 1949500,
-            "max": 1949500
-          }
-        },
-        {
-          "_id": "67358e77fd1372fc4a6d61b4",
-          "product_name": "",
-          "product_name_fa": "کرم پودر استودیو میکاپ مدل Perfecting Finish شماره 05 حجم 30 میلی لیتر",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-1167547",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر استودیو میکاپ مدل Perfecting Finish شماره 05 حجم 30 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر استودیو میکاپ مدل Perfecting Finish محصولی حرفه‌ای از برند مشهور Studiomakeup است. این کرم پودر با هر نوع پوستی تطابق داشته و استفاده از آن باعث می‌شود پوستی با جلایی ابریشمی داشته باشید. این محصول که به طور ویژه با سیلیکای کروی ساخته شده، با ایجاد خطای دید باعث می شود تا چین و چروکها محو و پوستی تازه و درخشان را برای شما به ارمغان آورد. برای استفاده از این محصول، قبل از استفاده آن‌را خوب تکان دهید. سپس با انگشتان، با یک برس کرم پودر یا اسفنج روی صورت بمالید. با ساختار پوشش‌دهی آن می‌توانید لایه‌هایی را اضافه نمایید تا به پوشش مطلوب دست یابید."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "30 میلی‌لیتر"
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "05 "
-              },
-              {
-                "field_name": "سایر توضیحات",
-                "field_value": "- ضد چروک\r\n- ضد آب\r\n- آبرسان و تامین کننده رطوبت لازم برای پوست\r\n- ماندگاری بالا\r\n- فاقد چربی\r\n- فاقد پارابن\r\n- پایه گیاهی\r\n- پوشانندگی بالا "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "پمپی "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "تیره "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "برنزه "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 32,
-              "reviewCount": 3
-            },
-            "colors": [],
-            "product_tags": []
-          },
-          "sku": "7d5629201f3563191233b8dc5330da160d2366880d804f095efac9e559823726",
-          "mpn": "7d5629201f3563191233b8dc5330da160d2366880d804f095efac9e559823726",
-          "price_stat": {
-            "avg": 11960000,
-            "variance": 0,
-            "min": 11960000,
-            "max": 11960000
-          }
-        },
-        {
-          "_id": "67358e7afd1372fc4a6d61b9",
-          "product_name": "",
-          "product_name_fa": "کرم پودر فرانسیس مدل Ultra HD شماره 505 حجم 30 میلی لیتر",
-          "is_available": false,
-          "scrape_url": "https://www.digikala.com/product/dkp-14508701",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر فرانسیس مدل Ultra HD شماره 505 حجم 30 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر جدید فرانسیس  ULTRA  HD  HOllywood در 8 رنگ مات با پوشش دهی فوق العاده و بافتی سبک مخملی بادوام و ماندگار بالا برای استفاده روزانه مناسب انواع پوست است,این محصول با بافت سبک‌و‌پوشش فوق العاده عالی می تواند بهترین زیر ساز آرایش باشد."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "30 میلی‌لیتر"
-              },
-              {
-                "field_name": "کشور مبدا برند",
-                "field_value": "فرانسه "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "505 "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "پمپی "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 80,
-              "reviewCount": 1
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "37077afb71cbaf2bd6a90a787b114775fd82d71b85a232a86b7a8546c64cba93",
-          "mpn": "37077afb71cbaf2bd6a90a787b114775fd82d71b85a232a86b7a8546c64cba93"
-        },
-        {
-          "_id": "67358e7dfd1372fc4a6d61be",
-          "product_name": "",
-          "product_name_fa": "موس فلر مدل Silk Foundation شماره 602",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-5376745",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی موس فلر مدل Silk Foundation شماره 602 به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "این مدل از موس فلر بسیار طبیعی و بافتی سبک دارد و مناسب برای انواع پوست می‌باشد و برای مصرف روزانه مناسب بوده. این محصول نواقص چهره را به خوبی می‌پوشاند و پوست شما را صاف و یکدست می‌کند. موس فلر فاقد چربی بوده و ترشح سبوم را به خوبی کنترل می‌کند. این محصول برق ناشی از چربی پوست را از بین برده و پوست را مات و یکدست می‌کند.این محصول حاوی ترکیبات آبرسان است و پوست شما را نرم و لطیف می‌کند. موس فلر با تامین رطوبت مورد نیاز پوست از خشکی پوست به طور موثری جلوگیری می‌کند.آنچه این محصول را متمایز می‌کندبافت سبک و مخملی و همچنین ماندگاری بالا از نکات مثبت این محصول می‌باشد.افرادی که پوست چرب و مستعد آکنه دارند نیز می‌توانند بدون نگرانی از چرب شدن پوست و یا ایجاد جوش با خیالی آسوده از این محصول استفاده کنند. این موس  ماندگاری فوق‌العاده و پوشانندگی بالایی دارد و در عین حال طبیعی و  نچرال می باشد. به همین دلیل بعد از استفاده از این محصول احتیاجی به تثبیت کننده آرایش نخواهید داشت."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "18 میلی‌لیتر"
-              },
-              {
-                "field_name": "راهنمای استفاده",
-                "field_value": "مقدار کمی از مواد موس را روی پوست در چند نقطه از صورت ،تمیز و شسته شده خود مالیده (بهتر است اگه پوست خشکی دارید قبل از موس از کرم مرطوب کننده استفاده کنید و اگر پوست چرب دارید از پرایمر و یا آبرسان استفاده کنید نتیجه بهتری میگیرید )و توسط براش های مخصوص کرم پودر آن را بصورت یکدست پخش کنید تا کل صورتتان را بگیرد و فقط با مقدار کمی بسیار نتیجه مطلوبی خواهید گرفت. "
-              },
-              {
-                "field_name": "کشور مبدا برند",
-                "field_value": "ایران "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "602 "
-              },
-              {
-                "field_name": "شماره مجوز",
-                "field_value": "56/23714 "
-              },
-              {
-                "field_name": "میزان SPF",
-                "field_value": "20 "
-              },
-              {
-                "field_name": "مشخصات محصول",
-                "field_value": "حاوی SPF "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "کاسه‌ای "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "ضد پیری "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "آبرسان "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "ضد آب "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 100,
-              "reviewCount": 1
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "95cbf3c149beebfd75df0348292f91f74e33df3e8a5dd97d2d3fdd7a584bd5f5",
-          "mpn": "95cbf3c149beebfd75df0348292f91f74e33df3e8a5dd97d2d3fdd7a584bd5f5",
-          "price_stat": {
-            "avg": 5924000,
-            "variance": 0,
-            "min": 5924000,
-            "max": 5924000
-          }
-        },
-        {
-          "_id": "67358e80fd1372fc4a6d61c3",
-          "product_name": "کرم پودر لورینت مدل Visible Lift شماره F4",
-          "product_name_fa": "کرم پودر لورینت مدل Visible Lift شماره F4",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-676111",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر لورینت مدل Visible Lift شماره F4 به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر لورینت&nbsp;حاوی عصاره سلولهای بنیادی سیب و همچنین پوشش دهی فوق العاده بالا&nbsp;می باشد که این پوشش پرتوهای نور با زوایای مختلف را منحرف نموده و چروک ها را ملایم جلوه می دهد و پایه آرایشی سحرآمیزی را برای ساعت ها فراهم می نماید.این کرم پودر حاوی موادی به نام فیلترهای ضد اشعه UV می باشند که اشعه های مضر فرابنفش خورشیدی را از طریق جذب نور و انعکاس آن تضعیف کرده و مانع از آسیب رساندن آن به پوست می گردد.میزان کارایی یک محصول ضد آفتاب با استفاده از عددی به نام SPF نشان داده می&zwnj;شود که &lrm;مفهوم عدد SPF، افزایش مقاومت پوست در برابر قرمز شدن در صورت استفاده از فرآورده ضد آفتاب است.برای مثال اگر پوست بدن شما بدون استفاده از فرآورده ضد آفتاب ،پس از ده دقیقه قرمز شود با استفاده از فرآورده ضد آفتاب با SPF= 15 پس از 150 دقیقه قرمز خواهد شد. همچنین SPF 15 برای بیش تر از 99 درصد مردم جهان مناسب است.شرکت لورینت با استفاده از بهترین مواد اولیه اقدام به تولید کرم ضد آفتاب کرده است که در کنار مراقبت از اشعه های مضر پوست ؛ باعث شادابی و رطوبت پوست شما می شود."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "35 میلی‌لیتر"
-              },
-              {
-                "field_name": "کشور مبدا برند",
-                "field_value": "ایران "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "F4 "
-              },
-              {
-                "field_name": "شماره مجوز",
-                "field_value": "56/15205 "
-              },
-              {
-                "field_name": "میزان SPF",
-                "field_value": "15 "
-              },
-              {
-                "field_name": "سایر توضیحات",
-                "field_value": "-درمان پیری پوست\r\n-ترمیم کننده سلولهای مرده پوست\r\n-ضد چروک و آنتی اکسیدان\r\n-دارای بافت نرم و سبک\r\n-پوشش دهی فوق العاده بالا\r\n-ماندگاری طولانی مدت\r\n "
-              },
-              {
-                "field_name": "مشخصات محصول",
-                "field_value": "حاوی SPF "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "پلاستیک "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "تیوبی "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 85.27810650887574,
-              "reviewCount": 169
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "قیمت و ارزش خرید",
-                "number_of_comments": 12,
-                "sentiment": {
-                  "positive": 12,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 58,
-                "sentiment": {
-                  "positive": 52,
-                  "negative": 6,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "تاریخ تولید یا مصرف",
-                "number_of_comments": 3,
-                "sentiment": {
-                  "positive": 2,
-                  "negative": 1,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "شباهت یا مغایرت",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 0,
-                  "negative": 1,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "615d9c3ea8e4f63089b97fc3e0ff071ea30f7a44606bb2e6a86bb4ecba8e3732",
-          "mpn": "615d9c3ea8e4f63089b97fc3e0ff071ea30f7a44606bb2e6a86bb4ecba8e3732",
-          "price_stat": {
-            "avg": 1548000,
-            "variance": 0,
-            "min": 1548000,
-            "max": 1548000
-          }
-        },
-        {
-          "_id": "67358e83fd1372fc4a6d61c7",
-          "product_name": "",
-          "product_name_fa": "کرم فشرده مروان خیر شماره 19",
-          "is_available": false,
-          "scrape_url": "https://www.digikala.com/product/dkp-4565500",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم فشرده مروان خیر شماره 19 به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر نیمه جامد یا فون چرب مروان خیر محصولی حرفه ای برای سینما و سالن های گریم با ماندگاری بالا ، مناسب جهت پوشاندن و محو کردن اثر تتو های قبلی و ناخواسته ،جای جوش و لک های صورت و بدن،کبودی دور چشم و جای زخم می باشد. این محصول با انواع پوست سازگار است و هیچ گونه آسیبی به آن نمی رساند.و از بهترین مواد طبیعی و معدنی تشکیل گردیده است."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "50 میلی‌لیتر"
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "19 "
-              },
-              {
-                "field_name": "ترکیبات",
-                "field_value": "بدون چربی "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "پلاستیک "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "پالتی "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 80,
-              "reviewCount": 3
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "قیمت و ارزش خرید",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "8d112879bdf2144468e0c68d155def0084d7e7622ef152232d95986c6c10915c",
-          "mpn": "8d112879bdf2144468e0c68d155def0084d7e7622ef152232d95986c6c10915c"
-        },
-        {
-          "_id": "67358e87fd1372fc4a6d61cc",
-          "product_name": "",
-          "product_name_fa": "کرم پودر پارس پلادیس شماره 102 حجم 40 میلی لیتر",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-7994232",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر پارس پلادیس شماره 102 حجم 40 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر یکی از اصلی ترین مواد آرایشی میباشد که به عنوان زیرسازی روی پوست محسوب می شود. یک کرم پودر خوب می تواند براحتی لکه ها و جوش های روی پوست را بپوشاند و پوست را روشن و شفاف کند، و به پوست شادابی و طراوت خاصی ببخشد.\r\nکرمپودر تیوپی پلادیس محصولی فوق العاده با پوشش‌دهی عالی و یکدست، دوام و ماندگاری بسیار بالایی دارد. این محصول کاملا طبیعی، بدون اسانس فاقد چربی و حاوی ویتامین E برای حفظ رطوبت و تقویت پوست می‌باشد."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "40 میلی‌لیتر"
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "102 "
-              },
-              {
-                "field_name": "مشخصات محصول",
-                "field_value": "دارای ویتامین "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "تیوبی "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "تیوبی "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 80,
-              "reviewCount": 54
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "قیمت و ارزش خرید",
-                "number_of_comments": 3,
-                "sentiment": {
-                  "positive": 3,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 28,
-                "sentiment": {
-                  "positive": 27,
-                  "negative": 1,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "4c6a256d9ed9971cf0edd8dbfce2501309d81a5c43187791931dbd24ec9e2510",
-          "mpn": "4c6a256d9ed9971cf0edd8dbfce2501309d81a5c43187791931dbd24ec9e2510",
-          "price_stat": {
-            "avg": 1700000,
-            "variance": 0,
-            "min": 1700000,
-            "max": 1700000
-          }
-        },
-        {
-          "_id": "67358e8afd1372fc4a6d61d0",
-          "product_name": "",
-          "product_name_fa": "کرم پودر پلادیس شماره 102 حجم 40 میلی لیتر",
-          "is_available": false,
-          "scrape_url": "https://www.digikala.com/product/dkp-1428655",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر پلادیس شماره 102 حجم 40 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر یکی از اصلیترین مواد آرایشی و به عنوان زیرسازی روی پوست محسوب می شود. یک کرم پودر خوب می تواند براحتی لکه ها و جوش های روی پوست را بپوشاند و پوست را روشن و شفاف کند، در نتیجه به پوست شادابی و طراوت خاصی ببخشد. \r\nکرم پودر تیوپی Peladis محصولی فوق العاده با پوشش‌دهی عالی و یکدست، دوام و ماندگاری بسیار بالا است. این محصول کاملا طبیعی، بدون اسانس و حاوی ویتامین E برای حفظ رطوبت و تقویت پوست می‌باشد. این محصول ساخت کشور ایران است که توسط مواد اولیه اروپایی تولید می‌شود. کرم پودر Peladis دارای خاصیت ضد التهابی و ضد حساسیت برای پوست‌های حساس بوده و آبرسان پوست می‌باشد. با استفاده از این محصول احساس لطافت و نرمی را بر روی پوست خود احساس کنید. همچنین این محصول Oil-Free میباشد."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "حجم",
-                "field_value": "40 میلی‌لیتر"
-              },
-              {
-                "field_name": "کشور مبدا برند",
-                "field_value": "ایران "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "102 "
-              },
-              {
-                "field_name": "شماره مجوز",
-                "field_value": "1802-3225772 "
-              },
-              {
-                "field_name": "سایر توضیحات",
-                "field_value": "پوشش‌دهی کامل پوست به صورت کاملا طبیعی\r\nماندگاری طولانی مدت و سازگار با انواع پوست\r\nداشتن تناژ طبیعی\r\nضد حساسیت و مناسب برای پوست‌های حساس\r\nOil-Free\r\nفاقد پارابن\r\nآبرسان پوست\r\nاحساس لطافت و نرمی و عدم احساس سنگینی روی پوست\r\nبدون اسانس\r\nمحفظه نگهدارنده از جنس پلاستیک\r\nمناسب برای افراد حرفه‌ای\r\nمورد تایید متخصصان پوست "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "پلاستیک "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "تیوبی "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "آبرسان "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "روشن "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 86.06060606060606,
-              "reviewCount": 33
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "قیمت و ارزش خرید",
-                "number_of_comments": 4,
-                "sentiment": {
-                  "positive": 4,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 24,
-                "sentiment": {
-                  "positive": 21,
-                  "negative": 3,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "تاریخ تولید یا مصرف",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 1,
-                  "neutral": 0
-                }
-              },
-              {
-                "tag_title": "شباهت یا مغایرت",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 1,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "f63ca4107d77dc2efa638ed4550be6bbeef3dc925f2400516317e8fb3590f59c",
-          "mpn": "f63ca4107d77dc2efa638ed4550be6bbeef3dc925f2400516317e8fb3590f59c"
-        },
-        {
-          "_id": "67358e8dfd1372fc4a6d61d5",
-          "product_name": "",
+  "return": true,
+  "message": "Ok",
+  "data": {
+    "next_page": "?pageLimit=10&page=2",
+    "prev_page": "?pageLimit=10&page=1",
+    "page": 1,
+    "showing": 10,
+    "total_pages": 191,
+    "total_count": 1909,
+    "result": [
+      {
+        "_id": "67358e8dfd1372fc4a6d61d7",
+        "product_info": {
+          "product_id": "67358e8dfd1372fc4a6d61d5",
           "product_name_fa": "موس پروکسی مدل 301 مجموعه 2 عددی",
-          "is_available": false,
           "scrape_url": "https://www.digikala.com/product/dkp-9567837",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی موس پروکسی مدل 301 مجموعه 2 عددی به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "کرم پودر فشرده موس به گفته کارشناسان ، تحولی اساسی در دنیای آرایشی و زیبایی است موس بهترین راه حل برای داشتن پوستی کاملا یکدست، صاف و همچنین مات است. موس فشرده پروکسی حالتی بین جامد و مایع دارد و برای پوستهای نرمال تا چرب و همچنین پوست های حساس مناسب است. روغن جوجوبای موجود در این موس باعث میشود که پوست را نرم و مرطوب کند.با استفاده از این موس پوست شما برای یک آرایش بی نقص و بدون ماسیدگی فراهم میشود و هیچ اثری از براقی در پوست خود را نمی یابید و بسیار بر روی پوست سبک است و باعث خستگی پوست شما نمیشود. همچنین مواد تشکیل دهنده این موس روزنه های پوست را نمی پوشاند و باعث میشود همیشه پوست شما به راحتی نفس بکشد."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "راهنمای استفاده",
-                "field_value": "برای پوشش کامل کافی است مقداری از این موس را با زدن خیلی خفیف انگشتانتان روی صورت پخش کنید . "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "301 "
-              },
-              {
-                "field_name": "شماره مجوز",
-                "field_value": "56/16011 "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "متوسط "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 80,
-              "reviewCount": 2
-            },
-            "colors": [],
-            "product_tags": [
-              {
-                "tag_title": "کیفیت و کارایی",
-                "number_of_comments": 1,
-                "sentiment": {
-                  "positive": 1,
-                  "negative": 0,
-                  "neutral": 0
-                }
-              }
-            ]
-          },
-          "sku": "02d668aa2df8d80a7bfec5478175759c04b0806a5a4253c6f03435cfef117725",
-          "mpn": "02d668aa2df8d80a7bfec5478175759c04b0806a5a4253c6f03435cfef117725"
+          "is_available": false
         },
-        {
-          "_id": "67358e90fd1372fc4a6d61da",
-          "product_name": "",
+        "brand_info": {
+          "brand_name": "proxi",
+          "brand_name_fa": "پروکسی"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/234ad1f218d6b59d687bd3285a282e82520a5b2e_1664703076.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e90fd1372fc4a6d61dc",
+        "product_info": {
+          "product_id": "67358e90fd1372fc4a6d61da",
           "product_name_fa": "کرم پودر اشتون شماره GF40 حجم 30 میلی لیتر",
-          "is_available": true,
-          "scrape_url": "https://www.digikala.com/product/dkp-17069793",
-          "meta_data": {
-            "brief_description": "خرید اینترنتی کرم پودر اشتون شماره GF40 حجم 30 میلی لیتر به همراه مقایسه، بررسی مشخصات و لیست قیمت امروز در فروشگاه اینترنتی دیجی‌کالا",
-            "long_description": [
-              {
-                "name": "معرفی",
-                "content": "این محصول با فرمولاسیون انحصاری و خاص خود که بر پایه آب می باشد، بسیار سبک و مخملی بوده، موجب تنفس و اکسیژن رسانی پوست می شود و جلوه ای کاملا طبیعی به صورت می دهد. همچنین دارای فیلترهای محافظتی با SPF 30 می باشد که همانند یک کرم ضد آفتاب، پوست را در مقابل اشعه مضر آفتاب محافظت می نماید.\n\nاستفاده از مواد اکتیو در فرمولاسیون این محصول مانند عصاره دانه کرنبری به عنوان یک آنتی اکسیدان قوی و طبیعی موجب کلاژن سازی و تاخیر در روند پیری پوست می گردد؛ همچنین هیالورونیک اسید و ویتامین E موجود در محصول به آبرسانی، جوانسازی و شادابی پوست کمک نموده و از ایجاد چین و چروک جلوگیری می نماید. ماندگاری طولانی و پوشش بالا و یکنواخت از دیگر ویژگی های این محصول می باشد."
-              }
-            ],
-            "properties_tags": [
-              {
-                "field_name": "تنالیته رنگ",
-                "field_value": "متوسط "
-              },
-              {
-                "field_name": "ویژگی های سازگاری با محیط زیست",
-                "field_value": "بدون تست حیوانی "
-              },
-              {
-                "field_name": "نوع کرم پودر",
-                "field_value": "مایع "
-              },
-              {
-                "field_name": "سازگار با پوست‌‌های",
-                "field_value": "همه انواع پوست "
-              },
-              {
-                "field_name": "حجم",
-                "field_value": "30 میلی‌لیتر"
-              },
-              {
-                "field_name": "راهنمای استفاده",
-                "field_value": "قبل از استفاده حتما تکان داده شود "
-              },
-              {
-                "field_name": "کشور مبدا برند",
-                "field_value": "ایران "
-              },
-              {
-                "field_name": "شماره رنگ",
-                "field_value": "GF40 "
-              },
-              {
-                "field_name": "میزان SPF",
-                "field_value": "30 "
-              },
-              {
-                "field_name": "سایر توضیحات",
-                "field_value": "فرمولاسیونی بر پایه آب\nپوشش‌دهی فوق‌العاده\nدارای SPF 30 جهت محافظت پوست در برابر اشعه UV\nآبرسان و کلاژن ساز\nبافت بسیار سبک، مخملی و مات\nضد چروک و پیری پوست\nمناسب برای انواع پوست و استفاده روزانه\nحاوی عصاره دانه کرنبری جهت پیشگیری از چروک و پیری پوست\nحاوی هیالورونیک اسید، به همراه ویتامین E جهت محافظت و رطوبت رسانی فوق العاده به پوست\nپوشش یکدست و یکنواخت\n16 ساعت ماندگاری\nوگن و فاقد پارابن\nعدم ایجاد حساسیت، التهاب و خارش پوست\nفرموله شده در ایتالیا "
-              },
-              {
-                "field_name": "مشخصات محصول",
-                "field_value": "حاوی SPF "
-              },
-              {
-                "field_name": "ترکیبات",
-                "field_value": "بدون پارابن "
-              },
-              {
-                "field_name": "جنس محفظه",
-                "field_value": "شیشه "
-              },
-              {
-                "field_name": "نوع محفظه",
-                "field_value": "پمپی "
-              },
-              {
-                "field_name": "صادر کننده مجوز",
-                "field_value": "سازمان غذا و دارو "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "کوچک کننده منافذ باز پوست "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "ضد پیری "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "ضد چروک "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "روزانه "
-              },
-              {
-                "field_name": "ویژگی‌ها",
-                "field_value": "ماندگاری بالا "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "گندمی "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "تیره "
-              },
-              {
-                "field_name": "مناسب برای رنگ پوست",
-                "field_value": "برنزه "
-              }
-            ],
-            "aggregate_rating": {
-              "ratingValue": 0,
-              "reviewCount": 0
-            },
-            "colors": [],
-            "product_tags": []
-          },
-          "sku": "12dcfee5ab42be156fa1541a603a48bd6db03880a3a37e58e2d176e3008a71f0",
-          "mpn": "12dcfee5ab42be156fa1541a603a48bd6db03880a3a37e58e2d176e3008a71f0",
           "price_stat": {
             "avg": 6930000,
             "variance": 0,
             "min": 6930000,
             "max": 6930000
-          }
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-17069793",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "ashton",
+          "brand_name_fa": "اشتون"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/688309c8183298da2ba0ed0884db581665e85646_1729289818.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
         }
-      ]
-    }
+      },
+      {
+        "_id": "67358e80fd1372fc4a6d61c5",
+        "product_info": {
+          "product_id": "67358e80fd1372fc4a6d61c3",
+          "product_name_fa": "کرم پودر لورینت مدل Visible Lift شماره F4",
+          "price_stat": {
+            "avg": 1548000,
+            "variance": 0,
+            "min": 1548000,
+            "max": 1548000
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-676111",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "miscellaneous",
+          "brand_name_fa": "متفرقه"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/2927602.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e8afd1372fc4a6d61d2",
+        "product_info": {
+          "product_id": "67358e8afd1372fc4a6d61d0",
+          "product_name_fa": "کرم پودر پلادیس شماره 102 حجم 40 میلی لیتر",
+          "scrape_url": "https://www.digikala.com/product/dkp-1428655",
+          "is_available": false
+        },
+        "brand_info": {
+          "brand_name": "pars peladis",
+          "brand_name_fa": "پارس پلادیس"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/f6966a45363c3f08668a7d750553a002ea7bdbec_1701036540.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e83fd1372fc4a6d61c9",
+        "product_info": {
+          "product_id": "67358e83fd1372fc4a6d61c7",
+          "product_name_fa": "کرم فشرده مروان خیر شماره 19",
+          "scrape_url": "https://www.digikala.com/product/dkp-4565500",
+          "is_available": false
+        },
+        "brand_info": {
+          "brand_name": "miscellaneous",
+          "brand_name_fa": "متفرقه"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/51fe0cbc249976a33250ac64ad92c2c7a854e154_1614419060.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e7dfd1372fc4a6d61c0",
+        "product_info": {
+          "product_id": "67358e7dfd1372fc4a6d61be",
+          "product_name_fa": "موس فلر مدل Silk Foundation شماره 602",
+          "price_stat": {
+            "avg": 5924000,
+            "variance": 0,
+            "min": 5924000,
+            "max": 5924000
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-5376745",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "feler",
+          "brand_name_fa": "فلر"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/bdb4801272b66190006703b3c29d26d17a21e90c_1623143499.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e77fd1372fc4a6d61b6",
+        "product_info": {
+          "product_id": "67358e77fd1372fc4a6d61b4",
+          "product_name_fa": "کرم پودر استودیو میکاپ مدل Perfecting Finish شماره 05 حجم 30 میلی لیتر",
+          "price_stat": {
+            "avg": 11960000,
+            "variance": 0,
+            "min": 11960000,
+            "max": 11960000
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-1167547",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "studiomakeup",
+          "brand_name_fa": "استودیو میکاپ"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/16e0656af964d57ae8786e0f2fb9f170a6c95c8f_1701037255.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358d34fd1372fc4a6d61b0",
+        "product_info": {
+          "product_id": "67358d34fd1372fc4a6d61ae",
+          "product_name_fa": "کرم پودر میستار شماره 102 حجم 40 میلی لیتر",
+          "price_stat": {
+            "avg": 1949500,
+            "variance": 0,
+            "min": 1949500,
+            "max": 1949500
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-7625033",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "misstar",
+          "brand_name_fa": "میستار"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/27241cde79df2466bfbecddf7b6419e0d2456b1c_1642861080.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e7afd1372fc4a6d61bb",
+        "product_info": {
+          "product_id": "67358e7afd1372fc4a6d61b9",
+          "product_name_fa": "کرم پودر فرانسیس مدل Ultra HD شماره 505 حجم 30 میلی لیتر",
+          "scrape_url": "https://www.digikala.com/product/dkp-14508701",
+          "is_available": false
+        },
+        "brand_info": {
+          "brand_name": "francis",
+          "brand_name_fa": "فرانسیس"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/6ca00640cd503224f4faf37b29775bdf7988d0db_1708423735.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      },
+      {
+        "_id": "67358e87fd1372fc4a6d61ce",
+        "product_info": {
+          "product_id": "67358e87fd1372fc4a6d61cc",
+          "product_name_fa": "کرم پودر پارس پلادیس شماره 102 حجم 40 میلی لیتر",
+          "price_stat": {
+            "avg": 1700000,
+            "variance": 0,
+            "min": 1700000,
+            "max": 1700000
+          },
+          "scrape_url": "https://www.digikala.com/product/dkp-7994232",
+          "is_available": true
+        },
+        "brand_info": {
+          "brand_name": "pars peladis",
+          "brand_name_fa": "پارس پلادیس"
+        },
+        "mall_info": {
+          "mall_id": "67358d34fd1372fc4a6d61ac",
+          "mall_name": "digikala",
+          "mall_name_fa": "دیجی‌کالا"
+        },
+        "media_info": {
+          "primary_image": "https://dkstatics-public.digikala.com/digikala-products/e5f69390b29d454e97ad765818d7a6ccd5edcfe8_1646295799.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
+        }
+      }
+    ]
   }
-
-
-
-
-
+}
   
 
   initializePage()
