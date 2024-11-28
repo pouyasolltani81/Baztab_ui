@@ -119,10 +119,36 @@ function createProductTable(products) {
       const brand = document.createElement("td");
       brand.className = "bwhitespace-nowrap  px-6 py-4";
       brand.innerHTML = `<div class="flex flex-col">
-                                  <span class="text-gray-900 font-base">ID : ${ product.product_info.product_id}</span>
-                                  <span class="text-gray-900 font-base">Name : ${ product.product_info.product_name_fa}</span>
-                                  <span class="text-gray-900 font-base">Scrap url : ${ product.product_info.scrape_url}</span>
-                                  <span class="text-gray-900 font-base">Availibility : ${ product.product_info.is_available}</span>
+                                  <span class="text-gray-900 font-base">brand_name : ${ product.brand_info.brand_name}</span>
+                                  <span class="text-gray-900 font-base">brand_name_fa : ${ product.brand_info.brand_name_fa}</span>
+                               
+                                  
+                                 
+                          </div>` ;
+
+
+         // Product info
+      const mall = document.createElement("td");
+      mall.className = "bwhitespace-nowrap  px-6 py-4";
+      mall.innerHTML = `<div class="flex flex-col">
+                                  <span class="text-gray-900 font-base">ID : ${ product.mall_info.mall_id}</span>
+                                  <span class="text-gray-900 font-base">Name : ${ product.mall_info.mall_name}</span>
+                                  <span class="text-gray-900 font-base">Name Fa : ${ product.mall_info.mall_name}</span>
+                                
+                                  
+                                 
+                          </div>` ;
+
+
+                          
+         // Product info
+      const media = document.createElement("td");
+      media.className = "bwhitespace-nowrap  px-6 py-4";
+      media.innerHTML = `<div class="flex flex-col">
+                                  <span class="text-gray-900 font-base">Image : ${ product.media_info.primary_image}</span>
+                               
+                                 
+                                
                                   
                                  
                           </div>` ;
@@ -269,6 +295,12 @@ function createProductTable(products) {
 
 
       row.appendChild(info);
+      row.appendChild(brand);
+      row.appendChild(mall);
+      row.appendChild(media);
+
+
+
       row.appendChild(dropdown);
 
   
