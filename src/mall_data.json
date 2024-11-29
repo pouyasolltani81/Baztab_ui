@@ -1,0 +1,70 @@
+{
+    "return": true,
+    "message": "ok",
+    "data": {
+      "db_size": {
+        "total_size": "0.93 GB",
+        "Storage Size": "951.43 MB",
+        "index_size": "1.81 MB",
+        "data_size": "2656.94 MB"
+      },
+      "collection_size": {
+        "SALEMAN_PRODUCTS": {
+          "storage_size": "11.92 MB",
+          "physical_size_on_disk": "6.06 MB",
+          "number_of_Documents": "4085"
+        },
+        "SALEMAN_PRODUCT_VARIANTS": {
+          "storage_size": "3.30 MB",
+          "physical_size_on_disk": "0.45 MB",
+          "number_of_Documents": "2413"
+        },
+        "SALEMAN_BRANDS": {
+          "storage_size": "0.06 MB",
+          "physical_size_on_disk": "0.07 MB",
+          "number_of_Documents": "295"
+        },
+        "SALEMAN_SHOPPINGMALL": {
+          "storage_size": "0.00 MB",
+          "physical_size_on_disk": "0.04 MB",
+          "number_of_Documents": "2"
+        },
+        "SALEMAN_SELLER": {
+          "storage_size": "0.00 MB",
+          "physical_size_on_disk": "0.02 MB",
+          "number_of_Documents": "1"
+        },
+        "SALEMAN_REVIEWS": {
+          "storage_size": "114.43 MB",
+          "physical_size_on_disk": "19.98 MB",
+          "number_of_Documents": "4088"
+        },
+        "SALEMAN_QUESTIONS": {
+          "storage_size": "2523.23 MB",
+          "physical_size_on_disk": "923.24 MB",
+          "number_of_Documents": "4080"
+        },
+        "SALEMAN_CATEGORIES": {
+          "storage_size": "0.38 MB",
+          "physical_size_on_disk": "0.32 MB",
+          "number_of_Documents": "7"
+        },
+        "SALEMAN_MEDIA": {
+          "storage_size": "2.23 MB",
+          "physical_size_on_disk": "0.73 MB",
+          "number_of_Documents": "4085"
+        },
+        "SALEMAN_RELATIONAL_PRODUCT": {
+          "storage_size": "1.39 MB",
+          "physical_size_on_disk": "0.51 MB",
+          "number_of_Documents": "4085"
+        }
+      },
+      "frequency": {
+        "total_product_count": 4085,
+        "total_mall_count": 2,
+        "total_brand_count": 295
+      }
+    }
+  }
+  
