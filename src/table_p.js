@@ -28,6 +28,10 @@ updateui(productss)
 
 }
 
+async function findproducts() {
+console.log('hello');
+
+}
 
 
 function updateui(data) {
@@ -42,14 +46,20 @@ function updateui(data) {
 
 
 // Get DOM elements
-        const searchBar = document.getElementById('searchBar');
-        const searchColumn = document.getElementById('searchColumn');
-        const tableBody = document.getElementById('TableBody');
+const searchBar = document.getElementById('searchBar');
+const searchColumn = document.getElementById('searchColumn');
+const tableBody = document.getElementById('TableBody');
+const searchbutton = document.getElementById('SearchButton');
+        
+
+searchbutton.addEventListener('click', function() {
+  findproducts()
+});
 
         // Listen for input in the search bar
         searchBar.addEventListener('input', function() {
             const query = searchBar.value.toLowerCase();
-            const columnIndex = parseInt(searchColumn.value) +1;
+            const columnIndex = searchColumn.value;
 
             const rows = tableBody.getElementsByTagName('tr');
             Array.from(rows).forEach(row => {
@@ -60,6 +70,7 @@ function updateui(data) {
 
                 // Search logic depending on the selected column
                 if (columnIndex === 'all') {
+                  searchbutton.classList.add('hidden')
                     // Search all columns and their child elements
                     for (let i = 0; i < cells.length; i++) {
                         // Check if any text within child elements of the cell matches
@@ -69,8 +80,19 @@ function updateui(data) {
                             break;
                         }
                     }
-                } else {
+                } else if (columnIndex === 'all_C') {
+
+                  searchbutton.classList.remove('hidden')
+                  
+                  
+                  
+                  
+                } else
+                
+                {
                     // Search a specific column and its child elements
+                  searchbutton.classList.add('hidden')
+
                     const cell = cells[columnIndex];
                     console.log(columnIndex);
                     
@@ -94,64 +116,46 @@ function updateui(data) {
         }
 
 function createProductTable(products) {
-    productTableContainer.innerHTML = ''; // پاک کردن کارت‌های قبلی
+    productTableContainer.innerHTML = ''; 
   
     products.forEach(product => {
       const row = document.createElement("tr");
       row.className = "border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600";
       row.id = `TB${product._id}`
+// Product info
+const info = document.createElement("td");
+info.className = "bwhitespace-nowrap px-6 py-4";
+info.innerHTML = `<div class='flex flex-col'>
+                            <span class="text-gray-900 font-bold">شناسه: ${product.product_info.product_id}</span>
+                            <span class="text-gray-900 font-semibold">نام: ${product.product_info.product_name_fa}</span>
+                            <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
+                            <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
+                        </div>`;
 
-      
-      // Product info
-      const info = document.createElement("td");
-      info.className = "bwhitespace-nowrap  px-6 py-4";
-      info.innerHTML = `<div class="flex flex-col">
-                                  <span class="text-gray-900 font-base">ID : ${ product.product_info.product_id}</span>
-                                  <span class="text-gray-900 font-base">Name : ${ product.product_info.product_name_fa}</span>
-                                  <span class="text-gray-900 font-base">Scrap url : ${ product.product_info.scrape_url}</span>
-                                  <span class="text-gray-900 font-base">Availibility : ${ product.product_info.is_available}</span>
-                                  
-                                 
-                          </div>` ;
+// Product info
+const brand = document.createElement("td");
+brand.className = "bwhitespace-nowrap px-6 py-4";
+brand.innerHTML = `<div class='flex flex-col'>
+                            <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
+                            <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
+                        </div>`;
 
+// Product info
+const mall = document.createElement("td");
+mall.className = "bwhitespace-nowrap px-6 py-4";
+mall.innerHTML = `<div class='flex flex-col'>
+                            <span class="text-gray-900 font-bold">شناسه: ${product.mall_info.mall_id}</span>
+                            <span class="text-gray-900 font-semibold">نام: ${product.mall_info.mall_name}</span>
+                            <span class="text-gray-900 font-base">نام (فارسی): ${product.mall_info.mall_name}</span>
+                        </div>`;
 
-      // Product info
-      const brand = document.createElement("td");
-      brand.className = "bwhitespace-nowrap  px-6 py-4";
-      brand.innerHTML = `<div class="flex flex-col">
-                                  <span class="text-gray-900 font-base">brand_name : ${ product.brand_info.brand_name}</span>
-                                  <span class="text-gray-900 font-base">brand_name_fa : ${ product.brand_info.brand_name_fa}</span>
-                               
-                                  
-                                 
-                          </div>` ;
+// Product info
+const media = document.createElement("td");
+media.className = "bwhitespace-nowrap px-6 py-4";
+media.innerHTML = `<div class='flex flex-col'>
+                            <img src="${product.media_info.primary_image}" width="100" height="100">
+                        </div>`;
 
-
-         // Product info
-      const mall = document.createElement("td");
-      mall.className = "bwhitespace-nowrap  px-6 py-4";
-      mall.innerHTML = `<div class="flex flex-col">
-                                  <span class="text-gray-900 font-base">ID : ${ product.mall_info.mall_id}</span>
-                                  <span class="text-gray-900 font-base">Name : ${ product.mall_info.mall_name}</span>
-                                  <span class="text-gray-900 font-base">Name Fa : ${ product.mall_info.mall_name}</span>
-                                
-                                  
-                                 
-                          </div>` ;
-
-
-                          
-         // Product info
-      const media = document.createElement("td");
-      media.className = "bwhitespace-nowrap  px-6 py-4";
-      media.innerHTML = `<div class="flex flex-col">
-                                  <span class="text-gray-900 font-base">Image : ${ product.media_info.primary_image}</span>
-                               
-                                 
-                                
-                                  
-                                 
-                          </div>` ;
 
 
 
@@ -304,7 +308,6 @@ function createProductTable(products) {
       row.appendChild(dropdown);
 
   
-      // افزودن کارت به بخش کارت‌های محصولات
       productTableContainer.appendChild(row);
 
       
