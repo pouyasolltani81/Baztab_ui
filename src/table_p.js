@@ -209,8 +209,9 @@ info.className = "bwhitespace-nowrap px-6 py-4";
 info.innerHTML = `<div class='flex flex-col'>
                             <span class="text-gray-900 font-bold">شناسه: ${product.product_info.product_id}</span>
                             <span class="text-gray-900 font-semibold">نام: ${product.product_info.product_name_fa}</span>
+                            ${product.product_info.price_stat ? `<span class='flex gap-2'><span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg}</span> <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min}</span> <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max}</span> <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance}</span></span>` : '' }
                             <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
-                            <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
+                            <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span>
                         </div>`;
 
 // Product info
@@ -219,6 +220,8 @@ brand.className = "bwhitespace-nowrap px-6 py-4";
 brand.innerHTML = `<div class='flex flex-col'>
                             <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                             <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
+                            <span class="text-gray-900 font-semibold">وضعیت برند: ${product.brand_info.brand_stat}</span>
+
                         </div>`;
 
 // Product info
