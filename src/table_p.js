@@ -20,7 +20,7 @@ async function GetProduct(name_fa) {
                 'authorization': user_token,
             },
             body: JSON.stringify({  // Convert the body object to a JSON string
-                "category_name_fa": name,
+                "category_name_fa": name_fa,
                 "page": 1,
                 "page_limit": 10
             })
