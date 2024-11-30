@@ -51,6 +51,14 @@ async function GetProduct(name_fa) {
 
 async function findproducts(name_fa) {  // No need to pass "name" if it's not being used
     try {
+
+      console.log(JSON.stringify({  // Convert the body object to a JSON string
+        "name": '',  // If you don't need "name", remove it
+        "name_fa": name_fa,
+        "page": 1,
+        "page_size": 10
+    }));
+      
         const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_name/', {
             method: 'POST',
             headers: {
@@ -79,7 +87,7 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
         if (data) {
           console.log(data);
 
-            updateui(data);  // Call the update UI function with the response data
+          updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
