@@ -151,7 +151,7 @@ function renderSubcategories(subcategories, level) {
     }).join('');
 }
 
-async function initialize() {
+async function initialize_PAGE() {
     try {
         await fetchdata(); // Fetch data from the API
         console.log('Page Loaded and Data Fetched');
@@ -168,7 +168,38 @@ function gotoproducts(name) {
 // Start loading and use `showLoader` to show the spinner
 window.addEventListener('load', function() {
     showLoader(async function() {
-        await initialize();  // Simulate page load logic
+        await initialize_PAGE();  // Simulate page load logic
         document.getElementById('mainContent').classList.remove('hidden'); // Show main content
     });
 });
+
+
+    function showLoader(asyncOperation) {
+      // Create and append the overlay with the spinner
+      const overlay = document.createElement('div');
+      overlay.classList.add('loading-overlay');
+      overlay.innerHTML = `
+        <div class="spinner">
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+          <div class="spinner-segment"></div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      // Perform the async operation and hide the loader when done
+      asyncOperation().finally(() => {
+        // Remove the overlay after the operation is done
+        overlay.remove();
+      });
+    }
+
+   
+
