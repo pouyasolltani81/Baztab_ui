@@ -161,6 +161,8 @@ async function initialize_PAGE() {
 }
 
 function gotoproducts(name) {
+    console.log(name);
+    
     localStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './product_table.html';
 }
