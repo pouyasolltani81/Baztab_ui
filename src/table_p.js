@@ -7,7 +7,8 @@ let test
 
 
 
-async function GetProduct(){
+
+async function GetProduct(name){
 try {
         const response = await fetch('http://79.175.177.113:21800//Products/Products_get_products_paginated/', {
             method: 'POST',
@@ -19,6 +20,11 @@ try {
                 "Content-Type": "application/json; charset=utf-8",
                 'authorization': user_token,
             },
+            body: {
+                  "category_name_fa": name,
+                  "page": 1,
+                  "page_limit": 10
+                }
         });
 
         // Check if the response was successful (status code 2xx)
@@ -483,7 +489,8 @@ function RemoveCard(id) {
 }
 
   function initializePage(){
-    GetProduct()
+    let name = localStorage.getItem('productResponse')
+    GetProduct(name)
   }
 
 
