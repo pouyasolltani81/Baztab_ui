@@ -3,87 +3,87 @@
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
     
     
-    // const responseData = {
-    //     "return": true,
-    //     "message": "ok",
-    //     "data": {
-    //       "Saleman_bot": {
-    //         "زیبایی و سلامت": {
-    //           "_id": "67358d34fd1372fc4a6d61a8",
-    //           "name_fa": "زیبایی و سلامت",
-    //           "parent_id": null,
-    //           "slug": "",
-    //           "slug_fa": "زیبایی-و-سلامت",
-    //           "level": 1,
-    //           "created_at": "2024-11-14T05:40:04.262",
-    //           "level_2": [
-    //             {
-    //               "_id": "67358d34fd1372fc4a6d61a9",
-    //               "name_fa": "لوازم آرایشی",
-    //               "parent_id": "67358d34fd1372fc4a6d61a8",
-    //               "slug": " > ",
-    //               "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
-    //               "level": 2,
-    //               "created_at": "2024-11-14T05:40:04.266",
-    //               "level_3": [
-    //                 {
-    //                   "_id": "67358d34fd1372fc4a6d61aa",
-    //                   "name_fa": "کرم پودر",
-    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
-    //                   "slug": " >  > ",
-    //                   "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
-    //                   "level": 3,
-    //                   "created_at": "2024-11-14T05:40:04.267",
-    //                   "updatedAt": "2024-11-25T14:13:18.929"
-    //                 },
-    //                 {
-    //                   "_id": "673839a3fd1372fc4a6d9518",
-    //                   "name_fa": "پنکک",
-    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
-    //                   "slug": " >  > ",
-    //                   "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
-    //                   "level": 3,
-    //                   "created_at": "2024-11-16T06:20:19.766",
-    //                   "updatedAt": "2024-11-25T14:13:22.126"
-    //                 },
-    //                 {
-    //                   "_id": "6739e5ddfd1372fc4a6db9b1",
-    //                   "name_fa": "کانسیلر",
-    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
-    //                   "slug": " >  > ",
-    //                   "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
-    //                   "level": 3,
-    //                   "created_at": "2024-11-17T12:47:25.775",
-    //                   "updatedAt": "2024-11-25T14:13:23.275"
-    //                 }
-    //               ]
-    //             }
-    //           ]
-    //         },
-    //         "آرایشی": {
-    //           "_id": "67448822d972c672ef18407b",
-    //           "name_fa": "آرایشی",
-    //           "parent_id": null,
-    //           "slug": "test",
-    //           "slug_fa": "آرایشی",
-    //           "level": 1,
-    //           "created_at": "2024-11-25T14:22:26.961",
-    //           "level_2": [
-    //             {
-    //               "_id": "67448822d972c672ef18407c",
-    //               "name_fa": "آرایش صورت",
-    //               "parent_id": "67448822d972c672ef18407b",
-    //               "slug": "test > ",
-    //               "slug_fa": "آرایش-صورت < آرایشی",
-    //               "level": 2,
-    //               "created_at": "2024-11-25T14:22:26.964",
+    const responseData_c = {
+        "return": true,
+        "message": "ok",
+        "data": {
+          "Saleman_bot": {
+            "زیبایی و سلامت": {
+              "_id": "67358d34fd1372fc4a6d61a8",
+              "name_fa": "زیبایی و سلامت",
+              "parent_id": null,
+              "slug": "",
+              "slug_fa": "زیبایی-و-سلامت",
+              "level": 1,
+              "created_at": "2024-11-14T05:40:04.262",
+              "level_2": [
+                {
+                  "_id": "67358d34fd1372fc4a6d61a9",
+                  "name_fa": "لوازم آرایشی",
+                  "parent_id": "67358d34fd1372fc4a6d61a8",
+                  "slug": " > ",
+                  "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
+                  "level": 2,
+                  "created_at": "2024-11-14T05:40:04.266",
+                  "level_3": [
+                    {
+                      "_id": "67358d34fd1372fc4a6d61aa",
+                      "name_fa": "کرم پودر",
+                      "parent_id": "67358d34fd1372fc4a6d61a9",
+                      "slug": " >  > ",
+                      "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
+                      "level": 3,
+                      "created_at": "2024-11-14T05:40:04.267",
+                      "updatedAt": "2024-11-25T14:13:18.929"
+                    },
+                    {
+                      "_id": "673839a3fd1372fc4a6d9518",
+                      "name_fa": "پنکک",
+                      "parent_id": "67358d34fd1372fc4a6d61a9",
+                      "slug": " >  > ",
+                      "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
+                      "level": 3,
+                      "created_at": "2024-11-16T06:20:19.766",
+                      "updatedAt": "2024-11-25T14:13:22.126"
+                    },
+                    {
+                      "_id": "6739e5ddfd1372fc4a6db9b1",
+                      "name_fa": "کانسیلر",
+                      "parent_id": "67358d34fd1372fc4a6d61a9",
+                      "slug": " >  > ",
+                      "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
+                      "level": 3,
+                      "created_at": "2024-11-17T12:47:25.775",
+                      "updatedAt": "2024-11-25T14:13:23.275"
+                    }
+                  ]
+                }
+              ]
+            },
+            "آرایشی": {
+              "_id": "67448822d972c672ef18407b",
+              "name_fa": "آرایشی",
+              "parent_id": null,
+              "slug": "test",
+              "slug_fa": "آرایشی",
+              "level": 1,
+              "created_at": "2024-11-25T14:22:26.961",
+              "level_2": [
+                {
+                  "_id": "67448822d972c672ef18407c",
+                  "name_fa": "آرایش صورت",
+                  "parent_id": "67448822d972c672ef18407b",
+                  "slug": "test > ",
+                  "slug_fa": "آرایش-صورت < آرایشی",
+                  "level": 2,
+                  "created_at": "2024-11-25T14:22:26.964",
                   
-    //             }
-    //           ]
-    //         }
-    //       }
-    //     }
-    //   };
+                }
+              ]
+            }
+          }
+        }
+      };
 
 
       async function fetchdata() {
@@ -109,8 +109,9 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
+          console.log(responseData_c, data);
           
-            renderCategoryDropdown(data);
+            renderCategoryDropdown(responseData_c);
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
