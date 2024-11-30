@@ -531,7 +531,11 @@ function RemoveCard(id) {
     
    const productData = JSON.parse(localStorage.getItem('productResponse'));
    let name = productData.category_name_fa
-    GetProduct(name)
+   showLoader(async function() {
+    await GetProduct(name);  // Simulate page load logic
+    document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+});
+    
   }
 
 
