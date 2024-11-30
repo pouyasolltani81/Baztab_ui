@@ -84,9 +84,16 @@ function renderTable(responseData) {
     categoryTableHeader.innerHTML = '';
 
     // Find the selected top-level category by its name_fa (currentCategory)
-    const selectedCategory = Object.values(responseData.data).find(category =>
-        category.name_fa === currentCategory
-    );
+    let selectedCategory = null;
+
+    // Loop through the categories and check if the main category matches currentCategory
+    Object.values(responseData.data).forEach(category => {
+        Object.values(category).forEach(mainCategory => {
+            if (mainCategory.name_fa === currentCategory) {
+                selectedCategory = mainCategory;
+            }
+        });
+    });
 
     console.log('Selected Category:', selectedCategory); // Log the selected category
 
@@ -95,8 +102,7 @@ function renderTable(responseData) {
         return; // If category not found, exit
     }
 
-    const mainCategory = selectedCategory[currentCategory]; // Get the main category object
-    const subcategories = mainCategory.level_2 || []; // Get the second level subcategories
+    const subcategories = selectedCategory.level_2 || []; // Get the second level subcategories
 
     console.log('Subcategories:', subcategories); // Log subcategories for debugging
 
@@ -119,6 +125,7 @@ function renderTable(responseData) {
         `;
     });
 }
+
 
 // Recursive function to render subcategories dynamically for each level
 function renderSubcategories(subcategories, level) {
