@@ -136,7 +136,7 @@ searchbutton.addEventListener('click', function() {
   showLoader(async function() {
       document.getElementById('mainContent').classList.add('hidden'); // Show main content
 
-      await  findproducts(searchBar.value)();  // Simulate page load logic
+      await findproducts(searchBar.value);  // Simulate page load logic
       document.getElementById('mainContent').classList.remove('hidden'); // Show main content
   });
 });
