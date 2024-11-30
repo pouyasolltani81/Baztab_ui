@@ -250,7 +250,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
        // Start loading and use `showLoader` to show the spinner
     window.addEventListener('load', function() {
       showLoader(async function() {
-        await pageInitialization();  // Simulate page load logic
+        await initialize();  // Simulate page load logic
         document.getElementById('mainContent').classList.remove('hidden'); // Show main content
       });
     });
