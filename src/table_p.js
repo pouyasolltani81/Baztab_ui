@@ -6,8 +6,9 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 let test
 
 
-async function GetProduct(name) {
+async function GetProduct(name_fa) {
     try {
+      let name = name_fa
       console.log(JSON.stringify({  // Convert the body object to a JSON string
         "category_name_fa": name,
         "page": 1,
