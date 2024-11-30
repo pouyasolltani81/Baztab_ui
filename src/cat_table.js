@@ -19,6 +19,7 @@ async function fetchdata() {
         }
 
         const data = await response.json();
+        console.log('Fetched Data:', data); // Log the entire fetched data
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
@@ -42,8 +43,16 @@ function renderCategoryDropdown(responseData) {
     categoryDropdown.innerHTML = ''; // Clear previous options
 
     // Dynamically populate categories in the dropdown (only level 1 categories)
-    Object.values(responseData.data).forEach(category => {
+    const categories = Object.values(responseData.data);
+    if (categories.length === 0) {
+        console.log('No categories found'); // Log if no categories are found
+    }
+
+    categories.forEach(category => {
+        console.log('Processing category:', category); // Log each category to debug
         Object.values(category).forEach(mainCategory => {
+            console.log('Main category:', mainCategory); // Log the main category
+
             const option = document.createElement('option');
             option.value = mainCategory.name_fa; // Set value to the category's name in Farsi (e.g., زیبایی و سلامت)
             option.innerHTML = mainCategory.name_fa; // Set display name to the category's name in Farsi
@@ -54,6 +63,7 @@ function renderCategoryDropdown(responseData) {
     // Set the first category as the default selected category
     if (categoryDropdown.options.length > 0) {
         currentCategory = categoryDropdown.options[0].value;
+        console.log('Default category selected:', currentCategory);
     }
 
     // Trigger the table render when a category is selected
@@ -78,10 +88,17 @@ function renderTable(responseData) {
         category.name_fa === currentCategory
     );
 
-    if (!selectedCategory) return; // If category not found, exit
+    console.log('Selected Category:', selectedCategory); // Log the selected category
+
+    if (!selectedCategory) {
+        console.log('Category not found for', currentCategory); // Log if the selected category is not found
+        return; // If category not found, exit
+    }
 
     const mainCategory = selectedCategory[currentCategory]; // Get the main category object
     const subcategories = mainCategory.level_2 || []; // Get the second level subcategories
+
+    console.log('Subcategories:', subcategories); // Log subcategories for debugging
 
     // Render the header row based on the subcategory levels (dynamic number of columns)
     categoryTableHeader.innerHTML = `
