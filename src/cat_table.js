@@ -1,89 +1,131 @@
 
     // Sample Data (Simulating the API response structure)
-    const responseData = {
-        "return": true,
-        "message": "ok",
-        "data": {
-          "Saleman_bot": {
-            "زیبایی و سلامت": {
-              "_id": "67358d34fd1372fc4a6d61a8",
-              "name_fa": "زیبایی و سلامت",
-              "parent_id": null,
-              "slug": "",
-              "slug_fa": "زیبایی-و-سلامت",
-              "level": 1,
-              "created_at": "2024-11-14T05:40:04.262",
-              "level_2": [
-                {
-                  "_id": "67358d34fd1372fc4a6d61a9",
-                  "name_fa": "لوازم آرایشی",
-                  "parent_id": "67358d34fd1372fc4a6d61a8",
-                  "slug": " > ",
-                  "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
-                  "level": 2,
-                  "created_at": "2024-11-14T05:40:04.266",
-                  "level_3": [
-                    {
-                      "_id": "67358d34fd1372fc4a6d61aa",
-                      "name_fa": "کرم پودر",
-                      "parent_id": "67358d34fd1372fc4a6d61a9",
-                      "slug": " >  > ",
-                      "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
-                      "level": 3,
-                      "created_at": "2024-11-14T05:40:04.267",
-                      "updatedAt": "2024-11-25T14:13:18.929"
-                    },
-                    {
-                      "_id": "673839a3fd1372fc4a6d9518",
-                      "name_fa": "پنکک",
-                      "parent_id": "67358d34fd1372fc4a6d61a9",
-                      "slug": " >  > ",
-                      "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
-                      "level": 3,
-                      "created_at": "2024-11-16T06:20:19.766",
-                      "updatedAt": "2024-11-25T14:13:22.126"
-                    },
-                    {
-                      "_id": "6739e5ddfd1372fc4a6db9b1",
-                      "name_fa": "کانسیلر",
-                      "parent_id": "67358d34fd1372fc4a6d61a9",
-                      "slug": " >  > ",
-                      "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
-                      "level": 3,
-                      "created_at": "2024-11-17T12:47:25.775",
-                      "updatedAt": "2024-11-25T14:13:23.275"
-                    }
-                  ]
-                }
-              ]
-            },
-            "آرایشی": {
-              "_id": "67448822d972c672ef18407b",
-              "name_fa": "آرایشی",
-              "parent_id": null,
-              "slug": "test",
-              "slug_fa": "آرایشی",
-              "level": 1,
-              "created_at": "2024-11-25T14:22:26.961",
-              "level_2": [
-                {
-                  "_id": "67448822d972c672ef18407c",
-                  "name_fa": "آرایش صورت",
-                  "parent_id": "67448822d972c672ef18407b",
-                  "slug": "test > ",
-                  "slug_fa": "آرایش-صورت < آرایشی",
-                  "level": 2,
-                  "created_at": "2024-11-25T14:22:26.964",
+const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
+    
+    
+    // const responseData = {
+    //     "return": true,
+    //     "message": "ok",
+    //     "data": {
+    //       "Saleman_bot": {
+    //         "زیبایی و سلامت": {
+    //           "_id": "67358d34fd1372fc4a6d61a8",
+    //           "name_fa": "زیبایی و سلامت",
+    //           "parent_id": null,
+    //           "slug": "",
+    //           "slug_fa": "زیبایی-و-سلامت",
+    //           "level": 1,
+    //           "created_at": "2024-11-14T05:40:04.262",
+    //           "level_2": [
+    //             {
+    //               "_id": "67358d34fd1372fc4a6d61a9",
+    //               "name_fa": "لوازم آرایشی",
+    //               "parent_id": "67358d34fd1372fc4a6d61a8",
+    //               "slug": " > ",
+    //               "slug_fa": "لوازم-آرایشی < زیبایی-و-سلامت",
+    //               "level": 2,
+    //               "created_at": "2024-11-14T05:40:04.266",
+    //               "level_3": [
+    //                 {
+    //                   "_id": "67358d34fd1372fc4a6d61aa",
+    //                   "name_fa": "کرم پودر",
+    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
+    //                   "slug": " >  > ",
+    //                   "slug_fa": "کرم-پودر < لوازم-آرایشی < زیبایی-و-سلامت",
+    //                   "level": 3,
+    //                   "created_at": "2024-11-14T05:40:04.267",
+    //                   "updatedAt": "2024-11-25T14:13:18.929"
+    //                 },
+    //                 {
+    //                   "_id": "673839a3fd1372fc4a6d9518",
+    //                   "name_fa": "پنکک",
+    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
+    //                   "slug": " >  > ",
+    //                   "slug_fa": "پنکک < لوازم-آرایشی < زیبایی-و-سلامت",
+    //                   "level": 3,
+    //                   "created_at": "2024-11-16T06:20:19.766",
+    //                   "updatedAt": "2024-11-25T14:13:22.126"
+    //                 },
+    //                 {
+    //                   "_id": "6739e5ddfd1372fc4a6db9b1",
+    //                   "name_fa": "کانسیلر",
+    //                   "parent_id": "67358d34fd1372fc4a6d61a9",
+    //                   "slug": " >  > ",
+    //                   "slug_fa": "کانسیلر < لوازم-آرایشی < زیبایی-و-سلامت",
+    //                   "level": 3,
+    //                   "created_at": "2024-11-17T12:47:25.775",
+    //                   "updatedAt": "2024-11-25T14:13:23.275"
+    //                 }
+    //               ]
+    //             }
+    //           ]
+    //         },
+    //         "آرایشی": {
+    //           "_id": "67448822d972c672ef18407b",
+    //           "name_fa": "آرایشی",
+    //           "parent_id": null,
+    //           "slug": "test",
+    //           "slug_fa": "آرایشی",
+    //           "level": 1,
+    //           "created_at": "2024-11-25T14:22:26.961",
+    //           "level_2": [
+    //             {
+    //               "_id": "67448822d972c672ef18407c",
+    //               "name_fa": "آرایش صورت",
+    //               "parent_id": "67448822d972c672ef18407b",
+    //               "slug": "test > ",
+    //               "slug_fa": "آرایش-صورت < آرایشی",
+    //               "level": 2,
+    //               "created_at": "2024-11-25T14:22:26.964",
                   
-                }
-              ]
-            }
-          }
+    //             }
+    //           ]
+    //         }
+    //       }
+    //     }
+    //   };
+
+
+      async function fetchdata() {
+    try {
+        const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-      };let currentCategory = ""; // No initial category
+
+        const data = await response.json();
+
+        // Check if the response contains valid categories data
+        if (data && data.data && data.data['Saleman_bot']) {
+          
+            renderCategoryDropdown(data);
+        } else {
+            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+        }
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error Getting categories:', error);
+        alert('Failed to load categories: ' + error.message);
+    }
+}
+      
+      let currentCategory = ""; // No initial category
 
       // Render categories in the dropdown
-      function renderCategoryDropdown() {
+      function renderCategoryDropdown(responseData) {
           const categoryDropdown = document.getElementById('category');
           categoryDropdown.innerHTML = ''; // Clear previous options
       
@@ -113,7 +155,7 @@
       }
       
       // Render the table for categories and subcategories
-      function renderTable() {
+      function renderTable(responseData) {
           const categoryTableBody = document.getElementById('categoryTableBody');
           const categoryTableHeader = document.getElementById('categoryTableHeader');
           categoryTableBody.innerHTML = '';
@@ -175,6 +217,12 @@
           }).join('');
       }
       
-      // Initialize the page by rendering the dropdown and the table
-      renderCategoryDropdown();
+
+      async function initialize(){
+        fetchdata()
+
+
+      }
+      
+      
       
