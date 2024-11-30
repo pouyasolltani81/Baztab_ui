@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Statistics</title>
+    <title>آمار پایگاه داده</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 <body class="bg-gray-100 text-gray-900 font-sans">
 
@@ -13,75 +12,75 @@
 
         <!-- Heading -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-semibold text-teal-600">Database Statistics</h1>
-            <p class="mt-2 text-lg text-gray-600">Overview of storage usage and document frequencies</p>
+            <h1 class="text-4xl font-semibold text-teal-600">آمار پایگاه داده</h1>
+            <p class="mt-2 text-lg text-gray-600">بررسی استفاده از فضای ذخیره‌سازی و فرکانس اسناد</p>
         </div>
 
         <!-- DB Size Section -->
         <div id="dbSizeSection" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <!-- Dynamic content will be loaded here -->
+            <!-- محتویات دینامیک در اینجا بارگذاری می‌شود -->
         </div>
 
         <!-- Collection Size Section -->
         <div id="collectionSizeSection" class="bg-white shadow-lg rounded-lg p-6 mb-12">
-            <h2 class="text-3xl font-semibold text-teal-600 mb-4">Collection Sizes</h2>
+            <h2 class="text-3xl font-semibold text-teal-600 mb-4">اندازه مجموعه‌ها</h2>
             <div id="collectionTable" class="overflow-x-auto">
-                <!-- Dynamic table content will be loaded here -->
+                <!-- محتوای جدول دینامیک در اینجا بارگذاری می‌شود -->
             </div>
         </div>
 
         <!-- Frequency Section -->
         <div id="frequencySection" class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-3xl font-semibold text-teal-600 mb-4">Frequency Data</h2>
+            <h2 class="text-3xl font-semibold text-teal-600 mb-4">داده‌های فرکانس</h2>
             <div id="frequencyData" class="grid md:grid-cols-3 gap-8">
-                <!-- Dynamic frequency data will be loaded here -->
+                <!-- داده‌های فرکانس دینامیک در اینجا بارگذاری می‌شود -->
             </div>
         </div>
         
     </div>
 
     <script>
-        // Fetch JSON data
+        // دریافت داده‌های JSON
         async function fetchData() {
             try {
-                const response = await fetch('mall_data.json'); // Path to your JSON file or API endpoint
+                const response = await fetch('mall_data.json'); // مسیر فایل JSON یا نقطه پایانی API
                 const data = await response.json();
                 
                 if (data.return) {
                     updateUI(data.data);
                 } else {
-                    console.error("Error fetching data", data.message);
-                    alert("Error fetching data");
+                    console.error("خطا در دریافت داده‌ها", data.message);
+                    alert("خطا در دریافت داده‌ها");
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
-                alert('Failed to load data: ' + error.message);
+                console.error('خطا در دریافت داده‌ها:', error);
+                alert('بارگذاری داده‌ها با مشکل مواجه شد: ' + error.message);
             }
         }
 
-        // Update UI with fetched data
+        // بروزرسانی رابط کاربری با داده‌های دریافت شده
         function updateUI(data) {
-            // Update DB Size Section
+            // بروزرسانی بخش اندازه پایگاه داده
             document.getElementById('dbSizeSection').innerHTML = `
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-2xl font-semibold text-teal-600">Total Size</h2>
+                    <h2 class="text-2xl font-semibold text-teal-600">اندازه کل</h2>
                     <p class="text-xl font-bold text-blue-500">${data.db_size.total_size}</p>
                 </div>
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-2xl font-semibold text-teal-600">Storage Size</h2>
+                    <h2 class="text-2xl font-semibold text-teal-600">اندازه ذخیره‌سازی</h2>
                     <p class="text-xl font-bold text-blue-500">${data.db_size["Storage Size"]}</p>
                 </div>
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-2xl font-semibold text-teal-600">Index Size</h2>
+                    <h2 class="text-2xl font-semibold text-teal-600">اندازه شاخص</h2>
                     <p class="text-xl font-bold text-blue-500">${data.db_size.index_size}</p>
                 </div>
                 <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h2 class="text-2xl font-semibold text-teal-600">Data Size</h2>
+                    <h2 class="text-2xl font-semibold text-teal-600">اندازه داده‌ها</h2>
                     <p class="text-xl font-bold text-blue-500">${data.db_size.data_size}</p>
                 </div>
             `;
 
-            // Update Collection Sizes Table
+            // بروزرسانی جدول اندازه مجموعه‌ها
             let collectionRows = '';
             for (const [key, collection] of Object.entries(data.collection_size)) {
                 collectionRows += `
@@ -97,10 +96,10 @@
                 <table class="min-w-full table-auto">
                     <thead class="bg-teal-600 text-white">
                         <tr>
-                            <th class="py-2 px-4 text-left">Collection Name</th>
-                            <th class="py-2 px-4 text-left">Storage Size</th>
-                            <th class="py-2 px-4 text-left">Physical Size</th>
-                            <th class="py-2 px-4 text-left">Number of Documents</th>
+                            <th class="py-2 px-4 text-left">نام مجموعه</th>
+                            <th class="py-2 px-4 text-left">اندازه ذخیره‌سازی</th>
+                            <th class="py-2 px-4 text-left">اندازه فیزیکی</th>
+                            <th class="py-2 px-4 text-left">تعداد اسناد</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-800">
@@ -109,24 +108,24 @@
                 </table>
             `;
 
-            // Update Frequency Data
+            // بروزرسانی داده‌های فرکانس
             document.getElementById('frequencyData').innerHTML = `
                 <div class="bg-teal-100 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-teal-600">Total Product Count</h3>
+                    <h3 class="text-xl font-semibold text-teal-600">تعداد کل محصولات</h3>
                     <p class="text-2xl font-bold text-blue-500">${data.frequency.total_product_count}</p>
                 </div>
                 <div class="bg-teal-100 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-teal-600">Total Mall Count</h3>
+                    <h3 class="text-xl font-semibold text-teal-600">تعداد کل مراکز خرید</h3>
                     <p class="text-2xl font-bold text-blue-500">${data.frequency.total_mall_count}</p>
                 </div>
                 <div class="bg-teal-100 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-teal-600">Total Brand Count</h3>
+                    <h3 class="text-xl font-semibold text-teal-600">تعداد کل برندها</h3>
                     <p class="text-2xl font-bold text-blue-500">${data.frequency.total_brand_count}</p>
                 </div>
             `;
         }
 
-        // Call the fetchData function when the page loads
+        // فراخوانی تابع fetchData هنگام بارگذاری صفحه
         window.onload = fetchData;
     </script>
 
