@@ -104,7 +104,7 @@ function updateui(data) {
     createProductTable(products);
     
 
-    document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+    // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -118,7 +118,7 @@ function updateui_S(data) {
   createProductTable(products);
   
 
-  document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+  // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -237,6 +237,12 @@ media.innerHTML = `<div class='flex flex-col'>
                         </div>`;
 
 
+// slug
+const slug = document.createElement("td");
+slug.className = "bwhitespace-nowrap px-6 py-4";
+slug.innerHTML = `<div class='flex flex-col'>
+                            <span class="text-gray-900 font-bold">${slug_fa}</span>
+                        </div>`;
 
 
 
@@ -369,7 +375,7 @@ media.innerHTML = `<div class='flex flex-col'>
   
       // Add click event listener to the row to delete other rows when selected 
       checkbox.addEventListener('click', () => { const allRows = document.querySelectorAll('tr'); const isSelected = row.classList.toggle('selected'); if (isSelected) { allRows.forEach((r, i) => { if (r !== row && i !== 0) { r.style.display = 'none'; } }); } else { allRows.forEach(r => r.style.display = ''); }});
-      row.appendChild(checkbox);
+      // row.appendChild(checkbox);
       // row.appendChild(productId);
       // row.appendChild(productName);
       // row.appendChild(price);
@@ -378,14 +384,16 @@ media.innerHTML = `<div class='flex flex-col'>
       // row.appendChild(brandName);
 
 
-      row.appendChild(info);
+      // row.appendChild(info);
       row.appendChild(brand);
       row.appendChild(mall);
       row.appendChild(media);
+      row.appendChild(slug);
 
 
 
-      row.appendChild(dropdown);
+
+      // row.appendChild(dropdown);
 
   
       productTableContainer.appendChild(row);
@@ -512,6 +520,7 @@ function RemoveCard(id) {
     GetProduct(name)
   }
 
+  const slug_fa =  JSON.parse(localStorage.getItem('productResponse')).slug_fa
 
  
   initializePage()
