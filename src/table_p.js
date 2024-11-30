@@ -8,7 +8,11 @@ let test
 
 async function GetProduct(name) {
     try {
-      console.log(name);
+      console.log(JSON.stringify({  // Convert the body object to a JSON string
+        "category_name_fa": name,
+        "page": 1,
+        "page_limit": 10
+    }));
       
         const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
             method: 'POST',
