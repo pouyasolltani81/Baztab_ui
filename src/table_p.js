@@ -213,7 +213,7 @@ searchbutton.addEventListener('click', function() {
               
               searchbutton.classList.add('hidden')
             }
-            
+            console.log(query);
             
             
             
