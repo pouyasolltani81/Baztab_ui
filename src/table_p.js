@@ -33,6 +33,8 @@ async function GetProduct(name) {
 
         // Check if the response contains valid categories data
         if (data) {
+          console.log(data);
+          
             updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
@@ -73,6 +75,8 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
 
         // Check if the response contains valid product data
         if (data) {
+          console.log(data);
+
             updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
