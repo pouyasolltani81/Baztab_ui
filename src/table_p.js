@@ -532,11 +532,12 @@ function RemoveCard(id) {
 
 
 let page_num = 1
-
+const pagenum = document.getElementById('PageNumber')
 document.getElementById('NextPageButton').addEventListener('click' , async function() {
 let name = productData.category_name_fa
   
   page_num = page_num + 1
+  pagenum.innerHTML = page_num
   if (page_num == 1){
     document.getElementById('PrevPageButton').classList.add('hidden')
   } else {
@@ -557,6 +558,8 @@ document.getElementById('PrevPageButton').addEventListener('click' , async funct
 let name = productData.category_name_fa
   
   page_num = page_num - 1
+  pagenum.innerHTML = page_num
+
 
   if (page_num == 1){
     document.getElementById('PrevPageButton').classList.add('hidden')
