@@ -32,7 +32,7 @@ async function GetProduct(name) {
         const data = await response.json();
 
         // Check if the response contains valid categories data
-        if (data && data.data && data.data['Saleman_bot']) {
+        if (data) {
             updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
@@ -72,7 +72,7 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
         const data = await response.json();
 
         // Check if the response contains valid product data
-        if (data && data.data && data.data['Saleman_bot']) {
+        if (data) {
             updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
