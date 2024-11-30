@@ -1,120 +1,133 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Database Statistics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 text-gray-900 font-sans">
 
-    <div class="container mx-auto p-6" id="containercard">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Database Size & Index Size Cards -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800">حجم دیتابیس و ایندکس</h2>
-                <p class="mt-2 text-gray-600">حجم دیتابیس: <span id="db-size">100 GB</span></p>
-                <p class="text-gray-600">حجم ایندکس: <span id="index-size">20 GB</span></p>
-            </div>
+    <div class="max-w-7xl mx-auto px-6 py-10">
 
-            <!-- Collections & Retrieved Data -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800">اطلاعات کالکشن و دیتای گرفته</h2>
-                <p class="mt-2 text-gray-600">تعداد کالکشن‌ها: <span id="collections">15</span></p>
-                <p class="text-gray-600">حجم دیتای گرفته: <span id="data-retrieved">200 GB</span></p>
-            </div>
+        <!-- Heading -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-semibold text-teal-600">Database Statistics</h1>
+            <p class="mt-2 text-lg text-gray-600">Overview of storage usage and document frequencies</p>
+        </div>
 
-            <!-- Products, Malls, Brands -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800">اطلاعات محصولات، مال‌ها و برندها</h2>
-                <p class="mt-2 text-gray-600">تعداد کالاها: <span id="products">5000</span></p>
-                <p class="text-gray-600">تعداد شاپینگ مال‌ها: <span id="malls">50</span></p>
-                <p class="text-gray-600">تعداد برندها: <span id="brands">200</span></p>
+        <!-- DB Size Section -->
+        <div id="dbSizeSection" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+
+        <!-- Collection Size Section -->
+        <div id="collectionSizeSection" class="bg-white shadow-lg rounded-lg p-6 mb-12">
+            <h2 class="text-3xl font-semibold text-teal-600 mb-4">Collection Sizes</h2>
+            <div id="collectionTable" class="overflow-x-auto">
+                <!-- Dynamic table content will be loaded here -->
             </div>
         </div>
 
-       
+        <!-- Frequency Section -->
+        <div id="frequencySection" class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-3xl font-semibold text-teal-600 mb-4">Frequency Data</h2>
+            <div id="frequencyData" class="grid md:grid-cols-3 gap-8">
+                <!-- Dynamic frequency data will be loaded here -->
+            </div>
+        </div>
+        
     </div>
 
-
     <script>
-        const mall_data = {
-  "return": true,
-  "message": "ok",
-  "data": {
-    "db_size": {
-      "total_size": "0.93 GB",
-      "Storage Size": "951.43 MB",
-      "index_size": "1.81 MB",
-      "data_size": "2656.94 MB"
-    },
-    "collection_size": {
-      "SALEMAN_PRODUCTS": {
-        "storage_size": "11.92 MB",
-        "physical_size_on_disk": "6.06 MB",
-        "number_of_Documents": "4085"
-      },
-      "SALEMAN_PRODUCT_VARIANTS": {
-        "storage_size": "3.30 MB",
-        "physical_size_on_disk": "0.45 MB",
-        "number_of_Documents": "2413"
-      },
-      "SALEMAN_BRANDS": {
-        "storage_size": "0.06 MB",
-        "physical_size_on_disk": "0.07 MB",
-        "number_of_Documents": "295"
-      },
-      "SALEMAN_SHOPPINGMALL": {
-        "storage_size": "0.00 MB",
-        "physical_size_on_disk": "0.04 MB",
-        "number_of_Documents": "2"
-      },
-      "SALEMAN_SELLER": {
-        "storage_size": "0.00 MB",
-        "physical_size_on_disk": "0.02 MB",
-        "number_of_Documents": "1"
-      },
-      "SALEMAN_REVIEWS": {
-        "storage_size": "114.43 MB",
-        "physical_size_on_disk": "19.98 MB",
-        "number_of_Documents": "4088"
-      },
-      "SALEMAN_QUESTIONS": {
-        "storage_size": "2523.23 MB",
-        "physical_size_on_disk": "923.24 MB",
-        "number_of_Documents": "4080"
-      },
-      "SALEMAN_CATEGORIES": {
-        "storage_size": "0.38 MB",
-        "physical_size_on_disk": "0.32 MB",
-        "number_of_Documents": "7"
-      },
-      "SALEMAN_MEDIA": {
-        "storage_size": "2.23 MB",
-        "physical_size_on_disk": "0.73 MB",
-        "number_of_Documents": "4085"
-      },
-      "SALEMAN_RELATIONAL_PRODUCT": {
-        "storage_size": "1.39 MB",
-        "physical_size_on_disk": "0.51 MB",
-        "number_of_Documents": "4085"
-      }
-    },
-    "frequency": {
-      "total_product_count": 4085,
-      "total_mall_count": 2,
-      "total_brand_count": 295
-    }
-  }
-}
+        // Fetch JSON data
+        async function fetchData() {
+            try {
+                const response = await fetch('mall_data.json'); // Path to your JSON file or API endpoint
+                const data = await response.json();
+                
+                if (data.return) {
+                    updateUI(data.data);
+                } else {
+                    console.error("Error fetching data", data.message);
+                    alert("Error fetching data");
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Failed to load data: ' + error.message);
+            }
+        }
 
-document.getElementById('containercard').addEventListener('click' ,  function() {
-document.getElementById('containercard').innerHTML = 
-})
-// Object.keys(mall_data.data.collection_size).forEach(console.log('hello'))
+        // Update UI with fetched data
+        function updateUI(data) {
+            // Update DB Size Section
+            document.getElementById('dbSizeSection').innerHTML = `
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-teal-600">Total Size</h2>
+                    <p class="text-xl font-bold text-blue-500">${data.db_size.total_size}</p>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-teal-600">Storage Size</h2>
+                    <p class="text-xl font-bold text-blue-500">${data.db_size["Storage Size"]}</p>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-teal-600">Index Size</h2>
+                    <p class="text-xl font-bold text-blue-500">${data.db_size.index_size}</p>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h2 class="text-2xl font-semibold text-teal-600">Data Size</h2>
+                    <p class="text-xl font-bold text-blue-500">${data.db_size.data_size}</p>
+                </div>
+            `;
 
+            // Update Collection Sizes Table
+            let collectionRows = '';
+            for (const [key, collection] of Object.entries(data.collection_size)) {
+                collectionRows += `
+                    <tr class="bg-gray-50">
+                        <td class="py-2 px-4">${key}</td>
+                        <td class="py-2 px-4">${collection.storage_size}</td>
+                        <td class="py-2 px-4">${collection.physical_size_on_disk}</td>
+                        <td class="py-2 px-4">${collection.number_of_Documents}</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('collectionTable').innerHTML = `
+                <table class="min-w-full table-auto">
+                    <thead class="bg-teal-600 text-white">
+                        <tr>
+                            <th class="py-2 px-4 text-left">Collection Name</th>
+                            <th class="py-2 px-4 text-left">Storage Size</th>
+                            <th class="py-2 px-4 text-left">Physical Size</th>
+                            <th class="py-2 px-4 text-left">Number of Documents</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-800">
+                        ${collectionRows}
+                    </tbody>
+                </table>
+            `;
+
+            // Update Frequency Data
+            document.getElementById('frequencyData').innerHTML = `
+                <div class="bg-teal-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-teal-600">Total Product Count</h3>
+                    <p class="text-2xl font-bold text-blue-500">${data.frequency.total_product_count}</p>
+                </div>
+                <div class="bg-teal-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-teal-600">Total Mall Count</h3>
+                    <p class="text-2xl font-bold text-blue-500">${data.frequency.total_mall_count}</p>
+                </div>
+                <div class="bg-teal-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-teal-600">Total Brand Count</h3>
+                    <p class="text-2xl font-bold text-blue-500">${data.frequency.total_brand_count}</p>
+                </div>
+            `;
+        }
+
+        // Call the fetchData function when the page loads
+        window.onload = fetchData;
     </script>
 
 </body>

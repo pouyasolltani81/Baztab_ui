@@ -6,25 +6,22 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 let test
 
 
-
-
-async function GetProduct(name){
-try {
-        const response = await fetch('http://79.175.177.113:21800//Products/Products_get_products_paginated/', {
+async function GetProduct(name) {
+    try {
+        const response = await fetch('http://79.175.177.113:21800/Products/Products_get_products_paginated/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 "Accept-Version": 1,
                 'Accept': "application/json",
                 "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset=utf-8",
                 'authorization': user_token,
             },
-            body: {
-                  "category_name_fa": name,
-                  "page": 1,
-                  "page_limit": 10
-                }
+            body: JSON.stringify({  // Convert the body object to a JSON string
+                "category_name_fa": name,
+                "page": 1,
+                "page_limit": 10
+            })
         });
 
         // Check if the response was successful (status code 2xx)
@@ -36,24 +33,20 @@ try {
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
-            
-            updateui(data)
-
+            updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
 
     } catch (error) {
         // Log and display the error to the user
-        console.error('Error Getting categories:', error);
-        alert('Failed to load categories: ' + error.message);
+        console.error('Error Getting products:', error);
+        alert('Failed to load products: ' + error.message);
     }
-
-
 }
 
-async function findproducts(name , name_fa) {
-try {
+async function findproducts(name_fa) {  // No need to pass "name" if it's not being used
+    try {
         const response = await fetch('http://79.175.177.113:21800/Products/Products_search_product_by_name/', {
             method: 'POST',
             headers: {
@@ -61,15 +54,14 @@ try {
                 "Accept-Version": 1,
                 'Accept': "application/json",
                 "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset=utf-8",
                 'authorization': user_token,
             },
-          body :{
-              "name": '',
-              "name_fa": name_fa,
-              "page": 1,
-              "page_size": 10
-          }
+            body: JSON.stringify({  // Convert the body object to a JSON string
+                "name": '',  // If you don't need "name", remove it
+                "name_fa": name_fa,
+                "page": 1,
+                "page_size": 10
+            })
         });
 
         // Check if the response was successful (status code 2xx)
@@ -79,24 +71,19 @@ try {
 
         const data = await response.json();
 
-        // Check if the response contains valid categories data
+        // Check if the response contains valid product data
         if (data && data.data && data.data['Saleman_bot']) {
-            
-            updateui(data)
-
+            updateui(data);  // Call the update UI function with the response data
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
 
     } catch (error) {
         // Log and display the error to the user
-        console.error('Error Getting categories:', error);
-        alert('Failed to load categories: ' + error.message);
+        console.error('Error searching products:', error);
+        alert('Failed to search products: ' + error.message);
     }
-
-
 }
-
 
 function updateui(data) {
 
