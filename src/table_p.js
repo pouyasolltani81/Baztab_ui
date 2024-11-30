@@ -385,7 +385,7 @@ slug.innerHTML = `<div class='flex flex-col'>
       // row.appendChild(brandName);
 
 
-      // row.appendChild(info);
+      row.appendChild(info);
       row.appendChild(brand);
       row.appendChild(mall);
       row.appendChild(media);
