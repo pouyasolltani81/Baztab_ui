@@ -204,7 +204,13 @@ searchbutton.addEventListener('click', function() {
             
           } else if (columnIndex === 'all_C') {
 
+            if (query !='' ) {
+
             searchbutton.classList.remove('hidden')
+            }
+            else {
+              searchbutton.classList.add('hidden')
+            }
             
             
             
