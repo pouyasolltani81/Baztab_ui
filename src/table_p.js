@@ -1,5 +1,6 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
+const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 
 
 let test
@@ -7,29 +8,86 @@ let test
 
 
 async function GetProduct(){
+try {
+        const response = await fetch('http://79.175.177.113:21800//Products/Products_get_products_paginated/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
+        });
 
-//     try {
-//         const response = await fetch('./products.json');        
-//         const data = response.json();
-//          // Check if the response was successful (status code 2xx)
-//         if (!response.ok) {
-//             throw new Error(`Error: ${response.status} ${response.statusText}`);
-//         }
-//         test = response
-//         console.log(data);
-//         updateui(data);
-//     }
-//   catch (err){
-//     console.error('Error fetching initial data:', err);  
-//     // document.getElementById('mainContent').classList.remove('hidden'); 
-//   }
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-updateui(productss)
+        const data = await response.json();
+
+        // Check if the response contains valid categories data
+        if (data && data.data && data.data['Saleman_bot']) {
+            
+            updateui(data)
+
+        } else {
+            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+        }
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error Getting categories:', error);
+        alert('Failed to load categories: ' + error.message);
+    }
+
 
 }
 
-async function findproducts() {
-console.log('hello');
+async function findproducts(name , name_fa) {
+try {
+        const response = await fetch('http://79.175.177.113:21800/Products/Products_search_product_by_name/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset=utf-8",
+                'authorization': user_token,
+            },
+          body :{
+              "name": '',
+              "name_fa": name_fa,
+              "page": 1,
+              "page_size": 10
+          }
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Check if the response contains valid categories data
+        if (data && data.data && data.data['Saleman_bot']) {
+            
+            updateui(data)
+
+        } else {
+            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+        }
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error Getting categories:', error);
+        alert('Failed to load categories: ' + error.message);
+    }
+
 
 }
 
@@ -53,7 +111,7 @@ const searchbutton = document.getElementById('SearchButton');
         
 
 searchbutton.addEventListener('click', function() {
-  findproducts()
+  findproducts(searchBar.value)
 });
 
         // Listen for input in the search bar
