@@ -1,6 +1,7 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
+const slug_fa =  JSON.parse(localStorage.getItem('productResponse')).slug_fa
 
 
 let test
@@ -104,7 +105,7 @@ function updateui(data) {
     createProductTable(products);
     
 
-    // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+    document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -118,7 +119,7 @@ function updateui_S(data) {
   createProductTable(products);
   
 
-  // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+  document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -375,7 +376,7 @@ slug.innerHTML = `<div class='flex flex-col'>
   
       // Add click event listener to the row to delete other rows when selected 
       checkbox.addEventListener('click', () => { const allRows = document.querySelectorAll('tr'); const isSelected = row.classList.toggle('selected'); if (isSelected) { allRows.forEach((r, i) => { if (r !== row && i !== 0) { r.style.display = 'none'; } }); } else { allRows.forEach(r => r.style.display = ''); }});
-      // row.appendChild(checkbox);
+      row.appendChild(checkbox);
       // row.appendChild(productId);
       // row.appendChild(productName);
       // row.appendChild(price);
@@ -520,7 +521,6 @@ function RemoveCard(id) {
     GetProduct(name)
   }
 
-  const slug_fa =  JSON.parse(localStorage.getItem('productResponse')).slug_fa
 
  
   initializePage()
