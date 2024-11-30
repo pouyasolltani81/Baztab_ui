@@ -96,6 +96,7 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
 }
 
 function updateui(data) {
+    console.log(data);
 
     let products = data.data.result ;
     console.log(products);
