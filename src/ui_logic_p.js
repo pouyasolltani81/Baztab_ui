@@ -26,24 +26,7 @@
       });
     }
 
-    // Example of an asynchronous operation (fetching or simulating an API call)
-    function pageInitialization() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          // Simulate loading process (e.g., fetching data)
-          resolve('Page Loaded');
-        }, 2000); // Simulating a 2-second load time
-      });
-    }
-
-    // Start loading and use `showLoader` to show the spinner
-    window.addEventListener('load', function() {
-      showLoader(async function() {
-        await pageInitialization();  // Simulate page load logic
-        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
-      });
-    });
-
+   
 
 
 
@@ -61,14 +44,14 @@
     //   document.getElementById('registerModal').classList.remove('hidden');
     // });
 
-    document.getElementById('closeRegisterModal').addEventListener('click', function() {
-      document.getElementById('registerModal').classList.add('hidden');
-    });
+    // document.getElementById('closeRegisterModal').addEventListener('click', function() {
+    //   document.getElementById('registerModal').classList.add('hidden');
+    // });
 
-    // Back Button
-    document.getElementById('BackToCategory').addEventListener('click', function() {
-      window.location.href = "./index.html";
-    });
+    // // Back Button
+    // document.getElementById('BackToCategory').addEventListener('click', function() {
+    //   window.location.href = "./index.html";
+    // });
     
 
 

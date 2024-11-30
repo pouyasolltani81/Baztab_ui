@@ -219,7 +219,22 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
       
 
       async function initialize(){
-        fetchdata()
+        return new Promise(async (resolve, reject) => {
+    try {
+      // Wait for fetchAllData to complete (assuming fetchAllData() is asynchronous)
+        console.log('0')
+
+      await  fetchdata(); // Replace with your actual fetch function
+        console.log('1')
+
+      // Once the data is fetched, resolve the promise
+      resolve('Page Loaded and Data Fetched');
+    } catch (error) {
+      // In case fetchAllData() fails, reject the promise
+      reject('Error during data fetching: ' + error);
+    }
+  });
+       
 
 
       }
@@ -229,3 +244,13 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
         localStorage.setItem('productResponse', JSON.stringify(name));  
         window.location.href = './product_table.html';
       }
+
+
+
+       // Start loading and use `showLoader` to show the spinner
+    window.addEventListener('load', function() {
+      showLoader(async function() {
+        await pageInitialization();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      });
+    });
