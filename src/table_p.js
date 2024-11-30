@@ -155,6 +155,7 @@ searchbutton.addEventListener('click', function() {
             const columnIndex = searchColumn.value;
 
             const rows = tableBody.getElementsByTagName('tr');
+            if(columnIndex != 'all_C'){
             Array.from(rows).forEach(row => {
                 // Collect all the cell data
                 const cells = row.getElementsByTagName('td');
@@ -200,6 +201,15 @@ searchbutton.addEventListener('click', function() {
                 // Display or hide the row based on the search result
                 row.style.display = shouldDisplay ? '' : 'none';
             });
+            
+          } else if (columnIndex === 'all_C') {
+
+            searchbutton.classList.remove('hidden')
+            
+            
+            
+            
+          }
         });
 
         // Helper function to get all text content from a cell, including its child elements
