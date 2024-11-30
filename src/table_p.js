@@ -8,6 +8,8 @@ let test
 
 async function GetProduct(name) {
     try {
+      console.log(name);
+      
         const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
             method: 'POST',
             headers: {
