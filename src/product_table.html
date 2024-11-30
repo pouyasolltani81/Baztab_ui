@@ -14,18 +14,18 @@
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     
     <!-- Back to Category Button (Left) -->
-    <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200"><a href="./category_table.html">
+    <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200">
       ← بازگشت
-    </a></button>
+    </button>
 
     <!-- Menu Links (Center) -->
-    <div class="hidden md:flex space-x-4 space-x-reverse">
+    <div class="hidden md:flex space-x-4">
       <!-- <button id="findCategoryBtn" class="text-gray-600 hover:text-gray-800 text-center">محصولات</button>
       <button id="createCategoryBtn" class="text-gray-600 hover:text-gray-800 text-center">به روز رسانی</button> -->
     </div>
 
     <!-- Auth Buttons (Right) -->
-    <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse">
+    <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4">
       <!-- <button id="loginBtn" class="bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 rounded-md px-4 py-2 transition duration-200">
         ورود
       </button>
@@ -35,7 +35,7 @@
     </div>
     
     <!-- Mobile Hamburger Button -->
-    <div class="md:hidden flex items-center space-x-2 space-x-reverse">
+    <div class="md:hidden flex items-center space-x-2">
       <!-- <button id="hamburgerMenuBtn" class="text-gray-600 hover:text-gray-800 focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -47,10 +47,10 @@
 
 <!-- Mobile Menu (Hidden by default, shown when hamburger is clicked) -->
 <div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
-  <div class="px-6 py-4 space-y-4 ">
+  <div class="px-6 py-4 space-y-4">
     <button id="findCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">محصولات</button>
     <button id="createCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">به روز رسانی</button>
-    <div class="flex flex-col space-y-4 ">
+    <div class="flex flex-col space-y-4">
       <!-- <button id="loginBtnMobile" class="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2 transition duration-200 w-full">
         ورود
       </button>
@@ -64,18 +64,19 @@
 
 
 
-<div dir="rtl">
+
        <!-- Search Bar with Dropdown for Column Selection -->
-        <div class="p-4 flex space-x-reverse space-x-4">
+        <div class="p-4 flex space-x-4">
             <!-- Dropdown to choose specific column or All -->
             <select id="searchColumn" class="p-2 border border-gray-300 rounded-md">
-                <option value="all_C">تمام کتگوری ها</option>
-                <option value="all">تمام ستون ها</option>
-                <option value="1">Product info</option>
-                <option value="2">Brand info</option>
-                <option value="3">Media info</option>
-                <option value="4">اطلاعات</option>
-           
+                <option value="all">All Columns</option>
+                <option value="0">ID</option>
+                <option value="1">اسم</option>
+                <option value="2">قیمت</option>
+                <option value="3">موجودیت</option>
+                <option value="4">نام برند</option>
+                <option value="5">نام مرکز خرید</option>
+                <option value="6">اطلاعات</option>
             </select>
 
             <!-- Search Input -->
@@ -86,7 +87,6 @@
                 class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
         </div>
-        <div class="border-gray-300 rounded-md bg-teal-500 cursor-pointer p-4  text-center text-gray-300 font-semibold m-4" id="SearchButton">Search</div>
 
         <!-- table  -->
     <div class="flex flex-col">
@@ -121,7 +121,6 @@
 
 
     <div id="info_container" class="grid grid-cols-2">
-    </div>
       
     </div>
 
