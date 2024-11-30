@@ -85,7 +85,7 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
         if (data) {
           console.log(data);
 
-          updateui(data);  // Call the update UI function with the response data
+          updateui_S(data);  // Call the update UI function with the response data
         } 
 
     } catch (error) {
@@ -96,10 +96,10 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
 }
 
 function updateui(data) {
-    console.log(data);
+    
 
     let products = data.data.result ;
-    console.log(products);
+    
     
     createProductTable(products);
     
@@ -107,6 +107,21 @@ function updateui(data) {
     document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
+
+
+function updateui_S(data) {
+    
+
+  let products = data.data.results ;
+  
+  
+  createProductTable(products);
+  
+
+  document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+
+}
+
 
 
 // Get DOM elements
