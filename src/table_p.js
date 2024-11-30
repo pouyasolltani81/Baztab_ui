@@ -98,6 +98,8 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
 function updateui(data) {
 
     let products = data.data.result ;
+    console.log(products);
+    
     createProductTable(products);
     
 
