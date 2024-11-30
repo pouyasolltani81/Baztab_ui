@@ -1,7 +1,10 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
-const slug_fa =  JSON.parse(localStorage.getItem('productResponse')).slug_fa
+
+const productData = JSON.parse(localStorage.getItem('productResponse'));
+let name = productData.category_name_fa
+let slug_fa =  productData.slug_fa
 
 
 let test
@@ -526,11 +529,103 @@ function RemoveCard(id) {
     }, 500); // Wait for the animation to finish before removing and updating the grid
 }
 
+
+
+let page_num = 1
+
+document.getElementById('NextPageButton').addEventListener('click' , async function() {
+let name = productData.category_name_fa
+  
+  page_num = page_num + 1
+  if (page_num == 1){
+    document.getElementById('PrevPageButton').classList.add('hidden')
+  } else {
+    document.getElementById('PrevPageButton').classList.remove('hidden')
+  }
+  showLoader(async function() {
+    document.getElementById('mainContent').classList.add('hidden'); 
+    await ChangePage(name , page_num)
+    document.getElementById('mainContent').classList.remove('hidden');
+})
+
+})
+
+if (page_num == 1){
+  document.getElementById('PrevPageButton').classList.add('hidden')
+}
+document.getElementById('PrevPageButton').addEventListener('click' , async function() {
+let name = productData.category_name_fa
+  
+  page_num = page_num - 1
+
+  if (page_num == 1){
+    document.getElementById('PrevPageButton').classList.add('hidden')
+  } else {
+    document.getElementById('PrevPageButton').classList.remove('hidden')
+  }
+  showLoader(async function() {
+    document.getElementById('mainContent').classList.add('hidden'); 
+    await ChangePage(name , page_num)
+    document.getElementById('mainContent').classList.remove('hidden');
+})
+
+})
+
+
+async function ChangePage(name_fa , page) {
+  try {
+      
+      
+    const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept-Version": 1,
+            'Accept': "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'authorization': user_token,
+        },
+        body: JSON.stringify({  // Convert the body object to a JSON string
+            "category_name_fa": name_fa,
+            "page": page,
+            "page_limit": 10
+        })
+    });
+
+    // Check if the response was successful (status code 2xx)
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Check if the response contains valid categories data
+    if (data) {
+      console.log(data);
+      
+        updateui(data);  // Call the update UI function with the response data
+    } 
+
+} catch (error) {
+    // Log and display the error to the user
+    console.error('Error Getting products:', error);
+    alert('Failed to load products: ' + error.message);
+}
+}
+
+
+
+
+
+
+
+
+
+
   async function initializePage(){
     
+let name = productData.category_name_fa
     
-   const productData = JSON.parse(localStorage.getItem('productResponse'));
-   let name = productData.category_name_fa
    showLoader(async function() {
     await GetProduct(name);  // Simulate page load logic
     document.getElementById('mainContent').classList.remove('hidden'); // Show main content
