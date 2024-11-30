@@ -81,7 +81,7 @@ function renderCategoryDropdown(responseData) {
 function renderCategoryDropdown(responseData) {
     const categoryDropdown = document.getElementById('category');
     categoryDropdown.innerHTML = ''; // Clear previous options
-    
+
     // Dynamically populate categories in the dropdown (only level 1 categories)
     Object.values(responseData.data).forEach(category => {
         Object.values(category).forEach(mainCategory => {
@@ -100,7 +100,7 @@ function renderCategoryDropdown(responseData) {
     // Trigger the table render when a category is selected
     categoryDropdown.addEventListener('change', (e) => {
         currentCategory = e.target.value;
-        renderTable(responseData);
+        renderTable(responseData); // Re-render table on category change
     });
 
     // Initial render of the table with the first category
@@ -134,6 +134,7 @@ function renderTable(responseData) {
     }
 
     const subcategories = selectedCategory.level_2 || []; // Get the second level subcategories
+    console.log('Second-level subcategories:', subcategories); // Log second-level subcategories
 
     // Render the header row based on the subcategory levels (dynamic number of columns)
     categoryTableHeader.innerHTML = `
@@ -144,7 +145,7 @@ function renderTable(responseData) {
 
     // Render the rows for each subcategory, using recursion for deeper levels
     subcategories.forEach(subcategory => {
-        renderCategoryRow(subcategory, categoryTableBody);
+        renderCategoryRow(subcategory, categoryTableBody); // Render the second-level subcategories
     });
 }
 
@@ -153,6 +154,7 @@ function renderCategoryRow(category, categoryTableBody) {
     const subcategories = category.level_2 || []; // Get next level subcategories (level 3, level 4, etc.)
     const level3Subcategories = category.level_3 || []; // Get level 3 subcategories
     
+    // Add the row for the current category and subcategories
     categoryTableBody.innerHTML += `
         <tr class="border-b">
             <td class="py-2 px-4 font-semibold text-md">${category.name_fa} (ID: ${category._id})</td>
@@ -163,7 +165,7 @@ function renderCategoryRow(category, categoryTableBody) {
 
     // Recursively render deeper levels if any subcategories exist at deeper levels
     subcategories.forEach(subcategory => {
-        renderCategoryRow(subcategory, categoryTableBody);
+        renderCategoryRow(subcategory, categoryTableBody); // Render further levels recursively
     });
 }
 
