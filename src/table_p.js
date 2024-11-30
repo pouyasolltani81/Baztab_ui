@@ -152,6 +152,8 @@ searchbutton.addEventListener('click', function() {
         // Listen for input in the search bar
         searchBar.addEventListener('input', function() {
             const query = searchBar.value.toLowerCase();
+            console.log(query);
+            
             const columnIndex = searchColumn.value;
 
             const rows = tableBody.getElementsByTagName('tr');
@@ -213,8 +215,7 @@ searchbutton.addEventListener('click', function() {
               
               searchbutton.classList.add('hidden')
             }
-            console.log(query);
-            
+           
             
             
           }
