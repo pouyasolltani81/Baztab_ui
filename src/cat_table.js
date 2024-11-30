@@ -134,8 +134,8 @@ function renderSubcategories(subcategories, level) {
 
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
-                <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm">اطلاعات بیشتر</button>
-                ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick='gotoproducts("${subcategory.name_fa}")'>لیست پروداکت ها</button>` : ``}
+                <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}'")>اطلاعات بیشتر</button>
+                ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}")'>لیست پروداکت ها</button>` : ``}
             </div>
         `;
         return `
@@ -166,6 +166,15 @@ function gotoproducts(name) {
     localStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './product_table.html';
 }
+
+function gotocharts(name) {
+    console.log(name);
+    
+    localStorage.setItem('name_far', JSON.stringify(name));  
+    window.location.href = './charts.html';
+}
+
+
 
 // Start loading and use `showLoader` to show the spinner
 window.addEventListener('load', function() {
