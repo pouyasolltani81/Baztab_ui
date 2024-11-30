@@ -208,7 +208,9 @@ searchbutton.addEventListener('click', function() {
 
             searchbutton.classList.remove('hidden')
             }
-            else {
+            else if ((query =='' )){
+              console.log('works');
+              
               searchbutton.classList.add('hidden')
             }
             
