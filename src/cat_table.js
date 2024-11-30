@@ -201,7 +201,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
                 <div class="flex space-x-2 mt-2 justify-evenly">
                     <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm">اطلاعات بیشتر</button>
                     
-                    ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick='gotoproducts(${subcategory.name_fa})'>لیست پروداکت ها</button>` : ``}
+                    ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick='gotoproducts('${subcategory.name_fa}')'>لیست پروداکت ها</button>` : ``}
                 </div>
             `;
               return `
@@ -225,7 +225,7 @@ const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
       }
       
       
-      function gotoproducts() {
-        localStorage.setItem('productResponse', JSON.stringify(data));  
+      function gotoproducts(name) {
+        localStorage.setItem('productResponse', JSON.stringify(name));  
         window.location.href = './product_table.html';
       }
