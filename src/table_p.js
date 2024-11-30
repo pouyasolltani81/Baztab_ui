@@ -8,7 +8,7 @@ let test
 
 async function GetProduct(name) {
     try {
-        const response = await fetch('http://79.175.177.113:21800/Products/Products_get_products_paginated/', {
+        const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ async function GetProduct(name) {
 
 async function findproducts(name_fa) {  // No need to pass "name" if it's not being used
     try {
-        const response = await fetch('http://79.175.177.113:21800/Products/Products_search_product_by_name/', {
+        const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_name/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
