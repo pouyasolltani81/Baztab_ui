@@ -38,9 +38,7 @@ async function GetProduct(name_fa) {
           console.log(data);
           
             updateui(data);  // Call the update UI function with the response data
-        } else {
-            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
-        }
+        } 
 
     } catch (error) {
         // Log and display the error to the user
@@ -88,9 +86,7 @@ async function findproducts(name_fa) {  // No need to pass "name" if it's not be
           console.log(data);
 
           updateui(data);  // Call the update UI function with the response data
-        } else {
-            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
-        }
+        } 
 
     } catch (error) {
         // Log and display the error to the user
@@ -182,6 +178,7 @@ searchbutton.addEventListener('click', function() {
 
 function createProductTable(products) {
     productTableContainer.innerHTML = ''; 
+  console.log(products);
   
     products.forEach(product => {
       const row = document.createElement("tr");
