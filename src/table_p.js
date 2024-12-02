@@ -30,8 +30,8 @@ document.getElementById('pagibutton').addEventListener('click', async function(e
       
     document.getElementById('paginatecontainer').classList.add('hidden')
 
-    page_num = parseInt(pageNumber)
-    page_size = parseInt(itemsPerPage)
+    page_num = parseInt(document.getElementById('pageNumber').value)
+    page_size = parseInt(document.getElementById('itemsPerPage').value)
    
     console.log(JSON.stringify({  
       "category_name_fa": nameqwe ,
