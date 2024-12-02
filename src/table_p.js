@@ -23,7 +23,7 @@ pagenum.addEventListener('click', function() {
 })
 
 document.getElementById('paginationForm').addEventListener('submit', async function(event) { 
-  event.preventDefault(); 
+  
   try {
       
     document.getElementById('paginatecontainer').classList.add('hidden')
