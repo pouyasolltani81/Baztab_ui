@@ -189,6 +189,8 @@ refreshButton.addEventListener('click', function() {
                 } else if (columnIndex === 'all_C') {
 
                   searchbutton.classList.remove('hidden')
+            refreshButton.classList.remove('hidden')
+
                   
                   
                   
@@ -219,6 +221,8 @@ refreshButton.addEventListener('click', function() {
             if (query !='' ) {
 
             searchbutton.classList.remove('hidden')
+            refreshButton.classList.remove('hidden')
+
             }
             else if ((query =='' )){
               console.log('works');
