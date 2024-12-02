@@ -9,6 +9,31 @@
     <title>Document</title>
 </head>
 <body>
+<!-- pop ups -->
+
+<div
+class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-white rounded-b-lg border-t-8 border-green-400 px-4 py-5 flex flex-col justify-around shadow-md"
+>
+<p class="text-lg font-bold font-sans text-center">Pagination</p>
+<div class="py-3">
+  <form id="paginationForm">
+     <div class="mb-4">
+       <label for="pageNumber" class="block text-sm font-medium text-gray-700">Page Number:</label> 
+       <input type="number" id="pageNumber" name="pageNumber" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
+     </div> 
+     <div class="mb-4"> 
+      <label for="itemsPerPage" class="block text-sm font-medium text-gray-700">Items Per Page:</label> 
+      <input type="number" id="itemsPerPage" name="itemsPerPage" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
+    </div> 
+    <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600">Submit</button>
+  </form>
+</div>
+
+</div>
+
+
+
+  <!-- main content  -->
     <div class="">
 
        <!-- Navbar -->

@@ -7,58 +7,31 @@
   <script src="https://cdn.tailwindcss.com"></script>
  
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="container mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Pagination Example</h1>
-    <div id="items-container" class="grid grid-cols-1 gap-4 mb-4">
-      <!-- Items will be inserted here by JavaScript -->
-    </div>
-    <div class="flex justify-center">
-      <div class=" w-screen border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PrevPageButton">Previous</div>
-      <div class="w-[200px] border border-gray-300 rounded-md text-gray-800 cursor-not-allowed p-4 text-center  font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PageNumber">1</div>
-      <div class="w-screen border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="NextPageButton">Next</div>
+<body class="bg-gray-100 p-6 flex justify-center">
+
+  <div>
+    
+    <div
+      class="w-72 bg-white rounded-b-lg border-t-8 border-green-400 px-4 py-5 flex flex-col justify-around shadow-md"
+    >
+      <p class="text-lg font-bold font-sans text-center">Pagination</p>
+      <div class="py-3">
+        <form id="paginationForm">
+           <div class="mb-4">
+             <label for="pageNumber" class="block text-sm font-medium text-gray-700">Page Number:</label> 
+             <input type="number" id="pageNumber" name="pageNumber" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
+           </div> 
+           <div class="mb-4"> 
+            <label for="itemsPerPage" class="block text-sm font-medium text-gray-700">Items Per Page:</label> 
+            <input type="number" id="itemsPerPage" name="itemsPerPage" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
+          </div> 
+          <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600">Submit</button>
+        </form>
+      </div>
       
     </div>
+
   </div>
-
-  <script>
-    const itemsPerPage = 5;
-    let currentPage = 1;
-    const items = [
-      'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10',
-      'Item 11', 'Item 12', 'Item 13', 'Item 14', 'Item 15'
-    ];
-
-    function displayItems() {
-      const itemsContainer = document.getElementById('items-container');
-      itemsContainer.innerHTML = '';
-      const start = (currentPage - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const currentItems = items.slice(start, end);
-      currentItems.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'p-4 bg-white rounded-md shadow-md';
-        itemDiv.textContent = item;
-        itemsContainer.appendChild(itemDiv);
-      });
-    }
-
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        displayItems();
-      }
-    }
-
-    function nextPage() {
-      if (currentPage * itemsPerPage < items.length) {
-        currentPage++;
-        displayItems();
-      }
-    }
-
-    // Initial display
-    displayItems();
-  </script>
+  
 </body>
 </html>

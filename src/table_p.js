@@ -1,8 +1,9 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
-
-const productData = JSON.parse(localStorage.getItem('productResponse'));
+const pageNumber = document.getElementById('pageNumber').value; 
+let itemsPerPage = document.getElementById('itemsPerPage').value; 
+let productData = JSON.parse(localStorage.getItem('productResponse'));
 let name = productData.category_name_fa
 let slug_fa =  productData.slug_fa
 
@@ -10,7 +11,52 @@ let slug_fa =  productData.slug_fa
 let test
 
 
-async function GetProduct(name_fa) {
+document.getElementById('paginationForm').addEventListener('submit', async function(event) { 
+  event.preventDefault(); 
+  try {
+      
+
+    itemsPerPage = document.getElementById('itemsPerPage').value; 
+    productData = JSON.parse(localStorage.getItem('productResponse'));
+    
+    const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept-Version": 1,
+            'Accept': "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'authorization': user_token,
+        },
+        body: JSON.stringify({  // Convert the body object to a JSON string
+            "category_name_fa": productData.category_name_fa,
+            "page": page_num,
+            "page_limit": page_size
+        })
+    });
+
+    // Check if the response was successful (status code 2xx)
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Check if the response contains valid categories data
+    if (data) {
+      console.log(data);
+      
+        updateui(data);  // Call the update UI function with the response data
+    } 
+
+} catch (error) {
+    // Log and display the error to the user
+    console.error('Error Getting products:', error);
+    alert('Failed to load products: ' + error.message);
+}
+  });
+
+async function GetProduct(name_fa , page_num , page_size) {
     try {
       
       
@@ -25,8 +71,8 @@ async function GetProduct(name_fa) {
             },
             body: JSON.stringify({  // Convert the body object to a JSON string
                 "category_name_fa": name_fa,
-                "page": 1,
-                "page_limit": 10
+                "page": page_num,
+                "page_limit": page_size
             })
         });
 
@@ -51,14 +97,17 @@ async function GetProduct(name_fa) {
     }
 }
 
-async function findproducts(name_fa) {  // No need to pass "name" if it's not being used
+let page_size = 10
+
+async function findproducts(name_fa , page_num , page_size) {  // No need to pass "name" if it's not being used
     try {
+      document.getElementById('pageNumber').value = page_num
 
       console.log(JSON.stringify({  // Convert the body object to a JSON string
         "name": '',  // If you don't need "name", remove it
         "name_fa": name_fa,
-        "page": 1,
-        "page_size": 10
+        "page": page_num,
+        "page_size": page_size
     }));
       
         const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_name/', {
@@ -139,10 +188,10 @@ const refreshButton = document.getElementById('refreshButton');
 
 searchbutton.addEventListener('click', function() {
   showLoader(async function() {
-      document.getElementById('mainContent').classList.add('hidden'); // Show main content
+      document.getElementById('mainContent').classList.add('hidden'); 
 
-      await findproducts(searchBar.value);  // Simulate page load logic
-      document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      await findproducts(searchBar.value , page_num , page_size);  
+      document.getElementById('mainContent').classList.remove('hidden'); 
   });
 });
   
@@ -152,7 +201,8 @@ refreshButton.addEventListener('click', function() {
   showLoader(async function() {
       document.getElementById('mainContent').classList.add('hidden'); // Show main content
 
-      await GetProduct(productData.category_name_fa); 
+      await GetProduct(productData.category_name_fa , page_num , page_size);
+      refreshButton.classList.add('hidden') 
       document.getElementById('mainContent').classList.remove('hidden'); // Show main content
   });
 });
@@ -189,7 +239,7 @@ refreshButton.addEventListener('click', function() {
                 } else if (columnIndex === 'all_C') {
 
                   searchbutton.classList.remove('hidden')
-            refreshButton.classList.remove('hidden')
+                  refreshButton.classList.remove('hidden')
 
                   
                   
@@ -565,7 +615,9 @@ function RemoveCard(id) {
 
 
 let page_num = 1
+
 const pagenum = document.getElementById('PageNumber')
+
 document.getElementById('NextPageButton').addEventListener('click' , async function() {
 let name = productData.category_name_fa
   
@@ -663,7 +715,7 @@ async function ChangePage(name_fa , page) {
 let name = productData.category_name_fa
     
    showLoader(async function() {
-    await GetProduct(name);  // Simulate page load logic
+    await GetProduct(name , page_num , page_size);  // Simulate page load logic
     document.getElementById('mainContent').classList.remove('hidden'); // Show main content
 });
     
