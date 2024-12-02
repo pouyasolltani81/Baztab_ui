@@ -22,57 +22,59 @@ pagenum.addEventListener('click', function() {
   document.getElementById('paginatecontainer').classList.remove('hidden')
 })
 
-document.getElementById('pagibutton').addEventListener('click', async function(event) { 
-  
-  try {
-    console.log("kokokokfofkoko");
+document.getElementById('pagibutton').addEventListener('click',  function(event) {
+  showLoader(async function() { 
     
+    try {
+      console.log("kokokokfofkoko");
       
-    document.getElementById('paginatecontainer').classList.add('hidden')
+        
+      document.getElementById('paginatecontainer').classList.add('hidden')
 
-    page_num = parseInt(document.getElementById('pageNumber').value)
-    page_size = parseInt(document.getElementById('itemsPerPage').value)
-   
-    console.log(JSON.stringify({  
-      "category_name_fa": nameqwe ,
-      "page": page_num,
-      "page_limit": page_size
-  }));
+      page_num = parseInt(document.getElementById('pageNumber').value)
+      page_size = parseInt(document.getElementById('itemsPerPage').value)
     
-    const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            "Accept-Version": 1,
-            'Accept': "application/json",
-            "Access-Control-Allow-Origin": "*",
-            'authorization': user_token,
-        },
-        body: JSON.stringify({  
-            "category_name_fa": nameqwe ,
-            "page": page_num,
-            "page_limit": page_size
-        })
-    });
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-
-    if (data) {
-      console.log(data);
+      console.log(JSON.stringify({  
+        "category_name_fa": nameqwe ,
+        "page": page_num,
+        "page_limit": page_size
+    }));
       
-        updateui(data); 
-    } 
+      const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              "Accept-Version": 1,
+              'Accept': "application/json",
+              "Access-Control-Allow-Origin": "*",
+              'authorization': user_token,
+          },
+          body: JSON.stringify({  
+              "category_name_fa": nameqwe ,
+              "page": page_num,
+              "page_limit": page_size
+          })
+      });
+
+      if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data) {
+        console.log(data);
+        
+          updateui(data); 
+      } 
 
 } catch (error) {
     // Log and display the error to the user
     console.error('Error Getting products:', error);
     alert('Failed to load products: ' + error.message);
 }
-  });
+   }) }
+);
 
 async function GetProduct(name_fa , page_num , page_size) {
     try {
