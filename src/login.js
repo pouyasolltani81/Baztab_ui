@@ -44,26 +44,26 @@ async function handleSubmit(event, form, url ,type) {
     if (result.return){
         success.classList.remove('hidden');
         if (type == 'login'){
-            S_title = "login"
-            document.getElementById('S_retry').classList.add('hidden')
+            S_title.innerHTML = "login"
+            // document.getElementById('S_retry').classList.add('hidden')
 
         } else {
-            S_title = 'Register'
-            document.getElementById('S_retry').classList.remove('hidden')
+            S_title.innerHTML = 'Register'
+            // document.getElementById('S_retry').classList.remove('hidden')
         }
 
-        S_message = result.message
+        S_message.innerHTML = result.message
          
     } else {
         failed.classList.remove('hidden');
 
         if (type == 'login'){
-            F_title = "login"
+            F_title.innerHTML = "login"
         } else {
-            F_title = 'Register'
+            F_title.innerHTML = 'Register'
         }
 
-        F_message = result.message
+        F_message.innerHTML = result.message
         
 
     }
