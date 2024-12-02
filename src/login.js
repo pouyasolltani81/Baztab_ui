@@ -8,6 +8,7 @@ const S_title = document.getElementById('S_title');
 const S_message = document.getElementById('S_message');
 const F_title = document.getElementById('F_title');
 const F_message = document.getElementById('F_message');
+const logincon = document.getElementById('form-container')
 
 
 loginBtn.addEventListener('click', () => {
@@ -41,8 +42,10 @@ async function handleSubmit(event, form, url ,type) {
       body: JSON.stringify(data)
     });
     const result = await response.json();
+    logincon.classList.add('hidden')
     if (result.return){
         success.classList.remove('hidden');
+       
         if (type == 'login'){
             S_title.innerHTML = "login"
             // document.getElementById('S_retry').classList.add('hidden')
