@@ -31,6 +31,12 @@ document.getElementById('paginationForm').addEventListener('submit', async funct
     page_num = pageNumber
     page_size = itemsPerPage
    
+    console.log(JSON.stringify({  
+      "category_name_fa": nameqwe ,
+      "page": page_num,
+      "page_limit": page_size
+  }));
+    
     const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
         method: 'POST',
         headers: {
@@ -111,6 +117,8 @@ async function GetProduct(name_fa , page_num , page_size) {
 async function findproducts(name_fa , page_num , page_size) {  // No need to pass "name" if it's not being used
     try {
       document.getElementById('pageNumber').value = page_num
+      document.getElementById('itemsPerPage').value = page_size
+
 
       console.log(JSON.stringify({  // Convert the body object to a JSON string
         "name": '',  // If you don't need "name", remove it
