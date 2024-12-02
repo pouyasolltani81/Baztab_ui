@@ -25,6 +25,8 @@ pagenum.addEventListener('click', function() {
 document.getElementById('paginationForm').addEventListener('submit', async function(event) { 
   
   try {
+    console.log("kokokokfofkoko");
+    
       
     document.getElementById('paginatecontainer').classList.add('hidden')
 
