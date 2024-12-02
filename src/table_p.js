@@ -8,6 +8,11 @@ let name = productData.category_name_fa
 let slug_fa =  productData.slug_fa
 
 
+let page_num = 1
+
+const pagenum = document.getElementById('PageNumber')
+
+
 let test
 
 pagenum.addEventListener('click', function() {
@@ -616,11 +621,6 @@ function RemoveCard(id) {
     }, 500); // Wait for the animation to finish before removing and updating the grid
 }
 
-
-
-let page_num = 1
-
-const pagenum = document.getElementById('PageNumber')
 
 document.getElementById('NextPageButton').addEventListener('click' , async function() {
 let name = productData.category_name_fa
