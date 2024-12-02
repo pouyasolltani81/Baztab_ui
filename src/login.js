@@ -34,6 +34,8 @@ const popup = document.getElementById('popup');
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
+        console.log(response , response.json() , data);
+        
         if (response.return) {
           showPopup(successMessage, 'success');
         } else {
