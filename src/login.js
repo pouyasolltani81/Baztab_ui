@@ -2,6 +2,13 @@ const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
+const failed = document.getElementById('failed');
+const success = document.getElementById('success');
+const S_title = document.getElementById('S_title');
+const S_message = document.getElementById('S_message');
+const F_title = document.getElementById('F_title');
+const F_message = document.getElementById('F_message');
+
 
 loginBtn.addEventListener('click', () => {
   loginForm.parentElement.classList.remove('hidden', 'fade-in');
@@ -23,7 +30,7 @@ registerBtn.addEventListener('click', () => {
   loginBtn.classList.add('text-gray-500');
 });
 
-async function handleSubmit(event, form, url) {
+async function handleSubmit(event, form, url ,type) {
   event.preventDefault();
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
@@ -35,9 +42,29 @@ async function handleSubmit(event, form, url) {
     });
     const result = await response.json();
     if (result.return){
-        console.log('Success:', result).message;
+        success.classList.remove('hidden');
+        if (type == 'login'){
+            S_title = "login"
+            document.getElementById('S_retry').classList.add('hidden')
+
+        } else {
+            S_title = 'Register'
+            document.getElementById('S_retry').classList.remove('hidden')
+        }
+
+        S_message = result.message
+         
     } else {
-        console.log('Failed:', result).message;
+        failed.classList.remove('hidden');
+
+        if (type == 'login'){
+            F_title = "login"
+        } else {
+            F_title = 'Register'
+        }
+
+        F_message = result.message
+        
 
     }
     
@@ -46,8 +73,8 @@ async function handleSubmit(event, form, url) {
   }
 }
 
-loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/GetUserToken/'));
-registerForm.addEventListener('submit', (event) => handleSubmit(event, registerForm, 'http://79.175.177.113:21800/User/ServiceRegister/'));
+loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/GetUserToken/','login'));
+registerForm.addEventListener('submit', (event) => handleSubmit(event, registerForm, 'http://79.175.177.113:21800/User/ServiceRegister/','register'));
 
 
 
