@@ -1,3 +1,8 @@
+const Username = JSON.parse(localStorage.getItem('user_data')).username;
+
+document.getElementById('Username').innerHTML= Username
+
+
 // Function to show loading overlay
     function showLoader(asyncOperation) {
       // Create and append the overlay with the spinner
