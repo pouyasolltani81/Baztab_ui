@@ -51,15 +51,15 @@ async function handleSubmit(event, form, url ,type) {
             // document.getElementById('S_retry').classList.add('hidden')
 
 
-            const data = {
+            const data2 = {
                 user_token: result.user_token,
                 username: result.username ,
                 
             };
-            // console.log(data)
+            console.log(data2)
             
-            localStorage.setItem('user_data', JSON.stringify(data));  
-            window.location.href = '/category.html';
+            localStorage.setItem('user_data', JSON.stringify(data2));  
+            // window.location.href = '/category.html';
 
         } else {
             S_title.innerHTML = 'Register'
