@@ -5,6 +5,8 @@ let pageNumber = document.getElementById('pageNumber').value;
 let itemsPerPage = document.getElementById('itemsPerPage').value; 
 let productData = JSON.parse(localStorage.getItem('productResponse'));
 let name = productData.category_name_fa
+let nameqwe = productData.category_name_fa
+
 let slug_fa =  productData.slug_fa
 
 
@@ -28,7 +30,7 @@ document.getElementById('paginationForm').addEventListener('submit', async funct
 
     page_num = pageNumber
     page_size = itemsPerPage
-
+   
     const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
         method: 'POST',
         headers: {
@@ -38,25 +40,23 @@ document.getElementById('paginationForm').addEventListener('submit', async funct
             "Access-Control-Allow-Origin": "*",
             'authorization': user_token,
         },
-        body: JSON.stringify({  // Convert the body object to a JSON string
-            "category_name_fa": productData.category_name_fa,
+        body: JSON.stringify({  
+            "category_name_fa": nameqwe ,
             "page": page_num,
             "page_limit": page_size
         })
     });
 
-    // Check if the response was successful (status code 2xx)
     if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
 
-    // Check if the response contains valid categories data
     if (data) {
       console.log(data);
       
-        updateui(data);  // Call the update UI function with the response data
+        updateui(data); 
     } 
 
 } catch (error) {
