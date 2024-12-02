@@ -77,7 +77,7 @@ async function handleSubmit(event, form, url ,type) {
             F_title.innerHTML = 'Register'
         }
 
-        F_message.innerHTML = result.message
+        F_message.innerHTML = result.error
         
 
     }
