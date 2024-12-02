@@ -59,7 +59,7 @@ async function handleSubmit(event, form, url ,type) {
             console.log(data2)
             
             localStorage.setItem('user_data', JSON.stringify(data2));  
-            // window.location.href = '/category.html';
+            window.location.href = '/category.html';
 
         } else {
             S_title.innerHTML = 'Register'
