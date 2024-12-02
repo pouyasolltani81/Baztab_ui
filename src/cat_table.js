@@ -1,4 +1,7 @@
-const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
+
+const userData = JSON.parse(localStorage.getItem('productResponse'));
+
+const user_token = userData.user_token;
 
 async function fetchdata() {
     try {

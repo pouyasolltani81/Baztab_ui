@@ -23,7 +23,7 @@
 
 <div id="success" class="hidden">
   <div class="card relative overflow-hidden rounded-lg max-w-sm shadow-lg bg-white">
-    <button class="dismiss absolute top-2.5 right-2.5 flex items-center justify-center p-2.5 bg-white text-black border-2 border-gray-300 text-lg font-light w-7.5 h-7.5 rounded-md transition ease duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white" type="button" onclick="document.getElementById('failed').classList.add('hidden')">×</button>
+    <button class="dismiss absolute top-2.5 right-2.5 flex items-center justify-center p-2.5 bg-white text-black border-2 border-gray-300 text-lg font-light w-7.5 h-7.5 rounded-md transition ease duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white" type="button" onclick="closepopup('S')">×</button>
     <div class="header p-5">
       <div class="image flex mx-auto bg-teal-100 shrink-0 justify-center items-center w-12 h-12 rounded-full animate-pulse transition duration-600">
         <svg class="w-8 h-8 text-teal-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +45,7 @@
 
 <div id='failed' class="hidden">
   <div class="card relative overflow-hidden rounded-lg max-w-sm shadow-lg bg-white">
-    <button class="dismiss absolute top-2.5 right-2.5 flex items-center justify-center p-2.5 bg-white text-black border-2 border-gray-300 text-lg font-light w-7.5 h-7.5 rounded-md transition ease duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white" type="button" onclick="document.getElementById('failed').classList.add('hidden')">×</button>
+    <button class="dismiss absolute top-2.5 right-2.5 flex items-center justify-center p-2.5 bg-white text-black border-2 border-gray-300 text-lg font-light w-7.5 h-7.5 rounded-md transition ease duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white" type="button" onclick="closepopup('F')">×</button>
     <div class="header p-5">
       <div class="image flex mx-auto bg-red-100 shrink-0 justify-center items-center w-12 h-12 rounded-full animate-pulse transition duration-600">
         <svg class="w-8 h-8 text-red-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@
       </div>
       <div class="actions mt-3 mx-4">
         <!-- <button class="history inline-flex w-full p-2.5 bg-red-600 text-white text-lg leading-6 font-medium justify-center rounded-md shadow-md border-none">History</button> -->
-        <button class="retry inline-flex mt-3 p-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md" onclick="document.getElementById('failed').classList.add('hidden')" id="F_retry">Retry</button>
+        <button class="retry inline-flex mt-3 p-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md" onclick="closepopup('F')" id="F_retry">Retry</button>
       </div>
     </div>
   </div>

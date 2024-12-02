@@ -50,6 +50,17 @@ async function handleSubmit(event, form, url ,type) {
             S_title.innerHTML = "login"
             // document.getElementById('S_retry').classList.add('hidden')
 
+
+            const data = {
+                user_token: result.user_token,
+                username: result.username ,
+                
+            };
+            // console.log(data)
+            
+            localStorage.setItem('user_data', JSON.stringify(data));  
+            window.location.href = '/category.html';
+
         } else {
             S_title.innerHTML = 'Register'
             // document.getElementById('S_retry').classList.remove('hidden')
@@ -74,6 +85,23 @@ async function handleSubmit(event, form, url ,type) {
   } catch (error) {
     console.error('Error:', error);
   }
+}
+
+
+function closepopup(type) {
+
+    if (type == 'S') {
+        logincon.classList.remove('hidden')
+        success.classList.add('hidden');
+
+
+    } else {
+
+        failed.classList.add('hidden');
+        logincon.classList.remove('hidden');
+
+    }
+
 }
 
 loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/GetUserToken/','login'));
