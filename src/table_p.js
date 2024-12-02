@@ -10,15 +10,19 @@ let slug_fa =  productData.slug_fa
 
 let test
 
+pagenum.addEventListener('click', function() {
+  document.getElementById('paginatecontainer').classList.remove('hidden')
+})
 
 document.getElementById('paginationForm').addEventListener('submit', async function(event) { 
   event.preventDefault(); 
   try {
       
+    document.getElementById('paginatecontainer').classList.add('hidden')
 
     itemsPerPage = document.getElementById('itemsPerPage').value; 
     productData = JSON.parse(localStorage.getItem('productResponse'));
-    
+
     const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
         method: 'POST',
         headers: {
