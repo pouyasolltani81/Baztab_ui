@@ -40,5 +40,5 @@ async function handleSubmit(event, form, url) {
   }
 }
 
-loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/ServiceLogin'));
-registerForm.addEventListener('submit', (event) => handleSubmit(event, registerForm, 'http://79.175.177.113:21800/User/ServiceRegister'));
+loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/GetUserToken/'));
+registerForm.addEventListener('submit', (event) => handleSubmit(event, registerForm, 'http://79.175.177.113:21800/User/ServiceRegister/'));
