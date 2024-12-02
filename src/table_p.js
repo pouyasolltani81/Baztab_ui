@@ -30,8 +30,8 @@ document.getElementById('paginationForm').addEventListener('submit', async funct
       
     document.getElementById('paginatecontainer').classList.add('hidden')
 
-    page_num = pageNumber
-    page_size = itemsPerPage
+    page_num = parseInt(pageNumber)
+    page_size = parseInt(itemsPerPage)
    
     console.log(JSON.stringify({  
       "category_name_fa": nameqwe ,
