@@ -2,6 +2,7 @@
 const userData = JSON.parse(localStorage.getItem('productResponse'));
 
 const user_token = userData.user_token;
+console.log(user_token);
 
 async function fetchdata() {
     try {
