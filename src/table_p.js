@@ -1,13 +1,14 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
 const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
-const pageNumber = document.getElementById('pageNumber').value; 
+let pageNumber = document.getElementById('pageNumber').value; 
 let itemsPerPage = document.getElementById('itemsPerPage').value; 
 let productData = JSON.parse(localStorage.getItem('productResponse'));
 let name = productData.category_name_fa
 let slug_fa =  productData.slug_fa
 
 
+let page_size = 10
 let page_num = 1
 
 const pagenum = document.getElementById('PageNumber')
@@ -25,8 +26,8 @@ document.getElementById('paginationForm').addEventListener('submit', async funct
       
     document.getElementById('paginatecontainer').classList.add('hidden')
 
-    itemsPerPage = document.getElementById('itemsPerPage').value; 
-    productData = JSON.parse(localStorage.getItem('productResponse'));
+    page_num = pageNumber
+    page_size = itemsPerPage
 
     const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
         method: 'POST',
@@ -106,7 +107,6 @@ async function GetProduct(name_fa , page_num , page_size) {
     }
 }
 
-let page_size = 10
 
 async function findproducts(name_fa , page_num , page_size) {  // No need to pass "name" if it's not being used
     try {
@@ -634,7 +634,7 @@ let name = productData.category_name_fa
   }
   showLoader(async function() {
     document.getElementById('mainContent').classList.add('hidden'); 
-    await ChangePage(name , page_num)
+    await ChangePage(name , page_num , page_size)
     document.getElementById('mainContent').classList.remove('hidden');
 })
 
@@ -657,14 +657,14 @@ let name = productData.category_name_fa
   }
   showLoader(async function() {
     document.getElementById('mainContent').classList.add('hidden'); 
-    await ChangePage(name , page_num)
+    await ChangePage(name , page_num , page_size)
     document.getElementById('mainContent').classList.remove('hidden');
 })
 
 })
 
 
-async function ChangePage(name_fa , page) {
+async function ChangePage(name_fa , page, page_size)  {
   try {
       
       
@@ -680,7 +680,7 @@ async function ChangePage(name_fa , page) {
         body: JSON.stringify({  // Convert the body object to a JSON string
             "category_name_fa": name_fa,
             "page": page,
-            "page_limit": 10
+            "page_limit": page_size
         })
     });
 
