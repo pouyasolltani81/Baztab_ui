@@ -133,6 +133,8 @@ const searchBar = document.getElementById('searchBar');
 const searchColumn = document.getElementById('searchColumn');
 const tableBody = document.getElementById('TableBody');
 const searchbutton = document.getElementById('SearchButton');
+const refreshButton = document.getElementById('refreshButton');
+
         
 
 searchbutton.addEventListener('click', function() {
@@ -145,8 +147,16 @@ searchbutton.addEventListener('click', function() {
 });
   
 
-
  
+refreshButton.addEventListener('click', function() {
+  showLoader(async function() {
+      document.getElementById('mainContent').classList.add('hidden'); // Show main content
+
+      await GetProduct(productData.category_name_fa); 
+      document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+  });
+});
+  
 
 
         // Listen for input in the search bar
