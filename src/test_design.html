@@ -7,31 +7,117 @@
   <script src="https://cdn.tailwindcss.com"></script>
  
 </head>
-<body class="bg-gray-100 p-6 flex justify-center">
+<body class="bg-gray-100 p-6 flex justify-center flex-col gap-6 p-4">
 
-  <div>
-    
-    <div
-      class="w-72 bg-white rounded-b-lg border-t-8 border-green-400 px-4 py-5 flex flex-col justify-around shadow-md"
-    >
-      <p class="text-lg font-bold font-sans text-center">Pagination</p>
-      <div class="py-3">
-        <form id="paginationForm">
-           <div class="mb-4">
-             <label for="pageNumber" class="block text-sm font-medium text-gray-700">Page Number:</label> 
-             <input type="number" id="pageNumber" name="pageNumber" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
-           </div> 
-           <div class="mb-4"> 
-            <label for="itemsPerPage" class="block text-sm font-medium text-gray-700">Items Per Page:</label> 
-            <input type="number" id="itemsPerPage" name="itemsPerPage" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
-          </div> 
-          <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600">Submit</button>
-        </form>
+  <div class="w-full border-2 border-gray-900 rounded-md p-6">
+
+    <div>
+
+      <div class="text-center">نظر کاربران</div>
+      <div class="flex justify-between p-4">
+        <div>topk : 10</div>
+        <div>خلاصه کاربران : review - summery </div>
+
       </div>
+
+      <div class="p-4 border-2 border-gray-900 rounded-md flex flex-col">
+        <div>نظر</div>
+        <div>review</div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="w-full border-2 border-gray-900 rounded-md p-6">
+    <div class="p-4">
+      <div class="text-center">اطلاعات قیمت</div>
+      <div>Item : 1</div>
+      <div>Item : 1</div>
+      <div>Item : 1</div>
+    </div>
+
+    <table
+              class="min-w-full text-center text-sm font-light text-surface dark:text-white p-4">
+              <thead
+                class="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
+                <tr>
+                 
+                  <th scope="col" class=" px-6 py-4">نام فروشنده</th>
+                  <th scope="col" class=" px-6 py-4">قیمت</th>
+                  <th scope="col" class=" px-6 py-4">رنگ کالا</th>
+                </tr>
+              </thead>
+              <tbody id="TableBody">
+
+                
+                
+                
+              </tbody>
+    </table>
+
+  </div>
+
+
+  <div class="w-full border-2 border-gray-900 rounded-md p-6 flex flex-col gap-4">
+
+    <div class="border-2 border-gray-900 rounded-md p-4">
+      
+      <div class="text-center">اطلاعات پایه کالا</div>
+      <div class="flex justify-between p-4 flex-col gap-4">
+        <div class="flex justify-between p-4">
+          <div>name :</div>
+          <div>color :</div>
+          <div>available : False</div>
+        </div>
+
+        <div class="flex justify-between p-4">
+          <div>description :</div>
+          <div class="border p-2 border-teal-900 text-blue-400 bg-teal-100 rounded-md" onclick="modalpopup()">full description</div>
+          
+        </div>
+
+        <div class="flex p-4 gap-2">
+        
+          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
+          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
+          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
+          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
+          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
+
+          
+        </div>
+
+        <div class="border p-2 border-teal-900 text-blue-400 bg-teal-100 rounded-md text-center" onclick="gotoproductpage()">go to product page</div>
+
+
+      </div>
+
+      
+    </div>
+
+
+    <div class="border-2 border-gray-900 rounded-md p-4">
+
+      <div class="text-center">به روزرسانی وضعیت</div>
+      <div class="flex  p-4">
+        <input type="checkbox" name="available" id="available">
+        <label for="available">available</label>
+
+
+        <input type="checkbox" name="not_available" id="not_available">
+        <label for="not_available">not available</label>
+
+      </div>
+
       
     </div>
 
   </div>
+
   
 </body>
 </html>
