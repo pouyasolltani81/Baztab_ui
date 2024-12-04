@@ -140,6 +140,8 @@ function renderSubcategories(subcategories, level) {
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
                 ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ``}
+                ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات مدل زبانی</button>` : ``}
+
             </div>
         `;
         return `
