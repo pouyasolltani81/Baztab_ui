@@ -1,8 +1,4 @@
 
-const userData = JSON.parse(localStorage.getItem('user_data'));
-
-const user_token = userData.user_token;
-console.log(user_token);
 
 async function fetchdata() {
     try {

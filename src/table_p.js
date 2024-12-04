@@ -1,6 +1,6 @@
 const productTableContainer = document.getElementById("TableBody");
 const info_container = document.getElementById("info_container");
-const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
+
 let pageNumber = document.getElementById('pageNumber').value; 
 let itemsPerPage = document.getElementById('itemsPerPage').value; 
 let productData = JSON.parse(localStorage.getItem('productResponse'));

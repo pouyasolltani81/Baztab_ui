@@ -1,123 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagination Example</title>
   <script src="https://cdn.tailwindcss.com"></script>
- 
 </head>
-<body class="bg-gray-100 p-6 flex justify-center flex-col gap-6 p-4">
 
-  <div class="w-full border-2 border-gray-900 rounded-md p-6">
+<body class="bg-gray-50 p-8 flex flex-col items-center gap-6">
 
+  <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
+
+    <!-- User Reviews Section -->
     <div>
+      <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">نظر کاربران</h2>
 
-      <div class="text-center">نظر کاربران</div>
-      <div class="flex justify-between p-4">
-        <div>topk : 10</div>
-        <div>خلاصه کاربران : review - summery </div>
-
+      <div class="flex justify-between text-sm text-gray-600 mb-6">
+        <!-- Updated Topk with an input field -->
+        <div>
+          <label for="topk" class="mr-2">Topk:</label>
+          <input id="topk" type="number" value="10" min="1" class="w-16 p-1 border border-teal-300 rounded-md text-gray-700" onchange="updateTopk()">
+        </div>
+        <div>خلاصه کاربران: review - summary</div>
       </div>
 
-      <div class="p-4 border-2 border-gray-900 rounded-md flex flex-col">
-        <div>نظر</div>
-        <div>review</div>
-
+      <div class="p-4 border-2 border-teal-900 rounded-md bg-teal-50">
+        <div class="font-medium text-teal-700">نظر</div>
+        <div class="text-gray-800">review</div>
       </div>
-
     </div>
 
-  </div>
+</div>
 
 
+  <!-- Price Information Section -->
+  <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
+    <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">اطلاعات قیمت</h2>
 
-  <div class="w-full border-2 border-gray-900 rounded-md p-6">
-    <div class="p-4">
-      <div class="text-center">اطلاعات قیمت</div>
-      <div>Item : 1</div>
-      <div>Item : 1</div>
-      <div>Item : 1</div>
+    <div class="text-gray-700 mb-4">
+      <div>Item: 1</div>
+      <div>Item: 2</div>
+      <div>Item: 3</div>
     </div>
 
-    <table
-              class="min-w-full text-center text-sm font-light text-surface dark:text-white p-4">
-              <thead
-                class="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
-                <tr>
-                 
-                  <th scope="col" class=" px-6 py-4">نام فروشنده</th>
-                  <th scope="col" class=" px-6 py-4">قیمت</th>
-                  <th scope="col" class=" px-6 py-4">رنگ کالا</th>
-                </tr>
-              </thead>
-              <tbody id="TableBody">
-
-                
-                
-                
-              </tbody>
+    <table class="min-w-full text-sm font-light text-gray-600">
+      <thead class="border-b border-teal-300 bg-teal-100">
+        <tr>
+          <th scope="col" class="px-6 py-4">نام فروشنده</th>
+          <th scope="col" class="px-6 py-4">قیمت</th>
+          <th scope="col" class="px-6 py-4">رنگ کالا</th>
+        </tr>
+      </thead>
+      <tbody id="TableBody">
+        <!-- Table Rows will go here -->
+      </tbody>
     </table>
+  </div>
+
+  <!-- Product Info Section -->
+  <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg flex flex-col gap-6">
+
+    <div class="border-2 border-teal-900 rounded-lg p-4">
+      <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">اطلاعات پایه کالا</h2>
+
+      <div class="flex justify-between mb-4 text-gray-700">
+        <div>name:</div>
+        <div>color:</div>
+        <div>available: False</div>
+      </div>
+
+      <div class="flex justify-between mb-6">
+        <div class="text-gray-700">description:</div>
+        <div class="border p-2 border-teal-900 text-white bg-teal-600 rounded-md cursor-pointer text-center hover:bg-teal-700"
+          onclick="modalpopup()">full description</div>
+      </div>
+
+      <div class="flex gap-2 mb-6">
+        <div class="border p-2 border-teal-900 text-teal-400 bg-teal-100 rounded-md">tag</div>
+        <div class="border p-2 border-teal-900 text-teal-400 bg-teal-100 rounded-md">tag</div>
+        <div class="border p-2 border-teal-900 text-teal-400 bg-teal-100 rounded-md">tag</div>
+        <div class="border p-2 border-teal-900 text-teal-400 bg-teal-100 rounded-md">tag</div>
+        <div class="border p-2 border-teal-900 text-teal-400 bg-teal-100 rounded-md">tag</div>
+      </div>
+
+      <div class="border p-2 border-teal-900 text-white bg-teal-600 rounded-md text-center cursor-pointer hover:bg-teal-700"
+        onclick="gotoproductpage()">go to product page</div>
+    </div>
+
+    <!-- Update Status Section -->
+    <div class="border-2 border-teal-900 rounded-lg p-4">
+      <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">به روزرسانی وضعیت</h2>
+
+      <!-- Radio Buttons to select 'available' or 'not available' -->
+      <div class="flex justify-center gap-6 items-center text-gray-700 mb-6">
+        <label for="available" class="flex items-center gap-2">
+          <input type="radio" name="status" id="available" class="h-5 w-5 text-teal-600 rounded" />
+          available
+        </label>
+
+        <label for="not_available" class="flex items-center gap-2">
+          <input type="radio" name="status" id="not_available" class="h-5 w-5 text-teal-600 rounded" />
+          not available
+        </label>
+      </div>
+
+      <!-- Unified Update Button -->
+      <div class="text-center">
+        <button class="w-full bg-teal-600 text-white p-3 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-400 transition duration-300"
+          onclick="updateStatus()">Update</button>
+      </div>
+    </div>
 
   </div>
 
-
-  <div class="w-full border-2 border-gray-900 rounded-md p-6 flex flex-col gap-4">
-
-    <div class="border-2 border-gray-900 rounded-md p-4">
-      
-      <div class="text-center">اطلاعات پایه کالا</div>
-      <div class="flex justify-between p-4 flex-col gap-4">
-        <div class="flex justify-between p-4">
-          <div>name :</div>
-          <div>color :</div>
-          <div>available : False</div>
-        </div>
-
-        <div class="flex justify-between p-4">
-          <div>description :</div>
-          <div class="border p-2 border-teal-900 text-blue-400 bg-teal-100 rounded-md" onclick="modalpopup()">full description</div>
-          
-        </div>
-
-        <div class="flex p-4 gap-2">
-        
-          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
-          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
-          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
-          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
-          <div class="border p-2 border-blue-900 text-teal-400 bg-blue-100 rounded-md">tag</div>
-
-          
-        </div>
-
-        <div class="border p-2 border-teal-900 text-blue-400 bg-teal-100 rounded-md text-center" onclick="gotoproductpage()">go to product page</div>
-
-
-      </div>
-
-      
-    </div>
-
-
-    <div class="border-2 border-gray-900 rounded-md p-4">
-
-      <div class="text-center">به روزرسانی وضعیت</div>
-      <div class="flex  p-4">
-        <input type="checkbox" name="available" id="available">
-        <label for="available">available</label>
-
-
-        <input type="checkbox" name="not_available" id="not_available">
-        <label for="not_available">not available</label>
-
-      </div>
-
-      
-    </div>
-
-  </div>
-
-  
 </body>
+
 </html>

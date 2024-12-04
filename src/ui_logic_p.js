@@ -1,5 +1,15 @@
 const Username = JSON.parse(localStorage.getItem('user_data')).username;
 
+const userData = JSON.parse(localStorage.getItem('user_data'));
+let user_token
+if (userData) {
+    user_token = userData.user_token;
+} else {
+    window.location.href = './index.html';
+
+}
+
+
 document.getElementById('Username').innerHTML= Username
 
 
