@@ -1,0 +1,16 @@
+{
+  "return": true,
+  "message": "ok",
+  "data": [
+    {
+      "author_name": "سعیده سرخوانی",
+      "datePublished": "2 مرداد 1402",
+      "reviewBody": "xub bud",
+      "reviewRating": {
+        "bestRating": 5,
+        "ratingValue": 4,
+        "worstRating": 1
+      }
+    }
+  ]
+}
