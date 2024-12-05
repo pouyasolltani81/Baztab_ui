@@ -501,46 +501,45 @@ slug.innerHTML = `<div class='flex flex-col'>
 
 
 
-  // List to store the checked rows
-  let checkedRows = [];
-  let checked_id = []
-// Create the event listener for the checkbox
+  // Store selected row data
+  let selectedProducts = [];
+ // Add event listener for checkbox selection
     checkbox.addEventListener('click', () => {
-      const allRows = document.querySelectorAll('tr');
-      const isSelected = row.classList.toggle('selected'); 
+      const isSelected = checkbox.querySelector("input").checked;
 
-      // If selected, add it to checkedRows
+      // Add or remove product from the selectedProducts array
       if (isSelected) {
-        checkedRows.push(row);  // Add to checked rows
-        checked_id.push(product._id);  // Add to checked rows
+        selectedProducts.push({
+          mall_id: product.mall_info.mall_id,
+          product_id: product.product_info.product_id
+        });
+      } else {
+        selectedProducts = selectedProducts.filter(item => item.product_id !== product.product_info.product_id);
+      }
 
+      // Toggle visibility of "Info" button based on selection
+      if (selectedProducts.length > 0) {
+        if (!document.querySelector('.info-button')) {
+          const infoButton = document.createElement('button');
+          infoButton.textContent = 'Show Info of Selected Products';
+          infoButton.classList.add('info-button');
+          document.body.appendChild(infoButton);
 
-        // Ensure checked rows remain visible
-        checkedRows.forEach(r => r.style.display = 'table-row');
+          // Add event listener to the info button
+          infoButton.addEventListener('click', () => {
+            // Save the selected rows' data to localStorage
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
 
-        // Add "Add More Products" button if not already present
-        if (!document.querySelector('.add-more-btn')) {
-          const addButton = document.createElement('button');
-          addButton.textContent = 'Add More Products';
-          addButton.classList.add('add-more-btn');
-          document.body.appendChild(addButton);
-
-          addButton.addEventListener('click', () => {
-
-            console.log(checked_id);
-           
-            addButton.remove();  // Remove the button after it is clicked
+            // Redirect to p_info.html
+            window.location.href = 'p_info.html';
           });
         }
       } else {
-        // If unchecked, remove from checkedRows
-        checkedRows = checkedRows.filter(r => r !== row);
-        checked_id = checked_id.filter(r => r !== product._id);
-
-
-        // Hide unchecked row and keep the checked ones visible
-        checkedRows.forEach(r => r.style.display = 'table-row');
-        row.style.display = 'none';  // Hide this unchecked row
+        // Remove Info button if no products are selected
+        const infoButton = document.querySelector('.info-button');
+        if (infoButton) {
+          infoButton.remove();
+        }
       }
     });
 
