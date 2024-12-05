@@ -410,7 +410,7 @@ function createProductTable(products) {
         row.appendChild(mall);
         row.appendChild(media);
         row.appendChild(slug);
-        row.appendChild(availability);
+        // row.appendChild(availability);
         row.appendChild(productName);
         row.appendChild(productId);
         row.appendChild(productUrl);
@@ -438,18 +438,17 @@ function createProductTable(products) {
 
     // Toggle visibility of "Show Info" button based on selection
     function toggleInfoButtonVisibility() {
-        const infoButton = document.querySelector('.info-button');
-        if (selectedProducts.length > 0 && !infoButton) {
-            const newInfoButton = document.createElement('button');
-            newInfoButton.textContent = 'Show Info of Selected Products';
-            newInfoButton.classList.add('info-button', 'px-4', 'py-2', 'bg-blue-500', 'text-white', 'rounded-lg', 'mt-4', 'hover:bg-blue-700');
-            document.body.appendChild(newInfoButton);
+        const infoButton = document.getElementById('Seeinfo');
+        if (selectedProducts.length > 0) {
+           infoButton.classList.remove('hidden')
 
-            newInfoButton.addEventListener('click', () => {
+            infoButton.addEventListener('click', () => {
                 console.log('Selected Products:', selectedProducts);
             });
-        } else if (selectedProducts.length === 0 && infoButton) {
-            infoButton.remove();
+        } else if (selectedProducts.length === 0) {
+           infoButton.classList.add('hidden')
+
+          
         }
     }
 
