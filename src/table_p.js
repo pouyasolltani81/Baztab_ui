@@ -530,8 +530,10 @@ slug.innerHTML = `<div class='flex flex-col'>
             // Save the selected rows' data to localStorage
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
 
+            console.log(selectedProducts);
+            
             // Redirect to p_info.html
-            window.location.href = 'p_info.html';
+            // window.location.href = 'p_info.html';
           });
         }
       } else {
