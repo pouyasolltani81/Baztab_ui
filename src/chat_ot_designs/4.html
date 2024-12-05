@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دستیار خرید</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> FontAwesome Icons -->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-teal-100 to-white">
+
+    <div id="app" class="min-h-screen flex flex-col justify-center items-center transition-all ease-in-out duration-500">
+        <!-- نوار چت (وضعیت اولیه) -->
+        <div id="chat-bar" class="w-full max-w-md bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 rounded-lg shadow-lg transform scale-100 transition-all ease-in-out duration-500">
+            <h2 class="text-3xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
+            <p class="text-sm mb-4 text-gray-600 text-center">سلام! من می‌توانم به شما در یافتن محصولات مناسب کمک کنم. فقط بگویید به دنبال چه چیزی هستید، و من گزینه‌ها را پیشنهاد خواهم کرد.</p>
+            <div class="mt-4 flex items-center space-x-2 flex-col gap-4">
+                <input id="chat-input" type="text" placeholder="چه چیزی می‌خواهید پیدا کنید؟" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" />
+                <button id="start-chat-btn" class="w-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
+                    <i class="fas fa-comments mr-2"></i> شروع چت
+                </button>
+            </div>
+        </div>
+
+        <!-- صفحه نمایش تمام صفحه (مخفی در ابتدا) -->
+        <div id="chat-layout" class="w-full hidden flex min-h-screen transition-all ease-in-out duration-500">
+            <!-- سمت چپ (چت) -->
+            <div class="w-1/3 bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500">
+                <h2 class="text-2xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
+                <p class="text-sm mb-4 text-gray-600 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک کنم!</p>
+
+                <!-- تاریخچه چت -->
+                <div id="chat-history" class="flex-grow overflow-y-auto space-y-4">
+                    <!-- چت به طور داینامیک اینجا آپدیت می‌شود -->
+                </div>
+
+                <!-- بخش ورودی -->
+                <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4">
+                    <input id="user-input" type="text" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" placeholder="جستجوی محصولات..." />
+                    <button id="send-btn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
+                        <i class="fas fa-paper-plane mr-2"></i> ارسال
+                    </button>
+                </div>
+            </div>
+
+            <!-- سمت راست (نمایش محصولات) -->
+            <div class="w-2/3 bg-gray-50 p-6 overflow-y-auto">
+                <h2 class="text-xl font-semibold text-teal-600 mb-4 text-center">محصولات یافت شده</h2>
+                
+                <!-- گرید محصولات -->
+                <div id="product-grid" class="grid grid-cols-3 gap-6">
+                    <!-- کارت‌های محصول به طور داینامیک اینجا آپدیت می‌شود -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatBar = document.getElementById('chat-bar');
+        const chatLayout = document.getElementById('chat-layout');
+        const chatHistory = document.getElementById('chat-history');
+        const productGrid = document.getElementById('product-grid');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-btn');
+        const startChatBtn = document.getElementById('start-chat-btn');
+
+        // داده‌های محصولات فرضی (قابل به‌روزرسانی داینامیک)
+        const products = [
+            { name: 'کفش ورزشی', price: '$49.99', image: 'https://via.placeholder.com/150' },
+            { name: 'گوشی هوشمند', price: '$699.99', image: 'https://via.placeholder.com/150' },
+            { name: 'هدفون بلوتوثی', price: '$29.99', image: 'https://via.placeholder.com/150' }
+        ];
+
+        // رفتار دکمه شروع چت
+        startChatBtn.addEventListener('click', () => {
+            const userMessage = document.getElementById('chat-input').value;
+            if (userMessage) {
+                chatBar.classList.add('scale-0');
+                // مخفی کردن نوار چت به مدت 1 ثانیه (برای اثر انتقال)
+                setTimeout(() => {
+                    chatBar.classList.add('hidden');
+                    chatLayout.classList.remove('hidden');
+                    chatLayout.classList.add('flex');  // اکنون نوار چت بعد از انتقال مخفی می‌شود
+                }, 500);  
+
+                // افزودن پاسخ اولیه ربات
+                chatHistory.innerHTML = `<div class="flex items-start space-x-2">
+                                            <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+                                                <p><i class="fas fa-spinner fa-spin mr-2"></i> بگذارید محصولات را برای شما پیدا کنم...</p>
+                                            </div>
+                                          </div>`;
+                setTimeout(() => {
+                    addProductCards();
+                }, 1500); // شبیه‌سازی زمان جستجوی محصولات
+            }
+        });
+
+        // مدیریت پیام کاربر و نمایش پیشنهادات محصولات
+        sendButton.addEventListener('click', () => {
+            const userMessage = userInput.value;
+            if (userMessage) {
+                chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
+                                              <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+                                                  <p><i class="fas fa-user mr-2"></i> ${userMessage}</p>
+                                              </div>
+                                            </div>`;
+                userInput.value = '';
+                
+                // افزودن پاسخ ربات و محصولات پس از تاخیر
+                setTimeout(() => {
+                    chatHistory.innerHTML += `<div class="flex items-start space-x-2">
+                                                <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+                                                    <p><i class="fas fa-check-circle mr-2"></i> این محصولات را برای شما پیدا کردم:</p>
+                                                </div>
+                                              </div>`;
+                    addProductCards();
+                }, 1000);
+            }
+        });
+
+        // تابع برای نمایش کارت‌های محصولات
+        function addProductCards() {
+            productGrid.innerHTML = '';
+            products.forEach(product => {
+                const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
+                                        <img src="${product.image}" alt="تصویر محصول" class="w-full h-32 object-cover rounded-lg mb-2">
+                                        <h3 class="text-teal-600 font-semibold text-center">${product.name}</h3>
+                                        <p class="text-gray-600 text-center">${product.price}</p>
+                                        <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200">
+                                            <i class="fas fa-cart-plus mr-2"></i> افزودن به سبد خرید
+                                        </button>
+                                      </div>`;
+                productGrid.innerHTML += productCard;
+            });
+        }
+    </script>
+
+</body>
+</html>

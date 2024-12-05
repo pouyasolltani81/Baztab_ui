@@ -1,4 +1,3 @@
-const user_token = '9fc0fe536ea09fed645f9f791fc15e65';
 
 
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+
+    <div class="min-h-screen bg-teal-50 flex justify-center items-center p-6">
+    <!-- Chat Container -->
+    <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-teal-600 text-white text-center py-4">
+            <h2 class="text-xl font-semibold">Shopping Assistant</h2>
+            <p class="text-sm">Ask me about your shopping and shipping needs!</p>
+        </div>
+
+        <!-- Chat Body -->
+        <div class="p-4 space-y-4 h-96 overflow-y-scroll">
+            <!-- Chatbot Message -->
+            <div class="flex items-start space-x-2">
+                <div class="bg-blue-500 text-white p-2 rounded-lg max-w-xs">
+                    <p>Welcome! How can I assist you with your shopping or shipping today?</p>
+                </div>
+            </div>
+
+            <!-- User Message -->
+            <div class="flex justify-end space-x-2">
+                <div class="bg-teal-500 text-white p-2 rounded-lg max-w-xs">
+                    <p>Can you help me track my order?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="bg-gray-50 p-4 flex items-center space-x-2">
+            <input type="text" class="w-full px-4 py-2 border border-teal-400 rounded-lg" placeholder="Ask a question about shopping or shipping..." />
+            <button class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-500">Send</button>
+        </div>
+    </div>
+
+    <!-- Sidebar with instructions -->
+    <div class="absolute top-6 right-6 bg-teal-600 text-white p-4 rounded-lg shadow-lg max-w-xs">
+        <h3 class="font-semibold">Chatbot Instructions</h3>
+        <p class="text-sm mt-2">This chatbot only supports shopping and shipping-related inquiries. Please ask about products, orders, or shipping status.</p>
+    </div>
+</div>
+
+    
+</body>
+</html>

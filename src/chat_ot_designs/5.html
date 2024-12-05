@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+
+
+
+
+<div class="min-h-screen flex flex-col">
+    <!-- Top Section (Chat Area) -->
+    <div class="flex-1 bg-teal-500 text-white p-6 flex flex-col">
+        <h2 class="text-2xl font-semibold">Shopping Assistant</h2>
+        <p class="text-sm mb-4">Tell me what you're looking for, and I'll find it!</p>
+
+        <!-- Chat History -->
+        <div class="flex-grow overflow-y-auto space-y-4">
+            <div class="flex items-start space-x-2">
+                <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+                    <p>Hello! What product would you like to find today?</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2">
+                <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+                    <p>I'm looking for a smartwatch.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start space-x-2">
+                <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+                    <p>Let me find some smartwatches for you...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4">
+            <input type="text" class="w-full px-4 py-2 border border-teal-300 rounded-lg" placeholder="What product are you looking for?" />
+            <button class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-400">Send</button>
+        </div>
+    </div>
+
+    <!-- Bottom Section (Product Display) -->
+    <div class="bg-gray-50 p-6">
+        <h2 class="text-xl font-semibold text-teal-600 mb-4">Recommended Products</h2>
+        
+        <!-- Product Grid -->
+        <div class="grid grid-cols-3 gap-6">
+            <!-- Product Card Example -->
+            <div class="bg-white p-4 shadow-lg rounded-lg">
+                <img src="https://via.placeholder.com/150" alt="Product Image" class="w-full h-32 object-cover rounded-lg mb-2">
+                <h3 class="text-teal-600 font-semibold">Smartwatch</h3>
+                <p class="text-gray-600">$199.99</p>
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-lg mt-2 w-full">Add to Cart</button>
+            </div>
+            <!-- Repeat product cards as necessary -->
+            <div class="bg-white p-4 shadow-lg rounded-lg">
+                <img src="https://via.placeholder.com/150" alt="Product Image" class="w-full h-32 object-cover rounded-lg mb-2">
+                <h3 class="text-teal-600 font-semibold">Smartwatch</h3>
+                <p class="text-gray-600">$229.99</p>
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-lg mt-2 w-full">Add to Cart</button>
+            </div>
+            <div class="bg-white p-4 shadow-lg rounded-lg">
+                <img src="https://via.placeholder.com/150" alt="Product Image" class="w-full h-32 object-cover rounded-lg mb-2">
+                <h3 class="text-teal-600 font-semibold">Smartwatch</h3>
+                <p class="text-gray-600">$179.99</p>
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-lg mt-2 w-full">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
