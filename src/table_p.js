@@ -503,6 +503,7 @@ slug.innerHTML = `<div class='flex flex-col'>
 
   // List to store the checked rows
   let checkedRows = [];
+  let checked_id = []
 // Create the event listener for the checkbox
     checkbox.addEventListener('click', () => {
       const allRows = document.querySelectorAll('tr');
@@ -523,7 +524,9 @@ slug.innerHTML = `<div class='flex flex-col'>
           document.body.appendChild(addButton);
 
           addButton.addEventListener('click', () => {
-           console.log(checkedRows);
+            checked_id.push(product._id);  // Add to checked rows
+
+            console.log(checked_id);
            
             addButton.remove();  // Remove the button after it is clicked
           });
@@ -531,6 +534,8 @@ slug.innerHTML = `<div class='flex flex-col'>
       } else {
         // If unchecked, remove from checkedRows
         checkedRows = checkedRows.filter(r => r !== row);
+        checked_id = checked_id.filter(r => r !== product._id);
+
 
         // Hide unchecked row and keep the checked ones visible
         checkedRows.forEach(r => r.style.display = 'table-row');
