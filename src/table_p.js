@@ -439,7 +439,7 @@ function createProductTable(products) {
     // Toggle visibility of "Show Info" button based on selection
     function toggleInfoButtonVisibility() {
         const infoButton = document.getElementById('Seeinfo');
-        if (selectedProducts.length > 0) {
+        if (selectedProducts.length > 0 && infoButton.classList.contains('hidden')) {
            infoButton.classList.remove('hidden')
 
             infoButton.addEventListener('click', () => {
