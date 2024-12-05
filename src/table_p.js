@@ -497,41 +497,50 @@ slug.innerHTML = `<div class='flex flex-col'>
       //                 </div>
                       
       // `
-   // Create the event listener for the checkbox
+
+
+
+
+  // List to store the checked rows
+  let checkedRows = [];
+// Create the event listener for the checkbox
     checkbox.addEventListener('click', () => {
-      const allRows = document.querySelectorAll('tr'); 
+      const allRows = document.querySelectorAll('tr');
       const isSelected = row.classList.toggle('selected'); 
-      if (isSelected) { 
-        // Hide other rows
-        allRows.forEach((r, i) => { 
-          if (r !== row && i !== 0) { 
-            r.style.display = 'none'; 
-          } 
-        });
+
+      // If selected, add it to checkedRows
+      if (isSelected) {
+        checkedRows.push(row);  // Add to checked rows
+
+        // Ensure checked rows remain visible
+        checkedRows.forEach(r => r.style.display = 'table-row');
 
         // Add "Add More Products" button if not already present
-        if (!row.querySelector('.add-more-btn')) {
+        if (!document.querySelector('.add-more-btn')) {
           const addButton = document.createElement('button');
           addButton.textContent = 'Add More Products';
           addButton.classList.add('add-more-btn');
-          row.insertAdjacentElement('afterend', addButton);
+          document.body.appendChild(addButton);
 
           addButton.addEventListener('click', () => {
-            // Show all rows and remove the button
-            allRows.forEach(r => r.style.display = '');
-            addButton.remove();  // Remove the button
+            // Show all rows when button is clicked
+            allRows.forEach(r => r.style.display = 'table-row');
+            addButton.remove();  // Remove the button after it is clicked
           });
         }
-      } else { 
-        // Show all rows again if deselected
-        allRows.forEach(r => r.style.display = '');
-        // Remove the "Add More Products" button if it's there
-        const addButton = row.querySelector('.add-more-btn');
-        if (addButton) {
-          addButton.remove();
-        }
+      } else {
+        // If unchecked, remove from checkedRows
+        checkedRows = checkedRows.filter(r => r !== row);
+
+        // Hide unchecked row and keep the checked ones visible
+        checkedRows.forEach(r => r.style.display = 'table-row');
+        row.style.display = 'none';  // Hide this unchecked row
       }
     });
+
+    // Initially, show all rows
+    row.style.display = 'table-row';
+
 
 
       row.appendChild(checkbox);
