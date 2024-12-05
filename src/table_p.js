@@ -404,12 +404,12 @@ function createProductTable(products) {
         checkbox.addEventListener('click', () => handleCheckboxClick(checkbox, product));
 
         // Append Cells to Row
+        row.appendChild(checkbox);
         row.appendChild(info);
         row.appendChild(brand);
         row.appendChild(mall);
         row.appendChild(media);
         row.appendChild(slug);
-        row.appendChild(checkbox);
         row.appendChild(availability);
         row.appendChild(productName);
         row.appendChild(productId);
