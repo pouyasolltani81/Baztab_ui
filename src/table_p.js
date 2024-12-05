@@ -182,53 +182,7 @@ function updateui(data) {
     createProductTable(products);
     
 
-    // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
-// Add click event listener to the checkbox in each row
-document.querySelectorAll('tr').forEach(row => {
-  const checkbox = row.querySelector('input[type="checkbox"]'); // Assuming each row has a checkbox
-
-  checkbox.addEventListener('click', () => {
-    const isSelected = row.classList.toggle('selected');
-    const allRows = document.querySelectorAll('tr');
-    
-    if (isSelected) {
-      // Hide all rows except the selected one
-      allRows.forEach((r, i) => {
-        if (r !== row && i !== 0) {  // Assuming row 0 is a header
-          r.style.display = 'none';
-        }
-      });
-      
-      // Create an "Add More Products" button if it doesn't exist
-      if (!row.querySelector('.add-more-btn')) {
-        const addButton = document.createElement('button');
-        addButton.textContent = 'Add More Products';
-        addButton.classList.add('add-more-btn');
-        
-        // Add the button below the selected row
-        row.insertAdjacentElement('afterend', addButton);
-
-        // Add click event to the button
-        addButton.addEventListener('click', () => {
-          // Here, you would add more rows or products. 
-          // For demonstration, we will just reveal all rows and hide the button.
-          allRows.forEach(r => r.style.display = '');
-          addButton.remove();  // Remove the "Add More Products" button
-        });
-      }
-      
-    } else {
-      // Show all rows again if the row is deselected
-      allRows.forEach(r => r.style.display = '');
-      
-      // Remove the "Add More Products" button if it exists
-      const addButton = row.querySelector('.add-more-btn');
-      if (addButton) {
-        addButton.remove();
-      }
-    }
-  });
-});
+    document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
 }
 
@@ -361,229 +315,141 @@ refreshButton.addEventListener('click', function() {
             // Get the combined text of the element and its children
             return element.textContent || element.innerText || '';
         }
-
 function createProductTable(products) {
-    productTableContainer.innerHTML = ''; 
+  productTableContainer.innerHTML = ''; 
   console.log(products);
-  
-    products.forEach(product => {
-      const row = document.createElement("tr");
-      row.className = "border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600";
-      row.id = `TB${product._id}`
-// Product info
-const info = document.createElement("td");
-info.className = "bwhitespace-nowrap px-6 py-4";
-info.innerHTML = `<div class='flex flex-col'>
-                            <span class="text-gray-900 font-bold">شناسه: ${product.product_info.product_id}</span>
-                            <span class="text-gray-900 font-semibold">نام: ${product.product_info.product_name_fa}</span>
-                            ${product.product_info.price_stat ? `<span class='flex gap-2 justify-center'><p class="text-gray-900 font-bold">قیمت :</p><span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg}</span> <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min}</span> <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max}</span> <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance}</span></span>` : '' }
-                            <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
-                            <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span>
-                        </div>`;
 
-// Product info
-const brand = document.createElement("td");
-brand.className = "bwhitespace-nowrap px-6 py-4";
-brand.innerHTML = `<div class='flex flex-col'>
-                            <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
-                            <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
-                           
+  products.forEach(product => {
+    const row = document.createElement("tr");
+    row.className = "border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600";
+    row.id = `TB${product._id}`;
 
-                        </div>`;
+    // Product info
+    const info = document.createElement("td");
+    info.className = "bwhitespace-nowrap px-6 py-4";
+    info.innerHTML = `
+      <div class='flex flex-col'>
+        <span class="text-gray-900 font-bold">شناسه: ${product.product_info.product_id}</span>
+        <span class="text-gray-900 font-semibold">نام: ${product.product_info.product_name_fa}</span>
+        ${product.product_info.price_stat ? `<span class='flex gap-2 justify-center'>
+          <p class="text-gray-900 font-bold">قیمت :</p>
+          <span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg}</span>
+          <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min}</span>
+          <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max}</span>
+          <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance}</span>
+        </span>` : ''}
+        <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
+        <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span>
+      </div>`;
 
-// Product info
-const mall = document.createElement("td");
-mall.className = "bwhitespace-nowrap px-6 py-4";
-mall.innerHTML = `<div class='flex flex-col'>
-                            <span class="text-gray-900 font-bold">شناسه: ${product.mall_info.mall_id}</span>
-                            <span class="text-gray-900 font-semibold">نام: ${product.mall_info.mall_name}</span>
-                            <span class="text-gray-900 font-base">نام (فارسی): ${product.mall_info.mall_name}</span>
-                        </div>`;
+    // Add other product details as before...
+    const brand = document.createElement("td");
+    brand.className = "bwhitespace-nowrap px-6 py-4";
+    brand.innerHTML = `<div class='flex flex-col'>
+      <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
+      <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
+    </div>`;
 
-// Product info
-const media = document.createElement("td");
-media.className = "bwhitespace-nowrap px-6 py-4";
-media.innerHTML = `<div class='flex flex-col'>
-                            <img src="${product.media_info.primary_image}" width="100" height="100">
-                        </div>`;
+    const mall = document.createElement("td");
+    mall.className = "bwhitespace-nowrap px-6 py-4";
+    mall.innerHTML = `<div class='flex flex-col'>
+      <span class="text-gray-900 font-bold">شناسه: ${product.mall_info.mall_id}</span>
+      <span class="text-gray-900 font-semibold">نام: ${product.mall_info.mall_name}</span>
+      <span class="text-gray-900 font-base">نام (فارسی): ${product.mall_info.mall_name}</span>
+    </div>`;
 
+    const media = document.createElement("td");
+    media.className = "bwhitespace-nowrap px-6 py-4";
+    media.innerHTML = `<div class='flex flex-col'>
+      <img src="${product.media_info.primary_image}" width="100" height="100">
+    </div>`;
 
-// slug
-const slug = document.createElement("td");
-slug.className = "bwhitespace-nowrap px-6 py-4";
-slug.innerHTML = `<div class='flex flex-col'>
-                            <span class="text-gray-900 font-bold">${slug_fa}</span>
-                        </div>`;
+    // Add the checkbox cell
+    const checkbox = document.createElement("td");
+    checkbox.className = "whitespace-nowrap px-6 py-4";
+    checkbox.innerHTML = `<input type="checkbox" class="row-checkbox">`;
 
+    // Add Availability, Name, Product ID, URL, etc.
+    const availability = document.createElement("td");
+    availability.className = "whitespace-nowrap  px-6 py-4";
+    availability.innerHTML = `<span class="text-sm ${product.is_available ? 'text-green-600' : 'text-red-600'} font-semibold">${product.is_available ? 'موجود' : 'تمام شده'}</span>`;
 
+    const productName = document.createElement("td");
+    productName.className = "bwhitespace-nowrap  px-6 py-4";
+    productName.textContent = product.product_name_fa;
 
-        
-       // Checkbox for selecting the row
-        const checkbox = document.createElement("td");
-        checkbox.className = "whitespace-nowrap px-6 py-4";
-        checkbox.innerHTML = `<input type="checkbox" class="row-checkbox">`
-  
-      // وضعیت موجودی
-      const availability = document.createElement("td");
-      availability.className = "whitespace-nowrap  px-6 py-4";
-      availability.innerHTML = `<span class="text-sm ${product.is_available ? 'text-green-600' : 'text-red-600'} font-semibold">${product.is_available ? 'موجود' : 'تمام شده'}</span>`;
-  
-      // نام محصول
-      const productName = document.createElement("td");
-      productName.className = "bwhitespace-nowrap  px-6 py-4";
-      productName.textContent = product.product_name_fa;
-  
-      // شناسه محصول
-      const productId = document.createElement("td");
-      productId.className = "borwhitespace-nowrap  px-6 py-4";
-      productId.dir = 'rtl'
-      productId.textContent = `شناسه: ${product._id}`;
-  
-      // URL استخراج شده
-      const productUrl = document.createElement("td");
-      productUrl.className = "bowhitespace-nowrap  px-6 py-4";
-      productUrl.dir = 'rtl'
-      productUrl.innerHTML = `URL استخراج شده: <a href="${product.scrape_url}" target="_blank" class="text-blue-500 hover:text-blue-700">${product.scrape_url}</a>`;
-  
-      // قیمت (میانگین قیمت)، چک کردن اینکه price_stat موجود باشد
-      const price = document.createElement("td");
-      price.className = "border-whitespace-nowrap  px-6 py-4";
-      if (product.price_stat && product.price_stat.avg) {
-        price.textContent = `قیمت: ${(product.price_stat.avg/10).toLocaleString()} تومان `; 
-      } else {
-        price.textContent = "قیمت: موجود نیست"; // در صورت نبود قیمت
+    const productId = document.createElement("td");
+    productId.className = "bwhitespace-nowrap  px-6 py-4";
+    productId.textContent = `شناسه: ${product._id}`;
+
+    const productUrl = document.createElement("td");
+    productUrl.className = "bwhitespace-nowrap  px-6 py-4";
+    productUrl.innerHTML = `URL استخراج شده: <a href="${product.scrape_url}" target="_blank" class="text-blue-500 hover:text-blue-700">${product.scrape_url}</a>`;
+
+    const price = document.createElement("td");
+    price.className = "border-whitespace-nowrap  px-6 py-4";
+    if (product.price_stat && product.price_stat.avg) {
+      price.textContent = `قیمت: ${(product.price_stat.avg / 10).toLocaleString()} تومان`; 
+    } else {
+      price.textContent = "قیمت: موجود نیست";
+    }
+
+    const brandName = document.createElement("td");
+    brandName.className = "bwhitespace-nowrap  px-6 py-4";
+    brandName.textContent = 'دیجی کالا';
+
+    // Insert cells into the row
+    row.appendChild(info);
+    row.appendChild(brand);
+    row.appendChild(mall);
+    row.appendChild(media);
+    row.appendChild(price);
+    row.appendChild(productId);
+    row.appendChild(availability);
+    row.appendChild(productName);
+    row.appendChild(productUrl);
+
+    // Create the event listener for the checkbox
+    checkbox.addEventListener('click', () => {
+      const allRows = document.querySelectorAll('tr'); 
+      const isSelected = row.classList.toggle('selected'); 
+      if (isSelected) { 
+        // Hide other rows
+        allRows.forEach((r, i) => { 
+          if (r !== row && i !== 0) { 
+            r.style.display = 'none'; 
+          } 
+        });
+
+        // Add "Add More Products" button if not already present
+        if (!row.querySelector('.add-more-btn')) {
+          const addButton = document.createElement('button');
+          addButton.textContent = 'Add More Products';
+          addButton.classList.add('add-more-btn');
+          row.insertAdjacentElement('afterend', addButton);
+
+          addButton.addEventListener('click', () => {
+            // Show all rows and remove the button
+            allRows.forEach(r => r.style.display = '');
+            addButton.remove();  // Remove the button
+          });
+        }
+      } else { 
+        // Show all rows again if deselected
+        allRows.forEach(r => r.style.display = '');
+        // Remove the "Add More Products" button if it's there
+        const addButton = row.querySelector('.add-more-btn');
+        if (addButton) {
+          addButton.remove();
+        }
       }
-  
-      // نام مرکز خرید
-      const brandName = document.createElement("td");
-      brandName.className = "bowhitespace-nowrap  px-6 py-4";
-      brandName.textContent = 'دیجی کالا';
-  
-      // drop down
-      const dropdown = document.createElement("td");
-      dropdown.className = "whitespace-nowrap  px-6 py-4";
-      dropdown.innerHTML = `
-        <div class="relative inline-block text-left">
-                        <div>
-                          <button type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true" onclick="ToggleDropDown('${product._id}')" ">
-                            Options
-                            <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                              <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                            </svg>
-                          </button>
-                        </div>
-                      
-                        <!--
-                          Dropdown menu, show/hide based on menu state.
-                      
-                          Entering: "transition ease-out duration-100"
-                            From: "transform opacity-0 scale-95"
-                            To: "transform opacity-100 scale-100"
-                          Leaving: "transition ease-in duration-75"
-                            From: "transform opacity-100 scale-100"
-                            To: "transform opacity-0 scale-95"
-                        -->
-                        <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none hidden" id= 'M${product._id}' role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                          <div class="py-1 " role="none" >
-                            <!-- Active: "bg-gray-100 text-gray-900 outline-none", Not Active: "text-gray-700" -->
-                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
-                                 
-                                <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CI${product._id}'>
-                                    <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                                    <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-                                </label>
-                                
-                                <div>جزئیات کالا</div>
-                            </div>
-
-                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
-                                <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CR${product._id}'>
-                                    <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                                    <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-                                </label>
-
-                                <div>نظرات کاربران</div>
-
-                                
-                            </div>
-
-                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700'>
-                                <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer" id ='CP${product._id}'>
-                                    <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                                    <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-                                </label>
-                                
-                                <div>ریز قیمت</div>
-
-                            </div>
-
-
-                            <div class='block px-4 py-2 text-sm text-gray-700 flex justify-between hover:text-blue-700' '>
-                                <label class="relative inline-block w-14 h-7">
-                                    <input type="checkbox" class="opacity-0 w-0 h-0 peer"  id ='CQ${product._id}'>
-                                    <span class="absolute inset-0 cursor-pointer bg-gray-300 rounded-lg transition-all duration-400 ease-in-out shadow-inner peer-checked:bg-gray-800"></span>
-                                    <span class="absolute left-1 bottom-1 h-5 w-1 rounded-sm bg-white transition-all duration-400 ease-in-out transform peer-checked:translate-x-10"></span>
-                                </label>
-                                
-                                <div>پرسش و پاسخ</div>
-
-                            </div>
-      
-                          </div>
-
-                          <div class="py-1 flex justify-center " role="none" >
-                          
-                            <a href="#" class="block px-4 py-2 text-base text-gray-700 hover:text-blue-700"  role="menuitem" tabindex="-1" id="menu-item-2">بروز رسانی</a>
-
-                          </div>
-                        </div>
-                      </div>
-                      
-      // `
-  
-      // // Add click event listener to the row to delete other rows when selected 
-      // checkbox.addEventListener('click', () => { 
-      //   const allRows = document.querySelectorAll('tr'); 
-      //   const isSelected = row.classList.toggle('selected'); 
-      //   if (isSelected) { 
-      //     allRows.forEach((r, i) => { 
-      //       if (r !== row && i !== 0) { r.style.display = 'none'; } 
-      //     }); 
-      //   } 
-      //   else { 
-      //     allRows.forEach(r => r.style.display = ''); 
-      //   }});
-
-
-      row.appendChild(checkbox);
-      // row.appendChild(productId);
-      // row.appendChild(productName);
-      // row.appendChild(price);
-      // row.appendChild(availability);
-      // row.appendChild(productUrl);
-      // row.appendChild(brandName);
-
-
-      row.appendChild(info);
-      row.appendChild(brand);
-      row.appendChild(mall);
-      row.appendChild(media);
-      row.appendChild(slug);
-
-
-
-
-      // row.appendChild(dropdown);
-
-  
-      productTableContainer.appendChild(row);
-
-      
     });
-  }
+
+    // Append the row to the container
+    productTableContainer.appendChild(row);
+  });
+}
+
 
 
   function ToggleDropDown(id) {
