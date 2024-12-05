@@ -503,7 +503,8 @@ slug.innerHTML = `<div class='flex flex-col'>
 
   // Store selected row data
   let selectedProducts = [];
- // Add event listener for checkbox selection
+ 
+    // Add event listener for checkbox selection
     checkbox.addEventListener('click', () => {
       const isSelected = checkbox.querySelector("input").checked;
 
@@ -518,32 +519,27 @@ slug.innerHTML = `<div class='flex flex-col'>
       }
 
       // Toggle visibility of "Info" button based on selection
-      if (selectedProducts.length > 0) {
-        if (!document.querySelector('.info-button')) {
-          const infoButton = document.createElement('button');
-          infoButton.textContent = 'Show Info of Selected Products';
-          infoButton.classList.add('info-button');
-          document.body.appendChild(infoButton);
+      const infoButton = document.querySelector('.info-button');
+      if (selectedProducts.length > 0 && !infoButton) {
+        // Create and show the "Show Info" button if products are selected
+        const newInfoButton = document.createElement('button');
+        newInfoButton.textContent = 'Show Info of Selected Products';
+        newInfoButton.classList.add(
+          'info-button',
+          'px-4', 'py-2', 'bg-blue-500', 'text-white', 'rounded-lg', 'mt-4', 'hover:bg-blue-700'
+        );
+        document.body.appendChild(newInfoButton);
 
-          // Add event listener to the info button
-          infoButton.addEventListener('click', () => {
-            // Save the selected rows' data to localStorage
-            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-
-            console.log(selectedProducts);
-            
-            // Redirect to p_info.html
-            // window.location.href = 'p_info.html';
-          });
-        }
-      } else {
+        // Add event listener to the info button
+        newInfoButton.addEventListener('click', () => {
+          console.log('Selected Products:', selectedProducts);
+        });
+      } else if (selectedProducts.length === 0 && infoButton) {
         // Remove Info button if no products are selected
-        const infoButton = document.querySelector('.info-button');
-        if (infoButton) {
-          infoButton.remove();
-        }
+        infoButton.remove();
       }
     });
+
 
     // Initially, show all rows
     row.style.display = 'table-row';
