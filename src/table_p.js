@@ -512,6 +512,8 @@ slug.innerHTML = `<div class='flex flex-col'>
       // If selected, add it to checkedRows
       if (isSelected) {
         checkedRows.push(row);  // Add to checked rows
+        checked_id.push(product._id);  // Add to checked rows
+
 
         // Ensure checked rows remain visible
         checkedRows.forEach(r => r.style.display = 'table-row');
@@ -524,7 +526,6 @@ slug.innerHTML = `<div class='flex flex-col'>
           document.body.appendChild(addButton);
 
           addButton.addEventListener('click', () => {
-            checked_id.push(product._id);  // Add to checked rows
 
             console.log(checked_id);
            
