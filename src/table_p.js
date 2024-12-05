@@ -411,10 +411,10 @@ function createProductTable(products) {
         row.appendChild(media);
         row.appendChild(slug);
         // row.appendChild(availability);
-        row.appendChild(productName);
-        row.appendChild(productId);
-        row.appendChild(productUrl);
-        row.appendChild(price);
+        // row.appendChild(productName);
+        // row.appendChild(productId);
+        // row.appendChild(productUrl);
+        // row.appendChild(price);
 
         // Append Row to Table
         productTableContainer.appendChild(row);
