@@ -20,16 +20,20 @@ let test
 
 pagenum.addEventListener('click', function() {
   document.getElementById('paginatecontainer').classList.remove('hidden')
+  document.getElementById('maincontent').classList.add('opacity-20')
+
+
 })
 
 document.getElementById('pagibutton').addEventListener('click',  function(event) {
   showLoader(async function() { 
     
     try {
-      console.log("kokokokfofkoko");
-      
+
         
       document.getElementById('paginatecontainer').classList.add('hidden')
+      document.getElementById('maincontent').classList.remove('opacity-20')
+
 
       page_num = parseInt(document.getElementById('pageNumber').value)
       page_size = parseInt(document.getElementById('itemsPerPage').value)
@@ -178,7 +182,53 @@ function updateui(data) {
     createProductTable(products);
     
 
-    document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+    // document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
+// Add click event listener to the checkbox in each row
+document.querySelectorAll('tr').forEach(row => {
+  const checkbox = row.querySelector('input[type="checkbox"]'); // Assuming each row has a checkbox
+
+  checkbox.addEventListener('click', () => {
+    const isSelected = row.classList.toggle('selected');
+    const allRows = document.querySelectorAll('tr');
+    
+    if (isSelected) {
+      // Hide all rows except the selected one
+      allRows.forEach((r, i) => {
+        if (r !== row && i !== 0) {  // Assuming row 0 is a header
+          r.style.display = 'none';
+        }
+      });
+      
+      // Create an "Add More Products" button if it doesn't exist
+      if (!row.querySelector('.add-more-btn')) {
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Add More Products';
+        addButton.classList.add('add-more-btn');
+        
+        // Add the button below the selected row
+        row.insertAdjacentElement('afterend', addButton);
+
+        // Add click event to the button
+        addButton.addEventListener('click', () => {
+          // Here, you would add more rows or products. 
+          // For demonstration, we will just reveal all rows and hide the button.
+          allRows.forEach(r => r.style.display = '');
+          addButton.remove();  // Remove the "Add More Products" button
+        });
+      }
+      
+    } else {
+      // Show all rows again if the row is deselected
+      allRows.forEach(r => r.style.display = '');
+      
+      // Remove the "Add More Products" button if it exists
+      const addButton = row.querySelector('.add-more-btn');
+      if (addButton) {
+        addButton.remove();
+      }
+    }
+  });
+});
 
 }
 
@@ -492,10 +542,22 @@ slug.innerHTML = `<div class='flex flex-col'>
                         </div>
                       </div>
                       
-      `
+      // `
   
-      // Add click event listener to the row to delete other rows when selected 
-      checkbox.addEventListener('click', () => { const allRows = document.querySelectorAll('tr'); const isSelected = row.classList.toggle('selected'); if (isSelected) { allRows.forEach((r, i) => { if (r !== row && i !== 0) { r.style.display = 'none'; } }); } else { allRows.forEach(r => r.style.display = ''); }});
+      // // Add click event listener to the row to delete other rows when selected 
+      // checkbox.addEventListener('click', () => { 
+      //   const allRows = document.querySelectorAll('tr'); 
+      //   const isSelected = row.classList.toggle('selected'); 
+      //   if (isSelected) { 
+      //     allRows.forEach((r, i) => { 
+      //       if (r !== row && i !== 0) { r.style.display = 'none'; } 
+      //     }); 
+      //   } 
+      //   else { 
+      //     allRows.forEach(r => r.style.display = ''); 
+      //   }});
+
+
       row.appendChild(checkbox);
       // row.appendChild(productId);
       // row.appendChild(productName);
