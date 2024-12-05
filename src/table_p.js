@@ -523,8 +523,8 @@ slug.innerHTML = `<div class='flex flex-col'>
           document.body.appendChild(addButton);
 
           addButton.addEventListener('click', () => {
-            // Show all rows when button is clicked
-            allRows.forEach(r => r.style.display = 'table-row');
+           console.log(checkedRows);
+           
             addButton.remove();  // Remove the button after it is clicked
           });
         }
