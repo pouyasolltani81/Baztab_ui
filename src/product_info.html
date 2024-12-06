@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagination Example</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-gray-50 p-8 flex flex-col items-center gap-6" >
+<body class="bg-gray-50 p-8 " >
 
     <div class="bg-teal-50 shadow-md" dir="ltr">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -28,7 +29,7 @@
 
   </div>
 </div>
-
+<div class="flex flex-col items-center gap-6 hidden" id="mainContent" >
     <div class="flex gap-4 justify-center" id="review_container">
 
         
@@ -43,6 +44,8 @@
 
     <div class="flex gap-4 justify-center" id="base_info_container">
     </div>
+
+</div>
 
  
 <script src="./ui_logic_p.js"></script>

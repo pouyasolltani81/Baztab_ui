@@ -13,7 +13,7 @@ function updatepriceui(data) {
     let priceInfo = data.data[0].price_info;
 
     // Update the HTML content of the PriceContainer
-    PriceContainer.innerHTML = `
+    PriceContainer.innerHTML =    PriceContainer.innerHTML  + `
         <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
             <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">اطلاعات قیمت</h2>
 
@@ -50,7 +50,7 @@ function updatereviewui(data) {
     }).join(""); // Join all review sections together into a single string
 
     // Update the HTML content of the ReviewContainer
-    ReviewContainer.innerHTML = `
+    ReviewContainer.innerHTML = ReviewContainer.innerHTML + `
         <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
             <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">نظر کاربران</h2>
 
@@ -168,5 +168,10 @@ async function page_initialize() {
   
 }
 
-
-page_initialize()
+// Start loading and use `showLoader` to show the spinner
+window.addEventListener('load', function() {
+    showLoader(async function() {
+        await page_initialize();  // Simulate page load logic
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+    });
+});
