@@ -158,11 +158,11 @@ async function page_initialize() {
   console.log('1111',products);
   
   
-   products.forEach(product => {
+   await products.forEach(product => async function (){
     console.log('22222',product);
     
-    Getpriceinfo(product.product_id,product.mall_id , product.name)
-    Getreivewinfo(product.product_id,product.mall_id, product.name)
+     await Getpriceinfo(product.product_id,product.mall_id , product.name)
+     await Getreivewinfo(product.product_id,product.mall_id, product.name)
 
    })
   

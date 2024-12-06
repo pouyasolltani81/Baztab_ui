@@ -428,7 +428,7 @@ function createProductTable(products) {
             selectedProducts.push({
                 mall_id: product.mall_info.mall_id,
                 product_id: product.product_info.product_id,
-                name : product.product_name_fa
+                name : product.product_info.product_name_fa
             });
         } else {
             selectedProducts = selectedProducts.filter(item => item.product_id !== product.product_info.product_id);
