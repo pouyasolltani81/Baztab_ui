@@ -62,7 +62,7 @@ function updateQuestionsUI(data, name) {
     }).join('');
 
     // Add a container for the title (Product name) and Questions title
-    questionsContainer.innerHTML = `
+    questionsContainer.innerHTML = questionsContainer.innerHTML +  `
         <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg mb-4">
             <h2 class="text-3xl font-semibold text-teal-700 text-center mb-6">سوالات مربوط به محصول: ${name}</h2>
             <h3 class="text-xl font-semibold text-teal-700 text-center mb-4">سوالات کاربران</h3>
@@ -248,9 +248,9 @@ async function page_initialize() {
    products.forEach(product => {
     console.log('22222',product);
     
-    Getpriceinfo(product.product_id,product.mall_id , product.name)
-    Getreivewinfo(product.product_id,product.mall_id, product.name)
     Getquestioninfo(product.product_id,product.mall_id, product.name)
+    Getreivewinfo(product.product_id,product.mall_id, product.name)
+    Getpriceinfo(product.product_id,product.mall_id , product.name)
 
    })
   
