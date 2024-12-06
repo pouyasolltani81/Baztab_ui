@@ -10,6 +10,13 @@ if (userData) {
 
 }
 
+function backAndReload() {
+    // Get the previous page URL (e.g., through document referrer or a custom logic)
+    let previousPage = document.referrer; 
+
+    // Navigate to the previous page and reload
+    window.location.href = previousPage; // This triggers a full reload of the previous page
+}
 
 document.getElementById('Username').innerHTML= Username
 
