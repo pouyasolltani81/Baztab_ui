@@ -29,7 +29,7 @@ function updatepriceui(data ,name) {
 }
 
 
-function updateQuestionsUI(data ,name) {
+function updateQuestionsUI(data, name) {
     // Extract question data from the provided data
     let questions = data.data;
     let questionsContainer = document.getElementById("QuestionsContainer");
@@ -61,9 +61,17 @@ function updateQuestionsUI(data ,name) {
         `;
     }).join('');
 
-    // Inject the questions HTML into the container
-    questionsContainer.innerHTML = questionsHTML;
+    // Add a container for the title (Product name) and Questions title
+    questionsContainer.innerHTML = `
+        <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg mb-4">
+            <h2 class="text-3xl font-semibold text-teal-700 text-center mb-6">سوالات مربوط به محصول: ${name}</h2>
+            <h3 class="text-xl font-semibold text-teal-700 text-center mb-4">سوالات کاربران</h3>
+
+            ${questionsHTML} <!-- Display questions and answers -->
+        </div>
+    `;
 }
+
 
 
 function updatereviewui(data, name) {
