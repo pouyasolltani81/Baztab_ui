@@ -163,7 +163,7 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
         if (data) {
           console.log(data);
 
-          updateui_S(data);  // Call the update UI function with the response data
+          updateui(data);  // Call the update UI function with the response data
         } 
 
     } catch (error) {
