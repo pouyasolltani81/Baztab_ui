@@ -737,3 +737,14 @@ function onScrollToEnd() {
 //         onScrollToEnd();
 //     }
 // });
+
+
+let timeout;
+window.addEventListener('scroll', function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            onScrollToEnd();  // Call the function to execute at the end
+        }
+    }, 100);  // Delay in ms before the function runs after the user stops scrolling
+});
