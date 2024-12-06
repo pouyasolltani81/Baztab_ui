@@ -29,6 +29,12 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
   showLoader(async function() { 
     
     try {
+        pagenum.innerHTML = page_num
+        if (page_num == 1){
+            document.getElementById('PrevPageButton').classList.add('hidden')
+        } else {
+            document.getElementById('PrevPageButton').classList.remove('hidden')
+        }
 
         
       document.getElementById('paginatecontainer').classList.add('hidden')
