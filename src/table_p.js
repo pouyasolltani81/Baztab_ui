@@ -743,7 +743,7 @@ function onScrollToEnd() {
 
 
 let timeout;
-let isloading = true;
+let isloading = false;
 window.addEventListener('scroll', function() {
     if (isloading) {
         isloading = false
