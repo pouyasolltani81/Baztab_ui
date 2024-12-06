@@ -436,6 +436,7 @@ function createProductTable(products) {
 
         // Append Row to Table
         productTableContainer.appendChild(row);
+        isloading = true;
     });
 
     // Handle the "Show Info" button creation
@@ -742,11 +743,15 @@ function onScrollToEnd() {
 
 
 let timeout;
+let isloading = true;
 window.addEventListener('scroll', function() {
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            onScrollToEnd();  // Call the function to execute at the end
-        }
-    }, 1000);  // Delay in ms before the function runs after the user stops scrolling
+    if (isloading) {
+        isloading = false
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                onScrollToEnd();  // Call the function to execute at the end
+            }
+        }, 1000);  // Delay in ms before the function runs after the user stops scrolling
+    }
 });
