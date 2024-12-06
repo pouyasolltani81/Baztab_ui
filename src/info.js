@@ -155,10 +155,12 @@ async function Getreivewinfo(p_id,m_id) {
 
 async function page_initialize() {
   let products = JSON.parse(localStorage.getItem('productsforinfo'));
-  console.log(products);
+  console.log('1111',products);
   
   
    products.forEach(product => {
+    console.log('22222',product);
+    
     Getpriceinfo(product.product_id,product.mall_id)
     Getreivewinfo(product.product_id,product.mall_id)
 
