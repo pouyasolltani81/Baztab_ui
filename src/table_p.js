@@ -193,6 +193,9 @@ function updateui(data) {
 
     document.querySelectorAll('.peer').forEach(checkbox => { checkbox.addEventListener('change', event => { if (event.target.checked) { CreateCard(`${checkbox.id}`); } else { RemoveCard(`${checkbox.id}`); } }); });
 
+
+    isloading = true;
+
 }
 
 
@@ -436,7 +439,6 @@ function createProductTable(products) {
 
         // Append Row to Table
         productTableContainer.appendChild(row);
-        isloading = true;
     });
 
     // Handle the "Show Info" button creation
