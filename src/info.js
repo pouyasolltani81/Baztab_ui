@@ -29,6 +29,43 @@ function updatepriceui(data ,name) {
 }
 
 
+function updateQuestionsUI(data ,name) {
+    // Extract question data from the provided data
+    let questions = data.data;
+    let questionsContainer = document.getElementById("QuestionsContainer");
+
+    // Create HTML content for each question
+    let questionsHTML = questions.map(question => {
+        let answersHTML = question.answers.map(answer => {
+            return `
+            <div class="border-t border-teal-300 mt-2 pt-2">
+                <div class="font-medium text-teal-700">پاسخ از ${answer.author_name}</div>
+                <div class="text-gray-700">${answer.answer_body}</div>
+                <div class="text-sm text-gray-500 mt-1">
+                    <span>Likes: ${answer.reactions.like}</span> | 
+                    <span>Dislikes: ${answer.reactions.dislike}</span>
+                </div>
+            </div>
+            `;  
+        }).join(''); // Join all answers for each question
+
+        return `
+        <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg mb-4">
+            <h3 class="font-semibold text-teal-700">${question.questionBody}</h3>
+            <div class="text-sm text-gray-500">سوال از ${question.author_name} | تاریخ انتشار: ${question.datePublished}</div>
+            <div class="text-sm text-yellow-500 mt-2">⭐ ${question.stars} ستاره</div>
+
+            ${answersHTML} <!-- Display answers -->
+
+        </div>
+        `;
+    }).join('');
+
+    // Inject the questions HTML into the container
+    questionsContainer.innerHTML = questionsHTML;
+}
+
+
 function updatereviewui(data, name) {
     // Extract the reviews from the passed data
     let reviews = data.data;
@@ -153,6 +190,48 @@ async function Getreivewinfo(p_id,m_id , name) {
   
 }
 
+
+
+async function Getquestioninfo(p_id,m_id , name) {
+
+   try {
+      
+        const response = await fetch('http://79.175.177.113:21800/Products/Questions/get_questions/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body: JSON.stringify({
+                "product_id": p_id,
+                "mall_id": m_id,
+                "topk": 10
+              })
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data) {
+          console.log(data);
+          updateQuestionsUI(data , name); 
+        } 
+
+    } catch (error) {
+      
+        console.error('Error searching products:', error);
+        alert('Failed to search products: ' + error.message);
+    }
+  
+}
+
 async function page_initialize() {
   let products = JSON.parse(localStorage.getItem('productsforinfo'));
   console.log('1111',products);
@@ -163,6 +242,7 @@ async function page_initialize() {
     
     Getpriceinfo(product.product_id,product.mall_id , product.name)
     Getreivewinfo(product.product_id,product.mall_id, product.name)
+    Getquestioninfo(product.product_id,product.mall_id, product.name)
 
    })
   
