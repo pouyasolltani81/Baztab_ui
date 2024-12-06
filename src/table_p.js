@@ -726,9 +726,9 @@ function onScrollToEnd() {
     document.getElementById('PrevPageButton').classList.remove('hidden')
   }
   showLoader(async function() {
-    document.getElementById('mainContent').classList.add('hidden'); 
+    document.getElementById('mainContent').classList.add('opacity-20'); 
     await ChangePage(name , page_num , page_size)
-    document.getElementById('mainContent').classList.remove('hidden');
+    document.getElementById('mainContent').classList.remove('opacity-20');
 })
 
 }
@@ -742,16 +742,17 @@ function onScrollToEnd() {
 // });
 
 
-let timeout;
+// let timeout;
 let isloading = false;
 window.addEventListener('scroll', function() {
     if (isloading) {
         isloading = false
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
+        // clearTimeout(timeout);
+        // timeout = setTimeout(function() {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 onScrollToEnd();  // Call the function to execute at the end
             }
-        }, 1000);  // Delay in ms before the function runs after the user stops scrolling
+        // }, 100);  // Delay in ms before the function runs after the user stops scrolling
     }
 });
+ 
