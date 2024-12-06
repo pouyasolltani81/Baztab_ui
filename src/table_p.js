@@ -324,8 +324,15 @@ refreshButton.addEventListener('click', function() {
             // Get the combined text of the element and its children
             return element.textContent || element.innerText || '';
         }
+
+
+let addscroll = true
 function createProductTable(products) {
-    productTableContainer.innerHTML = ''; 
+    if (addscroll){
+        productTableContainer.innerHTML = ''; 
+    }
+
+    addscroll = true
     console.log(products);
 
     let selectedProducts = [];
@@ -699,3 +706,34 @@ window.addEventListener('load', function() {
   });
 });
   
+
+
+// Function that will be called when the user scrolls to the bottom
+function onScrollToEnd() {
+    addscroll = false
+    let name = productData.category_name_fa
+  
+  page_num = page_num + 1
+  pagenum.innerHTML = page_num
+  if (page_num == 1){
+    document.getElementById('PrevPageButton').classList.add('hidden')
+  } else {
+    document.getElementById('PrevPageButton').classList.remove('hidden')
+  }
+  showLoader(async function() {
+    document.getElementById('mainContent').classList.add('hidden'); 
+    await ChangePage(name , page_num , page_size)
+    document.getElementById('mainContent').classList.remove('hidden');
+})
+
+    // You can replace this with your desired function or code
+    // e.g., load more reviews, load more content, etc.
+}
+
+// Attach a scroll event listener to the window
+window.addEventListener('scroll', function() {
+    // Check if the user has reached the bottom of the page
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        onScrollToEnd();
+    }
+});
