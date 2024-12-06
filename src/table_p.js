@@ -728,14 +728,12 @@ function onScrollToEnd() {
     document.getElementById('mainContent').classList.remove('hidden');
 })
 
-    // You can replace this with your desired function or code
-    // e.g., load more reviews, load more content, etc.
 }
 
-// Attach a scroll event listener to the window
-window.addEventListener('scroll', function() {
-    // Check if the user has reached the bottom of the page
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        onScrollToEnd();
-    }
-});
+// // Attach a scroll event listener to the window
+// window.addEventListener('scroll', function() {
+//     // Check if the user has reached the bottom of the page
+//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+//         onScrollToEnd();
+//     }
+// });
