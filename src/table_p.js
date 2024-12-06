@@ -712,6 +712,8 @@ window.addEventListener('load', function() {
 
 // Function that will be called when the user scrolls to the bottom
 function onScrollToEnd() {
+    console.log('scrolllll');
+    
     addscroll = false
     let name = productData.category_name_fa
   
