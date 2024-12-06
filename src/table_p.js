@@ -329,6 +329,8 @@ refreshButton.addEventListener('click', function() {
 let addscroll = true
 function createProductTable(products) {
     if (addscroll){
+        console.log('works' );
+        
         productTableContainer.innerHTML = ''; 
     }
 
