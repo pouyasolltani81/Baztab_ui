@@ -443,6 +443,9 @@ function createProductTable(products) {
            infoButton.classList.remove('hidden')
 
             infoButton.addEventListener('click', () => {
+                localStorage.setItem('productsforinfo', JSON.stringify(selectedProducts));  
+                // localStorage.setItem('productResponse', JSON.stringify(name));  
+                window.location.href = './product_info.html';
                 console.log('Selected Products:', selectedProducts);
             });
         } else if (selectedProducts.length === 0) {
