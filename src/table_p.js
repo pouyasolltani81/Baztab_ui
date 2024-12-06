@@ -20,7 +20,7 @@ let test
 
 pagenum.addEventListener('click', function() {
   document.getElementById('paginatecontainer').classList.remove('hidden')
-  document.getElementById('mainContent').classList.add('opacity-20')
+  document.getElementById('mainContent').classList.add('hidden')
 
 
 })
@@ -32,7 +32,7 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
 
         
       document.getElementById('paginatecontainer').classList.add('hidden')
-      document.getElementById('mainContent').classList.remove('opacity-20')
+      document.getElementById('mainContent').classList.remove('hidden')
 
 
       page_num = parseInt(document.getElementById('pageNumber').value)
