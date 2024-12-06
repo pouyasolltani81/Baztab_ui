@@ -8,14 +8,14 @@ const ReviewContainer = document.getElementById('review_container')
 
 
 
-function updatepriceui(data) {
+function updatepriceui(data ,name) {
     // Extract the price info from the passed data
     let priceInfo = data.data[0].price_info;
 
     // Update the HTML content of the PriceContainer
     PriceContainer.innerHTML =    PriceContainer.innerHTML  + `
         <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
-            <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">اطلاعات قیمت</h2>
+            <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">اطلاعات قیمت : ${name}</h2>
 
             <div class="text-gray-700 mb-4">
                 <div>قیمت فروش: ${priceInfo.selling_price.toLocaleString()} ${priceInfo.price_currency}</div>
@@ -29,7 +29,7 @@ function updatepriceui(data) {
 }
 
 
-function updatereviewui(data) {
+function updatereviewui(data, name) {
     // Extract the reviews from the passed data
     let reviews = data.data;
 
@@ -52,7 +52,7 @@ function updatereviewui(data) {
     // Update the HTML content of the ReviewContainer
     ReviewContainer.innerHTML = ReviewContainer.innerHTML + `
         <div class="w-full max-w-4xl border-2 border-teal-900 rounded-lg p-6 bg-white shadow-lg">
-            <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">نظر کاربران</h2>
+            <h2 class="text-2xl font-semibold text-teal-700 text-center mb-4">نظر کاربران : ${name}</h2>
 
             <div class="flex justify-between text-sm text-gray-600 mb-6">
                 <!-- Updated Topk with an input field -->
@@ -71,7 +71,7 @@ function updatereviewui(data) {
 
 
 
-async function Getpriceinfo(p_id,m_id) {
+async function Getpriceinfo(p_id,m_id , name) {
 
    try {
       
@@ -99,7 +99,7 @@ async function Getpriceinfo(p_id,m_id) {
 
         if (data) {
           console.log(data);
-          updatepriceui(data); 
+          updatepriceui(data , name); 
         } 
 
     } catch (error) {
@@ -113,7 +113,7 @@ async function Getpriceinfo(p_id,m_id) {
 
 
 
-async function Getreivewinfo(p_id,m_id) {
+async function Getreivewinfo(p_id,m_id , name) {
 
    try {
       
@@ -142,7 +142,7 @@ async function Getreivewinfo(p_id,m_id) {
 
         if (data) {
           console.log(data);
-          updatereviewui(data); 
+          updatereviewui(data , name); 
         } 
 
     } catch (error) {
@@ -161,8 +161,8 @@ async function page_initialize() {
    products.forEach(product => {
     console.log('22222',product);
     
-    Getpriceinfo(product.product_id,product.mall_id)
-    Getreivewinfo(product.product_id,product.mall_id)
+    Getpriceinfo(product.product_id,product.mall_id , product.name)
+    Getreivewinfo(product.product_id,product.mall_id, product.name)
 
    })
   
