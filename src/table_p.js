@@ -29,12 +29,7 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
   showLoader(async function() { 
     
     try {
-        pagenum.innerHTML = page_num
-        if (page_num == 1){
-            document.getElementById('PrevPageButton').classList.add('hidden')
-        } else {
-            document.getElementById('PrevPageButton').classList.remove('hidden')
-        }
+       
 
         
       document.getElementById('paginatecontainer').classList.add('hidden')
@@ -43,6 +38,14 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
 
       page_num = parseInt(document.getElementById('pageNumber').value)
       page_size = parseInt(document.getElementById('itemsPerPage').value)
+
+
+       pagenum.innerHTML = page_num
+        if (page_num == 1){
+            document.getElementById('PrevPageButton').classList.add('hidden')
+        } else {
+            document.getElementById('PrevPageButton').classList.remove('hidden')
+        }
     
       console.log(JSON.stringify({  
         "category_name_fa": nameqwe ,
