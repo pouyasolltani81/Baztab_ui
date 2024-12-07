@@ -373,10 +373,10 @@ function createProductTable(products) {
                 ${product.product_info.price_stat ? `
                     <span class='flex gap-2 justify-center'>
                         <p class="text-gray-900 font-bold">قیمت :</p>
-                        <span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg}</span>
-                        <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min}</span>
-                        <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max}</span>
-                        <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance}</span>
+                        <span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg.toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min.toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max.toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance.toLocaleString()}</span>
                     </span>
                 ` : ''}
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
