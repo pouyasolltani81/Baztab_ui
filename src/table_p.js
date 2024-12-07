@@ -12,12 +12,20 @@ let slug_fa =  productData.slug_fa
 
 let page_size = 10
 let page_num = 1
+let test
 
 const pagenum = document.getElementById('PageNumber')
 
 
-let test
+function closeinfopopup(){
+  document.getElementById('mainContent').classList.remove('pointer-events-none')
 
+  document.getElementById('mainContent').classList.remove('opacity-20')
+  document.getElementById('baseInfoContainer').classList.add('hidden')
+
+
+
+}
 pagenum.addEventListener('click', function() {
   document.getElementById('paginatecontainer').classList.remove('hidden')
   document.getElementById('mainContent').classList.add('hidden')
@@ -186,6 +194,10 @@ function updateui(data) {
     
 
     let products = data.data.result ;
+
+    document.getElementById('totalpages').innerHTML = `total pages : ${data.data.total_pages}`
+    document.getElementById('totalcounts').innerHTML = `total counts ${data.data.total_count}: `
+
     
     
     createProductTable(products);
@@ -694,8 +706,10 @@ async function ChangePage(name_fa , page, page_size)  {
 let name = productData.category_name_fa
     
    showLoader(async function() {
-    await GetProduct(name , page_num , page_size);  // Simulate page load logic
-    document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+    await GetProduct(name , page_num , page_size); 
+    document.getElementById('mainContent').classList.remove('hidden'); 
+    document.getElementById('baseInfoContainer').classList.remove('hidden'); 
+
 });
     
   }
@@ -703,17 +717,15 @@ let name = productData.category_name_fa
 
  
 
-// Start loading and use `showLoader` to show the spinner
 window.addEventListener('load', function() {
   showLoader(async function() {
-      await initializePage();  // Simulate page load logic
-      document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+      await initializePage();  
+      document.getElementById('mainContent').classList.remove('hidden'); 
   });
 });
   
 
 
-// Function that will be called when the user scrolls to the bottom
 function onScrollToEnd() {
     console.log('scrolllll');
     

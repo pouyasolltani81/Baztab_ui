@@ -32,6 +32,27 @@ class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-w
 </div>
 
 
+<div id="baseInfoContainer"
+class=" hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-white rounded-b-lg border-t-8 border-green-400 px-4 py-5 flex flex-col justify-around shadow-md"
+>
+<p class="text-lg font-bold font-sans text-center">Info</p>
+<div class="py-3">
+  <!-- <form id="paginationForm"> -->
+     <div class="mb-4">
+       <div class="block text-sm font-medium text-gray-700" id="totalpages">total pages:</div> 
+       
+     </div> 
+     <div class="mb-4"> 
+      <div class="block text-sm font-medium text-gray-700" id="totalcounts">total pages:</div> 
+
+    </div> 
+    <button id="closeinfo" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600" onclick="closeinfopopup()">ok</button>
+  <!-- </form> -->
+</div>
+
+</div>
+
+
 
   <!-- main content  -->
     <div >
@@ -103,7 +124,7 @@ class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-w
 
 
 
-<div id="mainContent" dir="rtl">
+<div id="mainContent" dir="rtl" class="pointer-events-none opacity-20">
        <!-- Search Bar with Dropdown for Column Selection -->
         <div class="p-4 flex space-x-reverse space-x-4">
             <!-- Dropdown to choose specific column or All -->
@@ -191,7 +212,7 @@ class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-w
 
 </div>
 
-      <script src="./ui_logic_p.js"></script>
+      <!-- <script src="./ui_logic_p.js"></script> -->
       <script src="./table_p.js" ></script>
 </body>
 </html>
