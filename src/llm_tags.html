@@ -44,8 +44,38 @@
         <div class=" w-full border border-gray-300 rounded-md bg-gradient-to-l from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold  shadow-md hover:shadow-lg transition-all duration-300 scale-0 " id="approveButton" onclick="approveTags()">Approve</div>
 
 
-      </div>
+    </div>
 
+    <div id="tag_Cloud_container" class="hidden">
+        <!-- Cloud Chart Container -->
+        <section class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center mb-8">
+            <div class="flex justify-between items-center w-full mb-6">
+            <h2 id="cloud-chart-title" class="text-xl font-semibold text-gray-800">نمودار ابر کلمات</h2>
+            <button id="cloud-explanation" class="bg-teal-500 text-white py-2 px-5 rounded-lg font-medium cursor-pointer hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                توضیح نمودار
+            </button>
+            </div>
+    
+            <!-- Dropdown and Tag Information Section -->
+            <div class="flex flex-col sm:flex-row justify-between items-center space-y-6 sm:space-y-0 sm:space-x-6 w-full">
+            <select id="categorySelector" class="w-full sm:w-2/5 bg-teal-500 text-white text-lg font-medium py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 hover:bg-teal-600 transition-all duration-300">
+                <option value="شماره رنگ">شماره رنگ</option>
+                <option value="جنس محفظه">جنس محفظه</option>
+                <option value="نوع محفظه">نوع محفظه</option>
+                <option value="مناسب برای رنگ پوست">مناسب برای رنگ پوست</option>
+            </select>
+    
+            <div id="tag-info" class="text-right sm:w-2/5">
+                <p id="total-tags" class="text-lg font-medium text-gray-700">تعداد برچسب‌ها: 0</p>
+            </div>
+            </div>
+        </section>
+    
+        <!-- Tag Cloud Section -->
+        <section id="tagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
+        <section id="cloudTagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
+      
+    </div>
     
 
  

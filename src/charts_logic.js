@@ -44,7 +44,7 @@ lineExplanationButton.addEventListener('click', () => {
 
 cloudExplanationButton.addEventListener('click', () => {
   const description = `لیست تگ هایی که توسط هوش مصنوعی که برای این دسته کالا نشانه گذاری شده اند.`;
-  showModal("توضیح نمودار ابر کلمات", description);
+  showModal("توضیح نمودار  کلمات", description);
 });
 
 // Close the modal when the close button is clicked
