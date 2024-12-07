@@ -18,6 +18,19 @@ function backAndReload() {
     window.location.href = previousPage; // This triggers a full reload of the previous page
 }
 
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    backAndReload()
+  }
+});
+
+function closePopup() {
+  // Your logic to close the popup
+  console.log('Popup closed');
+}
+
+
 document.getElementById('Username').innerHTML= Username
 
 
