@@ -14,23 +14,21 @@
 <div id="paginatecontainer"
 class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-white rounded-b-lg border-t-8 border-green-400 px-4 py-5 flex flex-col justify-around shadow-md"
 >
-<p class="text-lg font-bold font-sans text-center">Pagination</p>
+<p class="text-lg font-bold font-sans text-center">صفحه‌بندی</p>
 <div class="py-3">
   <!-- <form id="paginationForm"> -->
      <div class="mb-4">
-       <label for="pageNumber" class="block text-sm font-medium text-gray-700">Page Number:</label> 
+       <label for="pageNumber" class="block text-sm font-medium text-gray-700">شماره صفحه:</label> 
        <input type="number" id="pageNumber" name="pageNumber" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
      </div> 
      <div class="mb-4"> 
-      <label for="itemsPerPage" class="block text-sm font-medium text-gray-700">Items Per Page:</label> 
+      <label for="itemsPerPage" class="block text-sm font-medium text-gray-700">تعداد موارد در هر صفحه:</label> 
       <input type="number" id="itemsPerPage" name="itemsPerPage" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500" min="1" required> 
     </div> 
-    <button id="pagibutton" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600">Submit</button>
+    <button id="pagibutton" class="w-full bg-teal-500 text-white p-2 rounded-lg shadow hover:bg-teal-600">ارسال</button>
   <!-- </form> -->
 </div>
-
 </div>
-
 
 
 
@@ -52,7 +50,7 @@ class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-w
     </div>
   
     <!-- User and Breadcrumb Info (Right) -->
-    <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
+    
       <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
         <div class="flex gap-4 text-teal-800 font-semibold">
             نام کاربری: <span class="text-teal-900" id="Username">something</span>
@@ -104,104 +102,94 @@ class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 bg-w
 
 
 
+<div id="mainContent" dir="rtl">
 
-<div id="mainContent" dir="rtl" >
-
-  <div class="p-4 flex justify-around ">
+  <div class="p-4 flex justify-around">
     <!-- <form id="paginationForm"> -->
-       <div class="">
-         <div class="block text-sm font-medium text-gray-700" id="totalpages">total pages:</div> 
-         
-       </div> 
-       <div class=""> 
-        <div class="block text-sm font-medium text-gray-700" id="totalcounts">total pages:</div> 
-  
-      </div> 
-      
+    <div class="">
+      <div class="block text-sm font-medium text-gray-700" id="totalpages">کل صفحات:</div>
+    </div>
+    <div class="">
+      <div class="block text-sm font-medium text-gray-700" id="totalcounts">کل موارد:</div>
+    </div>
     <!-- </form> -->
   </div>
-       <!-- Search Bar with Dropdown for Column Selection -->
-        <div class="p-4 flex space-x-reverse space-x-4">
-            <!-- Dropdown to choose specific column or All -->
-            <select id="searchColumn" class="p-2 border border-gray-300 rounded-md">
-                <option value="all_C">تمام دسته بندی ها</option>
-                <option value="all">تمام ستون ها</option>
-                <option value="1">Product info</option>
-                <option value="2">Brand info</option>
-                <option value="3">Media info</option>
-                <option value="4">اطلاعات</option>
-           
-            </select>
 
-            <!-- Search Input -->
-            <input
-                type="text"
-                id="searchBar"
-                placeholder="Search..."
-                class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+  <!-- نوار جستجو با انتخاب ستون -->
+  <div class="p-4 flex space-x-reverse space-x-4">
+    <!-- انتخاب ستون خاص یا همه -->
+    <select id="searchColumn" class="p-2 border border-gray-300 rounded-md">
+      <option value="all_C">تمام دسته بندی‌ها</option>
+      <option value="all">تمام ستون‌ها</option>
+      <option value="1">اطلاعات محصول</option>
+      <option value="2">اطلاعات برند</option>
+      <option value="3">اطلاعات فروشگاه</option>
+      <option value="4">اطلاعات رسانه</option>
+    </select>
+
+    <!-- ورودی جستجو -->
+    <input
+      type="text"
+      id="searchBar"
+      placeholder="جستجو..."
+      class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+  </div>
+
+  <div class="flex gap-2">
+    <div class="w-full border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300 hidden" id="SearchButton">
+      جستجو
+    </div>
+    <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-red-400 to-red-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300 hidden" id="refreshButton">
+      تازه‌سازی
+    </div>
+  </div>
+
+  <div class="flex justify-center">
+    <div class="w-full border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="NextPageButton">
+      بعدی
+    </div>
+    <div class="w-[200px] border border-gray-300 rounded-md text-gray-800 cursor-pointer p-4 text-center font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PageNumber">
+      1
+    </div>
+    <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PrevPageButton">
+      قبلی
+    </div>
+  </div>
+
+  <!-- جدول -->
+  <div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full text-center text-sm font-light text-surface dark:text-white">
+            <thead class="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
+              <tr>
+                <th scope="col" class="px-6 py-4"></th>
+                <th scope="col" class="px-6 py-4">اطلاعات محصول</th>
+                <th scope="col" class="px-6 py-4">اطلاعات برند</th>
+                <th scope="col" class="px-6 py-4">اطلاعات فروشگاه</th>
+                <th scope="col" class="px-6 py-4">اطلاعات رسانه</th>
+                <th scope="col" class="px-6 py-4">اطلاعات</th>
+              </tr>
+            </thead>
+            <tbody id="TableBody">
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
         </div>
-        <div class="flex gap-2">
-
-          <div class="w-full border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300 hidden" id="SearchButton">Search</div>
-          <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-red-400 to-red-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300 hidden" id="refreshButton">Refresh</div>
-        
-        </div>
-
-
-         <div class="flex justify-center">
-      <div class="w-full border border-gray-300 rounded-md bg-gradient-to-r from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="NextPageButton">Next</div>
-      <div class="w-[200px] border border-gray-300 rounded-md text-gray-800 cursor-pointer p-4 text-center  font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PageNumber">1</div>
-      <div class=" w-full border border-gray-300 rounded-md bg-gradient-to-l from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="PrevPageButton">Previous</div>
-      
+      </div>
     </div>
-      
+  </div>
 
-        <!-- table  -->
-    <div class="flex flex-col">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-              <table
-                class="min-w-full text-center text-sm font-light text-surface dark:text-white">
-                <thead
-                  class="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
-                  <tr>
-                    <th scope="col" class=" px-6 py-4"></th>
+  <div id="info_container" class="grid grid-cols-2"></div>
 
-                    <th scope="col" class=" px-6 py-4">Product info</th>
-                    <th scope="col" class=" px-6 py-4">Brand info</th>
-                    <th scope="col" class=" px-6 py-4">Mall info</th>
-                    <th scope="col" class=" px-6 py-4">Media info</th>
-                    <th scope="col" class=" px-6 py-4">اطلاعات</th>
-                  </tr>
-                </thead>
-                <tbody id="TableBody">
-                  
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+  <div class="flex justify-center">
+    <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold shadow-md hover:shadow-lg transition-shadow duration-300 fixed bottom-4 left-0 hidden" id="Seeinfo">
+      مشاهده اطلاعات
     </div>
-
-
-
-
-    <div id="info_container" class="grid grid-cols-2">
-    </div>
-
-    
-         <div class="flex justify-center">
-      <!-- <div class="w-full border border-gray-300 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold m-4 shadow-md hover:shadow-lg transition-shadow duration-300" id="Addmore">Add more</div> -->
-      
-      <div class=" w-full border border-gray-300 rounded-md bg-gradient-to-l from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold  shadow-md hover:shadow-lg transition-shadow duration-300 fixed bottom-4 left-0 hidden" id="Seeinfo">See info</div>
-      
-    </div>
-
-   
-    </div>
+  </div>
+</div>
 
 
 
