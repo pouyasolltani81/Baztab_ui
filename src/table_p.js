@@ -197,8 +197,8 @@ function updateui(data) {
 
     let products = data.data.result ;
 
-    document.getElementById('totalpages').innerHTML = `total pages : ${data.data.total_pages}`
-    document.getElementById('totalcounts').innerHTML = `total counts : ${data.data.total_count} `
+    document.getElementById('totalpages').innerHTML = `کل صفحات: ${data.data.total_pages}`
+    document.getElementById('totalcounts').innerHTML = `کل موارد: ${data.data.total_count} `
 
     
     
