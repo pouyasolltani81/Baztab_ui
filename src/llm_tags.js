@@ -77,6 +77,8 @@ async function generateTags() {
 
             console.log("approved before");
             document.getElementById('tag_Cloud_container').classList.remove('hidden')
+            document.getElementById('generateButton').classList.add('hidden')
+
             showllmtags()
             
 
