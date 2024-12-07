@@ -761,10 +761,29 @@ function onScrollToEnd() {
 //     }
 // });
 
+function isScrollable(el) {
+    return (
+      el &&
+      (el.scrollHeight > el.offsetHeight || el.scrollWidth > el.offsetWidth) &&
+      !overflowIsHidden(el)
+    );
+  }
+  
+  function overflowIsHidden(node) {
+    var style = getComputedStyle(node);
+    return (
+      style.overflow === 'hidden' ||
+      style.overflowX === 'hidden' ||
+      style.overflowY === 'hidden'
+    );
+  }
+  
+
 
 // let timeout;
 let isloading = false;
 window.addEventListener('scroll', function() {
+    if (isScrollable(document.querySelector('body'))){
     if (isloading) {
         // clearTimeout(timeout);
         // timeout = setTimeout(function() {
@@ -775,5 +794,6 @@ window.addEventListener('scroll', function() {
             }
         // }, 100);  // Delay in ms before the function runs after the user stops scrolling
     }
+}
 });
  
