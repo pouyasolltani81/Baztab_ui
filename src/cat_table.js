@@ -4,7 +4,7 @@ function llm_analysis(name , slug){
         'slug' : slug 
     }
 
-    localStorage.setItem('categorydata', JSON.stringify(categorydata));
+    localStorage.setItem('categorydata', JSON.stringify(data));
 
     window.location.href = './llm_tags.html'
 }
