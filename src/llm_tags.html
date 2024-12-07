@@ -1,86 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>llm tags</title>
+    <title>برچسب‌های LLM</title>
     <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="./style.css">
-
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body class="bg-gray-50">
 
-    <div class="bg-teal-50 shadow-md" dir="ltr">
+    <div class="bg-teal-50 shadow-md" dir="rtl">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <!-- Back Button -->
-          <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200" onclick="backAndReload()">
-            ← بازگشت
-          </button>
-      
-          <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
-            <div class="flex gap-4 text-teal-800 font-semibold">
-              Username: <span class="text-teal-900" id="Username">somthing</span>
-            </div>
-            <div class="flex-1 text-teal-800 font-semibold">
-              Category: <span class="text-teal-900">LLM tags</span>
-            </div>
-          </div>
-      
-        </div>
-      </div>
-
-
-      <div id="maincontent" class="p-4 ">
-
-        <div class=" w-full border border-gray-300 rounded-md bg-gradient-to-l from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold  shadow-md hover:shadow-lg transition-shadow duration-300 " id="generateButton" onclick="generateTags()">Generate tags</div>
+            <!-- Back Button -->
+            <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200" onclick="backAndReload()">
+                ← بازگشت
+            </button>
         
-        <div id="Tags_container" class="p-4  grid sm:grid-cols-3 md:grid-cols-7 gap-6" dir="rtl">
-
-            
-
-
+            <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
+                <div class="flex gap-4 text-teal-800 font-semibold">
+                    نام کاربری: <span class="text-teal-900" id="Username">something</span>
+                </div>
+                <div class="flex-1 text-teal-800 font-semibold">
+                    دسته‌بندی: <span class="text-teal-900">برچسب‌های LLM</span>
+                </div>
+            </div>
         </div>
-
-        <div class=" w-full border border-gray-300 rounded-md bg-gradient-to-l from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold  shadow-md hover:shadow-lg transition-all duration-300 scale-0 " id="approveButton" onclick="approveTags()">Approve</div>
-
-
     </div>
 
-    <div id="tag_Cloud_container" class="">
+    <div id="maincontent" class="p-4">
+        <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-teal-400 to-teal-600 cursor-pointer p-4 text-center text-white font-semibold shadow-md hover:shadow-lg transition-shadow duration-300" id="generateButton" onclick="generateTags()">
+            ایجاد برچسب‌ها
+        </div>
+        
+        <div id="Tags_container" class="p-4 grid sm:grid-cols-3 md:grid-cols-7 gap-6" dir="rtl">
+            <!-- Tag elements will go here -->
+        </div>
 
-        <h2 class="p-4 text-center font-bold text-4xl text-blue-600">Approves tags</h2>
+        <div class="w-full border border-gray-300 rounded-md bg-gradient-to-l from-blue-400 to-blue-600 cursor-pointer p-4 text-center text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 scale-0" id="approveButton" onclick="approveTags()">
+            تایید کردن
+        </div>
+    </div>
+
+    <div id="tag_Cloud_container" class="hidden">
+        <h2 class="p-4 text-center font-bold text-4xl text-blue-600">برچسب‌های تایید شده</h2>
         <!-- Cloud Chart Container -->
         <section class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center mb-8">
             <div class="flex justify-between items-center w-full mb-6">
-            <h2 id="cloud-chart-title" class="text-xl font-semibold text-gray-800">برچسب های تایید شده هوش مصنوعی</h2>
-            <button id="cloud-explanation" class="hidden bg-teal-500 text-white py-2 px-5 rounded-lg font-medium cursor-pointer hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
-                توضیح نمودار
-            </button>
+                <h2 id="cloud-chart-title" class="text-xl font-semibold text-gray-800">برچسب های تایید شده هوش مصنوعی</h2>
+                <button id="cloud-explanation" class="hidden bg-teal-500 text-white py-2 px-5 rounded-lg font-medium cursor-pointer hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                    توضیح نمودار
+                </button>
             </div>
-    
+        
             <!-- Dropdown and Tag Information Section -->
             <div class="flex flex-col sm:flex-row justify-between items-center space-y-6 sm:space-y-0 sm:space-x-6 w-full">
-            <select id="categorySelector" class="w-full sm:w-2/5 bg-teal-500 text-white text-lg font-medium py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 hover:bg-teal-600 transition-all duration-300">
-                <option value="شماره رنگ">شماره رنگ</option>
-                <option value="جنس محفظه">جنس محفظه</option>
-                <option value="نوع محفظه">نوع محفظه</option>
-                <option value="مناسب برای رنگ پوست">مناسب برای رنگ پوست</option>
-            </select>
-    
-            <div id="tag-info" class="text-right sm:w-2/5">
-                <p id="total-tags" class="text-lg font-medium text-gray-700">تعداد برچسب‌ها: 0</p>
-            </div>
+                <select id="categorySelector" class="w-full sm:w-2/5 bg-teal-500 text-white text-lg font-medium py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-600 hover:bg-teal-600 transition-all duration-300">
+                    <option value="شماره رنگ">شماره رنگ</option>
+                    <option value="جنس محفظه">جنس محفظه</option>
+                    <option value="نوع محفظه">نوع محفظه</option>
+                    <option value="مناسب برای رنگ پوست">مناسب برای رنگ پوست</option>
+                </select>
+        
+                <div id="tag-info" class="text-right sm:w-2/5">
+                    <p id="total-tags" class="text-lg font-medium text-gray-700">تعداد برچسب‌ها: 0</p>
+                </div>
             </div>
         </section>
-    
+        
         <!-- Tag Cloud Section -->
         <section id="tagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
         <section id="cloudTagCloud" class="flex flex-wrap gap-3 justify-center mt-4"></section>
-      
     </div>
-    
 
- 
     <script src="./ui_logic_p.js"></script>
     <script src="./llm_tags.js"></script>
 </body>
