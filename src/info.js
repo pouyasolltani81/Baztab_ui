@@ -150,7 +150,7 @@ async function Getpriceinfo(p_id,m_id , name) {
     } catch (error) {
       
         console.error('Error searching products:', error);
-        alert('Failed to search products: ' + error.message);
+        // alert('Failed to search products: ' + error.message);
     }
   
 }

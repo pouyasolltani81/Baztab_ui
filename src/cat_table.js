@@ -1,8 +1,10 @@
 function llm_analysis(name , slug){
     data = {
-        'name' : name ,
+        'name_fa' : name ,
         'slug' : slug 
     }
+
+    localStorage.setItem('categorydata', JSON.stringify(categorydata));
 
     window.location.href = './llm_tags.html'
 }
