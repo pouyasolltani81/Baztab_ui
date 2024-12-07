@@ -20,7 +20,7 @@ const pagenum = document.getElementById('PageNumber')
 function closeinfopopup(){
   document.getElementById('mainContent').classList.remove('pointer-events-none')
 
-  document.getElementById('mainContent').classList.remove('opacity-20')
+  document.getElementById('mainContent').classList.remove('opacity-10')
   document.getElementById('baseInfoContainer').classList.add('hidden')
 
 
