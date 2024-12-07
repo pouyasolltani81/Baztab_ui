@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login/Register</title>
+  <title>ورود/ثبت‌نام</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -19,7 +19,7 @@
 </head>
 <body class="bg-blue-100 flex items-center justify-center h-screen">
 
-<!-- pop ups  -->
+<!-- پاپ‌آپ‌ها -->
 
 <div id="success" class="hidden">
   <div class="card relative overflow-hidden rounded-lg max-w-sm shadow-lg bg-white">
@@ -31,12 +31,12 @@
         </svg>
       </div>
       <div class="content mt-3 text-center">
-        <span class="title text-teal-700 text-lg font-semibold leading-6" id="S_title">Order validated</span>
-        <p class="message mt-2 text-gray-700 text-sm leading-5" id="S_message">Thank you for your purchase. Your package will be delivered within 2 days of your purchase.</p>
+        <span class="title text-teal-700 text-lg font-semibold leading-6" id="S_title">سفارش تأیید شد</span>
+        <p class="message mt-2 text-gray-700 text-sm leading-5" id="S_message">با تشکر از خرید شما. بسته شما ظرف ۲ روز پس از خرید تحویل داده خواهد شد.</p>
       </div>
       <div class="actions mt-3 mx-4">
-        <!-- <button class="history inline-flex w-full p-2.5 bg-teal-600 text-white text-lg leading-6 font-medium justify-center rounded-md shadow-md border-none">History</button> -->
-        <button class="retry inline-flex mt-3 p-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md hidden" onclick="document.getElementById('success').classList.add('hidden')" id="S_retry">Retry</button>
+        <!-- <button class="history inline-flex w-full p-2.5 bg-teal-600 text-white text-lg leading-6 font-medium justify-center rounded-md shadow-md border-none">تاریخچه</button> -->
+        <button class="retry inline-flex mt-3 p-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md hidden" onclick="document.getElementById('success').classList.add('hidden')" id="S_retry">تلاش مجدد</button>
 
       </div>
     </div>
@@ -53,52 +53,52 @@
         </svg>
       </div>
       <div class="content mt-3 text-center">
-        <span class="title text-red-700 text-lg font-semibold leading-6" id="F_title">Order failed</span>
-        <p class="message mt-2 text-gray-700 text-sm leading-5" id="F_message">Unfortunately, there was an issue with your order. Please try again or contact support.</p>
+        <span class="title text-red-700 text-lg font-semibold leading-6" id="F_title">سفارش ناموفق</span>
+        <p class="message mt-2 text-gray-700 text-sm leading-5" id="F_message">متأسفانه مشکلی در سفارش شما به وجود آمد. لطفاً مجدداً تلاش کنید یا با پشتیبانی تماس بگیرید.</p>
       </div>
       <div class="actions mt-3 mx-4">
-        <!-- <button class="history inline-flex w-full p-2.5 bg-red-600 text-white text-lg leading-6 font-medium justify-center rounded-md shadow-md border-none">History</button> -->
-        <button class="retry inline-flex mt-3 p-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md" onclick="closepopup('F')" id="F_retry">Retry</button>
+        <!-- <button class="history inline-flex w-full p-2.5 bg-red-600 text-white text-lg leading-6 font-medium justify-center rounded-md shadow-md border-none">تاریخچه</button> -->
+        <button class="retry inline-flex mt-3 پ-2.5 w-full text-black text-lg leading-6 font-medium justify-center rounded-md border border-gray-300 bg-white shadow-md" onclick="closepopup('F')" id="F_retry">تلاش مجدد</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- main login  -->
+<!-- فرم ورود  -->
 
   <div id="form-container" class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
     <div class="flex justify-center mb-4">
-      <button id="login-btn" class="text-teal-500 font-bold mx-2 focus:outline-none">Login</button>
-      <button id="register-btn" class="text-gray-500 mx-2 focus:outline-none">Register</button>
+      <button id="login-btn" class="text-teal-500 font-bold mx-2 focus:outline-none">ورود</button>
+      <button id="register-btn" class="text-gray-500 mx-2 focus:outline-none">ثبت‌نام</button>
     </div>
 
     <div id="login-form" class="fade-in">
-      <h2 class="text-2xl font-bold text-center mb-4 text-blue-500">Login</h2>
+      <h2 class="text-2xl font-bold text-center mb-4 text-blue-500">ورود</h2>
       <form id="loginForm">
         <div class="mb-4">
-          <label for="login-email" class="block text-gray-700">Email</label>
+          <label for="login-email" class="block text-gray-700">ایمیل</label>
           <input type="email" id="login-email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
         </div>
         <div class="mb-4">
-          <label for="login-password" class="block text-gray-700">Password</label>
+          <label for="login-password" class="block text-gray-700">رمز عبور</label>
           <input type="password" id="login-password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
         </div>
-        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Login</button>
+        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">ورود</button>
       </form>
     </div>
 
     <div id="register-form" class="hidden">
-      <h2 class="text-2xl font-bold text-center mb-4 text-blue-500">Register</h2>
+      <h2 class="text-2xl font-bold text-center mb-4 text-blue-500">ثبت‌نام</h2>
       <form id="registerForm">
         <div class="mb-4">
-          <label for="register-email" class="block text-gray-700">Email</label>
+          <label for="register-email" class="block text-gray-700">ایمیل</label>
           <input type="email" id="register-email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
         </div>
         <div class="mb-4">
-          <label for="register-password" class="block text-gray-700">Password</label>
+          <label for="register-password" class="block text-gray-700">رمز عبور</label>
           <input type="password" id="register-password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
         </div>
-        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Register</button>
+        <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700">ثبت‌نام</button>
       </form>
     </div>
   </div>

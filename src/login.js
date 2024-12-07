@@ -10,7 +10,6 @@ const F_title = document.getElementById('F_title');
 const F_message = document.getElementById('F_message');
 const logincon = document.getElementById('form-container')
 
-
 loginBtn.addEventListener('click', () => {
   loginForm.parentElement.classList.remove('hidden', 'fade-in');
   registerForm.parentElement.classList.add('hidden');
@@ -47,9 +46,8 @@ async function handleSubmit(event, form, url ,type) {
         success.classList.remove('hidden');
        
         if (type == 'login'){
-            S_title.innerHTML = "login"
+            S_title.innerHTML = "ورود"
             // document.getElementById('S_retry').classList.add('hidden')
-
 
             const data2 = {
                 user_token: result.user_token,
@@ -62,7 +60,7 @@ async function handleSubmit(event, form, url ,type) {
             window.location.href = '/category.html';
 
         } else {
-            S_title.innerHTML = 'Register'
+            S_title.innerHTML = 'ثبت‌نام'
             // document.getElementById('S_retry').classList.remove('hidden')
         }
 
@@ -72,14 +70,12 @@ async function handleSubmit(event, form, url ,type) {
         failed.classList.remove('hidden');
 
         if (type == 'login'){
-            F_title.innerHTML = "login"
+            F_title.innerHTML = "ورود"
         } else {
-            F_title.innerHTML = 'Register'
+            F_title.innerHTML = 'ثبت‌نام'
         }
 
         F_message.innerHTML = result.error
-        
-
     }
     
   } catch (error) {
@@ -87,25 +83,16 @@ async function handleSubmit(event, form, url ,type) {
   }
 }
 
-
 function closepopup(type) {
-
     if (type == 'S') {
         logincon.classList.remove('hidden')
         success.classList.add('hidden');
 
-
     } else {
-
         failed.classList.add('hidden');
         logincon.classList.remove('hidden');
-
     }
-
 }
 
 loginForm.addEventListener('submit', (event) => handleSubmit(event, loginForm, 'http://79.175.177.113:21800/User/GetUserToken/','login'));
 registerForm.addEventListener('submit', (event) => handleSubmit(event, registerForm, 'http://79.175.177.113:21800/User/ServiceRegister/','register'));
-
-
-
