@@ -94,19 +94,11 @@ async function generateTags() {
 
 async function fetchAllData() {
     try {
-      const name_far = JSON.parse(localStorage.getItem('name_far'));
-  
-      // adding the bread crumble
-      slug_fa = name_far.slug_fa
-      document.getElementById("breadcrumb-slug").textContent = slug_fa;
-  
-      // adding the name to base
-      category_name_fa = name_far.category_name_fa
-      document.getElementById("name-fa-base").textContent = category_name_fa;
+      
   
   
       let data_c = {
-        name_fa: name_far.category_name_fa,
+        'name_fa': name_fa,
         
       };
       const response = await fetch('http://79.175.177.113:21800/Categories/get_category_details/', {

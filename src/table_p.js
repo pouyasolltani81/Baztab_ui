@@ -179,11 +179,7 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
         // Check if the response contains valid product data
         if (data) {
           console.log(data);
-          document.getElementById('mainContent').classList.add('pointer-events-none')
-
-            document.getElementById('mainContent').classList.add('opacity-20')
-            document.getElementById('baseInfoContainer').classList.remove('hidden')
-
+          
 
 
           updateui(data);  // Call the update UI function with the response data
