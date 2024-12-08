@@ -50,7 +50,8 @@
                     message: userMessage,
                     APIKEY: apiKey,
                     session_id: sessionId
-                })
+                }),
+                mode: 'no-cors'
             });
 
             const data = await response.json();
