@@ -208,18 +208,18 @@ function updateui(data) {
 
 
 
-    if (page_num == total_pages){
-        document.getElementById('NextPageButton').classList.add('hidden')
-    } else {
-        document.getElementById('NextPageButton').classList.remove('hidden')
-    }
+    // if (page_num == total_pages){
+    //     document.getElementById('NextPageButton').classList.add('hidden')
+    // } else {
+    //     document.getElementById('NextPageButton').classList.remove('hidden')
+    // }
 
 
-    if (page_num == 1){
-        document.getElementById('PrevPageButton').classList.add('hidden')
-      } else {
-        document.getElementById('PrevPageButton').classList.remove('hidden')
-      }
+    // if (page_num == 1){
+    //     document.getElementById('PrevPageButton').classList.add('hidden')
+    //   } else {
+    //     document.getElementById('PrevPageButton').classList.remove('hidden')
+    //   }
 
     
 
