@@ -54,6 +54,16 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
         } else {
             document.getElementById('PrevPageButton').classList.remove('hidden')
         }
+
+
+        
+        if (page_num == total_pages){
+            document.getElementById('NextPageButton').classList.add('hidden')
+        } else {
+            document.getElementById('NextPageButton').classList.remove('hidden')
+        }
+
+    
     
       console.log(JSON.stringify({  
         "category_name_fa": nameqwe ,
@@ -625,7 +635,8 @@ let name = productData.category_name_fa
   } else {
     document.getElementById('PrevPageButton').classList.remove('hidden')
   }
-
+  
+  
   if (page_num == total_pages){
     document.getElementById('NextPageButton').classList.add('hidden')
   } else {
@@ -750,15 +761,25 @@ function onScrollToEnd() {
     addscroll = false
     let name = productData.category_name_fa
 
+
+
+    if (page_num == total_pages){
+        document.getElementById('NextPageButton').classList.add('hidden')
+    } else {
+        document.getElementById('NextPageButton').classList.remove('hidden')
+    }
+
   if (total_pages != page_num) {
 
       page_num = page_num + 1
       pagenum.innerHTML = page_num
+
       if (page_num == 1){
         document.getElementById('PrevPageButton').classList.add('hidden')
       } else {
         document.getElementById('PrevPageButton').classList.remove('hidden')
       }
+     
       showLoader(async function() {
         document.getElementById('mainContent').classList.add('opacity-20'); 
         await ChangePage(name , page_num , page_size)
