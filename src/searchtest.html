@@ -44,14 +44,17 @@
             const response = await fetch('http://79.175.177.113:25300/assistant_lg', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Accept-Version": 1,
+                    'Accept': "application/json",
+                    "Access-Control-Allow-Origin": "*",
                 },
                 body: JSON.stringify({
                     message: userMessage,
                     APIKEY: apiKey,
                     session_id: sessionId
                 }),
-                mode: 'no-cors'
+                // mode: 'no-cors'
             });
 
             const data = await response.json();
