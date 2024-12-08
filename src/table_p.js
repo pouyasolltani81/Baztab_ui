@@ -192,6 +192,8 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
     }
 }
 
+
+let total_pages
 function updateui(data) {
     
 
@@ -199,6 +201,8 @@ function updateui(data) {
 
     document.getElementById('totalpages').innerHTML = `کل صفحات: ${data.data.total_pages}`
     document.getElementById('totalcounts').innerHTML = `کل موارد: ${data.data.total_count} `
+
+    total_pages = data.data.total_pages ;
 
     
     
@@ -733,19 +737,23 @@ function onScrollToEnd() {
     
     addscroll = false
     let name = productData.category_name_fa
-  
-  page_num = page_num + 1
-  pagenum.innerHTML = page_num
-  if (page_num == 1){
-    document.getElementById('PrevPageButton').classList.add('hidden')
-  } else {
-    document.getElementById('PrevPageButton').classList.remove('hidden')
-  }
-  showLoader(async function() {
-    document.getElementById('mainContent').classList.add('opacity-20'); 
-    await ChangePage(name , page_num , page_size)
-    document.getElementById('mainContent').classList.remove('opacity-20');
-})
+
+  if (total_pages != page_num) {
+
+      page_num = page_num + 1
+      pagenum.innerHTML = page_num
+      if (page_num == 1){
+        document.getElementById('PrevPageButton').classList.add('hidden')
+      } else {
+        document.getElementById('PrevPageButton').classList.remove('hidden')
+      }
+      showLoader(async function() {
+        document.getElementById('mainContent').classList.add('opacity-20'); 
+        await ChangePage(name , page_num , page_size)
+        document.getElementById('mainContent').classList.remove('opacity-20');
+    })
+
+}
 
 }
 
