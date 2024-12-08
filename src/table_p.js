@@ -205,6 +205,22 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
 
 let total_pages
 function updateui(data) {
+
+
+
+    if (page_num == total_pages){
+        document.getElementById('NextPageButton').classList.add('hidden')
+    } else {
+        document.getElementById('NextPageButton').classList.remove('hidden')
+    }
+
+
+    if (page_num == 1){
+        document.getElementById('PrevPageButton').classList.add('hidden')
+      } else {
+        document.getElementById('PrevPageButton').classList.remove('hidden')
+      }
+
     
 
     let products = data.data.result ;
@@ -761,13 +777,6 @@ function onScrollToEnd() {
     addscroll = false
     let name = productData.category_name_fa
 
-
-
-    if (page_num == total_pages){
-        document.getElementById('NextPageButton').classList.add('hidden')
-    } else {
-        document.getElementById('NextPageButton').classList.remove('hidden')
-    }
 
   if (total_pages != page_num) {
 
