@@ -625,6 +625,13 @@ let name = productData.category_name_fa
   } else {
     document.getElementById('PrevPageButton').classList.remove('hidden')
   }
+
+  if (page_num == total_pages){
+    document.getElementById('NextPageButton').classList.add('hidden')
+  } else {
+    document.getElementById('NextPageButton').classList.remove('hidden')
+  }
+
   showLoader(async function() {
     document.getElementById('mainContent').classList.add('hidden'); 
     await ChangePage(name , page_num , page_size)
@@ -648,6 +655,12 @@ let name = productData.category_name_fa
   } else {
     document.getElementById('PrevPageButton').classList.remove('hidden')
   }
+
+  if (page_num == total_pages){
+    document.getElementById('NextPageButton').classList.add('hidden')
+  } else {
+    document.getElementById('NextPageButton').classList.remove('hidden')
+  }
   showLoader(async function() {
     document.getElementById('mainContent').classList.add('hidden'); 
     await ChangePage(name , page_num , page_size)
@@ -670,29 +683,28 @@ async function ChangePage(name_fa , page, page_size)  {
             "Access-Control-Allow-Origin": "*",
             'authorization': user_token,
         },
-        body: JSON.stringify({  // Convert the body object to a JSON string
+        body: JSON.stringify({  
             "category_name_fa": name_fa,
             "page": page,
             "page_limit": page_size
         })
     });
 
-    // Check if the response was successful (status code 2xx)
+   
     if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
 
-    // Check if the response contains valid categories data
     if (data) {
       console.log(data);
       
-        updateui(data);  // Call the update UI function with the response data
+        updateui(data); 
     } 
 
 } catch (error) {
-    // Log and display the error to the user
+   
     console.error('Error Getting products:', error);
     alert('Failed to load products: ' + error.message);
 }
