@@ -14,7 +14,7 @@
     <div id="app" class="min-h-screen flex flex-col justify-center items-center transition-all ease-in-out duration-500">
         <!-- نوار چت (وضعیت اولیه) -->
         <div id="chat-bar" class="w-full max-w-md bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 rounded-lg shadow-lg transform scale-100 transition-all ease-in-out duration-500">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
+            <h2 class="m-4 text-3xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
             <p class="text-sm mb-4 text-gray-600 text-center">سلام! من می‌توانم به شما در یافتن محصولات مناسب کمک کنم. فقط بگویید به دنبال چه چیزی هستید، و من گزینه‌ها را پیشنهاد خواهم کرد.</p>
             <div class="mt-4 flex items-center space-x-2 flex-col gap-4">
                 <input id="chat-input" type="text" placeholder="چه چیزی می‌خواهید پیدا کنید؟" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" />
@@ -135,6 +135,22 @@
                 productGrid.innerHTML += productCard;
             });
         }
+        function backAndReload() {
+    // Get the previous page URL (e.g., through document referrer or a custom logic)
+    let previousPage = document.referrer; 
+    console.log(previousPage);
+    
+
+    // Navigate to the previous page and reload
+    window.location.href = previousPage; // This triggers a full reload of the previous page
+}
+
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    backAndReload()
+  }
+});
     </script>
 
 </body>
