@@ -4,6 +4,8 @@ const chatHistory = document.getElementById('chat-history');
 const productGrid = document.getElementById('product-grid');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-btn');
+const newButton = document.getElementById('new-btn');
+let token = generateString(10)
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
@@ -16,10 +18,10 @@ const products = [
 ];
 
 
-async function sendMessage(userm) {
+async function sendMessage(userm , token) {
     const userMessage = userm;
     const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
-    const sessionId = 'test';
+    const sessionId = token;
 
     const data_b = new URLSearchParams({
             message: userMessage , 
@@ -103,6 +105,26 @@ sendButton.addEventListener('click', async () => {
     }
 });
 
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+newButton.addEventListener('click'  ,() => {
+
+    token = generateString(10)
+
+    chatHistory.innerHTML = '' 
+
+})
+
 function addProductCards() {
     productGrid.innerHTML = '';
     products.forEach(product => {
@@ -139,6 +161,7 @@ backAndReload()
 
 
 document.addEventListener('keydown',async function(event) {
+    if (event.key === 'Enter') {
     const userMessage = userInput.value;
     if (userMessage) {
         chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
@@ -158,4 +181,5 @@ document.addEventListener('keydown',async function(event) {
             addProductCards();
         
     }
+}
     });
