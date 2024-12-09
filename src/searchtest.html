@@ -36,29 +36,57 @@
     </div>
 
     <script>
+         const sendMessage_c = async (message) => {
+            const data = new URLSearchParams({
+                message , 
+                APIKEY : '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf',
+                session_id: 'test',
+            });
+
+            try {
+                const res = await fetch(
+                    "http://79.175.177.113:25300/assistant_lg",
+                    {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: data,
+                    },
+                );
+                return await res.json()
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+    
         async function sendMessage() {
             const userMessage = document.getElementById('userMessage').value;
             const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
             const sessionId = 'test';
 
-            const data_b = new URLSearchParams({
-                    message: userMessage , 
-                    APIKEY : apiKey,
-                    session_id: sessionId,
-                });
+            // const data_b = new URLSearchParams({
+            //         message: userMessage , 
+            //         APIKEY : apiKey,
+            //         session_id: sessionId,
+            //     });
 
 
-            const response = await fetch('http://79.175.177.113:25300/assistant_lg', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            // const response = await fetch('http://79.175.177.113:25300/assistant_lg', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
                   
-                },
-                body: data_b,
-                // mode: 'no-cors'
-            });
+            //     },
+            //     body: data_b,
+            //     // mode: 'no-cors'
+            // });
 
-            const data = await response.json();
+
+            const data = sendMessage_c(userMessage)
+
+            // const data = await response.json();
             console.log(data);
             
             const chatMessages = document.getElementById('chatMessages');
@@ -95,11 +123,16 @@ async function main() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: data
-                }
-            )
+                    body: data,
+                },
+            );
+            return await res.json()
+        } catch (err) {
+            console.error(err);
         }
-    }
+    };
+
+
 }
 
 </script> -->
