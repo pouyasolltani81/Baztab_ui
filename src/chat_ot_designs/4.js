@@ -5,6 +5,7 @@ const productGrid = document.getElementById('product-grid');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-btn');
 const newButton = document.getElementById('new-btn');
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 let token = generateString(10)
 const startChatBtn = document.getElementById('start-chat-btn');
 
@@ -105,7 +106,6 @@ sendButton.addEventListener('click', async () => {
     }
 });
 
-const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 function generateString(length) {
     let result = ' ';
