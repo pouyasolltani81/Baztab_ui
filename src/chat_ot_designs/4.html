@@ -12,7 +12,7 @@
 <body class="bg-gradient-to-r from-blue-100 via-teal-100 to-white">
 
     <div id="app" class="min-h-screen flex flex-col justify-center items-center transition-all ease-in-out duration-500">
-        <!-- نوار چت (وضعیت اولیه) -->
+     
         <div id="chat-bar" class="w-full max-w-md bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 rounded-lg shadow-lg transform scale-100 transition-all ease-in-out duration-500">
             <h2 class="m-4 text-3xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
             <p class="text-sm mb-4 text-gray-600 text-center">سلام! من می‌توانم به شما در یافتن محصولات مناسب کمک کنم. فقط بگویید به دنبال چه چیزی هستید، و من گزینه‌ها را پیشنهاد خواهم کرد.</p>
@@ -24,19 +24,19 @@
             </div>
         </div>
 
-        <!-- صفحه نمایش تمام صفحه (مخفی در ابتدا) -->
+        
         <div id="chat-layout" class="w-full hidden flex min-h-screen transition-all ease-in-out duration-500">
-            <!-- سمت چپ (چت) -->
+         
             <div class="w-1/3 bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500">
                 <h2 class="text-2xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
                 <p class="text-sm mb-4 text-gray-600 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک کنم!</p>
 
-                <!-- تاریخچه چت -->
+               
                 <div id="chat-history" class="flex-grow overflow-y-auto space-y-4">
-                    <!-- چت به طور داینامیک اینجا آپدیت می‌شود -->
+                 
                 </div>
 
-                <!-- بخش ورودی -->
+              
                 <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4">
                     <input id="user-input" type="text" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" placeholder="جستجوی محصولات..." />
                     <button id="send-btn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
@@ -45,13 +45,13 @@
                 </div>
             </div>
 
-            <!-- سمت راست (نمایش محصولات) -->
+           
             <div class="w-2/3 bg-gray-50 p-6 overflow-y-auto">
                 <h2 class="text-xl font-semibold text-teal-600 mb-4 text-center">محصولات یافت شده</h2>
                 
-                <!-- گرید محصولات -->
+               
                 <div id="product-grid" class="grid grid-cols-3 gap-6">
-                    <!-- کارت‌های محصول به طور داینامیک اینجا آپدیت می‌شود -->
+                  
                 </div>
             </div>
         </div>
@@ -66,38 +66,74 @@
         const sendButton = document.getElementById('send-btn');
         const startChatBtn = document.getElementById('start-chat-btn');
 
-        // داده‌های محصولات فرضی (قابل به‌روزرسانی داینامیک)
+        
         const products = [
+
             { name: 'کفش ورزشی', price: '$49.99', image: 'https://via.placeholder.com/150' },
             { name: 'گوشی هوشمند', price: '$699.99', image: 'https://via.placeholder.com/150' },
             { name: 'هدفون بلوتوثی', price: '$29.99', image: 'https://via.placeholder.com/150' }
+
         ];
 
-        // رفتار دکمه شروع چت
-        startChatBtn.addEventListener('click', () => {
+
+        async function sendMessage(userm) {
+            const userMessage = userm;
+            const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
+            const sessionId = 'test';
+
+            const data_b = new URLSearchParams({
+                    message: userMessage , 
+                    APIKEY : apiKey,
+                    session_id: sessionId,
+                });
+
+
+            const response = await fetch('http://79.175.177.113:25300/assistant_lg', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                  
+                },
+                body: data_b,
+                // mode: 'no-cors'
+            });
+
+
+            // const data = sendMessage_c(userMessage)
+
+            const data = await response.json();
+            console.log(data);
+
+            return  data.response
+            
+        }
+
+       
+        startChatBtn.addEventListener('click', async () => {
             const userMessage = document.getElementById('chat-input').value;
             if (userMessage) {
                 chatBar.classList.add('scale-0');
-                // مخفی کردن نوار چت به مدت 1 ثانیه (برای اثر انتقال)
-                setTimeout(() => {
+               
+                const ai_message = await sendMessage(userMessage)
+                
                     chatBar.classList.add('hidden');
                     chatLayout.classList.remove('hidden');
-                    chatLayout.classList.add('flex');  // اکنون نوار چت بعد از انتقال مخفی می‌شود
-                }, 500);  
+                    chatLayout.classList.add('flex');  
+               
 
-                // افزودن پاسخ اولیه ربات
+                
                 chatHistory.innerHTML = `<div class="flex items-start space-x-2">
                                             <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                                <p><i class="fas fa-spinner fa-spin mr-2"></i> بگذارید محصولات را برای شما پیدا کنم...</p>
+                                                <p><i class="fas fa-check-circle mr-2"></i> ${ai_message} </p>
                                             </div>
                                           </div>`;
                 setTimeout(() => {
                     addProductCards();
-                }, 1500); // شبیه‌سازی زمان جستجوی محصولات
+                }, 1500); 
             }
         });
 
-        // مدیریت پیام کاربر و نمایش پیشنهادات محصولات
+       
         sendButton.addEventListener('click', () => {
             const userMessage = userInput.value;
             if (userMessage) {
@@ -108,7 +144,7 @@
                                             </div>`;
                 userInput.value = '';
                 
-                // افزودن پاسخ ربات و محصولات پس از تاخیر
+              
                 setTimeout(() => {
                     chatHistory.innerHTML += `<div class="flex items-start space-x-2">
                                                 <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
@@ -120,7 +156,6 @@
             }
         });
 
-        // تابع برای نمایش کارت‌های محصولات
         function addProductCards() {
             productGrid.innerHTML = '';
             products.forEach(product => {
@@ -135,14 +170,17 @@
                 productGrid.innerHTML += productCard;
             });
         }
+
+
+
         function backAndReload() {
-    // Get the previous page URL (e.g., through document referrer or a custom logic)
+   
     let previousPage = document.referrer; 
     console.log(previousPage);
     
 
-    // Navigate to the previous page and reload
-    window.location.href = previousPage; // This triggers a full reload of the previous page
+   
+    window.location.href = previousPage; 
 }
 
 
