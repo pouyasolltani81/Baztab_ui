@@ -826,20 +826,20 @@ function isScrollable(el) {
   
 
 
-// let timeout;
-let isloading = false;
-window.addEventListener('scroll', function() {
-    if (isScrollable(document.querySelector('body'))){
-    if (isloading) {
-        // clearTimeout(timeout);
-        // timeout = setTimeout(function() {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                isloading = false
+// // let timeout;
+// let isloading = false;
+// window.addEventListener('scroll', function() {
+//     if (isScrollable(document.querySelector('body'))){
+//     if (isloading) {
+//         // clearTimeout(timeout);
+//         // timeout = setTimeout(function() {
+//             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+//                 isloading = false
 
-                onScrollToEnd();  // Call the function to execute at the end
-            }
-        // }, 100);  // Delay in ms before the function runs after the user stops scrolling
-    }
-}
-});
+//                 onScrollToEnd();  // Call the function to execute at the end
+//             }
+//         // }, 100);  // Delay in ms before the function runs after the user stops scrolling
+//     }
+// }
+// });
  
