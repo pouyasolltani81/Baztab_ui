@@ -40,7 +40,7 @@
                 <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4">
                     <input id="user-input" type="text" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" placeholder="جستجوی محصولات..." />
                     <button id="send-btn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
-                        <i class="fas fa-paper-plane mr-2"></i> ارسال
+                        <i class="fas fa-paper-plane mr-2"></i>
                     </button>
                 </div>
             </div>
@@ -119,12 +119,19 @@
                     chatBar.classList.add('hidden');
                     chatLayout.classList.remove('hidden');
                     chatLayout.classList.add('flex');  
+
+
+                    chatHistory.innerHTML = `<div class="flex justify-end space-x-2">
+                                              <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+                                                  <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
+                                              </div>
+                                            </div>`;
                
 
                 
-                chatHistory.innerHTML = `<div class="flex items-start space-x-2">
+                chatHistory.innerHTML += `<div class="flex items-start space-x-2">
                                             <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                                <p><i class="fas fa-check-circle mr-2"></i> ${ai_message} </p>
+                                                <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> ${ai_message} </p>
                                             </div>
                                           </div>`;
                 setTimeout(() => {
@@ -134,25 +141,25 @@
         });
 
        
-        sendButton.addEventListener('click', () => {
+        sendButton.addEventListener('click', async () => {
             const userMessage = userInput.value;
             if (userMessage) {
                 chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
                                               <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
-                                                  <p><i class="fas fa-user mr-2"></i> ${userMessage}</p>
+                                                  <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
                                               </div>
                                             </div>`;
                 userInput.value = '';
                 
               
-                setTimeout(() => {
+                const ai_message = await sendMessage(userMessage)
                     chatHistory.innerHTML += `<div class="flex items-start space-x-2">
                                                 <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                                    <p><i class="fas fa-check-circle mr-2"></i> این محصولات را برای شما پیدا کردم:</p>
+                                                    <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> ${ai_message}</p>
                                                 </div>
                                               </div>`;
                     addProductCards();
-                }, 1000);
+                
             }
         });
 
