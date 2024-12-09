@@ -5,6 +5,7 @@ const productGrid = document.getElementById('product-grid');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-btn');
 const newButton = document.getElementById('new-btn');
+let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 let token = generateString(10)
 const startChatBtn = document.getElementById('start-chat-btn');
@@ -117,6 +118,7 @@ startChatBtn.addEventListener('click', async () => {
 sendButton.addEventListener('click', async () => {
     const userMessage = userInput.value;
     if (userMessage) {
+        m_n += 1 ;
         // Display the user's message
         chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
                                       <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
@@ -146,11 +148,11 @@ sendButton.addEventListener('click', async () => {
         const aiMessageElement = document.createElement('div');
         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
         aiMessageElement.innerHTML = `<div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent"></span></p>
+                                          <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
                                       </div>`;
         chatHistory.appendChild(aiMessageElement);
 
-        const aiMessageContent = document.getElementById('aiMessageContent');
+        const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
         let index = 0;
         const typingSpeed = 50; // Adjust typing speed (in milliseconds)
 
@@ -182,6 +184,7 @@ function generateString(length) {
 newButton.addEventListener('click'  ,() => {
 
     token = generateString(10)
+    m_n =0
 
     chatHistory.innerHTML = '' 
 
@@ -226,6 +229,7 @@ document.addEventListener('keydown',async function(event) {
     if (event.key === 'Enter') {
         const userMessage = userInput.value;
         if (userMessage) {
+            m_n += 1;
             // Display the user's message
             chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
                                           <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
@@ -255,11 +259,11 @@ document.addEventListener('keydown',async function(event) {
             const aiMessageElement = document.createElement('div');
             aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
             aiMessageElement.innerHTML = `<div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                              <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent"></span></p>
+                                              <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
                                           </div>`;
             chatHistory.appendChild(aiMessageElement);
     
-            const aiMessageContent = document.getElementById('aiMessageContent');
+            const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
             let index = 0;
             const typingSpeed = 50; // Adjust typing speed (in milliseconds)
     
