@@ -95,7 +95,7 @@ startChatBtn.addEventListener('click', async () => {
 
         const aiMessageContent = document.getElementById('aiMessageContent');
         let index = 0;
-        const typingSpeed = 25; // Adjust typing speed (in milliseconds)
+        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
 
         function typeMessage() {
             if (index < ai_message.length) {
@@ -154,7 +154,7 @@ sendButton.addEventListener('click', async () => {
 
         const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
         let index = 0;
-        const typingSpeed = 25; // Adjust typing speed (in milliseconds)
+        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
 
         function typeMessage() {
             if (index < ai_message.length) {
@@ -265,7 +265,7 @@ document.addEventListener('keydown',async function(event) {
     
             const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
             let index = 0;
-            const typingSpeed = 25; // Adjust typing speed (in milliseconds)
+            const typingSpeed = 10; // Adjust typing speed (in milliseconds)
     
             function typeMessage() {
                 if (index < ai_message.length) {
