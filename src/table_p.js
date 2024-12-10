@@ -413,10 +413,17 @@ function createProductTable(products) {
         `);
 
         // Brand Info Cell
+
+        let obj = product.brand_info.brand_stat
+        const key = Object.keys(obj)[0];
+        const value = obj[key]; 
+        const resultString = `${key} : ${value}`;
         const brand = createTableCell(`
             <div class='flex flex-col'>
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                 <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
+                <span class="text-gray-900 font-semibold">${resultString}</span>
+
             </div>
         `);
 
