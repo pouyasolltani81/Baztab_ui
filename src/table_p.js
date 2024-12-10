@@ -283,6 +283,8 @@ refreshButton.addEventListener('click', function() {
       document.getElementById('mainContent').classList.add('hidden'); // Show main content
 
       await GetProduct(productData.category_name_fa , page_num , page_size);
+      searchBar.value = ''
+      searchbutton.classList.add('hidden') 
       refreshButton.classList.add('hidden') 
       document.getElementById('mainContent').classList.remove('hidden'); // Show main content
   });
@@ -399,10 +401,10 @@ function createProductTable(products) {
                 ${product.product_info.price_stat ? `
                     <span class='flex gap-2 justify-center'>
                         <p class="text-gray-900 font-bold">قیمت :</p>
-                        <span class="text-gray-900 font-bold">avg: ${product.product_info.price_stat.avg.toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">min: ${product.product_info.price_stat.min.toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">max: ${product.product_info.price_stat.max.toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">variance: ${product.product_info.price_stat.variance.toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.avg/10).toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">min: ${(product.product_info.price_stat.min/10).toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">max: ${(product.product_info.price_stat.max/10).toLocaleString()}</span>
+                        <span class="text-gray-900 font-bold">variance: ${(product.product_info.price_stat.variance/10).toLocaleString()}</span>
                     </span>
                 ` : ''}
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
@@ -789,23 +791,15 @@ function onScrollToEnd() {
         document.getElementById('PrevPageButton').classList.remove('hidden')
       }
      
-      showLoader(async function() {
-        document.getElementById('mainContent').classList.add('opacity-20'); 
-        await ChangePage(name , page_num , page_size)
-        document.getElementById('mainContent').classList.remove('opacity-20');
-    })
+    //   showLoader(async function() {
+        // document.getElementById('mainContent').classList.add('opacity-20'); 
+         ChangePage(name , page_num , page_size)
+        // document.getElementById('mainContent').classList.remove('opacity-20');
+    // })
 
 }
 
 }
-
-// // Attach a scroll event listener to the window
-// window.addEventListener('scroll', function() {
-//     // Check if the user has reached the bottom of the page
-//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-//         onScrollToEnd();
-//     }
-// });
 
 function isScrollable(el) {
     return (
@@ -826,20 +820,20 @@ function isScrollable(el) {
   
 
 
-// // let timeout;
-// let isloading = false;
-// window.addEventListener('scroll', function() {
-//     if (isScrollable(document.querySelector('body'))){
-//     if (isloading) {
-//         // clearTimeout(timeout);
-//         // timeout = setTimeout(function() {
-//             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-//                 isloading = false
+// let timeout;
+let isloading = false;
+window.addEventListener('scroll', function() {
+    if (isScrollable(document.querySelector('body'))){
+    if (isloading) {
+        // clearTimeout(timeout);
+        // timeout = setTimeout(function() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                isloading = false
 
-//                 onScrollToEnd();  // Call the function to execute at the end
-//             }
-//         // }, 100);  // Delay in ms before the function runs after the user stops scrolling
-//     }
-// }
-// });
+                onScrollToEnd();  // Call the function to execute at the end
+            }
+        // }, 100);  // Delay in ms before the function runs after the user stops scrolling
+    }
+}
+});
  
