@@ -449,7 +449,7 @@ function createProductTable(products) {
         // Brand Info Cell
 
         let obj = product.brand_info.brand_stat
-        for (i ; i<= product.brand_info.brand_stat.length();i++) {
+        for (let i ; i<= product.brand_info.brand_stat.length();i++) {
             console.log(i);
             
         }
