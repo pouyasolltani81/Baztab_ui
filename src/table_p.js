@@ -440,7 +440,7 @@ function createProductTable(products) {
                     </span>
                 ` : ''}
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
-                <span class="text-gray-900 font-base">${generateStars(product.product_info.price_stat.rate.ratingValue)}</span>
+                <span class="text-gray-900 font-base">${generateStars(product.product_info.rate.ratingValue)}</span>
 
                 <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
             </div>
