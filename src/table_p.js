@@ -393,6 +393,38 @@ function createProductTable(products) {
         row.className = "border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600";
         row.id = `TB${product._id}`;
 
+
+
+
+
+         function generateStars(ratingValue) {
+    const totalStars = 5;  // Total number of stars to display
+    const fullStars = Math.floor((ratingValue / 100) * totalStars);  // Full stars based on rating
+    const halfStars = (ratingValue % 100) / 100 * totalStars % 1 >= 0.5 ? 1 : 0;  // Half star logic
+    const emptyStars = totalStars - fullStars - halfStars;  // Empty stars
+    
+    let starsHtml = '';
+    
+    // Add full stars
+    for (let i = 0; i < fullStars; i++) {
+      starsHtml += '<i class="fas fa-star"></i>';
+    }
+
+    // Add half star (if any)
+    if (halfStars === 1) {
+      starsHtml += '<i class="fas fa-star-half-alt"></i>';
+    }
+
+    // Add empty stars
+    for (let i = 0; i < emptyStars; i++) {
+      starsHtml += '<i class="far fa-star"></i>';
+    }
+
+    return starsHtml;
+  }
+
+  
+
         // Product Info Cell
         const info = createTableCell(`
             <div class='flex flex-col'>
@@ -408,6 +440,8 @@ function createProductTable(products) {
                     </span>
                 ` : ''}
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
+                <span class="text-gray-900 font-base">${generateStars(product.product_info.price_stat.rate.ratingValue)}</span>
+
                 <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
             </div>
         `);
