@@ -440,7 +440,7 @@ function createProductTable(products) {
                     </span>
                 ` : ''}
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
-                <span class="text-gray-900 font-base">rate : ${generateStars(product.product_info.rate.ratingValue)} , rate count : ${product.product_info.reviewCount} </span>
+                <span class="text-gray-900 font-base">rate : ${generateStars(product.product_info.rate.ratingValue)} , rate count : ${product.product_info.rate.reviewCount} </span>
 
                 <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
             </div>
@@ -449,13 +449,12 @@ function createProductTable(products) {
         // Brand Info Cell
 
         let obj = product.brand_info.brand_stat
-        for (let i ; i<= product.brand_info.brand_stat.length;i++) {
-            console.log(i+1);
-            
-        }
-        const key = Object.keys(obj)[0];
-        const value = obj[key]; 
-        const resultString = `${key} : ${value}`;
+        const brandStatEntries = Object.entries(obj);
+
+        const resultString = brandStatEntries.map(([key, value]) => `${key} : ${value}`).join('<br/>');
+        // const key = Object.keys(obj)[0];
+        // const value = obj[key]; 
+        // const resultString = `${key} : ${value}`;
         const brand = createTableCell(`
             <div class='flex flex-col'>
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
