@@ -450,7 +450,7 @@ function createProductTable(products) {
 
         let obj = product.brand_info.brand_stat
         for (let i ; i<= product.brand_info.brand_stat.length;i++) {
-            console.log(i);
+            console.log(i+1);
             
         }
         const key = Object.keys(obj)[0];
@@ -800,7 +800,7 @@ let name = productData.category_name_fa
    showLoader(async function() {
     await GetProduct(name , page_num , page_size); 
     document.getElementById('mainContent').classList.remove('hidden'); 
-    document.getElementById('baseInfoContainer').classList.remove('hidden'); 
+    // document.getElementById('baseInfoContainer').classList.remove('hidden'); 
 
 });
     
