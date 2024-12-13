@@ -49,7 +49,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-    
+     fetchAllProducts(data.data.product_list)
     console.log('booo',all_products);
     
 
@@ -214,7 +214,7 @@ startChatBtn.addEventListener('click', async () => {
         const aiMessageContent = document.getElementById('aiMessageContent');
         let index = 0;
         const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-        await  fetchAllProducts(data.data.product_list)
+
         function typeMessage() {
             if (index < ai_message.length) {
                 aiMessageContent.textContent += ai_message[index];
@@ -273,7 +273,7 @@ sendButton.addEventListener('click', async () => {
         const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
         let index = 0;
         const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-        await  fetchAllProducts(data.data.product_list)
+
         function typeMessage() {
             if (index < ai_message.length) {
                 aiMessageContent.textContent += ai_message[index];
@@ -388,14 +388,13 @@ document.addEventListener('keydown',async function(event) {
             const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
             let index = 0;
             const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-            await  fetchAllProducts(data.data.product_list)
+    
             function typeMessage() {
                 if (index < ai_message.length) {
                     aiMessageContent.textContent += ai_message[index];
                     index++;
                     setTimeout(typeMessage, typingSpeed);
                 } else {
-                  
                     addProductCards(all_products);
                 }
             }
