@@ -108,16 +108,21 @@ async function fetchProductById(id) {
 // Function to fetch data for all product IDs
 
 async function fetchAllProducts(ids) {
+    console.log(ids);
+    
 
     const productPromises = ids.map(id => fetchProductById(id)); // Create an array of promises
 
     try {
-
+        console.log('yes');
+        
         const products = await Promise.all(productPromises); // Wait for all promises to resolve
 
         console.log(products); // Log the array of fetched products
 
     } catch (error) {
+        console.log('no');
+
 
         console.error('Error fetching products:', error);
 
