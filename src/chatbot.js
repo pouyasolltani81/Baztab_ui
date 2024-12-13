@@ -49,6 +49,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
+     fetchAllProducts(productData.data.product_list)
 
     return  data.data.response
     
@@ -92,7 +93,7 @@ async function fetchProductById(id) {
 
         const productData = await response.json();
 
-        fetchAllProducts(productData.data.product_list)
+       
 
         return productData.data; // Return the fetched product data
 
