@@ -54,6 +54,113 @@ async function sendMessage(userm , token) {
     
 }
 
+
+
+
+
+async function fetchProductById(id) {
+
+    try {
+
+         const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_id/', {
+        method: 'POST',
+        headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+         body: JSON.stringify({
+
+            "id": id
+            
+            }),
+                    // mode: 'no-cors'
+    });
+
+
+    // const data = sendMessage_c(userMessage)
+
+    
+
+        if (!response.ok) {
+
+            throw new Error(`Error fetching product with ID ${id}: ${response.status}`);
+
+        }
+
+        const productData = await response.json();
+
+        fetchAllProducts(productData.data.product_list)
+
+        return productData.data; // Return the fetched product data
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+// Function to fetch data for all product IDs
+
+async function fetchAllProducts(ids) {
+
+    const productPromises = ids.map(id => fetchProductById(id)); // Create an array of promises
+
+    try {
+
+        const products = await Promise.all(productPromises); // Wait for all promises to resolve
+
+        console.log(products); // Log the array of fetched products
+
+    } catch (error) {
+
+        console.error('Error fetching products:', error);
+
+    }
+
+}
+
+
+async function getProduct(ids) {
+    
+    const idsString = ids;
+    const idsArray = idsString.split(',').map(id => id.trim());
+
+    console.log(idsArray);
+
+    const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_id/', {
+        method: 'POST',
+        headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+         body: JSON.stringify({
+
+            "id": "67358ee0fd1372fc4a6d624b"
+            
+            }),
+                    // mode: 'no-cors'
+    });
+
+
+    // const data = sendMessage_c(userMessage)
+
+    const data = await response.json();
+    console.log(data);
+
+    return  data.data.response
+    
+}
+
+
 startChatBtn.addEventListener('click', async () => {
     const userMessage = document.getElementById('chat-input').value;
     if (userMessage) {
