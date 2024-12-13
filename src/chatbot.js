@@ -49,7 +49,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-    all_products = fetchAllProducts(data.data.product_list)
+     fetchAllProducts(data.data.product_list)
     console.log('booo',all_products);
     
 
@@ -122,7 +122,7 @@ async function fetchAllProducts(ids) {
         const products = await Promise.all(productPromises); // Wait for all promises to resolve
 
         console.log(products); 
-        return products// Log the array of fetched products
+       all_products = products
 
     } catch (error) {
         console.log('no');
