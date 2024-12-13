@@ -5,6 +5,7 @@ const productGrid = document.getElementById('product-grid');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-btn');
 const newButton = document.getElementById('new-btn');
+let user_token = '8ff3960bbd957b7e663b16467400bba2';
 let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 let token = generateString(10)
@@ -49,7 +50,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-     fetchAllProducts(data.data.product_list)
+    fetchAllProducts(data.data.product_list)
     console.log('booo',all_products);
     
 
