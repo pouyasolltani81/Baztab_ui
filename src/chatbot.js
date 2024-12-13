@@ -310,6 +310,8 @@ newButton.addEventListener('click'  ,() => {
                                 // <img src="${product.image}" alt="تصویر محصول" class="w-full h-32 object-cover rounded-lg mb-2">
 
 function addProductCards(products) {
+    console.log(products);
+    
     productGrid.innerHTML = '';
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
