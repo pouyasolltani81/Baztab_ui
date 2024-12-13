@@ -50,6 +50,8 @@ async function sendMessage(userm , token) {
     const data = await response.json();
     console.log(data);
     all_products = fetchAllProducts(data.data.product_list)
+    console.log('booo',all_products);
+    
 
     return  data.data.response
     
