@@ -49,7 +49,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-     fetchAllProducts(data.data.product_list)
+    
     console.log('booo',all_products);
     
 
@@ -214,7 +214,7 @@ startChatBtn.addEventListener('click', async () => {
         const aiMessageContent = document.getElementById('aiMessageContent');
         let index = 0;
         const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-
+        await  fetchAllProducts(data.data.product_list)
         function typeMessage() {
             if (index < ai_message.length) {
                 aiMessageContent.textContent += ai_message[index];
@@ -273,7 +273,7 @@ sendButton.addEventListener('click', async () => {
         const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
         let index = 0;
         const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-
+        await  fetchAllProducts(data.data.product_list)
         function typeMessage() {
             if (index < ai_message.length) {
                 aiMessageContent.textContent += ai_message[index];
@@ -318,7 +318,7 @@ function addProductCards(products) {
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
                                 <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
-                                <p class="text-gray-600 text-center">${product.price_stat.avg}</p>
+                                <p class="text-gray-600 text-center">${(product.price_stat.avg/10).toLocaleString()} تومان</p>
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200">
                                     <i class="fas fa-cart-plus mr-2"></i> افزودن به سبد خرید
                                 </button>
@@ -388,13 +388,14 @@ document.addEventListener('keydown',async function(event) {
             const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
             let index = 0;
             const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-    
+            await  fetchAllProducts(data.data.product_list)
             function typeMessage() {
                 if (index < ai_message.length) {
                     aiMessageContent.textContent += ai_message[index];
                     index++;
                     setTimeout(typeMessage, typingSpeed);
                 } else {
+                  
                     addProductCards(all_products);
                 }
             }
