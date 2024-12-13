@@ -11,7 +11,7 @@ let token = generateString(10)
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
-const products = [
+let all_products = [
 
     { name: 'کفش ورزشی', price: '$49.99', image: 'https://via.placeholder.com/150' },
     { name: 'گوشی هوشمند', price: '$699.99', image: 'https://via.placeholder.com/150' },
@@ -49,7 +49,7 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-     fetchAllProducts(data.data.product_list)
+    all_products = fetchAllProducts(data.data.product_list)
 
     return  data.data.response
     
@@ -119,7 +119,8 @@ async function fetchAllProducts(ids) {
         
         const products = await Promise.all(productPromises); // Wait for all promises to resolve
 
-        console.log(products); // Log the array of fetched products
+        console.log(products); 
+        return products// Log the array of fetched products
 
     } catch (error) {
         console.log('no');
@@ -219,7 +220,7 @@ startChatBtn.addEventListener('click', async () => {
                 setTimeout(typeMessage, typingSpeed);
             } else {
                 setTimeout(() => {
-                    addProductCards();
+                    addProductCards(all_products);
                 }, 1500); 
             }
         }
@@ -277,7 +278,7 @@ sendButton.addEventListener('click', async () => {
                 index++;
                 setTimeout(typeMessage, typingSpeed);
             } else {
-                addProductCards();
+                addProductCards(all_products);
             }
         }
 
@@ -305,13 +306,15 @@ newButton.addEventListener('click'  ,() => {
 
 })
 
-function addProductCards() {
+
+                                // <img src="${product.image}" alt="تصویر محصول" class="w-full h-32 object-cover rounded-lg mb-2">
+
+function addProductCards(products) {
     productGrid.innerHTML = '';
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
-                                <img src="${product.image}" alt="تصویر محصول" class="w-full h-32 object-cover rounded-lg mb-2">
-                                <h3 class="text-teal-600 font-semibold text-center">${product.name}</h3>
-                                <p class="text-gray-600 text-center">${product.price}</p>
+                                <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
+                                <p class="text-gray-600 text-center">${product.price_stat.avg}</p>
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200">
                                     <i class="fas fa-cart-plus mr-2"></i> افزودن به سبد خرید
                                 </button>
@@ -388,7 +391,7 @@ document.addEventListener('keydown',async function(event) {
                     index++;
                     setTimeout(typeMessage, typingSpeed);
                 } else {
-                    addProductCards();
+                    addProductCards(all_products);
                 }
             }
     
