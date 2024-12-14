@@ -1,13 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Info</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
     
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="container mx-auto p-6 space-y-6">
+    <div class="p-4 text-white rounded-full bg-blue-600 fixed w-16 h-16 flex justify-center items-center bottom-10 left-10 hover:bg-blue-700 transition-all duration-300 cursor-pointer shadow-lg transform hover:scale-105" onclick="history.back()">
+        
+        <span class=" text-center">Back</span>
+    </div>
+    <div class="text-center p-6 ">
+        <h1 id="product_name_fa" class="text-3xl font-bold text-gray-800 mb-6"></h1>
+    <div class="bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col md:flex-col items-center  space-y-6 md:space-y-0 md:space-x-6">
+      
+      <div class="product-info space-y-2 shadow-lg rounded-lg bg-gray-50  w-full flex flex-col gap-4 p-4" dir="rtl">
+        <div class="bg-white shadow-lg">
+            <p>برند: <span id="brand_name_fa" class="font-semibold text-blue-600"></span></p>
+            <p>فروشگاه: <span id="mall_name_fa" class="font-semibold text-blue-600"></span></p>
+            <p>دسته‌بندی: <span id="category_name_fa" class="font-semibold text-blue-600"></span></p>
+            <p>موجود: <span id="is_available" class="font-semibold text-blue-600"></span></p>
+            <p>موجودی کل: <span id="total_product_count" class="font-semibold text-blue-600"></span></p>
+            <p>در انبار: <span id="in_stock_count" class="font-semibold text-blue-600"></span></p>
+            <p>اتمام موجودی: <span id="out_of_stock_count" class="font-semibold text-blue-600"></span></p>
+            <a id="scrape_url" class="text-blue-500 hover:underline">مشاهده محصول</a>
+        </div>
 
-    <script src="./chat_infobo.js"></script>
+        <div>
+            <!-- Price Statistics Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">قیمت محصول</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold">میانگین قیمت</h3>
+                    <p class="text-lg text-blue-600">تومان: <span id="avg_price">2,295,600</span></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold">حداقل قیمت</h3>
+                    <p class="text-lg text-blue-600">تومان: <span id="min_price">2,295,600</span></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold">حداکثر قیمت</h3>
+                    <p class="text-lg text-blue-600">تومان: <span id="max_price">2,295,600</span></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold">واریانس</h3>
+                    <p class="text-lg text-blue-600">تومان: <span id="variance">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Description Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">توضیحات محصول</h2>
+            <p class="mb-4"><strong>توضیحات انگلیسی:</strong> <span id="description_en">Shaan's Smoothing Matt foundation in shade S06 provides a natural, matte finish with medium coverage and a warm, golden undertone. Formulated with wheat germ oil, it offers broad-spectrum SPF 15 sun protection.</span></p>
+            <p><strong>توضیحات فارسی:</strong> <span id="description_fa">کرم پودر شون سری Smoothing Matt در رنگ S06 با پوشش متوسط و پایه زرد، ظاهری مات و طبیعی ایجاد می‌کند. این محصول حاوی روغن جوانه گندم بوده و دارای SPF 15 است.</span></p>
+        </div>
+
+        <!-- Product Tags Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">برچسب‌ها</h2>
+            <ul class="list-disc list-inside space-y-2" id="s" dir="ltr">
+                <li class="text-blue-600">Color Finish: <span class="text-gray-800">مات</span></li>
+                <li class="text-blue-600">Coverage: <span class="text-gray-800">کاور متوسط</span></li>
+                <li class="text-blue-600">Base Tone: <span class="text-gray-800">پایه زرد</span></li>
+                <li class="text-blue-600">Sun Protection: <span class="text-gray-800">SPF 15</span></li>
+                <li class="text-blue-600">Skin Tone: <span class="text-gray-800">برنزه</span></li>
+            </ul>
+        </div>
+        </div>
+        
+      </div>
+
+      
+      
+      <div class="w-full space-y-4 flex  justify-between h-full gap-6 p-4" dir="rtl">
+
+        <div class="w-full  ">
+            <img id="primary_image" alt="Product Image" class="w-full h-auto rounded-lg shadow-md">
+          
+    
+    
+          </div>
+    
+        
+        
+
+        <div class="bg-gray-50 shadow-lg rounded-lg  w-full">
+            <h2 class="text-2xl font-semibold mb-4">قیمت‌ها</h2>
+            <canvas  id="priceChart" dir="ltr"></canvas>
+          </div>
+          <!-- <button onclick="history.back()" class="text-gray-900 text-lg font-extrabold uppercase relative border-none bg-none focus:outline-none hover:text-gray-800 transition-all duration-[400ms] ease-[cubic-bezier(0.25, 0.8, 0.25, 1)] after:content-[''] after:pointer-events-none after:absolute after:bottom-[-2px] after:left-1/2 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-[400ms] after:ease-[cubic-bezier(0.25, 0.8, 0.25, 1)] hover:after:w-full hover:after:left-0">
+            Back
+        </button> -->
+      </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <script src="./chat_info.js"></script>
 </body>
 </html>
