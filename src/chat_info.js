@@ -57,7 +57,7 @@ async function GetProduct(id) {
         document.getElementById('scrape_url').textContent = "مشاهده محصول";
         console.log(data.data.relational_data.category_info.desertized_price_distribution);
         document.getElementById('avg_price').textContent = data.data.price_stat.avg/10;
-        document.getElementById('min_price').textContent = ddata.data.price_stat.min/10;
+        document.getElementById('min_price').textContent = data.data.price_stat.min/10;
         document.getElementById('max_price').textContent = data.data.price_stat.max/10;
         document.getElementById('variance').textContent = data.data.price_stat.variance/10;
         document.getElementById('description_en').textContent = data.data.llm_enriched_description.description_en;
