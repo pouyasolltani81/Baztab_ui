@@ -124,15 +124,15 @@ async function fetchAllProducts(ids) {
     console.log(ids);
     
 
-    const productPromises = ids.map(id => fetchProductById(id)); // Create an array of promises
+    const productPromises = ids.map(id => fetchProductById(id)); 
 
     try {
         console.log('yes');
         
-        const products = await Promise.all(productPromises); // Wait for all promises to resolve
+        const products = await Promise.all(productPromises); 
 
         console.log(products); 
-       all_products = products
+        all_products = products
 
     } catch (error) {
         console.log('no');
@@ -192,8 +192,11 @@ startChatBtn.addEventListener('click', async () => {
                                       </div>
                                   </div>`;
         chatHistory.innerHTML += typingAnimation;
+        document.getElementById('loading_2').classList.remove('hidden')
 
         const ai_message = await sendMessage(userMessage);
+        document.getElementById('loading_2').classList.add('hidden')
+
         
         // Hide input area and show chat layout
         chatBar.classList.add('hidden');
