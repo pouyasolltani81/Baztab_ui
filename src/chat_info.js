@@ -56,7 +56,7 @@ async function GetProduct(id) {
         document.getElementById('in_stock_count').textContent = data.data.relational_data.category_info.basic_info.in_stock_count;
         document.getElementById('out_of_stock_count').textContent = data.data.relational_data.category_info.basic_info.out_of_stock_count;
         document.getElementById('scrape_url').href = data.data.scrape_url;
-        document.getElementById('scrape_url').textContent = "مشاهده محصول";
+        
         console.log(data.data.relational_data.category_info.desertized_price_distribution);
         document.getElementById('avg_price').textContent = data.data.price_stat.avg/10;
         document.getElementById('min_price').textContent = data.data.price_stat.min/10;
