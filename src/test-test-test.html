@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        
+        .bounce {
+          animation: bounce 0.3s ease-in-out;
+        }
+      </style>
+      
+      
+</head>
+<body>
+
+    <div id="drawerContainer" class="fixed inset-0 flex items-end justify-center bg-gray-900 bg-opacity-50">
+        <div id="drawer" class="fixed transform translate-y-full origin-bottom w-full h-1/2 bg-white p-4 shadow-lg transition-transform duration-300 ease-out">
+            <!-- Drawer Content -->
+            <p>این محتوا در داخل کشو قرار دارد.</p>
+        </div>
+    </div>
+    
+    <button id="toggleDrawer" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-2 rounded-lg">Open Drawer</button>
+    
+    <script>
+      document.getElementById('toggleDrawer').addEventListener('click', () => {
+    const drawer = document.getElementById('drawer');
+    if (drawer.classList.contains('translate-y-full')) {
+        drawer.classList.remove('translate-y-full');
+        drawer.classList.add('bounce');
+        setTimeout(() => drawer.classList.remove('bounce'), 300); // Remove bounce class after animation
+    } else {
+        drawer.classList.add('translate-y-full');
+    }
+});
+
+
+
+    </script>
+</body>
+</html>
