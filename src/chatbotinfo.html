@@ -16,27 +16,51 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
   <div class="container mx-auto p-6 space-y-6">
-    <div class="p-4 text-white rounded-full bg-blue-600 fixed w-16 h-16 flex justify-center items-center bottom-10 left-10 hover:bg-blue-700 transition-all duration-300 cursor-pointer shadow-lg transform hover:scale-105" onclick="history.back()">
-        
-        <span class=" text-center">Back</span>
-    </div>
+    
+<button
+  class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group fixed"
+  type="button"
+>
+  <div
+    class="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1024 1024"
+      height="25px"
+      width="25px"
+    >
+      <path
+        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+        fill="#000000"
+      ></path>
+      <path
+        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+        fill="#000000"
+      ></path>
+    </svg>
+  </div>
+  <p class="translate-x-2">برگشت</p>
+</button>
+
+    
     <div class="text-center p-6 ">
         <h1 id="product_name_fa" class="text-3xl font-bold text-gray-800 mb-6"></h1>
-    <div class="bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col md:flex-col items-center  space-y-6 md:space-y-0 md:space-x-6">
+    <div class="bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col md:flex-col items-center  space-y-6  gap-4">
       
       <div class="product-info space-y-2 shadow-lg rounded-lg bg-gray-50  w-full flex flex-col gap-4 p-4" dir="rtl">
-        <div class="bg-white shadow-lg">
-            <p>برند: <span id="brand_name_fa" class="font-semibold text-blue-600"></span></p>
-            <p>فروشگاه: <span id="mall_name_fa" class="font-semibold text-blue-600"></span></p>
-            <p>دسته‌بندی: <span id="category_name_fa" class="font-semibold text-blue-600"></span></p>
-            <p>موجود: <span id="is_available" class="font-semibold text-blue-600"></span></p>
-            <p>موجودی کل: <span id="total_product_count" class="font-semibold text-blue-600"></span></p>
-            <p>در انبار: <span id="in_stock_count" class="font-semibold text-blue-600"></span></p>
-            <p>اتمام موجودی: <span id="out_of_stock_count" class="font-semibold text-blue-600"></span></p>
-            <a id="scrape_url" class="text-blue-500 hover:underline">مشاهده محصول</a>
-        </div>
 
-        <div>
+        <h1 class="font-bold text-3xl text-teal-800">اطلاعات محصول</h1>
+
+        <div class="w-full  ">
+            <img id="primary_image" alt="Product Image" class="w-full h-auto rounded-lg shadow-md">
+          
+    
+    
+          </div>
+        
+
+        
             <!-- Price Statistics Section -->
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold mb-4">قیمت محصول</h2>
@@ -71,27 +95,38 @@
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold mb-4">برچسب‌ها</h2>
             <ul class="list-disc list-inside space-y-2" id="llm_tags" dir="ltr">
-                <li class="text-blue-600">Color Finish: <span class="text-gray-800">مات</span></li>
-                <li class="text-blue-600">Coverage: <span class="text-gray-800">کاور متوسط</span></li>
-                <li class="text-blue-600">Base Tone: <span class="text-gray-800">پایه زرد</span></li>
-                <li class="text-blue-600">Sun Protection: <span class="text-gray-800">SPF 15</span></li>
-                <li class="text-blue-600">Skin Tone: <span class="text-gray-800">برنزه</span></li>
+                
             </ul>
         </div>
         </div>
         
-      </div>
+      
 
       
       
-      <div class="w-full space-y-4 flex  justify-between h-full gap-6 p-4" dir="rtl">
-
-        <div class="w-full  ">
-            <img id="primary_image" alt="Product Image" class="w-full h-auto rounded-lg shadow-md">
-          
-    
-    
-          </div>
+      <div class="w-full flex  flex-col rounded-lg  justify-between h-full gap-6 p-4 bg-gray-100 shadow-lg" dir="rtl">
+        <h1 class="font-bold text-3xl text-teal-800">اطلاعات دسته</h1>
+        
+        <div class="flex  gap-4">
+        <div class="bg-white shadow-lg flex gap-4 p-4 rounded-lg">
+            <div >
+                <p>برند: <span id="brand_name_fa" class="font-semibold text-blue-600"></span></p>
+                <p>فروشگاه: <span id="mall_name_fa" class="font-semibold text-blue-600"></span></p>
+                <p>دسته‌بندی: <span id="category_name_fa" class="font-semibold text-blue-600"></span></p>
+                <p>موجود: <span id="is_available" class="font-semibold text-blue-600"></span></p>
+                <p>موجودی کل: <span id="total_product_count" class="font-semibold text-blue-600"></span></p>
+                <p>در انبار: <span id="in_stock_count" class="font-semibold text-blue-600"></span></p>
+                <p>اتمام موجودی: <span id="out_of_stock_count" class="font-semibold text-blue-600"></span></p>
+            </div>
+           
+            <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
+            border-blue-600
+            border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+            active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
+            <a id="scrape_url" class="text-gray-50 hover:underline">مشاهده محصول (<span id='mall_name'>digikala</span>)</a>
+            </button>
+           
+        </div>
     
         
         
@@ -100,6 +135,7 @@
             <h2 class="text-2xl font-semibold mb-4">قیمت‌ها</h2>
             <canvas  id="priceChart" dir="ltr"></canvas>
           </div>
+        </div>
           <!-- <button onclick="history.back()" class="text-gray-900 text-lg font-extrabold uppercase relative border-none bg-none focus:outline-none hover:text-gray-800 transition-all duration-[400ms] ease-[cubic-bezier(0.25, 0.8, 0.25, 1)] after:content-[''] after:pointer-events-none after:absolute after:bottom-[-2px] after:left-1/2 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-[400ms] after:ease-[cubic-bezier(0.25, 0.8, 0.25, 1)] hover:after:w-full hover:after:left-0">
             Back
         </button> -->

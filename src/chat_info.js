@@ -48,6 +48,8 @@ async function GetProduct(id) {
         document.getElementById('primary_image').src = data.data.relational_data.media_info.primary_image;
         document.getElementById('brand_name_fa').textContent = data.data.relational_data.brand_info.brand_name_fa;
         document.getElementById('mall_name_fa').textContent = data.data.relational_data.mall_info.mall_name_fa;
+        document.getElementById('mall_name').textContent = data.data.relational_data.mall_info.mall_name_fa;
+
         document.getElementById('category_name_fa').textContent = data.data.relational_data.category_info.category_name_fa;
         document.getElementById('is_available').textContent = data.data.is_available ? 'بله' : 'خیر';
         document.getElementById('total_product_count').textContent = data.data.relational_data.category_info.basic_info.total_product_count;
@@ -64,7 +66,7 @@ async function GetProduct(id) {
         document.getElementById('description_fa').textContent = data.data.llm_enriched_description.description_fa;
         let llm_tags = data.data.llm_enriched_description.llm_tags
         llm_tags.forEach(tag => {
-            const tag_c =     `<li class="text-blue-600">${tag}</li>`
+            const tag_c =     `<li class="text-gray-800">${tag}</li>`
          
             document.getElementById('llm_tags').innerHTML += tag_c;
         })
