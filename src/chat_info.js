@@ -1,66 +1,3 @@
-const data = {
-    return: true,
-    message: "ok",
-    data: {
-      product_name: "",
-      product_name_fa: "موس پروکسی مدل 301 مجموعه 2 عددی",
-      is_available: false,
-      scrape_url: "https://www.digikala.com/product/dkp-9567837",
-      relational_data: {
-        _id: "67358e8dfd1372fc4a6d61d5",
-        brand_info: {
-          brand_id: "67358e8dfd1372fc4a6d61d3",
-          brand_name: "proxi",
-          brand_name_fa: "پروکسی"
-        },
-        media_info: {
-          primary_image: "https://dkstatics-public.digikala.com/digikala-products/234ad1f218d6b59d687bd3285a282e82520a5b2e_1664703076.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90"
-        },
-        mall_info: {
-          mall_id: "67358d34fd1372fc4a6d61ac",
-          mall_name: "digikala ",
-          mall_name_fa: "دیجی‌کالا"
-        },
-        category_info: {
-          category_id: "67358d34fd1372fc4a6d61aa",
-          category_name_fa: "کرم پودر",
-          desertized_price_distribution: {
-            percentile_1: {
-              frequency: 139,
-              lower_bound: 390000,
-              upper_bound: 1690000
-            },
-            percentile_2: {
-              frequency: 365,
-              lower_bound: 1690000,
-              upper_bound: 2898186
-            },
-            percentile_3: {
-              frequency: 363,
-              lower_bound: 2898186,
-              upper_bound: 4319920
-            },
-            percentile_4: {
-              frequency: 361,
-              lower_bound: 4319920,
-              upper_bound: 7000000
-            },
-            percentile_5: {
-              frequency: 171,
-              lower_bound: 7000000,
-              upper_bound: 39500000
-            }
-          },
-          basic_info: {
-            total_product_count: 1909,
-            in_stock_count: 1400,
-            out_of_stock_count: 509
-          }
-        }
-      }
-    }
-  };
-
 
 
 let user_token = '8ff3960bbd957b7e663b16467400bba2';
@@ -127,9 +64,9 @@ async function GetProduct(id) {
         document.getElementById('description_fa').textContent = data.data.llm_enriched_description.description_fa;
         let llm_tags = data.data.llm_enriched_description.llm_tags
         llm_tags.forEach(tag => {
-            const tag =     `<li class="text-blue-600">${tag}</li>`
+            const tag_c =     `<li class="text-blue-600">${tag}</li>`
          
-            document.getElementById('llm_tags').innerHTML += tag;
+            document.getElementById('llm_tags').innerHTML += tag_c;
         })
 
 
