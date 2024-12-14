@@ -50,7 +50,9 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
-    await fetchAllProducts(data.data.product_list)
+    if (data.data.product_list){
+        await fetchAllProducts(data.data.product_list)
+    }
     console.log('booo',all_products);
     
 
