@@ -51,9 +51,13 @@ async function sendMessage(userm , token) {
     const data = await response.json();
     console.log(data);
     if (data.data.response[0] == '{'){
-        console.log(data);
+        
+        try {
         data.data = JSON.parse(data.data.response)
         console.log(data);
+        } catch (error) {
+            console.log(error.message);
+        }
 
         
     }
