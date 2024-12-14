@@ -18,11 +18,12 @@
   <div class="container mx-auto p-6 space-y-6">
     
 <button
-  class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group fixed"
+  class="bg-white text-center w-48 rounded-2xl h-14  text-black text-xl font-semibold group fixed top-10 left-4"
   type="button"
+  onclick="history.back()"
 >
   <div
-    class="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+    class=" bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +53,7 @@
 
         <h1 class="font-bold text-3xl text-teal-800">اطلاعات محصول</h1>
 
-        <div class="w-full  ">
+        <div class="max-h-md flex justify-center ">
             <img id="primary_image" alt="Product Image" class="w-full h-auto rounded-lg shadow-md">
           
     
@@ -118,13 +119,14 @@
                 <p>در انبار: <span id="in_stock_count" class="font-semibold text-blue-600"></span></p>
                 <p>اتمام موجودی: <span id="out_of_stock_count" class="font-semibold text-blue-600"></span></p>
             </div>
-           
+            <a id="scrape_url" class="text-gray-50 hover:underline">
             <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
             border-blue-600
             border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
             active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">
-            <a id="scrape_url" class="text-gray-50 hover:underline">مشاهده محصول (<span id='mall_name'>digikala</span>)</a>
+            مشاهده محصول (<span id='mall_name'>digikala</span>)
             </button>
+            </a>
            
         </div>
     
