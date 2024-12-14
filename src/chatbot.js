@@ -50,6 +50,13 @@ async function sendMessage(userm , token) {
 
     const data = await response.json();
     console.log(data);
+    if (data.data.response[0] == '{'){
+        console.log(data);
+        data.data = JSON.parse(data.data.response)
+        console.log(data);
+
+        
+    }
     if (data.data.product_list){
         await fetchAllProducts(data.data.product_list)
     }
