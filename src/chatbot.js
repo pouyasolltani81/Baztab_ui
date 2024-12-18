@@ -1,3 +1,62 @@
+async function getPreChat(season_id) {
+    try {
+        chatBar.classList.add('scale-0');
+        document.getElementById('loading_2').classList.remove('hidden')
+
+        const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body : {
+                'season_id' : season_id
+            }
+        });
+
+        document.getElementById('loading_2').classList.add('hidden')
+
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Fetched Data:', data); // Log the entire fetched data
+
+        // Check if the response contains valid categories data
+        if (data) {
+            reLoadChat(data);  // Pass the fetched data to the render function
+        } else {
+            throw new Error('Invalid data');
+        }
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error Getting categories:', error);
+        alert('Failed to load categories: ' + error.message);
+    }
+}
+
+function reLoadChat(data) {
+
+    data = data.data
+    chatBar.classList.add('hidden');
+    chatLayout.classList.remove('hidden');
+    chatLayout.classList.add('flex');
+    
+
+}
+
+
+
+
+
+
 const chatBar = document.getElementById('chat-bar');
 const chatLayout = document.getElementById('chat-layout');
 const chatHistory = document.getElementById('chat-history');
