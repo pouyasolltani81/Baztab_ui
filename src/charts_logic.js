@@ -104,14 +104,18 @@ async function initialize() {
   document.getElementById('out-of-stock-count').textContent = basic_info.out_of_stock_count;
 
   // Populate category selector and initialize tag cloud
-  populateCategorySelector(llm_tags);
-  if (Object.keys(llm_tags).length > 0) {
-    const initialCategory = Object.keys(llm_tags)[0];
-    updateTagCloud(llm_tags, initialCategory);
+  if (llm_tags) {
+    populateCategorySelector(llm_tags);
+    if (Object.keys(llm_tags).length > 0) {
+      const initialCategory = Object.keys(llm_tags)[0];
+      updateTagCloud(llm_tags, initialCategory);
+    }
   }
 
-  // Initialize charts with price distribution data
-  initializeCharts(price_distribution, desertized_price_distribution);
+  if (price_distribution && desertized_price_distribution) {
+    // Initialize charts with price distribution data
+    initializeCharts(price_distribution, desertized_price_distribution);
+  }
 }
 
 // Populate the category dropdown based on the available cloudTags
