@@ -398,30 +398,30 @@ function createProductTable(products) {
 
 
          function generateStars(ratingValue) {
-    const totalStars = 5;  // Total number of stars to display
-    const fullStars = Math.floor((ratingValue / 100) * totalStars);  // Full stars based on rating
-    const halfStars = (ratingValue % 100) / 100 * totalStars % 1 >= 0.5 ? 1 : 0;  // Half star logic
-    const emptyStars = totalStars - fullStars - halfStars;  // Empty stars
-    
-    let starsHtml = '';
-    
-    // Add full stars
-    for (let i = 0; i < fullStars; i++) {
-      starsHtml += '<i class="fas fa-star"></i>';
-    }
+                const totalStars = 5;  // Total number of stars to display
+                const fullStars = Math.floor((ratingValue / 100) * totalStars);  // Full stars based on rating
+                const halfStars = (ratingValue % 100) / 100 * totalStars % 1 >= 0.5 ? 1 : 0;  // Half star logic
+                const emptyStars = totalStars - fullStars - halfStars;  // Empty stars
+                
+                let starsHtml = '';
+                
+                // Add full stars
+                for (let i = 0; i < fullStars; i++) {
+                starsHtml += '<i class="fas fa-star"></i>';
+                }
 
-    // Add half star (if any)
-    if (halfStars === 1) {
-      starsHtml += '<i class="fas fa-star-half-alt"></i>';
-    }
+                // Add half star (if any)
+                if (halfStars === 1) {
+                starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                }
 
-    // Add empty stars
-    for (let i = 0; i < emptyStars; i++) {
-      starsHtml += '<i class="far fa-star"></i>';
-    }
+                // Add empty stars
+                for (let i = 0; i < emptyStars; i++) {
+                starsHtml += '<i class="far fa-star"></i>';
+                }
 
-    return starsHtml;
-  }
+                return starsHtml;
+            }
 
   
 
@@ -433,15 +433,17 @@ function createProductTable(products) {
                 ${product.product_info.price_stat ? `
                     <span class='flex gap-2 justify-center'>
                         <p class="text-gray-900 font-bold">قیمت :</p>
-                        <span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.avg/10).toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">min: ${(product.product_info.price_stat.min/10).toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">max: ${(product.product_info.price_stat.max/10).toLocaleString()}</span>
-                        <span class="text-gray-900 font-bold">variance: ${(product.product_info.price_stat.variance/10).toLocaleString()}</span>
+                        ${product.product_info.price_stat.avg ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.avg/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.min ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.min/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.max ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.max/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.variance ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.variance/10).toLocaleString()}</span>` : ''}
                     </span>
                 ` : ''}
+                
                 <span class="text-gray-900 font-base">URL : <a class='text-blue-600' href='${product.product_info.scrape_url}'>${product.product_info.scrape_url}</a></span>
+                 ${product.product_info.rate? `
                 <span class="text-gray-900 font-base">rate : ${generateStars(product.product_info.rate.ratingValue)} , rate count : ${product.product_info.rate.reviewCount} </span>
-
+                    `:''}
                 <span class="text-gray-900 font-base">در دسترس بودن: <span class="${product.product_info.is_available ? 'text-green-700' : 'text-red-700'} font-base uppercase">${product.product_info.is_available}</span></span>
             </div>
         `);

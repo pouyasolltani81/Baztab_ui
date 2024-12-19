@@ -100,7 +100,7 @@ async function initialize() {
 
   // Update the basic info section
   document.getElementById('total-product-count').textContent = basic_info.total_product_count;
-  document.getElementById('in-stock-count').textContent = basic_info.in_stock_count;
+  document.getElementById('in-stock-count').textContent = basic_info. in_stock_count;
   document.getElementById('out-of-stock-count').textContent = basic_info.out_of_stock_count;
 
   // Populate category selector and initialize tag cloud
