@@ -127,36 +127,59 @@ function renderTable(responseData) {
         ${subcategories.some(sub => sub.level_8) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
         ${subcategories.some(sub => sub.level_9) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
         ${subcategories.some(sub => sub.level_10) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 10</th>' : ''}
-
     `;
 
-    // Render the rows for each subcategory
+    // Render the rows for each subcategory recursively
     subcategories.forEach(subcategory => {
-        const level3Subcategories = subcategory.level_3 || [];
-        categoryTableBody.innerHTML += `
-            <tr class="border-b">
-                <td class="py-2 px-4 font-semibold text-md">${currentCategory}</td>
-                <td class="py-2 px-4">${renderSubcategories([subcategory], 2)}</td>
-                ${level3Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level3Subcategories, 3)}</td>` : ''}
-            </tr>
-        `;
+        renderSubcategoryRow(subcategory, categoryTableBody, 2);
     });
 }
 
-
 // Recursive function to render subcategories dynamically for each level
+function renderSubcategoryRow(subcategory, categoryTableBody, level) {
+    const subcategories = subcategory[`level_${level}`] || [];
+    const nextLevel = level + 1;
+
+    // Start the row for this level
+    let rowHtml = `
+        <tr class="border-b">
+            <td class="py-2 px-4 font-semibold text-md">${subcategory.name_fa}</td>
+    `;
+
+    // Add the columns for this level
+    rowHtml += `<td class="py-2 px-4">${renderSubcategories([subcategory], level)}</td>`;
+
+    // Add columns for deeper levels recursively
+    for (let i = level + 1; i <= 10; i++) {
+        if (subcategory[`level_${i}`]) {
+            rowHtml += `<td class="py-2 px-4">${renderSubcategories(subcategory[`level_${i}`], i)}</td>`;
+        } else {
+            rowHtml += `<td class="py-2 px-4"></td>`;  // Empty cell if no subcategories
+        }
+    }
+
+    rowHtml += `</tr>`;
+    categoryTableBody.innerHTML += rowHtml;
+
+    // If there are subcategories at the next level, call the function recursively
+    if (subcategories.length > 0) {
+        subcategories.forEach(sub => renderSubcategoryRow(sub, categoryTableBody, nextLevel));
+    }
+}
+
+// Function to render subcategories for each level, which will be called recursively
 function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
-        const isLastLevel = !subcategory.level_3 || subcategory.level_3.length === 0;
+        const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
 
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
                 ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ``}
                 ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ``}
-
             </div>
         `;
+        
         return `
             <div class="category-card p-3 border border-gray-300 rounded-lg m-4">
                 <div class="flex justify-between">
