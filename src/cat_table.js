@@ -86,7 +86,7 @@ function renderCategoryDropdown(responseData) {
 }
 
 // Render the table for categories and subcategories
-function renderTable(responseData, currentCategory) {
+function renderTable(responseData) {
     const categoryTableBody = document.getElementById('categoryTableBody');
     const categoryTableHeader = document.getElementById('categoryTableHeader');
     categoryTableBody.innerHTML = '';
@@ -127,38 +127,34 @@ function renderTable(responseData, currentCategory) {
         ${subcategories.some(sub => sub.level_8) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
         ${subcategories.some(sub => sub.level_9) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
         ${subcategories.some(sub => sub.level_10) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 10</th>' : ''}
+
     `;
 
     // Render the rows for each subcategory
     subcategories.forEach(subcategory => {
-        // Render the subcategories dynamically for each level from level 3 to 10
+        const level3Subcategories = subcategory.level_3 || [];
         categoryTableBody.innerHTML += `
             <tr class="border-b">
                 <td class="py-2 px-4 font-semibold text-md">${currentCategory}</td>
                 <td class="py-2 px-4">${renderSubcategories([subcategory], 2)}</td>
-                ${subcategory.level_3 && subcategory.level_3.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_3, 3)}</td>` : ''}
-                ${subcategory.level_4 && subcategory.level_4.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_4, 4)}</td>` : ''}
-                ${subcategory.level_5 && subcategory.level_5.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_5, 5)}</td>` : ''}
-                ${subcategory.level_6 && subcategory.level_6.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_6, 6)}</td>` : ''}
-                ${subcategory.level_7 && subcategory.level_7.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_7, 7)}</td>` : ''}
-                ${subcategory.level_8 && subcategory.level_8.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_8, 8)}</td>` : ''}
-                ${subcategory.level_9 && subcategory.level_9.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_9, 9)}</td>` : ''}
-                ${subcategory.level_10 && subcategory.level_10.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(subcategory.level_10, 10)}</td>` : ''}
+                ${level3Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level3Subcategories, 3)}</td>` : ''}
             </tr>
         `;
     });
 }
 
+
 // Recursive function to render subcategories dynamically for each level
 function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
-        const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
+        const isLastLevel = !subcategory.level_3 || subcategory.level_3.length === 0;
 
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
                 ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ``}
                 ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ``}
+
             </div>
         `;
         return `
