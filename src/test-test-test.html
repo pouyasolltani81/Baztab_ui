@@ -3,51 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <title>Thanos Snap Effect</title>
     <style>
-        @keyframes bounce {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        
-        .bounce {
-          animation: bounce 0.3s ease-in-out;
-        }
-      </style>
-      
-      
+      body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.piece {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    opacity: 0.8;
+    pointer-events: none;
+}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
 </head>
 <body>
-
-    <div id="drawerContainer" class="fixed inset-0 flex items-end justify-center bg-gray-900 bg-opacity-50">
-        <div id="drawer" class="fixed transform translate-y-full origin-bottom w-full h-1/2 bg-white p-4 shadow-lg transition-transform duration-300 ease-out">
-            <!-- Drawer Content -->
-            <p>این محتوا در داخل کشو قرار دارد.</p>
+    <div class="container">
+        <div class="card" id="card">
+            <h2>Card Title</h2>
+            <p>This is a card that can be removed with a Thanos snap effect.</p>
+            <button id="removeButton">Remove Card</button>
         </div>
     </div>
-    
-    <button id="toggleDrawer" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-2 rounded-lg">Open Drawer</button>
-    
     <script>
-      document.getElementById('toggleDrawer').addEventListener('click', () => {
-    const drawer = document.getElementById('drawer');
-    if (drawer.classList.contains('translate-y-full')) {
-        drawer.classList.remove('translate-y-full');
-        drawer.classList.add('bounce');
-        setTimeout(() => drawer.classList.remove('bounce'), 300); // Remove bounce class after animation
-    } else {
-        drawer.classList.add('translate-y-full');
+      document.getElementById('removeButton').addEventListener('click', function() {
+    const card = document.getElementById('card');
+    const container = document.querySelector('.container');
+    const cardRect = card.getBoundingClientRect();
+    
+    // Create pieces
+    const piecesCount = 100; // Number of pieces
+    const pieces = [];
+
+    for (let i = 0; i < piecesCount; i++) {
+        const piece = document.createElement('div');
+        piece.classList.add('piece');
+        
+        // Randomize size and position
+        const size = Math.random() * 20 + 10; // Size between 10px and 30px
+        piece.style.width = `${size}px`;
+        piece.style.height = `${size}px`;
+        piece.style.left = `${cardRect.left + Math.random() * cardRect.width}px`;
+        piece.style.top = `${cardRect.top + Math.random() * cardRect.height}px`;
+        
+        // Append piece to container
+        container.appendChild(piece);
+        pieces.push(piece);
     }
+
+    // Animate pieces using GSAP
+    pieces.forEach(piece => {
+        const angle = Math.random() * 2 * Math.PI; // Random angle
+        const distance = Math.random() * 200 + 50; // Random distance
+
+        gsap.to(piece, {
+            x: Math.cos(angle) * distance,
+            y: Math.sin(angle) * distance,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.out",
+            onComplete: () => piece.remove() // Remove piece after animation
+        });
+    });
+
+    // Remove the card after the animation
+    gsap.to(card, {
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => card.remove() // Remove card after fading out
+    });
 });
-
-
-
     </script>
 </body>
 </html>
