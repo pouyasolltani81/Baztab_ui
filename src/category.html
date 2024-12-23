@@ -25,7 +25,7 @@
 
     <!-- Menu Links (Center) -->
     <div class="hidden md:flex space-x-4">
-      <button id="createCategoryBtn" class="text-gray-600 hover:text-gray-800 cursor-not-allowed">ایجاد دسته‌بندی</button>
+      <button id="createCategoryBtn" class="text-gray-600 hover:text-gray-800">ایجاد دسته‌بندی</button>
       <button id="findCategoryBtn" class="text-gray-600 text-teal-600 hover:text-gray-800">یافتن دسته‌بندی</button>
       
       <a href="./mall.html"><button  class="text-gray-600 text-gray-600 hover:text-teal-800">آمار پایگاه داده</button></a>
@@ -65,7 +65,7 @@
 <!-- Mobile Menu (Hidden by default, shown when hamburger is clicked) -->
 <div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
   <div class="px-6 py-4 space-y-4">
-    <button id="createCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center cursor-not-allowed">ایجاد دسته‌بندی</button>
+    <button id="createCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">ایجاد دسته‌بندی</button>
     <button id="findCategoryBtnMobile" class="text-gray-600 text-teal-600 hover:text-gray-800 w-full text-center">یافتن دسته‌بندی</button>
     <a href="./mall.html"><button  class="text-gray-600 text-gray-600 hover:text-teal-800">آمار پایگاه داده</button></a>
 
@@ -81,7 +81,7 @@
   </div>
 </div>
 
-  <div class="container mx-auto p-6"  dir="rtl"> 
+  <div class="container mx-auto p-6"  dir="rtl" id="findCategoryContent"> 
     <!-- Category Dropdown -->
     <div class="mb-4">
       <div class="flex items-center space-x-3">
@@ -107,7 +107,51 @@
     </div>
   </div>
 
-  <script src='./ui_logic_p.js'></script>
+
+
+
+  
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<div id="creat_category_container" dir="rtl">
+
+  <!-- Create Category Section -->
+  <div id="createCategoryContent" class="max-w-7xl mx-auto pt-20 px-6 hidden">
+
+    <div id="createCategoryContent">
+      <h2 class="text-2xl font-semibold">ایجاد دسته‌بندی</h2>
+      
+      <!-- Create Category Form -->
+      <form id="createCategoryForm" class="space-y-4">
+        <div>
+          <label for="name_fa" class="block text-gray-700 p-4">نام دسته‌بندی (فارسی)</label>
+          <input type="text" id="name_fa" name="name_fa" class="w-full p-3 border rounded-lg" placeholder="نام فارسی دسته‌بندی" required>
+        </div>
+        
+        <div>
+          <label for="name" class="block text-gray-700 p-4">نام دسته‌بندی</label>
+          <input type="text" id="name" name="name" class="w-full p-3 border rounded-lg" placeholder="نام دسته‌بندی" required>
+        </div>
+        
+        <div>
+          <label for="parent_id" class="block text-gray-700 p-4">شناسه دسته‌بندی والد</label>
+          <input type="text" id="parent_id" name="parent_id" class="w-full p-3 border rounded-lg" placeholder="شناسه دسته‌بندی والد " required>
+        </div>
+
+        <div class="flex justify-center">
+          <button type="submit" class="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600">ایجاد دسته‌بندی</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  </div>
+
+
+</div>
+  
+
+  <!-- <script src='./ui_logic_p.js'></script> -->
+  <script src="./ui_logic_c.js"></script>
   <script src="./cat_table.js"></script>
 </body>
 </html>
