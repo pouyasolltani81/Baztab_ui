@@ -62,7 +62,10 @@
 
   </div>
   </div>`
-      document.getElementById('createCategoryContent').classList.remove('scale-y-0');
+  setTimeout(() => {
+    document.getElementById('createCategoryContent').classList.remove('scale-y-0');
+  }, 300);
+      
       document.getElementById('findCategoryContent').classList.add('scale-y-0');
       document.getElementById('createCategoryBtn').classList.add('text-teal-600');
       document.getElementById('findCategoryBtn').classList.remove('text-teal-600');
