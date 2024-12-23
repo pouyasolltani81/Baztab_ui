@@ -371,7 +371,8 @@ window.addEventListener('load', function() {
         parent = false;
         document.getElementById('selectcategorytype_child').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
         document.getElementById('selectcategorytype_parent').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('parent_id_container').classList.add('scale-y-0')
+        document.getElementById('parent_id_container').classList.remove('scale-y-0')
+
         document.getElementById('parent_id').value  = ''
 
     })
@@ -382,7 +383,8 @@ window.addEventListener('load', function() {
         parent = true;
         document.getElementById('selectcategorytype_parent').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
         document.getElementById('selectcategorytype_child').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('parent_id_container').classList.remove('scale-y-0')
+        document.getElementById('parent_id_container').classList.add('scale-y-0')
+    
     })
 
 
