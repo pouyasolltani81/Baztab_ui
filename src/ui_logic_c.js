@@ -62,7 +62,7 @@
 
   </div>
   </div>`
-      document.getElementById('second_container_for_create').classList.remove('scale-y-0');
+      document.getElementById('createCategoryContent').classList.remove('scale-y-0');
       document.getElementById('findCategoryContent').classList.add('scale-y-0');
       document.getElementById('createCategoryBtn').classList.add('text-teal-600');
       document.getElementById('findCategoryBtn').classList.remove('text-teal-600');
@@ -70,7 +70,7 @@
 
     document.getElementById('findCategoryBtn').addEventListener('click', function() {
       document.getElementById('second_container_for_create').innerHTML = ''
-      document.getElementById('createCategoryContent').innerHTML = `
+      document.getElementById('creat_category_container').innerHTML = `
   <!-- Create Category Section -->
   <div id="createCategoryContent" class="max-w-7xl mx-auto pt-20 px-6 scale-y-0 transition">
 
