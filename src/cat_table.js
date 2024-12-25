@@ -69,6 +69,8 @@ function renderCategoryDropdown(responseData) {
         });
     });
 
+    console.log(localStorage.getItem('lastselectedcategory'))
+    
     
     if (localStorage.getItem('lastselectedcategory')){
         currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
@@ -90,7 +92,10 @@ function renderCategoryDropdown(responseData) {
         'c_value' : currentCategory
     }
 
-    localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));  
+    localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
+    
+    console.log(currentCategory)
+
 
     // Initial render of the table with the first category
     renderTable(responseData);
