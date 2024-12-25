@@ -69,8 +69,13 @@ function renderCategoryDropdown(responseData) {
         });
     });
 
+    
+    if (localStorage.getItem('lastselectedcategory')){
+        currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
+
+    }
     // Set the first category as the default selected category
-    if (categoryDropdown.options.length > 0) {
+    else if (categoryDropdown.options.length > 0) {
         currentCategory = categoryDropdown.options[0].value;
         console.log('Default category selected:', currentCategory);
     }
@@ -80,6 +85,12 @@ function renderCategoryDropdown(responseData) {
         currentCategory = e.target.value;
         renderTable(responseData);
     });
+
+    let c_data = {
+        'c_value' : currentCategory
+    }
+
+    localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));  
 
     // Initial render of the table with the first category
     renderTable(responseData);
