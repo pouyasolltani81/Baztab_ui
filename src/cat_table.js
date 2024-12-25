@@ -86,6 +86,10 @@ function renderCategoryDropdown(responseData) {
     categoryDropdown.addEventListener('change', (e) => {
         currentCategory = e.target.value;
         localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
+        currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
+        console.log('change:' , currentCategory)
+
+
 
         renderTable(responseData);
     });
