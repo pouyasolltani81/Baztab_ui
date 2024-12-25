@@ -74,6 +74,7 @@ function renderCategoryDropdown(responseData) {
     
     if (localStorage.getItem('lastselectedcategory')){
         currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
+        category.value = currentCategory
 
     }
     // Set the first category as the default selected category
@@ -88,14 +89,12 @@ function renderCategoryDropdown(responseData) {
         currentCategory = e.target.value;
 
         
-    let c_data = {
-        'c_value' : currentCategory
-    }
+        let c_data = {
+            'c_value' : currentCategory
+        }
         localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
         currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
         console.log('change:' , currentCategory)
-
-
 
         renderTable(responseData);
     });
