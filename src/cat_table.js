@@ -85,6 +85,8 @@ function renderCategoryDropdown(responseData) {
     // Trigger the table render when a category is selected
     categoryDropdown.addEventListener('change', (e) => {
         currentCategory = e.target.value;
+        localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
+
         renderTable(responseData);
     });
 
@@ -93,7 +95,7 @@ function renderCategoryDropdown(responseData) {
     }
 
     localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
-    
+
     console.log(currentCategory)
 
 
