@@ -259,7 +259,7 @@ startChatBtn.addEventListener('click', async () => {
         chatHistory.innerHTML += typingAnimation;
         document.getElementById('loading_2').classList.remove('hidden')
 
-        const ai_message = await sendMessage(userMessage);
+        const ai_message = await sendMessage(userMessage , token);
         document.getElementById('loading_2').classList.add('hidden')
 
         
@@ -330,7 +330,7 @@ async function upadateChat() {
         chatHistory.innerHTML += typingAnimation;
 
         // Wait for AI message
-        const ai_message = await sendMessage(userMessage);
+        const ai_message = await sendMessage(userMessage, token);
 
         // Remove typing animation
         const typingElement = document.getElementById('typing');
