@@ -122,7 +122,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
 
         
     }
-    if (data.data.product_list){
+    if (data.data.product_list.length != 0){
         await fetchAllProducts(data.data.product_list)
     }
 
