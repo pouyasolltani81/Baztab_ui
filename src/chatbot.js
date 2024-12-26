@@ -67,7 +67,7 @@ const newButton = document.getElementById('new-btn');
 let user_token = '8ff3960bbd957b7e663b16467400bba2';
 let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-let meta_tag_available = true ; 
+let meta_tag_available = false ; 
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
@@ -484,9 +484,12 @@ async function upadateChat() {
         console.log(ai_message);
 
         const meta_data = massages.metadata;
+       
         if (meta_data){
+            document.getElementById('meta_tags').classList.remove('scale-x-0')
             update_meta(meta_data)
         } else {
+            document.getElementById('meta_tags').classList.add('scale-x-0')
             meta_tag_available = false
         }
         
