@@ -307,10 +307,8 @@ startChatBtn.addEventListener('click', async () => {
     }
 });
 
-
-
-sendButton.addEventListener('click', async () => {
-    const userMessage = userInput.value;
+async function upadateChat() {
+        const userMessage = userInput.value;
     if (userMessage) {
         m_n += 1 ;
         // Display the user's message
@@ -362,6 +360,11 @@ sendButton.addEventListener('click', async () => {
 
         typeMessage();
     }
+
+}
+
+sendButton.addEventListener('click', async () => {
+    upadateChat() ;
 });
 
 
@@ -437,57 +440,6 @@ backAndReload()
 
 document.addEventListener('keydown',async function(event) {
     if (event.key === 'Enter') {
-        const userMessage = userInput.value;
-        if (userMessage) {
-            m_n += 1;
-            // Display the user's message
-            chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
-                                          <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
-                                              <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
-                                          </div>
-                                      </div>`;
-            userInput.value = '';
-    
-            // Show typing animation
-            const typingAnimation = `<div id="typing" class="flex items-start space-x-2">
-                                          <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                              <p dir='rtl'><i class="fas fa-spinner fa-spin mr-2"></i> در حال تایپ...</p>
-                                          </div>
-                                      </div>`;
-            chatHistory.innerHTML += typingAnimation;
-    
-            // Wait for AI message
-            const ai_message = await sendMessage(userMessage);
-    
-            // Remove typing animation
-            const typingElement = document.getElementById('typing');
-            if (typingElement) {
-                typingElement.remove();
-            }
-    
-            // Typing effect for AI message
-            const aiMessageElement = document.createElement('div');
-            aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
-            aiMessageElement.innerHTML = `<div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                              <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
-                                          </div>`;
-            chatHistory.appendChild(aiMessageElement);
-    
-            const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
-            let index = 0;
-            const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-    
-            function typeMessage() {
-                if (index < ai_message.length) {
-                    aiMessageContent.textContent += ai_message[index];
-                    index++;
-                    setTimeout(typeMessage, typingSpeed);
-                } else {
-                    addProductCards(all_products);
-                }
-            }
-    
-            typeMessage();
-        }
+     upadateChat()
 }
     });
