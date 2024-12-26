@@ -610,3 +610,16 @@ document.addEventListener('keydown',async function(event) {
      upadateChat()
 }
     });
+
+
+
+
+
+    const textarea = document.getElementById('user-input');
+    const maxLines = 5;
+    textarea.addEventListener('input', () => {
+      textarea.style.height = 'auto';
+      const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight);
+      const lines = Math.min(textarea.scrollHeight / lineHeight, maxLines);
+      textarea.style.height = lines * lineHeight + 'px';
+    });
