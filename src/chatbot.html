@@ -38,7 +38,7 @@
         
         <div id="chat-layout" class="w-full hidden  flex min-h-screen transition-all ease-in-out duration-500">
          
-            <div class="w-3/5 bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500">
+            <div class="w-full bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500">
                 <h2 class="text-2xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
                 <p class="text-sm mb-4 text-gray-600 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک کنم!</p>
 
@@ -56,8 +56,7 @@
                         <div id="metadata-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></div>
                                     <!-- Displaying selected options -->
                         <div id="selected-options" class="mb-6">
-                        <h3 class="text-xl font-semibold text-gray-700">منتخب ها:</h3>
-                        <div id="selected-tags-container" class="flex flex-wrap gap-2"></div>
+                        <!-- <h3 class="text-xl font-semibold text-gray-700">منتخب ها:</h3> -->
                         </div>
                         
 
@@ -67,6 +66,7 @@
               
                 <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4">
 
+                        <div id="selected-tags-container" class="flex flex-wrap gap-2"></div>
 
                         <input id="user-input" type="text" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" placeholder="جستجوی محصولات..." />
                         <button id="send-btn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
@@ -82,7 +82,7 @@
             </div>
 
            
-            <div class="w-2/5 bg-gray-50 p-6 overflow-y-auto ">
+            <div class="w-2/5 hidden bg-gray-50 p-6 overflow-y-auto ">
                 <h2 class="text-xl font-semibold text-teal-600 mb-4 text-center">محصولات یافت شده</h2>
                 
                
