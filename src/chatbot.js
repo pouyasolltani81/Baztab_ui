@@ -98,7 +98,8 @@ async function sendMessage(userm , token) {
          body: JSON.stringify({  // Convert the body object to a JSON string
                     
                 "query":userMessage ,
-                "session_id": sessionId
+                "session_id": sessionId,
+                "rate": 0
 
             }),
         // mode: 'no-cors'
