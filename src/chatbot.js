@@ -262,7 +262,7 @@ startChatBtn.addEventListener('click', async () => {
 
         const massages =await sendMessage(userMessage , token)
         const ai_message = massages.response;
-        const meta_data = massages.meta_data;
+        const meta_data = massages.metadata;
         update_meta(meta_data)
 
         console.log(meta_data);
@@ -463,7 +463,7 @@ async function upadateChat() {
         
         const massages =await sendMessage(userMessage , token)
         const ai_message = massages.response;
-        const meta_data = massages.meta_data
+        const meta_data = massages.metadata;
         update_meta(meta_data)
         console.log(meta_data);
 
