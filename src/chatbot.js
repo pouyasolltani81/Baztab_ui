@@ -67,7 +67,7 @@ const newButton = document.getElementById('new-btn');
 let user_token = '8ff3960bbd957b7e663b16467400bba2';
 let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-let token = generateString(10)
+
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
@@ -80,11 +80,11 @@ let all_products = [
 ];
 
 
-async function sendMessage(userm , token) {
+async function sendMessage(userm , token_c) {
     const userMessage = userm;
     const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
-    console.log(token);
-    const sessionId = token;
+    console.log(token_c);
+    const sessionId = token_c;
 
 
     const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
@@ -379,6 +379,8 @@ function generateString(length) {
 
     return result;
 }
+
+let token = generateString(10)
 
 newButton.addEventListener('click'  ,() => {
 
