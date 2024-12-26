@@ -329,6 +329,8 @@ startChatBtn.addEventListener('click', async () => {
       selectedTagsContainer.innerHTML = "";
       messageElement.textContent = "";
 
+      console.log(metadata);
+      
       // Loop through metadata and create tags for each category
       for (const [key, values] of Object.entries(metadata)) {
         const section = document.createElement("div");
