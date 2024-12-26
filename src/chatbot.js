@@ -80,7 +80,7 @@ let all_products = [
 ];
 
 
-async function sendMessage(userm , token_c) {
+async function sendMessage(userm , token_c , raiting = 0) {
     const userMessage = userm;
     const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
     console.log(token_c);
@@ -100,7 +100,7 @@ async function sendMessage(userm , token_c) {
                     
                 "query":userMessage ,
                 "session_id": sessionId,
-                "rate": 0
+                "rate": raiting
 
             }),
         // mode: 'no-cors'
@@ -125,10 +125,11 @@ async function sendMessage(userm , token_c) {
     if (data.data.product_list){
         await fetchAllProducts(data.data.product_list)
     }
+
     console.log('booo',all_products);
     
 
-    return  data.data.response
+    return  data.data
     
 }
 
@@ -259,7 +260,11 @@ startChatBtn.addEventListener('click', async () => {
         chatHistory.innerHTML += typingAnimation;
         document.getElementById('loading_2').classList.remove('hidden')
 
-        const ai_message = await sendMessage(userMessage , token);
+        const massages =await sendMessage(userMessage , token)
+        const ai_message = massages.response;
+        const meta_data = massages.meta_data
+        console.log(meta_data);
+        
         document.getElementById('loading_2').classList.add('hidden')
 
         
@@ -330,7 +335,11 @@ async function upadateChat() {
         chatHistory.innerHTML += typingAnimation;
 
         // Wait for AI message
-        const ai_message = await sendMessage(userMessage, token);
+        
+        const massages =await sendMessage(userMessage , token)
+        const ai_message = massages.response;
+        const meta_data = massages.meta_data
+        console.log(meta_data);
 
         // Remove typing animation
         const typingElement = document.getElementById('typing');
