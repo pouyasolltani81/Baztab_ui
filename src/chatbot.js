@@ -446,7 +446,7 @@ startChatBtn.addEventListener('click', async () => {
 
 
 async function upadateChat() {
-        const userMessage = userInput.value;
+        const userMessage = userInput.innerText;
     if (userMessage) {
         m_n += 1 ;
         // Display the user's message
@@ -455,7 +455,7 @@ async function upadateChat() {
                                           <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
                                       </div>
                                   </div>`;
-        userInput.value = '';
+        userInput.innerText = '';
 
         // Show typing animation
         const typingAnimation = `<div id="typing" class="flex items-start space-x-2">
