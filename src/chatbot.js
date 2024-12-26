@@ -67,7 +67,7 @@ const newButton = document.getElementById('new-btn');
 let user_token = '8ff3960bbd957b7e663b16467400bba2';
 let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
+let meta_tag_available = false ; 
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
@@ -259,12 +259,28 @@ startChatBtn.addEventListener('click', async () => {
                                   </div>`;
         chatHistory.innerHTML += typingAnimation;
         document.getElementById('loading_2').classList.remove('hidden')
+  // Wait for AI message
 
-        const massages =await sendMessage(userMessage , token)
+        let message = userMessage;
+
+        if (meta_tag_available) {
+            const selectedTags = document.querySelectorAll(".selected");
+            selectedTags.forEach(tag => {
+                message += " " + tag.textContent;
+            });
+        }
+
+        // Display the message
+      
+        
+        const massages =await sendMessage(message , token)
         const ai_message = massages.response;
         const meta_data = massages.metadata;
-        update_meta(meta_data)
-
+        if (meta_data){
+            update_meta(meta_data)
+        } else {
+            meta_tag_available = false
+        }
         console.log(meta_data);
         
         document.getElementById('loading_2').classList.add('hidden')
@@ -320,14 +336,15 @@ startChatBtn.addEventListener('click', async () => {
 
 // Function to update the metadata dynamically
     function update_meta(metadata) {
+        meta_tag_available = true
       const container = document.getElementById("metadata-container");
       const selectedTagsContainer = document.getElementById("selected-tags-container");
-      const messageElement = document.getElementById("message");
+      
 
       // Clear old metadata and selected tags
       container.innerHTML = "";
       selectedTagsContainer.innerHTML = "";
-      messageElement.textContent = "";
+      
 
       console.log(metadata);
       
@@ -373,19 +390,6 @@ startChatBtn.addEventListener('click', async () => {
     }
 
     // Function to show the message based on selected options
-    function showMessage() {
-      let message = "Hello";
-
-      // Collect selected values from tags
-      const selectedTags = document.querySelectorAll(".selected");
-      selectedTags.forEach(tag => {
-        message += " " + tag.textContent;
-      });
-
-      // Display the message
-      document.getElementById("message").textContent = message;
-    }
-
     // Function to toggle selection of a tag (add/remove the 'selected' class)
     function toggleTag(tag, category, value) {
       tag.classList.toggle("selected");
@@ -460,11 +464,28 @@ async function upadateChat() {
         chatHistory.innerHTML += typingAnimation;
 
         // Wait for AI message
+
+        let message = userMessage;
+
+        if (meta_tag_available) {
+            const selectedTags = document.querySelectorAll(".selected");
+            selectedTags.forEach(tag => {
+                message += " " + tag.textContent;
+            });
+        }
+
+        // Display the message
+      
         
-        const massages =await sendMessage(userMessage , token)
+        const massages =await sendMessage(message , token)
         const ai_message = massages.response;
         const meta_data = massages.metadata;
-        update_meta(meta_data)
+        if (meta_data){
+            update_meta(meta_data)
+        } else {
+            meta_tag_available = false
+        }
+        
         console.log(meta_data);
 
         // Remove typing animation
