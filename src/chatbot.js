@@ -277,8 +277,11 @@ startChatBtn.addEventListener('click', async () => {
         const ai_message = massages.response;
         const meta_data = massages.metadata;
         if (meta_data){
+            document.getElementById('meta_tags').classList.remove('scale-x-0')
             update_meta(meta_data)
         } else {
+            document.getElementById('meta_tags').classList.add('scale-x-0')
+
             meta_tag_available = false
         }
         console.log(meta_data);
