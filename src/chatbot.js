@@ -73,9 +73,6 @@ const startChatBtn = document.getElementById('start-chat-btn');
 
 let all_products = [
 
-    { name: 'کفش ورزشی', price: '$49.99', image: 'https://via.placeholder.com/150' },
-    { name: 'گوشی هوشمند', price: '$699.99', image: 'https://via.placeholder.com/150' },
-    { name: 'هدفون بلوتوثی', price: '$29.99', image: 'https://via.placeholder.com/150' }
 
 ];
 
@@ -122,11 +119,11 @@ async function sendMessage(userm , token_c , raiting = 0) {
 
         
     }
-    if (data.data.product_list){
-        await fetchAllProducts(data.data.product_list)
+    if (data.data.product_id){
+        await fetchAllProducts(data.data.product_id)
     }
 
-    console.log('booo',all_products);
+    console.log('booo',data.data.product_id);
     
 
     return  data.data
