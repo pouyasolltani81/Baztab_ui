@@ -262,7 +262,9 @@ startChatBtn.addEventListener('click', async () => {
 
         const massages =await sendMessage(userMessage , token)
         const ai_message = massages.response;
-        const meta_data = massages.meta_data
+        const meta_data = massages.meta_data;
+        update_meta(meta_data)
+
         console.log(meta_data);
         
         document.getElementById('loading_2').classList.add('hidden')
@@ -314,6 +316,127 @@ startChatBtn.addEventListener('click', async () => {
     }
 });
 
+
+
+// Function to update the metadata dynamically
+    function update_meta(metadata) {
+      const container = document.getElementById("metadata-container");
+      const selectedTagsContainer = document.getElementById("selected-tags-container");
+      const messageElement = document.getElementById("message");
+
+      // Clear old metadata and selected tags
+      container.innerHTML = "";
+      selectedTagsContainer.innerHTML = "";
+      messageElement.textContent = "";
+
+      // Loop through metadata and create tags for each category
+      for (const [key, values] of Object.entries(metadata)) {
+        const section = document.createElement("div");
+        section.classList.add("space-y-4");
+
+        // Create category title
+        const title = document.createElement("h3");
+        title.textContent = key;
+        title.classList.add("text-xl", "font-semibold", "text-gray-700");
+        section.appendChild(title);
+
+        // Clean up the key to use as a valid class name (remove spaces)
+        const sanitizedKey = key.replace(/\s+/g, "_");
+
+        // Create tags for the available values
+        if (values.length > 0) {
+          const tagsContainer = document.createElement("div");
+          tagsContainer.classList.add("flex", "flex-wrap", "gap-2");
+
+          values.forEach(value => {
+            const tag = document.createElement("span");
+            tag.textContent = value;
+            tag.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200");
+            tag.onclick = () => toggleTag(tag, sanitizedKey, value);
+
+            tagsContainer.appendChild(tag);
+          });
+
+          section.appendChild(tagsContainer);
+        } else {
+          // If no values, display a message saying no options available
+          const noOptionsMessage = document.createElement("p");
+          noOptionsMessage.textContent = "No options available";
+          noOptionsMessage.classList.add("text-gray-500");
+          section.appendChild(noOptionsMessage);
+        }
+
+        container.appendChild(section);
+      }
+    }
+
+    // Function to show the message based on selected options
+    function showMessage() {
+      let message = "Hello";
+
+      // Collect selected values from tags
+      const selectedTags = document.querySelectorAll(".selected");
+      selectedTags.forEach(tag => {
+        message += " " + tag.textContent;
+      });
+
+      // Display the message
+      document.getElementById("message").textContent = message;
+    }
+
+    // Function to toggle selection of a tag (add/remove the 'selected' class)
+    function toggleTag(tag, category, value) {
+      tag.classList.toggle("selected");
+
+      // Add transition for tag selection
+      tag.classList.toggle("bg-blue-600");
+      tag.classList.toggle("text-white");
+
+      // Show the selected tags below the metadata options
+      updateSelectedTags();
+    }
+
+    // Function to update the selected tags display
+    function updateSelectedTags() {
+      const selectedTagsContainer = document.getElementById("selected-tags-container");
+
+      // Clear the current selected tags container
+      selectedTagsContainer.innerHTML = "";
+
+      // Get all selected tags
+      const selectedTags = document.querySelectorAll(".selected");
+      selectedTags.forEach(tag => {
+        const tagElement = document.createElement("span");
+        tagElement.textContent = tag.textContent;
+        tagElement.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200", "selected-tag");
+
+        // Allow users to remove tags by clicking them
+        tagElement.onclick = () => removeSelectedTag(tagElement);
+
+        selectedTagsContainer.appendChild(tagElement);
+      });
+    }
+
+    // Function to remove a selected tag
+    function removeSelectedTag(tagElement) {
+      // Find the original tag element and remove the 'selected' class
+      const originalTag = [...document.querySelectorAll(`span`)].find(tag => tag.textContent === tagElement.textContent);
+      if (originalTag) {
+        originalTag.classList.remove("selected");
+
+        // Apply transition for removal of selected tag
+        originalTag.classList.remove("bg-blue-600");
+        originalTag.classList.remove("text-white");
+      }
+
+      // Fade out the selected tag element and remove it
+      tagElement.classList.add("opacity-0");
+      setTimeout(() => {
+        tagElement.remove();
+      }, 200); // Matches the duration of the fade-out animation
+    }
+
+
 async function upadateChat() {
         const userMessage = userInput.value;
     if (userMessage) {
@@ -339,6 +462,7 @@ async function upadateChat() {
         const massages =await sendMessage(userMessage , token)
         const ai_message = massages.response;
         const meta_data = massages.meta_data
+        update_meta(meta_data)
         console.log(meta_data);
 
         // Remove typing animation
