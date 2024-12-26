@@ -67,7 +67,7 @@ const newButton = document.getElementById('new-btn');
 let user_token = '8ff3960bbd957b7e663b16467400bba2';
 let m_n =0;
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-let meta_tag_available = false ; 
+let meta_tag_available = true ; 
 const startChatBtn = document.getElementById('start-chat-btn');
 
 
@@ -272,6 +272,8 @@ startChatBtn.addEventListener('click', async () => {
         
         const massages =await sendMessage(message , token)
         const ai_message = massages.response;
+        console.log(ai_message);
+        
         const meta_data = massages.metadata;
         if (meta_data){
             document.getElementById('meta_tags').classList.remove('scale-x-0')
@@ -479,6 +481,8 @@ async function upadateChat() {
         
         const massages =await sendMessage(message , token)
         const ai_message = massages.response;
+        console.log(ai_message);
+
         const meta_data = massages.metadata;
         if (meta_data){
             update_meta(meta_data)
