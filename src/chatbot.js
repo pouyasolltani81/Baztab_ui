@@ -447,7 +447,7 @@ startChatBtn.addEventListener('click', async () => {
 
 async function upadateChat() {
         const userMessage = userInput.value;
-    if (userMessage) {
+    if (userMessage  || document.getElementById('selected-tags-container') != '' ) {
         m_n += 1 ;
         // Display the user's message
         chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
