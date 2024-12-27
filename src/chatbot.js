@@ -243,96 +243,96 @@ async function getProduct(ids) {
 }
 
 
-startChatBtn.addEventListener('click', async () => {
-    const userMessage = document.getElementById('chat-input').value;
-    if (userMessage) {
-        chatBar.classList.add('scale-0');
+// startChatBtn.addEventListener('click', async () => {
+//     const userMessage = document.getElementById('chat-input').value;
+//     if (userMessage) {
+//         chatBar.classList.add('scale-0');
 
-        // Show typing animation
-        const typingAnimation = `<div id="typing" class="flex items-start space-x-2">
-                                      <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-spinner fa-spin mr-2"></i> در حال تایپ...</p>
-                                      </div>
-                                  </div>`;
-        chatHistory.innerHTML += typingAnimation;
-        document.getElementById('loading_2').classList.remove('hidden')
-  // Wait for AI message
+//         // Show typing animation
+//         const typingAnimation = `<div id="typing" class="flex items-start space-x-2">
+//                                       <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+//                                           <p dir='rtl'><i class="fas fa-spinner fa-spin mr-2"></i> در حال تایپ...</p>
+//                                       </div>
+//                                   </div>`;
+//         chatHistory.innerHTML += typingAnimation;
+//         document.getElementById('loading_2').classList.remove('hidden')
+//   // Wait for AI message
 
-        let message = userMessage;
+//         let message = userMessage;
 
-        if (meta_tag_available) {
-            const selectedTags = document.querySelectorAll(".selected");
-            selectedTags.forEach(tag => {
-                message += " " + tag.textContent;
-            });
-        }
+//         if (meta_tag_available) {
+//             const selectedTags = document.querySelectorAll(".selected");
+//             selectedTags.forEach(tag => {
+//                 message += " " + tag.textContent;
+//             });
+//         }
 
-        // Display the message
+//         // Display the message
       
         
-        const massages =await sendMessage(message , token)
-        const ai_message = massages.response;
-        console.log(ai_message);
+//         const massages =await sendMessage(message , token)
+//         const ai_message = massages.response;
+//         console.log(ai_message);
         
-        const meta_data = massages.metadata;
-        if (meta_data){
-            document.getElementById('meta_tags').classList.remove('scale-x-0')
-            update_meta(meta_data)
-        } else {
-            document.getElementById('meta_tags').classList.add('scale-x-0')
+//         const meta_data = massages.metadata;
+//         if (meta_data){
+//             document.getElementById('meta_tags').classList.remove('scale-x-0')
+//             update_meta(meta_data)
+//         } else {
+//             document.getElementById('meta_tags').classList.add('scale-x-0')
 
-            meta_tag_available = false
-        }
-        console.log(meta_data);
+//             meta_tag_available = false
+//         }
+//         console.log(meta_data);
         
-        document.getElementById('loading_2').classList.add('hidden')
+//         document.getElementById('loading_2').classList.add('hidden')
 
         
-        // Hide input area and show chat layout
-        chatBar.classList.add('hidden');
-        chatLayout.classList.remove('hidden');
-        chatLayout.classList.add('flex');
+//         // Hide input area and show chat layout
+//         chatBar.classList.add('hidden');
+//         chatLayout.classList.remove('hidden');
+//         chatLayout.classList.add('flex');
 
-        // Display the user's message
-        chatHistory.innerHTML = `<div class="flex justify-end space-x-2">
-                                      <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
-                                      </div>
-                                  </div>`;
+//         // Display the user's message
+//         chatHistory.innerHTML = `<div class="flex justify-end space-x-2">
+//                                       <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+//                                           <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
+//                                       </div>
+//                                   </div>`;
 
-        // Remove typing animation
-        const typingElement = document.getElementById('typing');
-        if (typingElement) {
-            typingElement.remove();
-        }
+//         // Remove typing animation
+//         const typingElement = document.getElementById('typing');
+//         if (typingElement) {
+//             typingElement.remove();
+//         }
 
-        // Typing effect for AI message
-        const aiMessageElement = document.createElement('div');
-        aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
-        aiMessageElement.innerHTML = `<div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent"></span></p>
-                                      </div>`;
-        chatHistory.appendChild(aiMessageElement);
+//         // Typing effect for AI message
+//         const aiMessageElement = document.createElement('div');
+//         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
+//         aiMessageElement.innerHTML = `<div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+//                                           <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent"></span></p>
+//                                       </div>`;
+//         chatHistory.appendChild(aiMessageElement);
 
-        const aiMessageContent = document.getElementById('aiMessageContent');
-        let index = 0;
-        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
+//         const aiMessageContent = document.getElementById('aiMessageContent');
+//         let index = 0;
+//         const typingSpeed = 10; // Adjust typing speed (in milliseconds)
 
-        function typeMessage() {
-            if (index < ai_message.length) {
-                aiMessageContent.textContent += ai_message[index];
-                index++;
-                setTimeout(typeMessage, typingSpeed);
-            } else {
-                setTimeout(() => {
-                    addProductCards(all_products);
-                }, 10); 
-            }
-        }
+//         function typeMessage() {
+//             if (index < ai_message.length) {
+//                 aiMessageContent.textContent += ai_message[index];
+//                 index++;
+//                 setTimeout(typeMessage, typingSpeed);
+//             } else {
+//                 setTimeout(() => {
+//                     addProductCards(all_products);
+//                 }, 10); 
+//             }
+//         }
 
-        typeMessage();
-    }
-});
+//         typeMessage();
+//     }
+// });
 
 
 
@@ -447,12 +447,22 @@ startChatBtn.addEventListener('click', async () => {
 
 async function upadateChat() {
         const userMessage = userInput.value;
-    if (userMessage  || document.getElementById('selected-tags-container') != '' ) {
+        
+        let message = userMessage;
+
+        if (meta_tag_available) {
+            const selectedTags = document.querySelectorAll(".selected");
+            selectedTags.forEach(tag => {
+                message += " " + tag.textContent;
+            });
+        }
+
+    if (userMessage  || document.getElementById('selected-tags-container').innerHTML != '' ) {
         m_n += 1 ;
         // Display the user's message
         chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
                                       <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-user mr-2"></i> ${userMessage}</p>
+                                          <p dir='rtl'><i class="fas fa-user mr-2"></i> ${message}</p>
                                       </div>
                                   </div>`;
         userInput.value = '';
@@ -466,15 +476,6 @@ async function upadateChat() {
         chatHistory.innerHTML += typingAnimation;
 
         // Wait for AI message
-
-        let message = userMessage;
-
-        if (meta_tag_available) {
-            const selectedTags = document.querySelectorAll(".selected");
-            selectedTags.forEach(tag => {
-                message += " " + tag.textContent;
-            });
-        }
 
         // Display the message
       
@@ -564,7 +565,7 @@ function addProductCards(products) {
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
                                 <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
-                                <p class="text-gray-600 text-center">${(product.price_stat.avg/10).toLocaleString()} تومان</p>
+                                ${product.price_stat.avg ? `<p class="text-gray-600 text-center">${(product.price_stat.avg/10).toLocaleString()} تومان</p>` : ''}
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200" onclick="gotoproductinfo('${product.relational_data._id}')">
                                     <i class="fas fa-cart-plus mr-2"></i> More info
                                 </button>
