@@ -6,7 +6,7 @@ let itemsPerPage = document.getElementById('itemsPerPage').value;
 let productData = JSON.parse(localStorage.getItem('productResponse'));
 let name = productData.category_name_fa;
 let nameqwe = productData.category_name_fa;
-let is_all = false;
+let is_all = productData.category_name_fa.all;
 let slug_fa =  productData.slug_fa;
 
 

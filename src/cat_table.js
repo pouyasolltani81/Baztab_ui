@@ -334,6 +334,8 @@ function gotoproducts(name,slug) {
     const data = {
         category_name_fa: name,
         slug_fa: slug,
+        all: false
+
       };
 
     localStorage.setItem('productResponse', JSON.stringify(data));  

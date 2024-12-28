@@ -103,3 +103,19 @@ document.getElementById('Username').innerHTML= Username
 //   laptopAuth.classList.toggle('hidden'); // Toggle the visibility of the mobile menu
 
 // });
+
+
+
+function gotoAllproducts(name,slug) {
+  console.log(name);
+  
+  const data = {
+      category_name_fa: name,
+      slug_fa: slug,
+      all: true
+    };
+
+  localStorage.setItem('productResponse', JSON.stringify(data));  
+  // localStorage.setItem('productResponse', JSON.stringify(name));  
+  window.location.href = './product_table.html';
+}
