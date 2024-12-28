@@ -918,7 +918,7 @@ async function Apply_Edit(p_id , c_id){
     try {
       
       
-        const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+        const response = await fetch('http://79.175.177.113:21800/Products/update_product_category/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
