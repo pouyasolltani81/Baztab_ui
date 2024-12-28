@@ -466,6 +466,8 @@ function createProductTable(products) {
 
             </div>
         `);
+        console.log('it is what it is');
+        
 
         // Mall Info Cell
         const mall = createTableCell(`
