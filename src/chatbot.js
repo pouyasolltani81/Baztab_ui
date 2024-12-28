@@ -527,6 +527,29 @@ async function upadateChat() {
         </div>
     </div>`;
 
+        chatHistory.appendChild(aiMessageElement);
+
+
+
+
+        const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
+        let index = 0;
+        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
+
+        function typeMessage() {
+            if (index < ai_message.length) {
+                aiMessageContent.textContent += ai_message[index];
+                index++;
+                setTimeout(typeMessage, typingSpeed);
+            } else {
+                addProductCards(all_products);
+            }
+        }
+
+        typeMessage();
+
+
+
 document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
     icon.addEventListener('click', function() {
         const parent = this.closest('.flex');
@@ -545,23 +568,6 @@ document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
     });
 });
 
-        chatHistory.appendChild(aiMessageElement);
-
-        const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
-        let index = 0;
-        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
-
-        function typeMessage() {
-            if (index < ai_message.length) {
-                aiMessageContent.textContent += ai_message[index];
-                index++;
-                setTimeout(typeMessage, typingSpeed);
-            } else {
-                addProductCards(all_products);
-            }
-        }
-
-        typeMessage();
     }
 
 }
