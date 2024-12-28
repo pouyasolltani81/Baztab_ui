@@ -4,15 +4,15 @@ const info_container = document.getElementById("info_container");
 let pageNumber = document.getElementById('pageNumber').value; 
 let itemsPerPage = document.getElementById('itemsPerPage').value; 
 let productData = JSON.parse(localStorage.getItem('productResponse'));
-let name = productData.category_name_fa
-let nameqwe = productData.category_name_fa
+let name = productData.category_name_fa;
+let nameqwe = productData.category_name_fa;
+let is_all = false;
+let slug_fa =  productData.slug_fa;
 
-let slug_fa =  productData.slug_fa
 
-
-let page_size = 10
-let page_num = 1
-let test
+let page_size = 10;
+let page_num = 1;
+let test;
 
 const pagenum = document.getElementById('PageNumber')
 
@@ -83,7 +83,8 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
           body: JSON.stringify({  
               "category_name_fa": nameqwe ,
               "page": page_num,
-              "page_limit": page_size
+              "page_limit": page_size,
+              "all_products": is_all
           })
       });
 
@@ -123,7 +124,9 @@ async function GetProduct(name_fa , page_num , page_size) {
             body: JSON.stringify({  // Convert the body object to a JSON string
                 "category_name_fa": name_fa,
                 "page": page_num,
-                "page_limit": page_size
+                "page_limit": page_size,
+                "all_products": is_all
+
             })
         });
 
@@ -461,7 +464,7 @@ function createProductTable(products) {
             <div class='flex flex-col gap-2'>
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                 <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
-                <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 border-teal-800 ">تغییر دسته</span>
+                <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 border-teal-800 cursor-pointer " onclick='Open_Edit('${product.product_info.product_id}')'>تغییر دسته</span>
                 <span class="text-gray-900 font-semibold">${resultString}</span>
 
             </div>
@@ -764,7 +767,9 @@ async function ChangePage(name_fa , page, page_size)  {
         body: JSON.stringify({  
             "category_name_fa": name_fa,
             "page": page,
-            "page_limit": page_size
+            "page_limit": page_size,
+            "all_products": is_all
+
         })
     });
 
@@ -886,3 +891,62 @@ window.addEventListener('scroll', function() {
 }
 });
  
+
+function Close_pagination() {
+    document.getElementById('paginatecontainer').classList.add('hidden')
+    document.getElementById('mainContent').classList.remove('hidden')
+}
+
+function Close_Edit() {
+    document.getElementById('Edit_category').classList.add('hidden')
+    document.getElementById('mainContent').classList.remove('hidden')
+}
+
+function Open_Edit(p_id) {
+    document.getElementById('Edit_category').classList.remove('hidden')
+    document.getElementById('mainContent').classList.add('hidden')
+}
+
+
+
+async function Apply_Edit(p_id , c_id){
+    try {
+      
+      
+        const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body: JSON.stringify({
+                "product_id": p_id,
+                "new_category_id": c_id
+              })
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Check if the response contains valid categories data
+        if (data) {
+          console.log(data);
+          
+          window.location.href = window.location.href 
+        }
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error changing category:', error);
+        alert('Failed to changing category: ' + error.message);
+    }
+}
+
+
