@@ -554,6 +554,7 @@ async function upadateChat() {
                 const parent = this.closest('.flex');
                 const likeIcon = parent.querySelector('.like-icon');
                 const dislikeIcon = parent.querySelector('.dislike-icon');
+                rating = 0
                 
                 if (this.classList.contains('fa-thumbs-up')) {
                     likeIcon.classList.toggle('text-green-500');
