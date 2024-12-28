@@ -456,6 +456,8 @@ async function getProduct(ids) {
     }
 
 
+
+
 async function upadateChat() {
         const userMessage = userInput.value;
         
@@ -471,11 +473,36 @@ async function upadateChat() {
     if (userMessage  || document.getElementById('selected-tags-container').innerHTML != '' ) {
         m_n += 1 ;
         // Display the user's message
-        chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
-                                      <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
-                                          <p dir='rtl'><i class="fas fa-user mr-2"></i> ${message}</p>
-                                      </div>
-                                  </div>`;
+            chatHistory.innerHTML += `
+            <div class="flex justify-end space-x-2" id="message-${Date.now()}">
+                <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+                    <p dir='rtl'><i class="fas fa-user mr-2"></i> ${message}</p>
+                    <div class="flex justify-end space-x-2 mt-2">
+                        <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
+                        <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
+                    </div>
+                </div>
+            </div>`;
+        
+        document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const parent = this.closest('.flex');
+                parent.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
+                    icon.classList.toggle('text-gray-400');
+                });
+                if (this.classList.contains('fa-thumbs-up')) {
+                    this.classList.toggle('text-blue-500');
+                } else {
+                    this.classList.toggle('text-red-500');
+                }
+                this.classList.add('scale-110');
+                setTimeout(() => {
+                    this.classList.remove('scale-110');
+                }, 300);
+            });
+        });
+        
+
         userInput.value = '';
 
         // Show typing animation
