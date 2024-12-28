@@ -458,9 +458,10 @@ function createProductTable(products) {
         // const value = obj[key]; 
         // const resultString = `${key} : ${value}`;
         const brand = createTableCell(`
-            <div class='flex flex-col'>
+            <div class='flex flex-col gap-2'>
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                 <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
+                <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 border-teal-800 ">تغییر دسته</span>
                 <span class="text-gray-900 font-semibold">${resultString}</span>
 
             </div>
@@ -468,7 +469,7 @@ function createProductTable(products) {
 
         // Mall Info Cell
         const mall = createTableCell(`
-            <div class='flex flex-col'>
+            <div class='flex flex-col gap-2'>
                 <span class="text-gray-900 font-bold">شناسه: ${product.mall_info.mall_id}</span>
                 <span class="text-gray-900 font-semibold">نام: ${product.mall_info.mall_name}</span>
                 <span class="text-gray-900 font-base">نام (فارسی): ${product.mall_info.mall_name}</span>
@@ -477,14 +478,14 @@ function createProductTable(products) {
 
         // Media Info Cell
         const media = createTableCell(`
-            <div class='flex flex-col'>
+            <div class='flex flex-col gap-2'>
                 <img src="${product.media_info.primary_image}" width="100" height="100">
             </div>
         `);
 
         // Slug Cell (example: slug_fa is undefined, replace it with the actual value)
         const slug = createTableCell(`
-            <div class='flex flex-col'>
+            <div class='flex flex-col gap-2'>
                 <span class="text-gray-900 font-bold">${slug_fa}</span>
             </div>
         `);
