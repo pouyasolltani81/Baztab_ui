@@ -464,7 +464,7 @@ function createProductTable(products) {
             <div class='flex flex-col gap-2'>
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                 <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
-                <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 border-teal-800 cursor-pointer " onclick='Open_Edit('${product.product_info.product_id}')'>تغییر دسته</span>
+                <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 hover:bg-teal-500 border-teal-800 cursor-pointer " onclick="Open_Edit('${product.product_info.product_id}')">تغییر دسته</span>
                 <span class="text-gray-900 font-semibold">${resultString}</span>
 
             </div>
@@ -905,6 +905,9 @@ function Close_Edit() {
 function Open_Edit(p_id) {
     document.getElementById('Edit_category').classList.remove('hidden')
     document.getElementById('mainContent').classList.add('hidden')
+    document.getElementById('Edit_button').addEventListener('click' , () => {
+        Apply_Edit(p_id , document.getElementById('CNumber').value)
+    })
 }
 
 
