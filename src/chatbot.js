@@ -457,6 +457,7 @@ async function getProduct(ids) {
 
 
     
+let rating = 0
 
 async function upadateChat() {
         const userMessage = userInput.value;
@@ -493,7 +494,7 @@ async function upadateChat() {
         // Display the message
       
         
-        const massages =await sendMessage(message , token)
+        const massages =await sendMessage(message , token , rating)
         const ai_message = massages.response;
         console.log(ai_message);
 
@@ -547,7 +548,7 @@ async function upadateChat() {
         }
 
         typeMessage();
-
+        rating = 0
         document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
             icon.addEventListener('click', function() {
                 const parent = this.closest('.flex');
@@ -555,11 +556,13 @@ async function upadateChat() {
                 const dislikeIcon = parent.querySelector('.dislike-icon');
                 
                 if (this.classList.contains('fa-thumbs-up')) {
-                    likeIcon.classList.toggle('text-blue-500');
+                    likeIcon.classList.toggle('text-green-500');
                     dislikeIcon.classList.remove('text-red-500');
+                    rating = 1
                 } else {
                     dislikeIcon.classList.toggle('text-red-500');
-                    likeIcon.classList.remove('text-blue-500');
+                    likeIcon.classList.remove('text-green-500');
+                    rating = 2
                 }
                 
                 likeIcon.classList.add('scale-110');
