@@ -78,55 +78,66 @@ let all_products = [
 
 
 async function sendMessage(userm , token_c , raiting = 0) {
-    const userMessage = userm;
-    const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
-    console.log(token_c);
-    const sessionId = token_c;
+    try {
+        const userMessage = userm;
+        const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
+        console.log(token_c);
+        const sessionId = token_c;
 
 
-    const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
-        method: 'POST',
-        headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                "Accept-Version": 1,
-                'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'authorization': user_token,
-            },
-         body: JSON.stringify({  // Convert the body object to a JSON string
-                    
-                "query":userMessage ,
-                "session_id": sessionId,
-                "rate": raiting
+        const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    "Accept-Version": 1,
+                    'Accept': "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    'authorization': user_token,
+                },
+            body: JSON.stringify({  // Convert the body object to a JSON string
+                        
+                    "query":userMessage ,
+                    "session_id": sessionId,
+                    "rate": raiting
 
-            }),
-        // mode: 'no-cors'
-    });
+                }),
+            // mode: 'no-cors'
+        });
 
 
-    // const data = sendMessage_c(userMessage)
+        // const data = sendMessage_c(userMessage)
 
-    const data = await response.json();
-    console.log(data);
-    if (data.data.response[0] == '{'){
-        
-        try {
-        data.data = JSON.parse(data.data.response)
+        const data = await response.json();
         console.log(data);
-        } catch (error) {
-            console.log(error.message);
+        if (data.data.response[0] == '{'){
+            
+            try {
+            data.data = JSON.parse(data.data.response)
+            console.log(data);
+            } catch (error) {
+                console.log(error.message);
+            }
+
+            
+        }
+        if (data.data.product_id){
+            await fetchAllProducts(data.data.product_id)
         }
 
+        console.log('booo',data.data.product_id);
         
-    }
-    if (data.data.product_id){
-        await fetchAllProducts(data.data.product_id)
-    }
 
-    console.log('booo',data.data.product_id);
-    
+        return  data.data
+    } catch {
+        let data = {
+            'data': {
+                'response': 'مشکلی پیش آمد'
+            }
+        }
 
-    return  data.data
+        return  data.data
+
+    }
     
 }
 
