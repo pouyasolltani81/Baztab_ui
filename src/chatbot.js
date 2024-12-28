@@ -521,7 +521,7 @@ async function upadateChat() {
         aiMessageElement.innerHTML = `
     <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
         <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
-        <div class="flex justify-end gap-4 mt-2">
+        <div class="flex justify-end space-x-2 mt-2">
             <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
             <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
         </div>
@@ -548,33 +548,29 @@ async function upadateChat() {
 
         typeMessage();
 
-
-
-
-
-document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
-    icon.addEventListener('click', function() {
-        const parent = this.closest('.flex');
-        const likeIcon = parent.querySelector('.like-icon');
-        const dislikeIcon = parent.querySelector('.dislike-icon');
+        document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const parent = this.closest('.flex');
+                const likeIcon = parent.querySelector('.like-icon');
+                const dislikeIcon = parent.querySelector('.dislike-icon');
+                
+                if (this.classList.contains('fa-thumbs-up')) {
+                    likeIcon.classList.toggle('text-blue-500');
+                    dislikeIcon.classList.remove('text-red-500');
+                } else {
+                    dislikeIcon.classList.toggle('text-red-500');
+                    likeIcon.classList.remove('text-blue-500');
+                }
+                
+                likeIcon.classList.add('scale-110');
+                dislikeIcon.classList.add('scale-110');
+                setTimeout(() => {
+                    likeIcon.classList.remove('scale-110');
+                    dislikeIcon.classList.remove('scale-110');
+                }, 300);
+            });
+        });
         
-        if (this.classList.contains('fa-thumbs-up')) {
-            likeIcon.classList.toggle('text-blue-500');
-            dislikeIcon.classList.remove('text-red-500');
-        } else {
-            dislikeIcon.classList.toggle('text-red-500');
-            likeIcon.classList.remove('text-blue-500');
-        }
-
-        this.classList.add('scale-110');
-        setTimeout(() => {
-            this.classList.remove('scale-110');
-        }, 300);
-    });
-});
-
-
-
 
     }
 
