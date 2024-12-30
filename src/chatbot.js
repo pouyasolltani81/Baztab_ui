@@ -497,7 +497,7 @@ async function upadateChat() {
         const massages =await sendMessage(message , token , rating)
             
             
-        const ai_message = ''
+        let ai_message = ''
         if (massages.response instanceof String ) {
              ai_message = massages.response;
 
