@@ -495,7 +495,16 @@ async function upadateChat() {
       
         
         const massages =await sendMessage(message , token , rating)
-        const ai_message = massages.response;
+            
+            
+        const ai_message = ''
+        if (massages.response instanceof String ) {
+             ai_message = massages.response;
+
+        } else {
+             ai_message = 'مشکلی پیش آمد'
+        }
+        
         console.log(ai_message);
 
         const meta_data = massages.metadata;
