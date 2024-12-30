@@ -498,6 +498,8 @@ async function upadateChat() {
             
             
         let ai_message = ''
+        console.log(typeof massages.response);
+        
         if (massages.response instanceof String ) {
              ai_message = massages.response;
 
