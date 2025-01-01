@@ -12,7 +12,7 @@ function llm_analysis(name , slug){
 async function fetchdata() {
     try {
         if (JSON.parse(sessionStorage.getItem('categoryall'))) {
-            const data = sessionStorage.getItem('categoryall')
+            const data =JSON.parse(sessionStorage.getItem('categoryall'))
             renderCategoryDropdown(data);  
         } else {
         const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {

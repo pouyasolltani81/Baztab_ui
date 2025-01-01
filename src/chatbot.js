@@ -628,7 +628,7 @@ function addProductCards(products) {
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
                                 <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
-                                <img src="${product.relational_data.media_info.primary_image}" class='rounded-lg h-full w-full' alt="Product image">
+                                <img src="${product.relational_data.media_info.primary_image}" class='rounded-lg h-[100px] w-full' alt="Product image">
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200" onclick="gotoproductinfo('${product.relational_data._id}')">
                                     <i class="fas fa-cart-plus mr-2"></i> More info
                                 </button>
