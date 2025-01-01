@@ -206,7 +206,10 @@ function renderSubcategories(subcategories, level) {
                     ${subcategory.updatedAt ? `<span class="text-xs text-gray-500 mt-2">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500 mt-2">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
                 </div>
                 ${buttons}
-                ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
+                <div class='flex justify-evenly'>  
+                    ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
+                    ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">${subcategory.expert_approved}</span>` : ''}
+                </div>
             </div>
         `;
     }).join('');
