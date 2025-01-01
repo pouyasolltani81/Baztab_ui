@@ -627,7 +627,7 @@ function addProductCards(products) {
     products.forEach(product => {
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
                                 <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
-                                <img src="${product.media_info.primary_image}" class='rounded-lg h-[50px] w-[50px]' alt="Product image">
+                                <img src="${product.relational_data.media_info.primary_image}" class='rounded-lg h-[50px] w-[50px]' alt="Product image">
                                     ssefsefsefseffefsff
                                 ${product.relational_data.price_stat.avg ? `<p class="text-gray-600 text-center">${(product.price_stat.avg/10).toLocaleString()} تومان</p>` : ''}
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200" onclick="gotoproductinfo('${product.relational_data._id}')">
