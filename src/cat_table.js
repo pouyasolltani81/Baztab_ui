@@ -32,6 +32,8 @@ async function fetchdata() {
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
+            
+            // localStorage.setItem('categorydata', JSON.stringify(data));
             renderCategoryDropdown(data);  // Pass the fetched data to the render function
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
