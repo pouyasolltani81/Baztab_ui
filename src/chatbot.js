@@ -625,7 +625,7 @@ function addProductCards(products) {
     
     productGrid.innerHTML = '';
     products.forEach(product => {
-        console.log( product.relational_data.price_stat.avg );
+        console.log(product.relational_data.price_stat.avg ? product.relational_data.price_stat.avg : "عخاخ");
         
 
         const productCard = `<div class="bg-white p-4 shadow-lg rounded-lg border border-gray-300">
