@@ -11,6 +11,10 @@ function llm_analysis(name , slug){
 
 async function fetchdata() {
     try {
+        if (JSON.parse(sessionStorage.getItem('categoryall'))) {
+            const data = sessionStorage.getItem('categoryall')
+            renderCategoryDropdown(data);  
+        } else {
         const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
             method: 'POST',
             headers: {
@@ -28,22 +32,24 @@ async function fetchdata() {
         }
 
         const data = await response.json();
-        console.log('Fetched Data:', data); // Log the entire fetched data
+        console.log('Fetched Data:', data);
 
         // Check if the response contains valid categories data
         if (data && data.data && data.data['Saleman_bot']) {
             
-            // localStorage.setItem('categorydata', JSON.stringify(data));
-            renderCategoryDropdown(data);  // Pass the fetched data to the render function
+            sessionStorage.setItem('categoryall', JSON.stringify(data));
+            renderCategoryDropdown(data);  
         } else {
             throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
         }
+    }
 
     } catch (error) {
         // Log and display the error to the user
         console.error('Error Getting categories:', error);
         alert('Failed to load categories: ' + error.message);
     }
+
 }
 
 let currentCategory = ""; // No initial category
