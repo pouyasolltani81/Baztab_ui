@@ -153,7 +153,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
     } catch {
         let data = {
             'data': {
-                'response': 'مشکلی پیشygjy آمد'
+                'response': 'مشکلی پیش آمد'
             }
         }
 
@@ -185,11 +185,11 @@ async function fetchProductById(id) {
             "id": id
             
             }),
-                    // mode: 'no-cors'
+                  
     });
 
 
-    // const data = sendMessage_c(userMessage)
+    
 
     
 
@@ -203,7 +203,7 @@ async function fetchProductById(id) {
 
        
 
-        return productData.data; // Return the fetched product data
+        return productData.data; 
 
     } catch (error) {
 
@@ -661,6 +661,41 @@ async function upadateChat() {
 
 }
 
+
+
+async function UpdateUiHistory(data) {
+    for (i=0 ; i < data.length; i++)  {
+        let chat = data[i] ;
+        chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
+                                      <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
+                                          <p dir='rtl'><i class="fas fa-user mr-2"></i> ${chat.question}</p>
+                                      </div>
+                                  </div>`;
+
+        chatHistory.innerHTML += `<div id="typing" class="flex items-start space-x-2">
+                                      <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+                                          <p dir='rtl'><i class="fas fa-spinner fa-spin mr-2"></i>${chat.answer.response}</p>
+                                      </div>
+                                  </div>`
+
+
+        await fetchAllProducts(chat.answer.product_id)
+
+        const meta_data = chat.answer.metadata;
+       
+        if (meta_data){
+            document.getElementById('meta_tags').classList.remove('scale-x-0')
+            update_meta(meta_data)
+        } else {
+            document.getElementById('meta_tags').classList.add('scale-x-0')
+            meta_tag_available = false
+        }
+        
+        console.log(meta_data);
+
+    }
+}
+
 sendButton.addEventListener('click', async () => {
     upadateChat() ;
 });
@@ -714,10 +749,12 @@ function gotoproductinfo(product) {
 
     const data = {
         id: product,
+        season_id : token
        
       };
 
-    localStorage.setItem('product_id', JSON.stringify(data));  
+    localStorage.setItem('product_id', JSON.stringify(data));   
+
     // localStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './chatbotinfo.html';
     
@@ -727,10 +764,8 @@ function backAndReload() {
 
 let previousPage = document.referrer; 
 console.log(previousPage);
-
-
-
 window.location.href = previousPage; 
+
 }
 
 
@@ -759,3 +794,46 @@ document.addEventListener('keydown',async function(event) {
       const lines = Math.min(textarea.scrollHeight / lineHeight, maxLines);
       textarea.style.height = lines * lineHeight + 'px';
     });
+
+
+
+
+    if (localStorage.getItem('product_id')){
+        token = JSON.parse(localStorage.getItem('product_id').season_id)
+        getHistory(token)
+    }
+
+
+
+
+    async function getHistory(sessionId) {
+
+        try { 
+            const response = await fetch('http://79.175.177.113:21800/AIAnalyze/chat_history/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    "Accept-Version": 1,
+                    'Accept': "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    'authorization': user_token,
+                },
+                body : {
+
+                    "session_id": sessionId,
+                    
+                }
+            });
+
+            const data = await response.json();
+
+            UpdateUiHistory(data)
+
+
+        }
+        catch(e) {
+            console.log(e);
+            
+        }
+        
+    }
