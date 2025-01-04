@@ -76,13 +76,25 @@ let all_products = [
 
 ];
 
+let chatID = ''
 
-async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
+async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
+
+
     try {
+
+        
+        console.log(meta_tags);
+        
         const userMessage = userm;
         const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
         console.log(token_c);
         const sessionId = token_c;
+
+        if (chatID) {
+            await sendRating(raiting,chatID,sessionId)
+            
+        }
 
 
         const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
@@ -108,6 +120,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
+        chatID = data.data.chat_id
         console.log('dot',data);
         console.log(data.data);
 
@@ -461,7 +474,41 @@ async function getProduct(ids) {
     
 let rating = 0
 
+
+async function sendRating(rating, chatid , sessionId) {
+
+    try { 
+        const response = await fetch('http://79.175.177.113:21800/AIAnalyze/update_chat_by_like/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body : {
+                "session_id": sessionId,
+                "chat_id": chatid,
+                "like": rating
+                
+            }
+        });
+
+
+    }
+    catch(e) {
+        console.log(e);
+        
+    }
+    
+}
+
 async function upadateChat() {
+
+
+        
+
         const userMessage = userInput.value;
         
         let message = userMessage;
@@ -592,7 +639,12 @@ async function upadateChat() {
                     dislikeIcon.classList.remove('scale-110');
                 }, 300);
             });
+
+
+            
         });
+
+
         
 
     }
