@@ -108,10 +108,10 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log('dot',data.data[list.length - 1].answer);
-        console.log('bracet',data.data[list.length - 1]['answer']);
+        console.log('dot',data.data[data.data.length - 1].answer);
+        console.log('bracet',data.data[data.data.length - 1]['answer']);
 
-        // if (data.data.response[list.length - 1] == '{'){
+        // if (data.data.response[data.data.length - 1] == '{'){
             
         //     try {
         //     data.data = JSON.parse(data.data.response)
@@ -122,14 +122,14 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
 
             
         // }
-        if (data.data[list.length - 1].answer.product_id){
-            await fetchAllProducts(data.data[list.length - 1].answer.product_id)
+        if (data.data[data.data.length - 1].answer.product_id){
+            await fetchAllProducts(data.data[data.data.length - 1].answer.product_id)
         }
 
-        console.log('booo',data.data[list.length - 1].answer.product_id);
+        console.log('booo',data.data[data.data.length - 1].answer.product_id);
         
 
-        return  data.data[list.length - 1].answer
+        return  data.data[data.data.length - 1].answer
     } catch {
         let data = {
             'data': {
