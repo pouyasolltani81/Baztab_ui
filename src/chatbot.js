@@ -108,7 +108,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log('dot',data.data);
+        console.log('dot',data);
         console.log(data.data);
 
         // if (data.data.response[data.data.length - 1] == '{'){
