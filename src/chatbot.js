@@ -111,17 +111,17 @@ async function sendMessage(userm , token_c , raiting = 0) {
         console.log('dot',data.data[0].answer);
         console.log('bracet',data.data[0]['answer']);
 
-        if (data.data.response[0] == '{'){
+        // if (data.data.response[0] == '{'){
             
-            try {
-            data.data = JSON.parse(data.data.response)
-            console.log(data);
-            } catch (error) {
-                console.log(error.message);
-            }
+        //     try {
+        //     data.data = JSON.parse(data.data.response)
+        //     console.log(data);
+        //     } catch (error) {
+        //         console.log(error.message);
+        //     }
 
             
-        }
+        // }
         if (data.data[0].answer.product_id){
             await fetchAllProducts(data.data[0].answer.product_id)
         }
