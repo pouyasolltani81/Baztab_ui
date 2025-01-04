@@ -799,7 +799,7 @@ document.addEventListener('keydown',async function(event) {
 
 
     if (localStorage.getItem('product_id')){
-        token = JSON.parse(localStorage.getItem('product_id').season_id)
+        token = JSON.parse(localStorage.getItem('product_id')).season_id
         getHistory(token)
     }
 
