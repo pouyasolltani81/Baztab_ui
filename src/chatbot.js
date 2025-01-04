@@ -465,13 +465,19 @@ async function upadateChat() {
         const userMessage = userInput.value;
         
         let message = userMessage;
+        let meta_tags = []
 
         if (meta_tag_available) {
             const selectedTags = document.querySelectorAll(".selected");
             selectedTags.forEach(tag => {
                 message += " " + tag.textContent;
+                meta_tags.append(tag.textContent)
+                
+                
             });
         }
+
+        console.log(meta_tags);
 
     if (userMessage  || document.getElementById('selected-tags-container').innerHTML != '' ) {
         m_n += 1 ;
