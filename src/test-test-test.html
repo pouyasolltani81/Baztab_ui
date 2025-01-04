@@ -1,165 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Metadata Selection</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 font-sans text-gray-800 p-6">
-  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-center mb-6">Select Metadata:</h2>
-
-    <!-- Container for dynamically generated metadata categories -->
-    <div id="metadata-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></div>
-
-    <!-- Displaying selected options -->
-    <div id="selected-options" class="mb-6">
-      <h3 class="text-xl font-semibold text-gray-700">Selected Options:</h3>
-      <div id="selected-tags-container" class="flex flex-wrap gap-2"></div>
-    </div>
-
-    <!-- Button to show the final message -->
-    <div class="flex justify-center mt-6">
-      <button onclick="showMessage()" class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
-        Show Message
-      </button>
-    </div>
-
-    <!-- Displaying the message -->
-    <p id="message" class="mt-6 text-xl font-medium text-center text-blue-600"></p>
-  </div>
-
-  <script>
-    // Function to update the metadata dynamically
-    function update(metadata) {
-      const container = document.getElementById("metadata-container");
-      const selectedTagsContainer = document.getElementById("selected-tags-container");
-      const messageElement = document.getElementById("message");
-
-      // Clear old metadata and selected tags
-      container.innerHTML = "";
-      selectedTagsContainer.innerHTML = "";
-      messageElement.textContent = "";
-
-      // Loop through metadata and create tags for each category
-      for (const [key, values] of Object.entries(metadata)) {
-        const section = document.createElement("div");
-        section.classList.add("space-y-4");
-
-        // Create category title
-        const title = document.createElement("h3");
-        title.textContent = key;
-        title.classList.add("text-xl", "font-semibold", "text-gray-700");
-        section.appendChild(title);
-
-        // Clean up the key to use as a valid class name (remove spaces)
-        const sanitizedKey = key.replace(/\s+/g, "_");
-
-        // Create tags for the available values
-        if (values.length > 0) {
-          const tagsContainer = document.createElement("div");
-          tagsContainer.classList.add("flex", "flex-wrap", "gap-2");
-
-          values.forEach(value => {
-            const tag = document.createElement("span");
-            tag.textContent = value;
-            tag.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200");
-            tag.onclick = () => toggleTag(tag, sanitizedKey, value);
-
-            tagsContainer.appendChild(tag);
-          });
-
-          section.appendChild(tagsContainer);
-        } else {
-          // If no values, display a message saying no options available
-          const noOptionsMessage = document.createElement("p");
-          noOptionsMessage.textContent = "No options available";
-          noOptionsMessage.classList.add("text-gray-500");
-          section.appendChild(noOptionsMessage);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Div with Interactive Icons</title>
+    <style>
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+            pointer-events: none; /* Allow interaction with underlying elements */
+            z-index: 2; /* Ensure the overlay is on top */
         }
+        .icon-container {
+            position: relative;
+            z-index: 1; /* Ensure icons are under the overlay */
+        }
+        .icon {
+            font-size: 48px;
+            margin: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">Overlay Content</div>
+    <div class="icon-container">
+        <i class="fas fa-thumbs-up icon">awefwfwf</i>
+        <i class="fas fa-thumbs-down icon">segsergre</i>
+    </div>
 
-        container.appendChild(section);
-      }
-    }
-
-    // Function to show the message based on selected options
-    function showMessage() {
-      let message = "Hello";
-
-      // Collect selected values from tags
-      const selectedTags = document.querySelectorAll(".selected");
-      selectedTags.forEach(tag => {
-        message += " " + tag.textContent;
-      });
-
-      // Display the message
-      document.getElementById("message").textContent = message;
-    }
-
-    // Function to toggle selection of a tag (add/remove the 'selected' class)
-    function toggleTag(tag, category, value) {
-      tag.classList.toggle("selected");
-
-      // Add transition for tag selection
-      tag.classList.toggle("bg-blue-600");
-      tag.classList.toggle("text-white");
-
-      // Show the selected tags below the metadata options
-      updateSelectedTags();
-    }
-
-    // Function to update the selected tags display
-    function updateSelectedTags() {
-      const selectedTagsContainer = document.getElementById("selected-tags-container");
-
-      // Clear the current selected tags container
-      selectedTagsContainer.innerHTML = "";
-
-      // Get all selected tags
-      const selectedTags = document.querySelectorAll(".selected");
-      selectedTags.forEach(tag => {
-        const tagElement = document.createElement("span");
-        tagElement.textContent = tag.textContent;
-        tagElement.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200", "selected-tag");
-
-        // Allow users to remove tags by clicking them
-        tagElement.onclick = () => removeSelectedTag(tagElement);
-
-        selectedTagsContainer.appendChild(tagElement);
-      });
-    }
-
-    // Function to remove a selected tag
-    function removeSelectedTag(tagElement) {
-      // Find the original tag element and remove the 'selected' class
-      const originalTag = [...document.querySelectorAll(`span`)].find(tag => tag.textContent === tagElement.textContent);
-      if (originalTag) {
-        originalTag.classList.remove("selected");
-
-        // Apply transition for removal of selected tag
-        originalTag.classList.remove("bg-blue-600");
-        originalTag.classList.remove("text-white");
-      }
-
-      // Fade out the selected tag element and remove it
-      tagElement.classList.add("opacity-0");
-      setTimeout(() => {
-        tagElement.remove();
-      }, 200); // Matches the duration of the fade-out animation
-    }
-
-    // Example of calling update function with initial metadata
-    const initialMetadata = {
-      "طول ماندگاری رایحه": ["زیاد", "متوسط"],
-      "نوع عطر زنانه": ["ادو پرفیوم", "ادو تویلت"],
-      "پخش بوی": ["مناسب", "زیاد", "کم"],
-      "نوع عطر": [] // Example of a category with no values
-    };
-
-    // Initialize with initial metadata
-    update(initialMetadata);
-
-  </script>
+    <!-- Add Font Awesome CDN for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
