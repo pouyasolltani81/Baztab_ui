@@ -96,7 +96,14 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             
         }
 
+        console.log('body :' , { 
+                        
+            "query":userMessage ,
+            "session_id": sessionId,
+            "selected_tag": meta_tags
 
+        });
+        
         const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
             method: 'POST',
             headers: {
@@ -106,7 +113,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
                     "Access-Control-Allow-Origin": "*",
                     'authorization': user_token,
                 },
-            body: JSON.stringify({  // Convert the body object to a JSON string
+            body: JSON.stringify({  
                         
                     "query":userMessage ,
                     "session_id": sessionId,
@@ -513,11 +520,13 @@ async function upadateChat() {
         
         let message = userMessage;
         let meta_tags = [];
+        let sendMassage = message;
 
         if (meta_tag_available) {
             const selectedTags = document.querySelectorAll(".selected");
             selectedTags.forEach(tag => {
-                
+
+                message += ' '.join(tag.textContent)
                 meta_tags.push(tag.textContent)
                 
                 
@@ -525,6 +534,7 @@ async function upadateChat() {
         }
 
         console.log(meta_tags);
+
 
     if (userMessage  || document.getElementById('selected-tags-container').innerHTML != '' ) {
         m_n += 1 ;
@@ -549,7 +559,7 @@ async function upadateChat() {
         // Display the message
       
         
-        const massages =await sendMessage(message , token , rating , meta_tags)
+        const massages =await sendMessage(sendMassage , token , rating , meta_tags)
             
             
         let ai_message = ''
@@ -601,7 +611,7 @@ async function upadateChat() {
 
         const aiMessageContent = document.getElementById(`aiMessageContent${m_n}`);
         let index = 0;
-        const typingSpeed = 10; // Adjust typing speed (in milliseconds)
+        const typingSpeed = 10; 
 
         function typeMessage() {
             if (index < ai_message.length) {
@@ -614,7 +624,7 @@ async function upadateChat() {
         }
 
         typeMessage();
-        rating = 0
+        rating = 2
         document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
             icon.addEventListener('click', function() {
                 const parent = this.closest('.flex');
@@ -629,7 +639,7 @@ async function upadateChat() {
                 } else {
                     dislikeIcon.classList.toggle('text-red-500');
                     likeIcon.classList.remove('text-green-500');
-                    rating = 2
+                    rating = 0
                 }
                 
                 likeIcon.classList.add('scale-110');
