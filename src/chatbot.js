@@ -153,7 +153,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
     } catch {
         let data = {
             'data': {
-                'response': 'مشکلی پیش آمد'
+                'response': 'مشکلی پیشygjy آمد'
             }
         }
 
@@ -561,16 +561,16 @@ async function upadateChat() {
         
         const massages =await sendMessage(sendMassage , token , rating , meta_tags)
             
-        let ai_message = massages.response
-        // let ai_message = ''
-        // console.log(typeof massages.response);
+            
+        let ai_message = ''
+        console.log(typeof massages.response);
         
-        // if (typeof massages.response == 'string' ) {
-        //      ai_message = massages.response;
+        if (typeof massages.response == 'string' ) {
+             ai_message = massages.response;
 
-        // } else {
-        //      ai_message = 'مشکلی پیش آمد'
-        // }
+        } else {
+             ai_message = 'مشکلی پیش آمد'
+        }
         
         console.log(ai_message);
 
