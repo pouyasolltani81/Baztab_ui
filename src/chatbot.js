@@ -108,8 +108,8 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log('dot',data.data[data.data.length - 1].answer);
-        console.log(data.data.length);
+        console.log('dot',data.data);
+        console.log(data.data);
 
         // if (data.data.response[data.data.length - 1] == '{'){
             
@@ -122,14 +122,14 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
 
             
         // }
-        if (data.data[data.data.length - 1].answer.product_id){
-            await fetchAllProducts(data.data[data.data.length - 1].answer.product_id)
+        if (data.data.product_id){
+            await fetchAllProducts(data.data.product_id)
         }
 
-        console.log('booo',data.data[data.data.length - 1].answer.product_id);
+        console.log('booo',data.data.product_id);
         
 
-        return  data.data[data.data.length - 1].answer
+        return  data.data
     } catch {
         let data = {
             'data': {
