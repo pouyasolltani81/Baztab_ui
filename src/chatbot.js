@@ -108,7 +108,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log(data.data[-1]);
+        console.log(data.data[0]);
         if (data.data.response[0] == '{'){
             
             try {
@@ -120,11 +120,11 @@ async function sendMessage(userm , token_c , raiting = 0) {
 
             
         }
-        if (data.data[-1].answer.product_id){
-            await fetchAllProducts(data.data[-1].answer.product_id)
+        if (data.data[0].answer.product_id){
+            await fetchAllProducts(data.data[0].answer.product_id)
         }
 
-        console.log('booo',data.data[-1].answer.product_id);
+        console.log('booo',data.data[0].answer.product_id);
         
 
         return  data.data
@@ -135,7 +135,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
             }
         }
 
-        return  data.data[-1].answer
+        return  data.data[0].answer
 
     }
     
