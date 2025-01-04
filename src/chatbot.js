@@ -624,13 +624,13 @@ async function upadateChat() {
         }
 
         typeMessage();
-        rating = 2
+        rating = -1
         document.querySelectorAll('.like-icon, .dislike-icon').forEach(icon => {
             icon.addEventListener('click', function() {
                 const parent = this.closest('.flex');
                 const likeIcon = parent.querySelector('.like-icon');
                 const dislikeIcon = parent.querySelector('.dislike-icon');
-                rating = 0
+                rating = -1
                 
                 if (this.classList.contains('fa-thumbs-up')) {
                     likeIcon.classList.toggle('text-green-500');
@@ -665,6 +665,8 @@ async function upadateChat() {
 
 async function UpdateUiHistory(data) {
     for (i=0 ; i < data.length; i++)  {
+        console.log('saved : ',data[i]);
+        
         let chat = data[i] ;
         chatHistory.innerHTML += `<div class="flex justify-end space-x-2">
                                       <div class="bg-teal-600 text-white p-3 rounded-lg max-w-xs">
