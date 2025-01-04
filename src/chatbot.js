@@ -129,7 +129,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
         console.log('booo',data.data[0].answer.product_id);
         
 
-        return  data.data
+        return  data.data[0].answer
     } catch {
         let data = {
             'data': {
@@ -137,7 +137,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
             }
         }
 
-        return  data.data[0].answer
+        return  data.data
 
     }
     
