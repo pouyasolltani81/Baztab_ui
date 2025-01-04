@@ -526,7 +526,7 @@ async function upadateChat() {
             const selectedTags = document.querySelectorAll(".selected");
             selectedTags.forEach(tag => {
 
-                message += ' '.join(tag.textContent)
+                message += ' ' + tag.textContent
                 meta_tags.push(tag.textContent)
                 
                 
