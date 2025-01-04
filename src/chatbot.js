@@ -108,7 +108,9 @@ async function sendMessage(userm , token_c , raiting = 0) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log(data.data[0]);
+        console.log('dot',data.data[0].answer);
+        console.log('bracet',data.data[0]['answer']);
+
         if (data.data.response[0] == '{'){
             
             try {
