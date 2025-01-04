@@ -109,7 +109,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
 
         const data = await response.json();
         console.log('dot',data.data[data.data.length - 1].answer);
-        console.log('bracet',data.data[data.data.length - 1]['answer']);
+        console.log(data.data.length);
 
         // if (data.data.response[data.data.length - 1] == '{'){
             
