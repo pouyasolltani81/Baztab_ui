@@ -77,7 +77,7 @@ let all_products = [
 ];
 
 
-async function sendMessage(userm , token_c , raiting = 0) {
+async function sendMessage(userm , token_c , raiting = 0 , meta_tags = []) {
     try {
         const userMessage = userm;
         const apiKey = '115eaa30563d058ea78e4428d7af881031863d4cd48709f90a44bb9a97cbdfdf';
@@ -98,7 +98,7 @@ async function sendMessage(userm , token_c , raiting = 0) {
                         
                     "query":userMessage ,
                     "session_id": sessionId,
-                    "rate": raiting
+                    "selected_tag": meta_tags
 
                 }),
             // mode: 'no-cors'
@@ -108,10 +108,10 @@ async function sendMessage(userm , token_c , raiting = 0) {
         // const data = sendMessage_c(userMessage)
 
         const data = await response.json();
-        console.log('dot',data.data[0].answer);
-        console.log('bracet',data.data[0]['answer']);
+        console.log('dot',data.data[list.length - 1].answer);
+        console.log('bracet',data.data[list.length - 1]['answer']);
 
-        // if (data.data.response[0] == '{'){
+        // if (data.data.response[list.length - 1] == '{'){
             
         //     try {
         //     data.data = JSON.parse(data.data.response)
@@ -122,14 +122,14 @@ async function sendMessage(userm , token_c , raiting = 0) {
 
             
         // }
-        if (data.data[0].answer.product_id){
-            await fetchAllProducts(data.data[0].answer.product_id)
+        if (data.data[list.length - 1].answer.product_id){
+            await fetchAllProducts(data.data[list.length - 1].answer.product_id)
         }
 
-        console.log('booo',data.data[0].answer.product_id);
+        console.log('booo',data.data[list.length - 1].answer.product_id);
         
 
-        return  data.data[0].answer
+        return  data.data[list.length - 1].answer
     } catch {
         let data = {
             'data': {
@@ -470,7 +470,7 @@ async function upadateChat() {
         if (meta_tag_available) {
             const selectedTags = document.querySelectorAll(".selected");
             selectedTags.forEach(tag => {
-                message += " " + tag.textContent;
+                
                 meta_tags.push(tag.textContent)
                 
                 
@@ -502,7 +502,7 @@ async function upadateChat() {
         // Display the message
       
         
-        const massages =await sendMessage(message , token , rating)
+        const massages =await sendMessage(message , token , rating , meta_tags)
             
             
         let ai_message = ''
