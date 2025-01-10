@@ -86,3 +86,33 @@
     right: 15%;
     animation-delay: .3s;
   }
+
+
+  /* Waving animation */
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(15deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Bounce animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Chat window slide-in animation */
+        @keyframes slide-in {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .wave {
+            animation: wave 1s infinite;
+        }
+
+        .bounce {
+            animation: bounce 1s infinite ease-in-out;
+        }

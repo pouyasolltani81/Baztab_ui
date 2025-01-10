@@ -38,12 +38,20 @@
         
         <div id="chat-layout" class="w-full   flex min-h-screen transition-all ease-in-out duration-500">
          
-            <div class="w-3/5 bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500">
+            <div class="w-full bg-gradient-to-r from-indigo-400 to-teal-300 text-white p-6 flex flex-col transition-all ease-in-out duration-500 h-screen" id="chat_container">
                 <h2 class="text-2xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
                 <p class="text-sm mb-4 text-gray-600 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک کنم!</p>
 
                
+                <div id="icon-container" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex space-x-8 opacity-100 transition-all ease-in-out duration-500">
+                        <img src="./imgs/grinning-face-svgrepo-com.svg" alt="" class="w-[60px] bounce">
+                        <img id="wave-hand" src="./imgs/waving-hand-svgrepo-com.svg" alt="" class="w-[60px] wave">
+                </div>
+                   
                 <div id="chat-history" class="flex-grow overflow-y-auto space-y-4">
+
+                   
+
 
 
                  
@@ -51,7 +59,7 @@
 
 
                 
-                    <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4 scale-x-0" id="meta_tags">
+                    <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4 scale-x-0 hidden" id="meta_tags">
 
                         <div id="metadata-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></div>
                                     <!-- Displaying selected options -->
@@ -83,7 +91,7 @@
             </div>
 
            
-            <div class="w-2/5  bg-gray-50 p-6 overflow-y-auto ">
+            <div class="w-2/5  bg-gray-50  overflow-y-auto w-[0px] transition" id="product_container">
                 <h2 class="text-xl font-semibold text-teal-600 mb-4 text-center">محصولات یافت شده</h2>
                 
                
@@ -91,6 +99,8 @@
                   
                 </div>
             </div>
+
+            
         </div>
     </div>
     

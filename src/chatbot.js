@@ -143,7 +143,19 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             
         // }
         if (data.data.product_id){
+            document.querySelector('#chat_container').classList.add('w-3/5')
+            document.querySelector('#chat_container').classList.remove('w-full')
+            document.querySelector('#product_container').classList.remove('w-[0px]')
+            document.querySelector('#product_container').classList.add('p-6')
+
+
             await fetchAllProducts(data.data.product_id)
+        } else {
+
+            document.querySelector('#chat_container').classList.remove('w-3/5')
+            document.querySelector('#chat_container').classList.add('w-full')
+            document.querySelector('#product_container').classList.add('w-[0px]')
+            document.querySelector('#product_container').classList.remove('p-6')
         }
 
         console.log('booo',data.data.product_id);
@@ -514,6 +526,9 @@ async function sendRating(rating, chatid , sessionId) {
 async function upadateChat() {
 
 
+
+
+
         
 
         const userMessage = userInput.value;
@@ -777,10 +792,25 @@ backAndReload()
 }
 });
 
-
+const container = document.getElementById('icon-container');
+const waveHand = document.getElementById('wave-hand');
+let iswaving = true ;
 document.addEventListener('keydown',async function(event) {
     if (event.key === 'Enter') {
-     upadateChat()
+        if (iswaving) {
+             container.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    container.remove();
+                    
+                }, 500); 
+            
+            iswaving = false ;
+        }
+       
+        event.preventDefault()
+        upadateChat()
+        
 }
     });
 
