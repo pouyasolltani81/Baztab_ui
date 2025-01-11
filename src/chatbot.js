@@ -143,7 +143,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             
         // }
         if (data.data.product_id && data.data.product_id.length > 0){
-            document.querySelector('#chat_container').classList.add('w-3/5')
+            document.querySelector('#chat_container').classList.add('w-9/12')
             document.querySelector('#chat_container').classList.remove('w-full')
             document.querySelector('#product_container').classList.remove('w-[0px]')
             document.querySelector('#product_container').classList.add('p-6')
@@ -152,7 +152,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             await fetchAllProducts(data.data.product_id)
         } else {
 
-            document.querySelector('#chat_container').classList.remove('w-3/5')
+            document.querySelector('#chat_container').classList.remove('w-9/12')
             document.querySelector('#chat_container').classList.add('w-full')
             document.querySelector('#product_container').classList.add('w-[0px]')
             document.querySelector('#product_container').classList.remove('p-6')
