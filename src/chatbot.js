@@ -3,7 +3,7 @@ async function getPreChat(season_id) {
         chatBar.classList.add('scale-0');
         document.getElementById('loading_2').classList.remove('hidden')
 
-        const response = await fetch('http://192.168.168.60:8000/Categories/get_categories_tree/', {
+        const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -104,7 +104,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
 
         });
         
-        const response = await fetch('http://192.168.168.60:8000/AIAnalyze/semantic_search/', {
+        const response = await fetch('http://79.175.177.113:21800/AIAnalyze/semantic_search/', {
             method: 'POST',
             headers: {
                     'Content-Type': 'application/json; charset=utf-8',
@@ -183,7 +183,7 @@ async function fetchProductById(id) {
 
     try {
 
-         const response = await fetch('http://192.168.168.60:8000/Products/search_product_by_id/', {
+         const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_id/', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -260,7 +260,7 @@ async function getProduct(ids) {
 
     console.log(idsArray);
 
-    const response = await fetch('http://192.168.168.60:8000/Products/search_product_by_id/', {
+    const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_id/', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -498,7 +498,7 @@ let rating = 0
 async function sendRating(rating, chatid , sessionId) {
 
     try { 
-        const response = await fetch('http://192.168.168.60:8000/AIAnalyze/update_chat_by_like/', {
+        const response = await fetch('http://79.175.177.113:21800/AIAnalyze/update_chat_by_like/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -618,19 +618,25 @@ async function upadateChat() {
 
         met_mes.classList.add("bg-blue-600" ,"text-white", "p-3", "rounded-lg" ,"max-w-xs");
         met_mes.innerHTML = `<p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>`
-        met_mes.appendChild(met_div)
+        if(meta_tag_available) {
+            met_mes.appendChild(met_div)
+        }
+        
 
         met_mes.appendChild(like_dis)
         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
-    //     aiMessageElement.innerHTML = `
-    // <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
-    //     <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
-    //     <div class="flex justify-end gap-4 mt-2">
-    //         <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
-    //         <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
-    //     </div>
-    // </div>`;
-    aiMessageElement.appendChild(met_mes)
+
+        //     aiMessageElement.innerHTML = `
+        // <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
+        //     <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
+        //     <div class="flex justify-end gap-4 mt-2">
+        //         <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
+        //         <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
+        //     </div>
+        // </div>`;
+
+        aiMessageElement.appendChild(met_mes);
+
         chatHistory.appendChild(aiMessageElement);
 
 
@@ -853,7 +859,7 @@ document.addEventListener('keydown',async function(event) {
     async function getHistory(sessionId) {
 
         try { 
-            const response = await fetch('http://192.168.168.60:8000/AIAnalyze/chat_history/', {
+            const response = await fetch('http://79.175.177.113:21800/AIAnalyze/chat_history/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
