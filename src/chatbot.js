@@ -413,7 +413,8 @@ async function getProduct(ids) {
             const tag = document.createElement("span");
             tag.textContent = value;
             tag.classList.add(  "text-blue-100", "rounded-full", "cursor-pointer", "hover:text-teal-200", "transition-all", "duration-200");
-            tag.onclick = () => toggleTag(tag, sanitizedKey, value);
+            // tag.onclick = () => toggleTag(tag, sanitizedKey, value);
+            tag.onclick = () => { console.log(`Tag clicked: ${value}`); toggleTag(tag, sanitizedKey, value); };
 
             tagsContainer.appendChild(tag);
           });
