@@ -429,6 +429,8 @@ async function getProduct(ids) {
         }
 
         container.appendChild(section);
+
+        document.getElementById('metadata-container').appendChild(section)
       }
 
       return container
