@@ -384,6 +384,11 @@ async function getProduct(ids) {
 // Function to update the metadata dynamically
     function update_meta(metadata) {
         meta_tag_available = true
+
+        const selectedTagsContainer = document.getElementById("selected-tags-container");
+
+      // Clear the current selected tags container
+      selectedTagsContainer.innerHTML = "";
       
 
       console.log(metadata);
