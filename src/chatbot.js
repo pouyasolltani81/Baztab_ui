@@ -610,13 +610,16 @@ async function upadateChat() {
         // Typing effect for AI message
         const aiMessageElement = document.createElement('div');
         const met_mes = document.createElement('div');
+        const like_dis = document.createElement('div');
+        like_dis.classList.add("flex", "justify-end" ,"gap-4" ,"mt-2");
+        like_dis.innerHTML = `<i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
+            <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>`
+
         met_mes.classList.add("bg-blue-600" ,"text-white", "p-3", "rounded-lg" ,"max-w-xs");
         met_mes.innerHTML = `<p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>`
         met_mes.appendChild(met_div)
-        // met_mes.innerHTML += `<div class="flex justify-end gap-4 mt-2">
-        //     <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
-        //     <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
-        // </div>`
+
+        met_mes.appendChild(like_dis)
         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
     //     aiMessageElement.innerHTML = `
     // <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
