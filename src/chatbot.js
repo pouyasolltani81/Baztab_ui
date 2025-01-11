@@ -589,17 +589,7 @@ async function upadateChat() {
         
         console.log(ai_message);
 
-        const meta_data = massages.metadata;
-       
-        if (meta_data){
-            document.getElementById('meta_tags').classList.remove('scale-x-0')
-            update_meta(meta_data)
-        } else {
-            document.getElementById('meta_tags').classList.add('scale-x-0')
-            meta_tag_available = false
-        }
         
-        console.log(meta_data);
 
         // Remove typing animation
         const typingElement = document.getElementById('typing');
@@ -621,6 +611,18 @@ async function upadateChat() {
     </div>`;
 
         chatHistory.appendChild(aiMessageElement);
+
+        const meta_data = massages.metadata;
+       
+        if (meta_data){
+            document.getElementById('meta_tags').classList.remove('scale-x-0')
+            update_meta(meta_data)
+        } else {
+            document.getElementById('meta_tags').classList.add('scale-x-0')
+            meta_tag_available = false
+        }
+        
+        console.log(meta_data);
 
 
 
