@@ -714,17 +714,17 @@ async function UpdateUiHistory(data) {
 
         await fetchAllProducts(chat.answer.product_id)
 
-        const meta_data = chat.answer.metadata;
+        // const meta_data = chat.answer.metadata;
        
-        if (meta_data){
-            document.getElementById('meta_tags').classList.remove('scale-x-0')
-            update_meta(meta_data)
-        } else {
-            document.getElementById('meta_tags').classList.add('scale-x-0')
-            meta_tag_available = false
-        }
+        // if (meta_data){
+        //     document.getElementById('meta_tags').classList.remove('scale-x-0')
+        //     update_meta(meta_data)
+        // } else {
+        //     document.getElementById('meta_tags').classList.add('scale-x-0')
+        //     meta_tag_available = false
+        // }
         
-        console.log(meta_data);
+        // console.log(meta_data);
 
     }
 }
