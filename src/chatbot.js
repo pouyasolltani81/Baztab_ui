@@ -773,7 +773,7 @@ function addProductCards(products) {
                                 <h3 class="text-teal-600 font-semibold text-center">${product.product_name_fa}</h3>
                                 ${product.relational_data.price_stat ? `<p class="text-gray-600 text-center">${(product.price_stat.avg/10).toLocaleString()} تومان</p>` : ''}
 
-                                <img src="${product.relational_data.media_info.primary_image}" class='rounded-lg h-[100px] w-full' alt="Product image">
+                                <img src="${product.relational_data.media_info.primary_image}" class='rounded-lg max-h-[200px] w-full' alt="Product image">
                                 <button class="bg-teal-500 text-white px-4 py-2 rounded-lg mt-2 w-full hover:bg-teal-400 transition duration-200" onclick="gotoproductinfo('${product.relational_data._id}')">
                                     <i class="fas fa-cart-plus mr-2"></i> اطلاعات بیشتر
                                 </button>
