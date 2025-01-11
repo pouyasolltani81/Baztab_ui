@@ -462,7 +462,7 @@ async function getProduct(ids) {
       selectedTags.forEach(tag => {
         const tagElement = document.createElement("span");
         tagElement.textContent = tag.textContent;
-        tagElement.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200", "selected-tag");
+        tagElement.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200", "selected-tag",'flex' ,'jusify-center', 'items-center');
 
         // Allow users to remove tags by clicking them
         tagElement.onclick = () => removeSelectedTag(tagElement);
