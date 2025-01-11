@@ -544,6 +544,7 @@ async function upadateChat() {
 
                 message += ' ' + tag.textContent
                 meta_tags.push(tag.textContent)
+                tag.classList.remove('selected')
                 
                 
             });
@@ -619,7 +620,9 @@ async function upadateChat() {
         met_mes.classList.add("bg-blue-600" ,"text-white", "p-3", "rounded-lg" ,"max-w-xs");
         met_mes.innerHTML = `<p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>`
         if(meta_tag_available) {
+
             met_mes.appendChild(met_div)
+
         }
         
 
