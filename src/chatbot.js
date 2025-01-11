@@ -387,6 +387,8 @@ async function getProduct(ids) {
       
 
       console.log(metadata);
+
+      const container = document.createElement("div");
       
       // Loop through metadata and create tags for each category
       for (const [key, values] of Object.entries(metadata)) {
@@ -425,8 +427,10 @@ async function getProduct(ids) {
           section.appendChild(noOptionsMessage);
         }
 
-        return section;
+        container.appendChild(section);
       }
+
+      return container
     }
 
     // Function to show the message based on selected options
@@ -435,8 +439,8 @@ async function getProduct(ids) {
       tag.classList.toggle("selected");
 
       // Add transition for tag selection
-      tag.classList.toggle("bg-blue-600");
-      tag.classList.toggle("text-white");
+      tag.classList.toggle("text-teal-200");
+   
 
       // Show the selected tags below the metadata options
       updateSelectedTags();
