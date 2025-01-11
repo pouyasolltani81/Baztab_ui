@@ -37,7 +37,7 @@ async function GetProduct(id) {
     } catch (error) {
         // Log and display the error to the user
         console.error('Error Getting products:', error);
-        alert('Failed to load products: ' + error.message);
+        // alert('Failed to load products: ' + error.message);
     }
 }
 
@@ -65,128 +65,136 @@ async function GetProduct(id) {
         document.getElementById('variance').textContent = (data.data.price_stat.variance/10).toLocaleString();
         document.getElementById('description_en').textContent = data.data.llm_enriched_description.description_en;
         document.getElementById('description_fa').textContent = data.data.llm_enriched_description.description_fa;
-        let llm_tags = data.data.llm_enriched_description.llm_tags
-        llm_tags.forEach(tag => {
-            const tag_c =     `<li class="text-gray-800">${tag}</li>`
-         
+
+
+        if (data.data.llm_enriched_description.llm_tags) {
+            let llm_tags = data.data.llm_enriched_description.llm_tags
+            llm_tags.forEach(tag => {
+                const tag_c =     `<li class="text-gray-800">${tag}</li>`
+            
             document.getElementById('llm_tags').innerHTML += tag_c;
         })
-
-
+        }
+        
 
         if (ChartDataLabels) {
             Chart.register(ChartDataLabels);
         }
-        
-        const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = data.data.relational_data.category_info.desertized_price_distribution;
-        const percentiles = [
-            percentile_1.frequency,
-            percentile_2.frequency,
-            percentile_3.frequency,
-            percentile_4.frequency,
-            percentile_5.frequency
-        ];
 
-        const total_items = percentiles.reduce((sum, freq) => sum + freq, 0); // Sum of all frequencies
+        if (data.data.relational_data.category_info.desertized_price_distribution) {
 
-        const percentileRanges = [
-            {
-            label: `${(percentile_1.lower_bound/10).toLocaleString()} - ${(percentile_1.upper_bound/10).toLocaleString()}`,
-            minPrice: (percentile_1.lower_bound/10).toLocaleString(),
-            maxPrice: (percentile_1.upper_bound/10).toLocaleString(),
-            
-            percentage: ((percentile_1.frequency / total_items) * 100).toFixed(2)
-            },
-            {
-            label: `${(percentile_2.lower_bound/10).toLocaleString()} - ${(percentile_2.upper_bound/10).toLocaleString()}`,
-            minPrice: (percentile_2.lower_bound/10).toLocaleString(),
-            maxPrice: (percentile_2.upper_bound/10).toLocaleString(),
-            
-            percentage: ((percentile_2.frequency / total_items) * 100).toFixed(2)
-            },
-            {
-            label: `${(percentile_3.lower_bound/10).toLocaleString()} - ${(percentile_3.upper_bound/10).toLocaleString()}`,
-            minPrice: (percentile_3.lower_bound/10).toLocaleString(),
-            maxPrice: (percentile_3.upper_bound/10).toLocaleString(),
-            
-            percentage: ((percentile_3.frequency / total_items) * 100).toFixed(2)
-            },
-            {
-            label: `${(percentile_4.lower_bound/10).toLocaleString()} - ${(percentile_4.upper_bound/10).toLocaleString()}`,
-            minPrice: (percentile_4.lower_bound/10).toLocaleString(),
-            maxPrice: (percentile_4.upper_bound/10).toLocaleString(),
-            
-            percentage: ((percentile_4.frequency / total_items) * 100).toFixed(2)
-            },
-            {
-            label: `${(percentile_5.lower_bound/10).toLocaleString()} - ${(percentile_5.upper_bound/10).toLocaleString()}`,
-            minPrice: (percentile_5.lower_bound/10).toLocaleString(),
-            maxPrice: (percentile_5.upper_bound/10).toLocaleString(),
-            
-            percentage: ((percentile_5.frequency / total_items) * 100).toFixed(2)
-            }
-        ];
+            const { percentile_1, percentile_2, percentile_3, percentile_4, percentile_5 } = data.data.relational_data.category_info.desertized_price_distribution;
+            const percentiles = [
+                percentile_1.frequency,
+                percentile_2.frequency,
+                percentile_3.frequency,
+                percentile_4.frequency,
+                percentile_5.frequency
+            ];
 
-        // Get the canvas context
-        const donutChartCanvas = document.getElementById('priceChart').getContext('2d');
+            const total_items = percentiles.reduce((sum, freq) => sum + freq, 0); // Sum of all frequencies
 
-        // Initialize the Donut Chart
-        // Initialize the Donut Chart
-        new Chart(donutChartCanvas, {
-        type: 'doughnut',
-        data: {
-            labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
-            datasets: [{
-            data: percentiles,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-            legend: {
-                position: 'top',
+            const percentileRanges = [
+                {
+                label: `${(percentile_1.lower_bound/10).toLocaleString()} - ${(percentile_1.upper_bound/10).toLocaleString()}`,
+                minPrice: (percentile_1.lower_bound/10).toLocaleString(),
+                maxPrice: (percentile_1.upper_bound/10).toLocaleString(),
+                
+                percentage: ((percentile_1.frequency / total_items) * 100).toFixed(2)
+                },
+                {
+                label: `${(percentile_2.lower_bound/10).toLocaleString()} - ${(percentile_2.upper_bound/10).toLocaleString()}`,
+                minPrice: (percentile_2.lower_bound/10).toLocaleString(),
+                maxPrice: (percentile_2.upper_bound/10).toLocaleString(),
+                
+                percentage: ((percentile_2.frequency / total_items) * 100).toFixed(2)
+                },
+                {
+                label: `${(percentile_3.lower_bound/10).toLocaleString()} - ${(percentile_3.upper_bound/10).toLocaleString()}`,
+                minPrice: (percentile_3.lower_bound/10).toLocaleString(),
+                maxPrice: (percentile_3.upper_bound/10).toLocaleString(),
+                
+                percentage: ((percentile_3.frequency / total_items) * 100).toFixed(2)
+                },
+                {
+                label: `${(percentile_4.lower_bound/10).toLocaleString()} - ${(percentile_4.upper_bound/10).toLocaleString()}`,
+                minPrice: (percentile_4.lower_bound/10).toLocaleString(),
+                maxPrice: (percentile_4.upper_bound/10).toLocaleString(),
+                
+                percentage: ((percentile_4.frequency / total_items) * 100).toFixed(2)
+                },
+                {
+                label: `${(percentile_5.lower_bound/10).toLocaleString()} - ${(percentile_5.upper_bound/10).toLocaleString()}`,
+                minPrice: (percentile_5.lower_bound/10).toLocaleString(),
+                maxPrice: (percentile_5.upper_bound/10).toLocaleString(),
+                
+                percentage: ((percentile_5.frequency / total_items) * 100).toFixed(2)
+                }
+            ];
+
+            // Get the canvas context
+            const donutChartCanvas = document.getElementById('priceChart').getContext('2d');
+
+            // Initialize the Donut Chart
+            // Initialize the Donut Chart
+            new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: percentileRanges.map(range => `${range.label}: ${range.percentage}%`), // Display percentage with the label
+                datasets: [{
+                data: percentiles,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                }]
             },
-            tooltip: {
-                enabled: true, // Enable tooltips to display information on hover
-                mode: 'index',  // Show tooltip on hovering over any section
-                callbacks: {
-                // Custom tooltip content
-                label: function(tooltipItem) {
-                    const dataIndex = tooltipItem.dataIndex;
+            options: {
+                responsive: true,
+                plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true, // Enable tooltips to display information on hover
+                    mode: 'index',  // Show tooltip on hovering over any section
+                    callbacks: {
+                    // Custom tooltip content
+                    label: function(tooltipItem) {
+                        const dataIndex = tooltipItem.dataIndex;
+                        const range = percentileRanges[dataIndex];
+                        const frequency = percentiles[dataIndex];
+                        
+                        // Format the tooltip content
+                        return [
+                        `Min: ${range.minPrice}`,
+                        `Max: ${range.maxPrice}`,
+                        `Count: ${frequency}`,
+                        `Percentage: ${range.percentage}%`
+                        ];
+                    }
+                    }
+                },
+                datalabels: {
+                    display: true, // Enable datalabels plugin to show custom labels inside slices
+                    color: '#fff', // Label text color
+                    formatter: function(value, context) {
+                    const dataIndex = context.dataIndex;
                     const range = percentileRanges[dataIndex];
-                    const frequency = percentiles[dataIndex];
-                    
-                    // Format the tooltip content
-                    return [
-                    `Min: ${range.minPrice}`,
-                    `Max: ${range.maxPrice}`,
-                    `Count: ${frequency}`,
-                    `Percentage: ${range.percentage}%`
-                    ];
+                    return `${range.percentage}%`; // Display percentage as label inside the chart
+                    },
+                    font: {
+                    weight: 'bold',
+                    size: 14
+                    },
+                    anchor: 'center', // Position the label inside the slice
+                    align: 'center',  // Center the text inside each slice
+                    offset: 0, // Set offset to zero to prevent misalignment
+                    padding: 0, // Remove any padding that could cause misalignment
                 }
                 }
-            },
-            datalabels: {
-                display: true, // Enable datalabels plugin to show custom labels inside slices
-                color: '#fff', // Label text color
-                formatter: function(value, context) {
-                const dataIndex = context.dataIndex;
-                const range = percentileRanges[dataIndex];
-                return `${range.percentage}%`; // Display percentage as label inside the chart
-                },
-                font: {
-                weight: 'bold',
-                size: 14
-                },
-                anchor: 'center', // Position the label inside the slice
-                align: 'center',  // Center the text inside each slice
-                offset: 0, // Set offset to zero to prevent misalignment
-                padding: 0, // Remove any padding that could cause misalignment
             }
-            }
+            });
+
         }
-        });
+        
     }
 
 

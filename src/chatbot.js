@@ -478,8 +478,8 @@ async function getProduct(ids) {
         originalTag.classList.remove("selected");
 
         // Apply transition for removal of selected tag
-        originalTag.classList.remove("bg-blue-600");
-        originalTag.classList.remove("text-white");
+        originalTag.classList.remove("text-teal-200");
+     
       }
 
       // Fade out the selected tag element and remove it
