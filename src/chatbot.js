@@ -398,12 +398,12 @@ async function getProduct(ids) {
       // Loop through metadata and create tags for each category
       for (const [key, values] of Object.entries(metadata)) {
         const section = document.createElement("div");
-        section.classList.add("space-y-4");
+        section.classList.add("pt-4");
 
         // Create category title
         const title = document.createElement("h3");
         title.textContent = key;
-        title.classList.add("text-xl", "font-semibold", "text-gray-700");
+        title.classList.add("text-xl", "font-semibold");
         section.appendChild(title);
 
         // Clean up the key to use as a valid class name (remove spaces)
@@ -412,12 +412,12 @@ async function getProduct(ids) {
         // Create tags for the available values
         if (values.length > 0) {
           const tagsContainer = document.createElement("div");
-          tagsContainer.classList.add("flex", "flex-wrap", "gap-2");
+          tagsContainer.classList.add("flex", "flex-col", "gap-2" , 'pt-2');
 
           values.forEach(value => {
             const tag = document.createElement("span");
             tag.textContent = value;
-            tag.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200");
+            tag.classList.add(  "text-blue-100", "rounded-full", "cursor-pointer", "hover:text-teal-200", "transition-all", "duration-200");
             tag.onclick = () => toggleTag(tag, sanitizedKey, value);
 
             tagsContainer.appendChild(tag);
@@ -610,6 +610,7 @@ async function upadateChat() {
         // Typing effect for AI message
         const aiMessageElement = document.createElement('div');
         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
+        aiMessageElement.id = 'metadata-container'
         aiMessageElement.innerHTML = `
     <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
         <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
@@ -689,7 +690,7 @@ async function UpdateUiHistory(data) {
                                       </div>
                                   </div>`;
 
-        chatHistory.innerHTML += `<div id="typing" class="flex items-start space-x-2">
+        chatHistory.innerHTML += `<div id="typing" class="flex items-start space-x-2" id='metadata-container'>
                                       <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
                                           <p dir='rtl'><i class="fas fa-spinner fa-spin mr-2"></i>${chat.answer.response}</p>
                                       </div>
