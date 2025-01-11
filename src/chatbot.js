@@ -440,7 +440,7 @@ async function getProduct(ids) {
     // Function to show the message based on selected options
     // Function to toggle selection of a tag (add/remove the 'selected' class)
     function toggleTag(tag, category, value) {
-      tag.classList.toggle(`selected${category}`);
+      tag.classList.toggle("selected");
 
       // Add transition for tag selection
       tag.classList.toggle("text-teal-200");
@@ -451,32 +451,32 @@ async function getProduct(ids) {
     }
 
     // Function to update the selected tags display
-    function updateSelectedTags(category) {
+    function updateSelectedTags() {
       const selectedTagsContainer = document.getElementById("selected-tags-container");
 
       // Clear the current selected tags container
       selectedTagsContainer.innerHTML = "";
 
       // Get all selected tags
-      const selectedTags = document.querySelectorAll(`.selected${category}`);
+      const selectedTags = document.querySelectorAll(".selected");
       selectedTags.forEach(tag => {
         const tagElement = document.createElement("span");
         tagElement.textContent = tag.textContent;
         tagElement.classList.add("px-4", "py-2", "bg-blue-100", "text-blue-600", "rounded-full", "cursor-pointer", "hover:bg-blue-200", "transition-all", "duration-200", "selected-tag");
 
         // Allow users to remove tags by clicking them
-        tagElement.onclick = () => removeSelectedTag(tagElement , category);
+        tagElement.onclick = () => removeSelectedTag(tagElement);
 
         selectedTagsContainer.appendChild(tagElement);
       });
     }
 
     // Function to remove a selected tag
-    function removeSelectedTag(tagElement ,category) {
+    function removeSelectedTag(tagElement) {
       // Find the original tag element and remove the 'selected' class
       const originalTag = [...document.querySelectorAll(`span`)].find(tag => tag.textContent === tagElement.textContent);
       if (originalTag) {
-        originalTag.classList.remove(`selected${category}`);
+        originalTag.classList.remove("selected");
 
         // Apply transition for removal of selected tag
         originalTag.classList.remove("text-teal-200");
