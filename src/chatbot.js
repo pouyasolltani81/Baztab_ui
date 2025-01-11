@@ -384,13 +384,6 @@ async function getProduct(ids) {
 // Function to update the metadata dynamically
     function update_meta(metadata) {
         meta_tag_available = true
-      const container = document.getElementById("metadata-container");
-      const selectedTagsContainer = document.getElementById("selected-tags-container");
-      
-
-      // Clear old metadata and selected tags
-      container.innerHTML = "";
-      selectedTagsContainer.innerHTML = "";
       
 
       console.log(metadata);
@@ -432,7 +425,7 @@ async function getProduct(ids) {
           section.appendChild(noOptionsMessage);
         }
 
-        container.appendChild(section);
+        return section;
       }
     }
 
@@ -589,7 +582,17 @@ async function upadateChat() {
         
         console.log(ai_message);
 
+        const meta_data = massages.metadata;
+        let met_div
+        if (meta_data){
+            document.getElementById('meta_tags').classList.remove('scale-x-0')
+            met_div = update_meta(meta_data)
+        } else {
+            document.getElementById('meta_tags').classList.add('scale-x-0')
+            meta_tag_available = false
+        }
         
+        console.log(meta_data);
 
         // Remove typing animation
         const typingElement = document.getElementById('typing');
@@ -600,10 +603,10 @@ async function upadateChat() {
         // Typing effect for AI message
         const aiMessageElement = document.createElement('div');
         aiMessageElement.classList.add('flex', 'items-start', 'space-x-2');
-        aiMessageElement.id = 'metadata-container'
         aiMessageElement.innerHTML = `
     <div class="bg-blue-600 text-white p-3 rounded-lg max-w-xs">
         <p dir='rtl'><i class="fas fa-check-circle mr-2"></i> <span id="aiMessageContent${m_n}"></span></p>
+        ${met_div}
         <div class="flex justify-end gap-4 mt-2">
             <i class="fas fa-thumbs-up like-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
             <i class="fas fa-thumbs-down dislike-icon cursor-pointer text-gray-400 text-2xl transition-transform duration-300"></i>
@@ -611,18 +614,6 @@ async function upadateChat() {
     </div>`;
 
         chatHistory.appendChild(aiMessageElement);
-
-        const meta_data = massages.metadata;
-       
-        if (meta_data){
-            document.getElementById('meta_tags').classList.remove('scale-x-0')
-            update_meta(meta_data)
-        } else {
-            document.getElementById('meta_tags').classList.add('scale-x-0')
-            meta_tag_available = false
-        }
-        
-        console.log(meta_data);
 
 
 
