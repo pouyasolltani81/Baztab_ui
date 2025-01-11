@@ -198,7 +198,7 @@ async function GetProduct(id) {
     }
 
 
-    let productData = JSON.parse(localStorage.getItem('product_id'));
+    let productData = JSON.parse(sessionStorage.getItem('product_id'));
     GetProduct(productData.id);  
 
     // window.addEventListener('load', function() {

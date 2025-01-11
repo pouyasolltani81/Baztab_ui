@@ -403,7 +403,7 @@ async function getProduct(ids) {
         // Create category title
         const title = document.createElement("h3");
         title.textContent = key;
-        title.classList.add("text-xl", "font-semibold");
+        title.classList.add("text-l", "font-semibold");
         section.appendChild(title);
 
         // Clean up the key to use as a valid class name (remove spaces)
@@ -786,7 +786,7 @@ function gotoproductinfo(product) {
        
       };
 
-    localStorage.setItem('product_id', JSON.stringify(data));   
+    sessionStorage.setItem('product_id', JSON.stringify(data));   
 
     // localStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './chatbotinfo.html';
@@ -846,8 +846,8 @@ document.addEventListener('keydown',async function(event) {
 
 
 
-    if (localStorage.getItem('product_id')){
-        token = JSON.parse(localStorage.getItem('product_id')).season_id
+    if (sessionStorage.getItem('product_id')){
+        token = JSON.parse(sessionStorage.getItem('product_id')).season_id
         getHistory(token)
     }
 
