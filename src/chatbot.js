@@ -142,7 +142,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
 
             
         // }
-        if (data.data.product_id){
+        if (data.data.product_id && data.data.product_id.length > 0){
             document.querySelector('#chat_container').classList.add('w-3/5')
             document.querySelector('#chat_container').classList.remove('w-full')
             document.querySelector('#product_container').classList.remove('w-[0px]')
