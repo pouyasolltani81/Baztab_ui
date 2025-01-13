@@ -145,7 +145,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
         if (data.data.product_id && data.data.product_id.length > 0){
             document.querySelector('#chat_container').classList.add('md:w-9/12')
             document.querySelector('#chat_container').classList.remove('md:w-full')
-            document.querySelector('#product_container').classList.remove('w-[0px]')
+            document.querySelector('#product_container').classList.remove('md:w-[0px]')
             document.querySelector('#product_container').classList.add('p-6')
             document.querySelector('#product_modal').classList.remove('hidden')
 
@@ -158,7 +158,7 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
 
             document.querySelector('#chat_container').classList.remove('md:w-9/12')
             document.querySelector('#chat_container').classList.add('md:w-full')
-            document.querySelector('#product_container').classList.add('w-[0px]')
+            document.querySelector('#product_container').classList.add('md:w-[0px]')
             document.querySelector('#product_container').classList.remove('p-6')
             document.querySelector('#product_modal').classList.add('hidden')
 
