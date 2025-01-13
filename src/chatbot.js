@@ -907,3 +907,12 @@ document.addEventListener('keydown',async function(event) {
         
 
     }
+
+
+    function close_products() {
+
+        document.getElementById('product_container').classList.remove('w-full')
+        document.getElementById('product_container').classList.add('hidden')
+        
+
+    }
