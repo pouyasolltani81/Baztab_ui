@@ -903,6 +903,7 @@ document.addEventListener('keydown',async function(event) {
     function open_products() {
 
         document.getElementById('product_container').classList.add('w-full')
+        document.getElementById('product_container').classList.remove('hidden')
         
 
     }
