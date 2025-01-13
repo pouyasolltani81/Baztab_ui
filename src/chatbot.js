@@ -147,6 +147,10 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             document.querySelector('#chat_container').classList.remove('w-full')
             document.querySelector('#product_container').classList.remove('w-[0px]')
             document.querySelector('#product_container').classList.add('p-6')
+            document.querySelector('#product_modal').classList.remove('hidden')
+
+            
+
 
 
             await fetchAllProducts(data.data.product_id)
@@ -156,6 +160,8 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             document.querySelector('#chat_container').classList.add('w-full')
             document.querySelector('#product_container').classList.add('w-[0px]')
             document.querySelector('#product_container').classList.remove('p-6')
+            document.querySelector('#product_modal').classList.add('hidden')
+
         }
 
         console.log('booo',data.data.product_id);
@@ -889,4 +895,14 @@ document.addEventListener('keydown',async function(event) {
             
         }
         
+    }
+
+
+
+
+    function open_products() {
+
+        document.getElementById('product_container').classList.add('w-full')
+        
+
     }
