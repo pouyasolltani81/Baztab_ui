@@ -147,6 +147,8 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             document.querySelector('#chat_container').classList.remove('md:w-full')
             document.querySelector('#product_container').classList.remove('md:w-[0px]')
             document.querySelector('#product_container').classList.add('p-6')
+            document.querySelector('#product_container').classList.remove('hidden')
+
             document.querySelector('#product_modal').classList.remove('hidden')
 
             
@@ -160,6 +162,8 @@ async function sendMessage(userm , token_c , raiting = 0 , meta_tags = [] ) {
             document.querySelector('#chat_container').classList.add('md:w-full')
             document.querySelector('#product_container').classList.add('md:w-[0px]')
             document.querySelector('#product_container').classList.remove('p-6')
+            document.querySelector('#product_container').classList.add('hidden')
+
             document.querySelector('#product_modal').classList.add('hidden')
 
         }
