@@ -47,7 +47,7 @@
                 
 
                
-                <div id="icon-container" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex space-x-8 opacity-100 transition-all ease-in-out duration-500">
+                <div id="icon-container" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex  opacity-100 transition-all ease-in-out duration-500">
                         <img src="./imgs/grinning-face-svgrepo-com.svg" alt="" class="w-[60px] bounce">
                         <img id="wave-hand" src="./imgs/waving-hand-svgrepo-com.svg" alt="" class="w-[60px] wave">
                 </div>
@@ -74,20 +74,32 @@
                     </div>
                     
 
-                <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4">
+                <div class="bg-gray-100 p-4 flex flex-col md:flex-row items-center space-x-2 mt-4 rounded-md gap-4">
 
                     <div class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg flex gap-2 p-2">
                         <div id="selected-tags-container" class="flex flex-wrap gap-2"></div>
+                            
                         <textarea  id="user-input" class="w-full p-2 bg-gray-100 rounded-md  focus:outline-none  resize-none" rows="1" style="overflow:hidden; max-height: 6.5rem;" placeholder="جستجوی محصولات..." ></textarea>
-                    </div>
                         
-                        <button id="send-btn" class="h-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
-                            <i class="fas fa-paper-plane mr-2 ml-2"></i>
+                    </div>
+
+                    <div class="flex gap-2 w-full h-full">
+
+                        <button id="send-btn" class="h-full bg-teal-500 text-white w-full rounded-lg hover:bg-teal-400 transition duration-200 py-2">
+                            
+                            <i class="fas fa-paper-plane"></i>
+                        
                         </button>
 
-                        <button id="new-btn" class="h-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition duration-200">
-                            <i class="fas fa-plus mr-2 ml-2"></i>
+                        <button id="new-btn" class="h-full bg-blue-500 text-white w-full rounded-lg hover:bg-blue-400 transition duration-200 py-2">
+                            
+                            <i class="fas fa-plus"></i>
+                        
                         </button>
+                        
+                    </div>
+                        
+                       
 
                   
                 </div>

@@ -526,7 +526,16 @@ async function sendRating(rating, chatid , sessionId) {
 
 async function upadateChat() {
 
+        if (iswaving) {
+            container.classList.add('opacity-0');
 
+            setTimeout(() => {
+                container.remove();
+                    
+            }, 500); 
+            
+            iswaving = false ;
+        }
 
 
 
@@ -818,16 +827,7 @@ const waveHand = document.getElementById('wave-hand');
 let iswaving = true ;
 document.addEventListener('keydown',async function(event) {
     if (event.key === 'Enter') {
-        if (iswaving) {
-             container.classList.add('opacity-0');
-
-                setTimeout(() => {
-                    container.remove();
-                    
-                }, 500); 
-            
-            iswaving = false ;
-        }
+        
        
         event.preventDefault()
         upadateChat()
