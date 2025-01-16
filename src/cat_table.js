@@ -216,7 +216,7 @@ function renderSubcategories(subcategories, level) {
                 ${buttons}
                 <div class='flex justify-between'>  
                     ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
-                    ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert gdrgdrg approved : ${subcategory.expert_approved}</span><span class="text-xs text-violet-500 mt-2"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span>` : ''}
+                    ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 mt-2"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}
                     ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : ''}
 
                 </div>
