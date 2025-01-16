@@ -216,13 +216,66 @@ function renderSubcategories(subcategories, level) {
                 ${buttons}
                 <div class='flex justify-between'>  
                     ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
-                    ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}</span>` : ''}
+                    ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}</span><span class="text-xs text-violet-500 mt-2"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')>change</span>` : ''}
                     ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : ''}
 
                 </div>
             </div>
         `;
     }).join('');
+}
+
+
+
+async function ChangeApprove(name_fa , approved) {
+
+
+    try {
+        const response = await fetch('http://79.175.177.113:21800/Categories/approve_llm_tags/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+
+            body: {
+
+                "name_fa": name_fa,
+                "approve_state": !approved
+
+                }
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        
+        } else {
+            window.href = window.href
+        }
+
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+
+        // Check if the response contains valid categories data
+        if (data && data.data && data.data['Saleman_bot']) {
+            
+            sessionStorage.setItem('categoryall', JSON.stringify(data));
+            renderCategoryDropdown(data);  
+        } else {
+            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+        }
+    }
+
+    catch (error) {
+        // Log and display the error to the user
+        console.error('Error Getting categories:', error);
+        alert('Failed to load categories: ' + error.message);
+    }
+
 }
 
 // function renderTable(responseData) {
