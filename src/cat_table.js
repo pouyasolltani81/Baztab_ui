@@ -168,13 +168,13 @@ function renderTable(responseData) {
     // Render the rows for each subcategory
     subcategories.forEach(subcategory => {
         const level3Subcategories = subcategory.level_3 || [];
-        const level4Subcategories = subcategory.level_3.level_4 || [];
-        const level5Subcategories = subcategory.level_3.level_4.level_5 || [];
-        const level6Subcategories = subcategory.level_3.level_4.level_5.level_6 || [];
-        const level7Subcategories = subcategory.level_3.level_4.level_5.level_6.level_7 || [];
-        const level8Subcategories = subcategory.level_3.level_4.level_5.level_6.level_7.level_8 || [];
-        const level9Subcategories = subcategory.level_3.level_4.level_5.level_6.level_7.level_8.level_9 || [];
-        const level10Subcategories = subcategory.level_3.level_4.level_5.level_6.level_7.level_8.level_9.level_10 || [];
+        const level4Subcategories = subcategory?.level_3?.level_4 || [];
+        const level5Subcategories = subcategory?.level_3?.level_4?.level_5 || [];
+        const level6Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6 || [];
+        const level7Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7 || [];
+        const level8Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8 || [];
+        const level9Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9 || [];
+        const level10Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9?.level_10 || [];
 
         categoryTableBody.innerHTML += `
             <tr class="border-b">
