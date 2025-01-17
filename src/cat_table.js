@@ -149,7 +149,7 @@ function renderTable(responseData) {
     const subcategories = selectedCategory.level_2 || []; // Get the second level subcategories
 
     console.log('Subcategories:', subcategories); // Log subcategories for debugging
-    console.log(subcategories.some(sub => sub.level_4) );
+    console.log(subcategories.some(sub => sub.level_3.level_4) );
 
     // Render the header row based on the subcategory levels (dynamic number of columns)
     categoryTableHeader.innerHTML = `
