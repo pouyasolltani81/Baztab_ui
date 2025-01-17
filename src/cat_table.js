@@ -178,34 +178,27 @@ function renderTable(responseData) {
     // Process Level 3
     level3Subcategories.forEach(level3 => {
         // Level 4
-         level4Subcategories = level3.level_4 || [];
+         level4Subcategories += level3.level_4;
         console.log("Level 4 Subcategories:", level4Subcategories);
 
         // Process Level 4
         level4Subcategories.forEach(level4 => {
             // Level 5
-             level5Subcategories = level4.level_5 || [];
+             level5Subcategories += level4.level_5 ;
             console.log("Level 5 Subcategories:", level5Subcategories);
 
             // Process Level 5
             level5Subcategories.forEach(level5 => {
                 // Level 6
-                 level6Subcategories = level5.level_6 || [];
+                 level6Subcategories += level5.level_6;
                 console.log("Level 6 Subcategories:", level6Subcategories);
             });
 
-            // Always create the variable, even if the level is empty
-            if (!level4.level_5) {
-                 level5Subcategories = [];
-                console.log("No Level 5 Subcategories. Created an empty list.");
-            }
+            
         });
 
         // Always create the variable, even if the level is empty
-        if (!level3.level_4) {
-             level4Subcategories = [];
-            console.log("No Level 4 Subcategories. Created an empty list.");
-        }
+       
     });
 
     // Always create the variable, even if the level is empty
