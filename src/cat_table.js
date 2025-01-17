@@ -169,44 +169,48 @@ function renderTable(responseData) {
     subcategories.forEach(subcategory => {
         // Level 3
     const level3Subcategories = subcategory.level_3 || [];
+    let level4Subcategories = [];
+    let level5Subcategories = [];
+    let level6Subcategories = [];
+
     console.log("Level 3 Subcategories:", level3Subcategories);
 
     // Process Level 3
     level3Subcategories.forEach(level3 => {
         // Level 4
-        const level4Subcategories = level3.level_4 || [];
+         level4Subcategories = level3.level_4 || [];
         console.log("Level 4 Subcategories:", level4Subcategories);
 
         // Process Level 4
         level4Subcategories.forEach(level4 => {
             // Level 5
-            const level5Subcategories = level4.level_5 || [];
+             level5Subcategories = level4.level_5 || [];
             console.log("Level 5 Subcategories:", level5Subcategories);
 
             // Process Level 5
             level5Subcategories.forEach(level5 => {
                 // Level 6
-                const level6Subcategories = level5.level_6 || [];
+                 level6Subcategories = level5.level_6 || [];
                 console.log("Level 6 Subcategories:", level6Subcategories);
             });
 
             // Always create the variable, even if the level is empty
             if (!level4.level_5) {
-                const level5Subcategories = [];
+                 level5Subcategories = [];
                 console.log("No Level 5 Subcategories. Created an empty list.");
             }
         });
 
         // Always create the variable, even if the level is empty
         if (!level3.level_4) {
-            const level4Subcategories = [];
+             level4Subcategories = [];
             console.log("No Level 4 Subcategories. Created an empty list.");
         }
     });
 
     // Always create the variable, even if the level is empty
     if (!subcategory.level_3) {
-        const level3Subcategories = [];
+         level3Subcategories = [];
         console.log("No Level 3 Subcategories. Created an empty list.");
     }
         const level7Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7 || [];
