@@ -249,12 +249,15 @@ async function ChangeApprove(name_fa , approved) {
                 }
         });
 
+        console.log(response , !approved);
+        
+
         // Check if the response was successful (status code 2xx)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         
         } else {
-            window.href = window.href
+            window.location.href = window.location.href
         }
 
        
