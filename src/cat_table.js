@@ -218,6 +218,7 @@ function renderTable(responseData) {
         const level9Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9 || [];
         const level10Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9?.level_10 || [];
        
+        console.log('testtttttttt' , level4Subcategories.length , level4Subcategories);
         
         categoryTableBody.innerHTML += `
             <tr class="border-b">
