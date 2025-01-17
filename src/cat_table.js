@@ -157,8 +157,9 @@ function renderTable(responseData) {
         <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
         ${subcategories.some(sub => sub.level_3) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
         ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
-        ${subcategories.some(sub => sub.level_5) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
-        ${subcategories.some(sub => sub.level_6) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
         ${subcategories.some(sub => sub.level_7) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
         ${subcategories.some(sub => sub.level_8) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
         ${subcategories.some(sub => sub.level_9) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
@@ -167,10 +168,27 @@ function renderTable(responseData) {
 
     // Render the rows for each subcategory
     subcategories.forEach(subcategory => {
-        const level3Subcategories = subcategory?.level_3 || [];
-        const level4Subcategories = subcategory?.level_3?.level_4 || [];
-        const level5Subcategories = subcategory?.level_3?.level_4?.level_5 || [];
-        const level6Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6 || [];
+         // Level 3
+        const level3Subcategories = subcategory.level_3 || [];
+        console.log("Level 3 Subcategories:", level3Subcategories);
+
+        level3Subcategories.forEach(level3 => {
+            // Level 4
+            const level4Subcategories = level3.level_4 || [];
+            console.log("Level 4 Subcategories:", level4Subcategories);
+
+            level4Subcategories.forEach(level4 => {
+                // Level 5
+                const level5Subcategories = level4.level_5 || [];
+                console.log("Level 5 Subcategories:", level5Subcategories);
+
+                level5Subcategories.forEach(level5 => {
+                    // Level 6
+                    const level6Subcategories = level5.level_6 || [];
+                    console.log("Level 6 Subcategories:", level6Subcategories);
+                });
+            });
+        });
         const level7Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7 || [];
         const level8Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8 || [];
         const level9Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9 || [];
