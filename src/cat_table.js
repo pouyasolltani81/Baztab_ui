@@ -168,7 +168,7 @@ function renderTable(responseData) {
     // Render the rows for each subcategory
     subcategories.forEach(subcategory => {
         // Level 3
-    const level3Subcategories = subcategory.level_3 || [];
+    let level3Subcategories = subcategory.level_3 || [];
     let level4Subcategories = [];
     let level5Subcategories = [];
     let level6Subcategories = [];
