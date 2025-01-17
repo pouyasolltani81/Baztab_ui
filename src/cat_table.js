@@ -167,38 +167,53 @@ function renderTable(responseData) {
 
     // Render the rows for each subcategory
     subcategories.forEach(subcategory => {
-        const level3Subcategories = subcategory.level_3 || [];
+        // Level 3
+    const level3Subcategories = subcategory.level_3 || [];
     console.log("Level 3 Subcategories:", level3Subcategories);
 
-    if (level3Subcategories.length) {
-        level3Subcategories.forEach(level3 => {
-            const level4Subcategories = level3.level_4 || [];
-            console.log("Level 4 Subcategories:", level4Subcategories);
+    // Process Level 3
+    level3Subcategories.forEach(level3 => {
+        // Level 4
+        const level4Subcategories = level3.level_4 || [];
+        console.log("Level 4 Subcategories:", level4Subcategories);
 
-            if (level4Subcategories.length) {
-                level4Subcategories.forEach(level4 => {
-                    const level5Subcategories = level4.level_5 || [];
-                    console.log("Level 5 Subcategories:", level5Subcategories);
+        // Process Level 4
+        level4Subcategories.forEach(level4 => {
+            // Level 5
+            const level5Subcategories = level4.level_5 || [];
+            console.log("Level 5 Subcategories:", level5Subcategories);
 
-                    if (level5Subcategories.length) {
-                        level5Subcategories.forEach(level5 => {
-                            const level6Subcategories = level5.level_6 || [];
-                            console.log("Level 6 Subcategories:", level6Subcategories);
-                        });
-                    }
-                });
+            // Process Level 5
+            level5Subcategories.forEach(level5 => {
+                // Level 6
+                const level6Subcategories = level5.level_6 || [];
+                console.log("Level 6 Subcategories:", level6Subcategories);
+            });
+
+            // Always create the variable, even if the level is empty
+            if (!level4.level_5) {
+                const level5Subcategories = [];
+                console.log("No Level 5 Subcategories. Created an empty list.");
             }
         });
-    } else {
-        console.log("No Level 3 Subcategories for:", subcategory.name);
+
+        // Always create the variable, even if the level is empty
+        if (!level3.level_4) {
+            const level4Subcategories = [];
+            console.log("No Level 4 Subcategories. Created an empty list.");
+        }
+    });
+
+    // Always create the variable, even if the level is empty
+    if (!subcategory.level_3) {
+        const level3Subcategories = [];
+        console.log("No Level 3 Subcategories. Created an empty list.");
     }
         const level7Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7 || [];
         const level8Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8 || [];
         const level9Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9 || [];
         const level10Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9?.level_10 || [];
-        console.log(level3Subcategories);
-        
-        console.log(level4Subcategories);
+       
         
         categoryTableBody.innerHTML += `
             <tr class="border-b">
