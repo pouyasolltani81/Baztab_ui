@@ -156,7 +156,7 @@ function renderTable(responseData) {
         <th class="py-2 px-4 text-left text-lg font-medium text-center">دسته بندی</th>
         <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
         ${subcategories.some(sub => sub.level_3) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
-        ${'level_4' in (subcategory?.level_3 || {}) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+        ${subcategories.some(sub => sub?.level_3?.level_4) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
         ${subcategories.some(sub => sub.level_5) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
         ${subcategories.some(sub => sub.level_6) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
         ${subcategories.some(sub => sub.level_7) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
