@@ -257,17 +257,9 @@ async function ChangeApprove(name_fa , approved) {
             window.href = window.href
         }
 
-        const data = await response.json();
-        console.log('Fetched Data:', data);
+       
 
-        // Check if the response contains valid categories data
-        if (data && data.data && data.data['Saleman_bot']) {
-            
-            sessionStorage.setItem('categoryall', JSON.stringify(data));
-            renderCategoryDropdown(data);  
-        } else {
-            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
-        }
+       
     }
 
     catch (error) {
