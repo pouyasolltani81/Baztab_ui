@@ -179,7 +179,10 @@ console.log("Level 3 Subcategories:", level3Subcategories);
 level3Subcategories.forEach(level3 => {
     // Level 4
     if (level3?.level_4?.length) {
-        level4Subcategories.push(...level3.level_4);
+        for (i = 0 ; i < level3?.level_4?.length ; i ++) {
+            level4Subcategories.push(...level3.level_4);
+        }
+       
     }
 });
 
@@ -189,7 +192,10 @@ console.log("Level 4 Subcategories:", level4Subcategories);
 level4Subcategories.forEach(level4 => {
     // Level 5
     if (level4?.level_5?.length) {
-        level5Subcategories.push(...level4.level_5);
+        for (i = 0 ; i < level4?.level_5?.length ; i ++) {
+            level5Subcategories.push(...level4.level_5);
+        }
+        
     }
 });
 
@@ -199,7 +205,14 @@ console.log("Level 5 Subcategories:", level5Subcategories);
 level5Subcategories.forEach(level5 => {
     // Level 6
     if (level5?.level_6?.length) {
-        level6Subcategories.push(...level5.level_6);
+
+        
+            for (i = 0 ; i < level5?.level_6?.length ; i ++) {
+                level6Subcategories.push(...level5.level_6);
+            }
+            
+        
+        
     }
 });
 
