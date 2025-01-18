@@ -190,12 +190,14 @@ subcategories.forEach(subcategory => {
                     <tr>
                         
                         <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
-                        <td class="py-2 px-4">${level3.name || "N/A"}</td>
+                        <td class="py-2 px-4">${level3.name_fa || "N/A"}</td>
                         <td colspan="7" class="py-2 px-4">N/A</td>
                     </tr>
                 `;
             } else {
                 level4Items.forEach(level4 => {
+                    console.log(level4);
+                    
                     const level5Items = level4.level_5 || [];
                     const level6Items = level5Items.flatMap(l5 => l5.level_6 || []);
                     const level7Items = level6Items.flatMap(l6 => l6.level_7 || []);
