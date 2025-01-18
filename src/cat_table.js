@@ -205,7 +205,7 @@ subcategories.forEach(subcategory => {
                     const level10Items = level9Items.flatMap(l9 => l9.level_10 || []);
 
 
-                    console.log(level5);
+                    console.log(level5Items);
 
                     categoryTableBody.innerHTML += `
                         <tr>
