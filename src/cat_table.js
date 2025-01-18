@@ -177,7 +177,7 @@ subcategories.forEach(subcategory => {
     if (!level3Items.length) {
         categoryTableBody.innerHTML += `
             <tr>
-                <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                
                 <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
                 <td colspan="8" class="py-2 px-4">N/A</td>
             </tr>
@@ -188,7 +188,7 @@ subcategories.forEach(subcategory => {
             if (!level4Items.length) {
                 categoryTableBody.innerHTML += `
                     <tr>
-                        <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                        
                         <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
                         <td class="py-2 px-4">${level3.name || "N/A"}</td>
                         <td colspan="7" class="py-2 px-4">N/A</td>
@@ -205,10 +205,10 @@ subcategories.forEach(subcategory => {
 
                     categoryTableBody.innerHTML += `
                         <tr>
-                            <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                            
                             <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
-                            <td class="py-2 px-4">${level3.name || "N/A"}</td>
-                            <td class="py-2 px-4">${level4.name || "N/A"}</td>
+                            <td class="py-2 px-4">${level3.name_fa || "N/A"}</td>
+                            <td class="py-2 px-4">${level4.name_fa || "N/A"}</td>
                             <td class="py-2 px-4">${renderSubcategories(level5Items, 5)}</td>
                             <td class="py-2 px-4">${renderSubcategories(level6Items, 6)}</td>
                             <td class="py-2 px-4">${renderSubcategories(level7Items, 7)}</td>
@@ -225,14 +225,18 @@ subcategories.forEach(subcategory => {
 
 }
 
-// Render function for cards
+// Recursive function to render subcategories dynamically for each level
 function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
         const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
+
+// ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
+        
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-                <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+                
+                 <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
                 ${isLastLevel ? `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ''}
             </div>
         `;
@@ -243,15 +247,16 @@ function renderSubcategories(subcategories, level) {
                     ${subcategory.updatedAt ? `<span class="text-xs text-gray-500 mt-2">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500 mt-2">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
                 </div>
                 ${buttons}
-                <div class='flex justify-between'>
+                <div class='flex justify-between'>  
                     ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
                     ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 mt-2 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}
                     ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : ''}
+
                 </div>
             </div>
         `;
     }).join('');
-} 
+}
 
 
 
