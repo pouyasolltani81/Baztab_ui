@@ -3,7 +3,7 @@ const info_container = document.getElementById("info_container");
 
 let pageNumber = document.getElementById('pageNumber').value; 
 let itemsPerPage = document.getElementById('itemsPerPage').value; 
-let productData = JSON.parse(localStorage.getItem('productResponse'));
+let productData = JSON.parse(sessionStorage.getItem('productResponse'));
 let name = productData.category_name_fa;
 let nameqwe = productData.category_name_fa;
 let is_all = productData.category_name_fa.all;
@@ -563,8 +563,8 @@ function createProductTable(products) {
            infoButton.classList.remove('hidden')
 
             infoButton.addEventListener('click', () => {
-                localStorage.setItem('productsforinfo', JSON.stringify(selectedProducts));  
-                // localStorage.setItem('productResponse', JSON.stringify(name));  
+                sessionStorage.setItem('productsforinfo', JSON.stringify(selectedProducts));  
+                // sessionStorage.setItem('productResponse', JSON.stringify(name));  
                 window.location.href = './product_info.html';
                 console.log('Selected Products:', selectedProducts);
             });

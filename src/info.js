@@ -241,7 +241,7 @@ async function Getquestioninfo(p_id,m_id , name) {
 }
 
 async function page_initialize() {
-  let products = JSON.parse(localStorage.getItem('productsforinfo'));
+  let products = JSON.parse(sessionStorage.getItem('productsforinfo'));
   console.log('1111',products);
   
   

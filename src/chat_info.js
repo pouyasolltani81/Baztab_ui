@@ -203,7 +203,7 @@ async function GetProduct(id) {
 
     // window.addEventListener('load', function() {
     //     showLoader(async function() {
-    //         let productData = JSON.parse(localStorage.getItem('product_id'));
+    //         let productData = JSON.parse(sessionStorage.getItem('product_id'));
     //         await GetProduct(productData.id);  
     //         document.getElementById('mainContent').classList.remove('hidden'); 
     //     });

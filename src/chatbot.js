@@ -812,7 +812,7 @@ function gotoproductinfo(product) {
 
     sessionStorage.setItem('product_id', JSON.stringify(data));   
 
-    // localStorage.setItem('productResponse', JSON.stringify(name));  
+    // sessionStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './chatbotinfo.html';
     
 }

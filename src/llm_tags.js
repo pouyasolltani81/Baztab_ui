@@ -1,4 +1,4 @@
-let categorydata = JSON.parse(localStorage.getItem('categorydata'));
+let categorydata = JSON.parse(sessionStorage.getItem('categorydata'));
 let name_fa = categorydata.name_fa
 
 const categorySelector = document.getElementById('categorySelector');

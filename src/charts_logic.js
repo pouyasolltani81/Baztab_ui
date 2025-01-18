@@ -55,7 +55,7 @@ closeModalButton.addEventListener('click', () => {
 // Fetch all data from the API
 async function fetchAllData() {
   try {
-    const name_far = JSON.parse(localStorage.getItem('name_far'));
+    const name_far = JSON.parse(sessionStorage.getItem('name_far'));
 
     // adding the bread crumble
     slug_fa = name_far.slug_fa

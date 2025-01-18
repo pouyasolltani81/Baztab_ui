@@ -1,10 +1,10 @@
 let Username 
 
-const userData = JSON.parse(localStorage.getItem('user_data'));
+const userData = JSON.parse(sessionStorage.getItem('user_data'));
 let user_token
 if (userData) {
     user_token = userData.user_token;
-    Username = JSON.parse(localStorage.getItem('user_data')).username;
+    Username = JSON.parse(sessionStorage.getItem('user_data')).username;
 } else {
     window.location.href = './index.html';
 
@@ -115,7 +115,7 @@ function gotoAllproducts(name,slug) {
       all: true
     };
 
-  localStorage.setItem('productResponse', JSON.stringify(data));  
-  // localStorage.setItem('productResponse', JSON.stringify(name));  
+  sessionStorage.setItem('productResponse', JSON.stringify(data));  
+  // sessionStorage.setItem('productResponse', JSON.stringify(name));  
   window.location.href = './product_table.html';
 }

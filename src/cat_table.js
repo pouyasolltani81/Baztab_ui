@@ -4,7 +4,7 @@ function llm_analysis(name , slug){
         'slug' : slug 
     }
 
-    localStorage.setItem('categorydata', JSON.stringify(data));
+    sessionStorage.setItem('categorydata', JSON.stringify(data));
 
     window.location.href = './llm_tags.html'
 }
@@ -77,11 +77,11 @@ function renderCategoryDropdown(responseData) {
         });
     });
 
-    console.log(localStorage.getItem('lastselectedcategory'))
+    console.log(sessionStorage.getItem('lastselectedcategory'))
     
     
-    if (localStorage.getItem('lastselectedcategory')){
-        currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
+    if (sessionStorage.getItem('lastselectedcategory')){
+        currentCategory = JSON.parse(sessionStorage.getItem('lastselectedcategory')).c_value
         category.value = currentCategory
 
     }
@@ -100,8 +100,8 @@ function renderCategoryDropdown(responseData) {
         let c_data = {
             'c_value' : currentCategory
         }
-        localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
-        currentCategory = JSON.parse(localStorage.getItem('lastselectedcategory')).c_value
+        sessionStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
+        currentCategory = JSON.parse(sessionStorage.getItem('lastselectedcategory')).c_value
         console.log('change:' , currentCategory)
 
         renderTable(responseData);
@@ -111,7 +111,7 @@ function renderCategoryDropdown(responseData) {
         'c_value' : currentCategory
     }
 
-    localStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
+    sessionStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
 
     console.log(currentCategory)
 
@@ -454,8 +454,8 @@ function gotoproducts(name,slug) {
 
       };
 
-    localStorage.setItem('productResponse', JSON.stringify(data));  
-    // localStorage.setItem('productResponse', JSON.stringify(name));  
+    sessionStorage.setItem('productResponse', JSON.stringify(data));  
+    // sessionStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './product_table.html';
 }
 
@@ -466,7 +466,7 @@ function gotocharts(name  , slug) {
         slug_fa: slug,
       };
 
-    localStorage.setItem('name_far', JSON.stringify(data));    
+    sessionStorage.setItem('name_far', JSON.stringify(data));    
     window.location.href = './charts.html';
 }
 
