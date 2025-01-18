@@ -158,10 +158,10 @@ function renderTable(responseData) {
     
 // Render the header row based on the subcategory levels (dynamic number of columns)
 categoryTableHeader.innerHTML = `
-    <th class="py-2 px-4 text-left text-lg font-medium text-center">دسته بندی</th>
     <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
-    ${subcategories.some(sub => sub.level_3?.length) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+    <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>
+    ${subcategories.some(sub => sub.level_3?.length) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
     ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
     ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
     ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.length))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
