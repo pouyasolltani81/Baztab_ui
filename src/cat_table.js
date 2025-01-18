@@ -209,15 +209,10 @@ subcategories.forEach(subcategory => {
                     categoryTableBody.innerHTML += `
                         <tr>
                             
-                            <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
-                            <td class="py-2 px-4">${level3.name_fa || "N/A"}</td>
-                            <td class="py-2 px-4">${level4.name_fa || "N/A"}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level5Items, 5)}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level6Items, 6)}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level7Items, 7)}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level8Items, 8)}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level9Items, 9)}</td>
-                            <td class="py-2 px-4">${renderSubcategories(level10Items, 10)}</td>
+                            <td class="py-2 px-4">${subcategory.name_fa || "N/A"}<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button></td>
+                            <td class="py-2 px-4">${level3.name_fa || "N/A"}<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa}','${level3.slug_fa}')">اطلاعات بیشتر</button></td>
+                            <td class="py-2 px-4">${level4.name_fa || "N/A"}<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level4.name_fa}','${level4.slug_fa}')">اطلاعات بیشتر</button></td>
+                           
                         </tr>
                     `;
                 });
@@ -226,6 +221,14 @@ subcategories.forEach(subcategory => {
     }
 });
 
+
+
+// <td class="py-2 px-4">${renderSubcategories(level5Items, 5)}</td>
+// <td class="py-2 px-4">${renderSubcategories(level6Items, 6)}</td>
+// <td class="py-2 px-4">${renderSubcategories(level7Items, 7)}</td>
+// <td class="py-2 px-4">${renderSubcategories(level8Items, 8)}</td>
+// <td class="py-2 px-4">${renderSubcategories(level9Items, 9)}</td>
+// <td class="py-2 px-4">${renderSubcategories(level10Items, 10)}</td>
 }
 
 // Recursive function to render subcategories dynamically for each level
