@@ -121,6 +121,3 @@ function gotoAllproducts(name,slug) {
 }
 
 
-
-@font-face { font-family: 'MyCustomFont'; src: url('fonts/Yekan-Bakh-Medium.otf') format('truetype'); font-weight: normal; font-style: normal; }
-body { font-family: 'MyCustomFont', sans-serif; background-color: #f0f0f0; color: #333; } h1 { font-weight: 700; } p { font-weight: 400; }
