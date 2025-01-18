@@ -120,6 +120,9 @@ function renderCategoryDropdown(responseData) {
     renderTable(responseData);
 }
 
+
+
+
 // Render the table for categories and subcategories
 function renderTable(responseData) {
     const categoryTableBody = document.getElementById('categoryTableBody');
@@ -151,127 +154,85 @@ function renderTable(responseData) {
     console.log('Subcategories:', subcategories); // Log subcategories for debugging
     console.log(subcategories.some(sub => sub.level_3) );
 
-    // Render the header row based on the subcategory levels (dynamic number of columns)
-    categoryTableHeader.innerHTML = `
-        <th class="py-2 px-4 text-left text-lg font-medium text-center">دسته بندی</th>
-        <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
-        ${subcategories.some(sub => sub.level_3) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
-        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
-        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
-        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
-        ${subcategories.some(sub => sub.level_7) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
-        ${subcategories.some(sub => sub.level_8) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
-        ${subcategories.some(sub => sub.level_9) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
-        ${subcategories.some(sub => sub.level_10) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 10</th>' : ''}
-    `;
+    
+    
+// Render the header row based on the subcategory levels (dynamic number of columns)
+categoryTableHeader.innerHTML = `
+    <th class="py-2 px-4 text-left text-lg font-medium text-center">دسته بندی</th>
+    <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
+    ${subcategories.some(sub => sub.level_3?.length) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.length))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.length)))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.some(l8 => l8.level_9?.length))))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
+    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.some(l8 => l8.level_9?.some(l9 => l9.level_10?.length)))))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 10</th>' : ''}
+`;
 
-    // Render the rows for each subcategory
-    subcategories.forEach(subcategory => {
-        // Level 3
-let level3Subcategories = subcategory.level_3 || [];
-let level4Subcategories = [];
-let level5Subcategories = [];
-let level6Subcategories = [];
+// Render the rows for each subcategory
+subcategories.forEach(subcategory => {
+    const level3Items = subcategory.level_3 || [];
 
-console.log("Level 3 Subcategories:", level3Subcategories);
-
-// Process Level 3
-level3Subcategories.forEach(level3 => {
-    // Level 4
-    if (level3?.level_4?.length) {
-        for (i = 0 ; i < level3?.level_4?.length ; i++) {
-            level4Subcategories.push(...level3.level_4);
-        }
-       
-    }
-});
-
-console.log("Level 4 Subcategories:", level4Subcategories);
-
-// Process Level 4
-level4Subcategories.forEach(level4 => {
-    // Level 5
-    if (level4?.level_5?.length) {
-        for (i = 0 ; i < level4?.level_5?.length ; i++) {
-            level5Subcategories.push(...level4.level_5);
-        }
-        
-    }
-});
-
-console.log("Level 5 Subcategories:", level5Subcategories);
-
-// Process Level 5
-level5Subcategories.forEach(level5 => {
-    // Level 6
-    if (level5?.level_6?.length) {
-
-        
-            for (i = 0 ; i < level5?.level_6?.length ; i++) {
-                level6Subcategories.push(...level5.level_6);
-            }
-            
-        
-        
-    }
-});
-
-console.log("Level 6 Subcategories:", level6Subcategories);
-
-// Ensure variables are empty lists if levels are missing
-if (!subcategory.level_3) {
-    level3Subcategories = [];
-    console.log("No Level 3 Subcategories. Created an empty list.");
-}
-if (!level4Subcategories.length) {
-    level4Subcategories = [];
-    console.log("No Level 4 Subcategories. Created an empty list.");
-}
-if (!level5Subcategories.length) {
-    level5Subcategories = [];
-    console.log("No Level 5 Subcategories. Created an empty list.");
-}
-if (!level6Subcategories.length) {
-    level6Subcategories = [];
-    console.log("No Level 6 Subcategories. Created an empty list.");
-}
-
-        const level7Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7 || [];
-        const level8Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8 || [];
-        const level9Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9 || [];
-        const level10Subcategories = subcategory?.level_3?.level_4?.level_5?.level_6?.level_7?.level_8?.level_9?.level_10 || [];
-       
-        console.log('testtttttttt' , level4Subcategories.length , level4Subcategories);
-        
+    if (!level3Items.length) {
         categoryTableBody.innerHTML += `
-            <tr class="border-b">
-                <td class="py-2 px-4 font-semibold text-md">${currentCategory}</td>
-                <td class="py-2 px-4">${renderSubcategories([subcategory], 2)}</td>
-                ${level3Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level3Subcategories, 3)}</td>` : ''}
-                ${level4Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level4Subcategories, 4)}</td>` : ''}
-                ${level5Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level5Subcategories, 5)}</td>` : ''}
-                ${level6Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level6Subcategories, 6)}</td>` : ''}
-                ${level7Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level7Subcategories, 7)}</td>` : ''}
-                ${level8Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level8Subcategories, 8)}</td>` : ''}
-                ${level9Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level9Subcategories, 9)}</td>` : ''}
-                ${level10Subcategories.length > 0 ? `<td class="py-2 px-4">${renderSubcategories(level10Subcategories, 10)}</td>` : ''}
+            <tr>
+                <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
+                <td colspan="8" class="py-2 px-4">N/A</td>
             </tr>
         `;
-    });
+    } else {
+        level3Items.forEach(level3 => {
+            const level4Items = level3.level_4 || [];
+            if (!level4Items.length) {
+                categoryTableBody.innerHTML += `
+                    <tr>
+                        <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                        <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
+                        <td class="py-2 px-4">${level3.name || "N/A"}</td>
+                        <td colspan="7" class="py-2 px-4">N/A</td>
+                    </tr>
+                `;
+            } else {
+                level4Items.forEach(level4 => {
+                    const level5Items = level4.level_5 || [];
+                    const level6Items = level5Items.flatMap(l5 => l5.level_6 || []);
+                    const level7Items = level6Items.flatMap(l6 => l6.level_7 || []);
+                    const level8Items = level7Items.flatMap(l7 => l7.level_8 || []);
+                    const level9Items = level8Items.flatMap(l8 => l8.level_9 || []);
+                    const level10Items = level9Items.flatMap(l9 => l9.level_10 || []);
+
+                    categoryTableBody.innerHTML += `
+                        <tr>
+                            <td class="py-2 px-4">${subcategory.name || "N/A"}</td>
+                            <td class="py-2 px-4">${subcategory.name_fa || "N/A"}</td>
+                            <td class="py-2 px-4">${level3.name || "N/A"}</td>
+                            <td class="py-2 px-4">${level4.name || "N/A"}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level5Items, 5)}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level6Items, 6)}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level7Items, 7)}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level8Items, 8)}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level9Items, 9)}</td>
+                            <td class="py-2 px-4">${renderSubcategories(level10Items, 10)}</td>
+                        </tr>
+                    `;
+                });
+            }
+        });
+    }
+});
+
 }
 
-// Recursive function to render subcategories dynamically for each level
+// Render function for cards
 function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
         const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
-
-// ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
-        
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-                
-                 <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+                <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
                 ${isLastLevel ? `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ''}
             </div>
         `;
@@ -282,16 +243,15 @@ function renderSubcategories(subcategories, level) {
                     ${subcategory.updatedAt ? `<span class="text-xs text-gray-500 mt-2">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500 mt-2">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
                 </div>
                 ${buttons}
-                <div class='flex justify-between'>  
+                <div class='flex justify-between'>
                     ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
                     ${subcategory.expert_approved ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 mt-2 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}
                     ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : ''}
-
                 </div>
             </div>
         `;
     }).join('');
-}
+} 
 
 
 
