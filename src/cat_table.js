@@ -196,7 +196,6 @@ subcategories.forEach(subcategory => {
                 `;
             } else {
                 level4Items.forEach(level4 => {
-                    console.log(level4);
                     
                     const level5Items = level4.level_5 || [];
                     const level6Items = level5Items.flatMap(l5 => l5.level_6 || []);
@@ -204,6 +203,9 @@ subcategories.forEach(subcategory => {
                     const level8Items = level7Items.flatMap(l7 => l7.level_8 || []);
                     const level9Items = level8Items.flatMap(l8 => l8.level_9 || []);
                     const level10Items = level9Items.flatMap(l9 => l9.level_10 || []);
+
+
+                    console.log(level4.name_fa);
 
                     categoryTableBody.innerHTML += `
                         <tr>
