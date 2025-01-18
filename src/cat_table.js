@@ -177,11 +177,12 @@ subcategories.forEach(subcategory => {
         categoryTableBody.innerHTML += `
             <tr>
                 
-                <td class="py-2 px-4">${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})<div class="p-6  w-fit border-2">
+                <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${subcategory.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
@@ -204,11 +205,12 @@ subcategories.forEach(subcategory => {
                 categoryTableBody.innerHTML += `
                     <tr>
                         
-                        <td class="py-2 px-4">${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})<div class="p-6  w-fit border-2">
+                        <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                        ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${subcategory.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
@@ -222,11 +224,12 @@ subcategories.forEach(subcategory => {
         </div>
         
     </div></td>
-                        <td class="py-2 px-4">${level3.name_fa || "N/A"}(ID : ${level3._id})<div class="p-6  w-fit border-2">
+                        <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                        ${level3.name_fa || "N/A"}(ID : ${level3._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${level3.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
@@ -259,11 +262,12 @@ subcategories.forEach(subcategory => {
                     categoryTableBody.innerHTML += `
                         <tr>
                             
-                            <td class="py-2 px-4">${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})<div class="p-6  w-fit border-2">
+                            <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                            ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${subcategory.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
@@ -277,11 +281,12 @@ subcategories.forEach(subcategory => {
         </div>
         
     </div></td>
-                            <td class="py-2 px-4">${level3.name_fa || "N/A"}(ID : ${level3._id})<div class="p-6  w-fit border-2">
+                            <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                            ${level3.name_fa || "N/A"}(ID : ${level3._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${level3.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
@@ -295,11 +300,12 @@ subcategories.forEach(subcategory => {
         </div>
         
     </div></td>
-                            <td class="py-2 px-4">${level4.name_fa || "N/A"}(ID : ${level4._id})<div><div class="p-6  w-fit border-2">
+                            <td class="py-2 px-4"><div><div class="p-6  w-fit border-2">
+                            ${level4.name_fa || "N/A"}(ID : ${level4._id})
         <div class="flex justify-center gap-2 flex-col">
 
             <div class="flex gap-4 justify-center">${level4.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${level4.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level4.name_fa}' , '${level4.expert_approved}')">change</span></span>` : ''}${level4.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level4.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level4.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level4.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level4.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div></div>
             <div></div>
 
