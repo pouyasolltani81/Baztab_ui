@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overlay Div with Interactive Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         .overlay {
             position: absolute;
@@ -27,13 +29,23 @@
     </style>
 </head>
 <body>
-    <div class="overlay"">Overlay Content</div>
-    <div class="icon-container">
-        <i class="fas fa-thumbs-up icon">awefwfwf</i>
-        <i class="fas fa-thumbs-down icon">segsergre</i>
-    </div>
+    <div class="p-6  w-fit border-2">
+        <div class="flex justify-center gap-2 flex-col">
 
-    <!-- Add Font Awesome CDN for icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+            <div class="flex gap-4 justify-center">${subcategory.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center"><span> total products : ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span>s</div>
+            <div></div>
+            <div></div>
+
+        </div>
+
+        <div class="flex gap-2 justify-center">
+
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+
+        </div>
+        
+    </div>
 </body>
 </html>
