@@ -955,14 +955,14 @@ async function Open_Edit_All(p_id) {
         let i = 0
         for ( i ; i < p_id.length ; i++) {
             
-            await Apply_Edit(p_id[0] ,Update_category )
+            await Apply_Edit(p_id[i] ,Update_category )
             
         }
 
         console.log(i);
         if (i == p_id.length) {
 
-            // window.location.href = window.location.href ;
+            window.location.href = window.location.href ;
 
         }
         
