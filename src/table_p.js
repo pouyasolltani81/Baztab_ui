@@ -962,8 +962,8 @@ async function Open_Edit_All(p_id) {
         console.log(i);
         if (i == p_id.length) {
 
-            window.location.href = window.location.href ;
-            
+            // window.location.href = window.location.href ;
+
         }
         
         
