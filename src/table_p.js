@@ -588,10 +588,14 @@ function createProductTable(products) {
 
             ChangeButton.addEventListener('click', () => {
 
+                let ids = []
                 console.log(selectedProducts);
+                for ( let i = 0 ; i < selectedProducts.length ; i++){
+                    ids.push(selectedProducts[i].product_id)
+                }
                 
+                console.log(ids);
                 
-
                 // Open_Edit_All()
                 
             });
