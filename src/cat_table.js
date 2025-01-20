@@ -224,7 +224,7 @@ subcategories.forEach(subcategory => {
         </div>
         
     </div></td>
-                        <td class="py-2 px-4"><div class="p-6  w-fit border-2">
+                        <td class="py-2 px-4 "><div class="p-6  w-fit border-2">
                         ${level3.name_fa || "N/A"}(ID : ${level3._id})
         <div class="flex justify-center gap-2 flex-col">
 
@@ -243,7 +243,7 @@ subcategories.forEach(subcategory => {
         </div>
         
     </div></td>
-                        <td colspan="7" class="py-2 px-4">N/A</td>
+                        <td colspan="7" class="py-2 px-4 text-center">N/A</td>
                     </tr>
                 `;
             } else {
