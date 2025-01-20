@@ -553,11 +553,15 @@ function createProductTable(products) {
             selectedProducts = selectedProducts.filter(item => item.product_id !== product.product_info.product_id);
         }
 
+        toggleChangeCategotyButtonVisibility()
+
         toggleInfoButtonVisibility();
     }
 
-    // Toggle visibility of "Show Info" button based on selection
-    function toggleInfoButtonVisibility() {
+
+
+      // Toggle visibility of "Show Info" button based on selection
+      function toggleInfoButtonVisibility() {
         const infoButton = document.getElementById('Seeinfo');
         if (selectedProducts.length > 0 && infoButton.classList.contains('hidden')) {
            infoButton.classList.remove('hidden')
@@ -570,6 +574,29 @@ function createProductTable(products) {
             });
         } else if (selectedProducts.length === 0) {
            infoButton.classList.add('hidden')
+
+          
+        }
+    }
+
+
+    // Toggle visibility of "Show Info" button based on selection
+    function toggleChangeCategotyButtonVisibility() {
+        const ChangeButton = document.getElementById('SeeChange');
+        if (selectedProducts.length > 0 && ChangeButton.classList.contains('hidden')) {
+           ChangeButton.classList.remove('hidden')
+
+            ChangeButton.addEventListener('click', () => {
+
+                console.log(selectedProducts);
+                
+                
+
+                // Open_Edit_All()
+                
+            });
+        } else if (selectedProducts.length === 0) {s
+           ChangeButton.classList.add('hidden')
 
           
         }
@@ -909,6 +936,23 @@ function Open_Edit(p_id , p_name) {
     document.getElementById('mainContent').classList.add('hidden')
     document.getElementById('Edit_button').addEventListener('click' , () => {
         Apply_Edit(p_id , document.getElementById('CNumber').value)
+    })
+}
+
+
+function Open_Edit_All(p_id) {
+    document.getElementById('Edit_category').classList.remove('hidden')
+    document.getElementById('change_p').innerHTML = 'دستبندی  جدید  را  وارد  کنید '
+    document.getElementById('mainContent').classList.add('hidden')
+    document.getElementById('Edit_button').addEventListener('click' , () => {
+
+        const Update_category = document.getElementById('CNumber').value
+
+        for (let i = 0 ; i < p_id.length ; i++) {
+            
+            Apply_Edit(p_id[0] ,Update_category )
+        }
+        
     })
 }
 
