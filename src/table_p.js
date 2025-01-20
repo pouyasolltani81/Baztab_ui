@@ -933,29 +933,39 @@ function Close_Edit() {
     document.getElementById('mainContent').classList.remove('hidden')
 }
 
-function Open_Edit(p_id , p_name) {
+async function Open_Edit(p_id , p_name) {
     document.getElementById('Edit_category').classList.remove('hidden')
     document.getElementById('change_p').innerHTML = p_name
     
     document.getElementById('mainContent').classList.add('hidden')
-    document.getElementById('Edit_button').addEventListener('click' , () => {
-        Apply_Edit(p_id , document.getElementById('CNumber').value)
+    document.getElementById('Edit_button').addEventListener('click' , async () => {
+        await Apply_Edit(p_id , document.getElementById('CNumber').value)
+        window.location.href = window.location.href ;
     })
 }
 
 
-function Open_Edit_All(p_id) {
+async function Open_Edit_All(p_id) {
     document.getElementById('Edit_category').classList.remove('hidden')
     document.getElementById('change_p').innerHTML = 'دستبندی  جدید  را  وارد  کنید '
     document.getElementById('mainContent').classList.add('hidden')
-    document.getElementById('Edit_button').addEventListener('click' , () => {
+    document.getElementById('Edit_button').addEventListener('click' , async () => {
 
         const Update_category = document.getElementById('CNumber').value
-
-        for (let i = 0 ; i < p_id.length ; i++) {
+        let i = 0
+        for ( i ; i < p_id.length ; i++) {
             
-            Apply_Edit(p_id[0] ,Update_category )
+            await Apply_Edit(p_id[0] ,Update_category )
+            
         }
+
+        console.log(i);
+        if (i == p_id.length) {
+
+            window.location.href = window.location.href ;
+            
+        }
+        
         
     })
 }
@@ -992,7 +1002,7 @@ async function Apply_Edit(p_id , c_id){
         if (data) {
           console.log(data);
           
-          window.location.href = window.location.href 
+        
         }
 
     } catch (error) {
