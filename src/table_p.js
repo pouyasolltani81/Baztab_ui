@@ -903,33 +903,33 @@ window.addEventListener('load', function() {
   
 
 
-function onScrollToEnd() {
-    console.log('scrolllll');
+// function onScrollToEnd() {
+//     console.log('scrolllll');
     
-    addscroll = false
-    let name = productData.category_name_fa
+//     addscroll = false
+//     let name = productData.category_name_fa
 
 
-  if (total_pages != page_num) {
+//   if (total_pages != page_num) {
 
-      page_num = page_num + 1
-      pagenum.innerHTML = page_num
+//       page_num = page_num + 1
+//       pagenum.innerHTML = page_num
 
-      if (page_num == 1){
-        document.getElementById('PrevPageButton').classList.add('hidden')
-      } else {
-        document.getElementById('PrevPageButton').classList.remove('hidden')
-      }
+//       if (page_num == 1){
+//         document.getElementById('PrevPageButton').classList.add('hidden')
+//       } else {
+//         document.getElementById('PrevPageButton').classList.remove('hidden')
+//       }
      
-    //   showLoader(async function() {
-        // document.getElementById('mainContent').classList.add('opacity-20'); 
-         ChangePage(name , page_num , page_size)
-        // document.getElementById('mainContent').classList.remove('opacity-20');
-    // })
+//     //   showLoader(async function() {
+//         // document.getElementById('mainContent').classList.add('opacity-20'); 
+//          ChangePage(name , page_num , page_size)
+//         // document.getElementById('mainContent').classList.remove('opacity-20');
+//     // })
 
-}
+// }
 
-}
+// }
 
 function isScrollable(el) {
     return (
@@ -952,20 +952,20 @@ function isScrollable(el) {
 
 // let timeout;
 let isloading = false;
-window.addEventListener('scroll', function() {
-    if (isScrollable(document.querySelector('body'))){
-    if (isloading) {
-        // clearTimeout(timeout);
-        // timeout = setTimeout(function() {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                isloading = false
+// window.addEventListener('scroll', function() {
+//     if (isScrollable(document.querySelector('body'))){
+//     if (isloading) {
+//         // clearTimeout(timeout);
+//         // timeout = setTimeout(function() {
+//             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+//                 isloading = false
 
-                onScrollToEnd();  // Call the function to execute at the end
-            }
-        // }, 100);  // Delay in ms before the function runs after the user stops scrolling
-    }
-}
-});
+//                 onScrollToEnd();  // Call the function to execute at the end
+//             }
+//         // }, 100);  // Delay in ms before the function runs after the user stops scrolling
+//     }
+// }
+// });
  
 
 function Close_pagination() {
