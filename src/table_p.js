@@ -382,6 +382,11 @@ refreshButton.addEventListener('click', function() {
 let allProducts = [];
 let allCheckboxes = [];
 function selectAllItems(products, checkboxes) {
+    
+    console.log(products);
+    console.log(checkboxes);
+
+    
     products.forEach((product, index) => {
         const checkbox = checkboxes[index];
 
