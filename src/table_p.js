@@ -381,31 +381,45 @@ refreshButton.addEventListener('click', function() {
         // Arrays to store all products and checkboxes
 let allProducts = [];
 let allCheckboxes = [];
+let allSelected = false; // Flag to track whether all items are selected
+
 function selectAllItems(products, checkboxes) {
+    if (allSelected) {
+        // Deselect all items
+        products.forEach((product, index) => {
+            const checkbox = checkboxes[index];
+            if (checkbox.querySelector("input").checked) {
+                // Uncheck the checkbox
+                checkbox.querySelector("input").checked = false;
 
-    console.log(products);
-    console.log(checkboxes);
+                // Remove the product from selectedProducts
+                selectedProducts = selectedProducts.filter(item => item.product_id !== product.product_info.product_id);
+            }
+        });
+    } else {
+        // Select all items
+        products.forEach((product, index) => {
+            const checkbox = checkboxes[index];
+            if (!checkbox.querySelector("input").checked) {
+                // Check the checkbox
+                checkbox.querySelector("input").checked = true;
 
-    
-    products.forEach((product, index) => {
-        const checkbox = checkboxes[index];
+                // Add the product to selectedProducts
+                selectedProducts.push({
+                    mall_id: product.mall_info.mall_id,
+                    product_id: product.product_info.product_id,
+                    name: product.product_info.product_name_fa
+                });
+            }
+        });
+    }
 
-        if (!checkbox.querySelector("input").checked) {
-            // Check the checkbox
-            checkbox.querySelector("input").checked = true;
+    // Toggle the flag
+    allSelected = !allSelected;
 
-            // Add the product to selectedProducts
-            selectedProducts.push({
-                mall_id: product.mall_info.mall_id,
-                product_id: product.product_info.product_id,
-                name: product.product_info.product_name_fa
-            });
-        }
-    });
-
+    // Update button visibility
     toggleChangeCategotyButtonVisibility();
     toggleInfoButtonVisibility();
-
 }
 
 document.getElementById("selectAllButton").addEventListener("click", () => {
