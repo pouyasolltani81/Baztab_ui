@@ -378,8 +378,40 @@ refreshButton.addEventListener('click', function() {
         }
 
 
+        // Arrays to store all products and checkboxes
+let allProducts = [];
+let allCheckboxes = [];
+function selectAllItems(products, checkboxes) {
+    products.forEach((product, index) => {
+        const checkbox = checkboxes[index];
+
+        if (!checkbox.querySelector("input").checked) {
+            // Check the checkbox
+            checkbox.querySelector("input").checked = true;
+
+            // Add the product to selectedProducts
+            selectedProducts.push({
+                mall_id: product.mall_info.mall_id,
+                product_id: product.product_info.product_id,
+                name: product.product_info.product_name_fa
+            });
+        }
+    });
+
+    toggleChangeCategotyButtonVisibility();
+    toggleInfoButtonVisibility();
+
+}
+
+document.getElementById("selectAllButton").addEventListener("click", () => {
+    selectAllItems(allProducts, allCheckboxes);
+});
+
+
 let addscroll = true
 function createProductTable(products) {
+    allProducts = [];
+    allCheckboxes = [];
     if (addscroll){
         console.log('works' );
         
@@ -521,6 +553,10 @@ function createProductTable(products) {
         // Checkbox for row selection
         const checkbox = createTableCell(`<input type="checkbox" class="row-checkbox">`);
         checkbox.addEventListener('click', () => handleCheckboxClick(checkbox, product));
+         // Add the checkbox element to the allCheckboxes array
+        allCheckboxes.push(checkbox);
+        allProducts.push(product);
+
 
         // Append Cells to Row
         row.appendChild(checkbox);
