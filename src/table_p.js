@@ -603,7 +603,18 @@ function createProductTable(products) {
 
 
       // Toggle visibility of "Show Info" button based on selection
-      function toggleInfoButtonVisibility() {
+     
+    // Helper function to create table cells
+    function createTableCell(innerHTML) {
+        const cell = document.createElement("td");
+        cell.className = "whitespace-nowrap px-6 py-4";
+        cell.innerHTML = innerHTML;
+        return cell;
+    }
+}
+
+
+ function toggleInfoButtonVisibility() {
         const infoButton = document.getElementById('Seeinfo');
         if (selectedProducts.length > 0 && infoButton.classList.contains('hidden')) {
            infoButton.classList.remove('hidden')
@@ -641,21 +652,13 @@ function createProductTable(products) {
                 Open_Edit_All(ids)
                 
             });
-        } else if (selectedProducts.length === 0) {s
+        } else if (selectedProducts.length === 0) {
            ChangeButton.classList.add('hidden')
 
           
         }
     }
 
-    // Helper function to create table cells
-    function createTableCell(innerHTML) {
-        const cell = document.createElement("td");
-        cell.className = "whitespace-nowrap px-6 py-4";
-        cell.innerHTML = innerHTML;
-        return cell;
-    }
-}
 
 
   function ToggleDropDown(id) {
