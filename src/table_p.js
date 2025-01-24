@@ -382,7 +382,7 @@ refreshButton.addEventListener('click', function() {
 let allProducts = [];
 let allCheckboxes = [];
 function selectAllItems(products, checkboxes) {
-    
+
     console.log(products);
     console.log(checkboxes);
 
@@ -414,6 +414,7 @@ document.getElementById("selectAllButton").addEventListener("click", () => {
 
 
 let addscroll = true
+let selectedProducts
 function createProductTable(products) {
     allProducts = [];
     allCheckboxes = [];
@@ -426,7 +427,7 @@ function createProductTable(products) {
     addscroll = true
     console.log(products);
 
-    let selectedProducts = [];
+    selectedProducts = [];
 
     products.forEach(product => {
         const row = document.createElement("tr");
