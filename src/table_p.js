@@ -419,7 +419,7 @@ function selectAllItems(products, checkboxes) {
 
     // Update button visibility
     toggleChangeCategotyButtonVisibility();
-    toggleInfoButtonVisibility();
+    // toggleInfoButtonVisibility();
 }
 
 document.getElementById("selectAllButton").addEventListener("click", () => {
