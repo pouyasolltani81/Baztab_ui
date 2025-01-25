@@ -489,9 +489,9 @@ function createProductTable(products) {
                     <span class='flex gap-2 justify-center'>
                         <p class="text-gray-900 font-bold">قیمت :</p>
                         ${product.product_info.price_stat.avg ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.avg/10).toLocaleString()}</span>` : ''}
-                        ${product.product_info.price_stat.min ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.min/10).toLocaleString()}</span>` : ''}
-                        ${product.product_info.price_stat.max ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.max/10).toLocaleString()}</span>` : ''}
-                        ${product.product_info.price_stat.variance ? `<span class="text-gray-900 font-bold">avg: ${(product.product_info.price_stat.variance/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.min ? `<span class="text-gray-900 font-bold">min: ${(product.product_info.price_stat.min/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.max ? `<span class="text-gray-900 font-bold">max: ${(product.product_info.price_stat.max/10).toLocaleString()}</span>` : ''}
+                        ${product.product_info.price_stat.variance ? `<span class="text-gray-900 font-bold">variance: ${(product.product_info.price_stat.variance/10).toLocaleString()}</span>` : ''}
                     </span>
                 ` : ''}
                 
