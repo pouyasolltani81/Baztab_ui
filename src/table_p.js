@@ -43,9 +43,19 @@ document.getElementById('pagibutton').addEventListener('click',  function(event)
       document.getElementById('paginatecontainer').classList.add('hidden')
       document.getElementById('mainContent').classList.remove('hidden')
 
+      if (document.getElementById('pageNumber').value > 0 ){
+        page_num = parseInt(document.getElementById('pageNumber').value)
+      }  else {
+        page_num = 1
+      }
 
-      page_num = parseInt(document.getElementById('pageNumber').value)
-      page_size = parseInt(document.getElementById('itemsPerPage').value)
+      if (document.getElementById('pageNumber').value > 0 ){
+         page_size = parseInt(document.getElementById('itemsPerPage').value)
+      }  else {
+        page_size = 10
+      }
+      
+     
 
 
        pagenum.innerHTML = page_num
