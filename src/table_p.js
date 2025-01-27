@@ -515,10 +515,12 @@ function createProductTable(products) {
 
         // Brand Info Cell
 
-        let obj = product.brand_info.brand_stat
-        const brandStatEntries = Object.entries(obj);
+        // let obj = product.brand_info.brand_stat
+        // const brandStatEntries = Object.entries(obj);*/
+        // const resultString = brandStatEntries.map(([key, value]) => `${key} : ${value}`).join('<br/>');
+        // <span class="text-gray-900 font-semibold">${resultString}</span>
 
-        const resultString = brandStatEntries.map(([key, value]) => `${key} : ${value}`).join('<br/>');
+
         // const key = Object.keys(obj)[0];
         // const value = obj[key]; 
         // const resultString = `${key} : ${value}`;
@@ -527,8 +529,6 @@ function createProductTable(products) {
                 <span class="text-gray-900 font-bold">نام برند: ${product.brand_info.brand_name}</span>
                 <span class="text-gray-900 font-semibold">نام برند (فارسی): ${product.brand_info.brand_name_fa}</span>
                 <span class="text-teal-900 font-semibold border rounded-md bg-teal-100 hover:bg-teal-500 border-teal-800 cursor-pointer " onclick="Open_Edit('${product.product_info.product_id}' , '${product.product_info.product_name_fa}')">تغییر دسته</span>
-                <span class="text-gray-900 font-semibold">${resultString}</span>
-
             </div>
         `);
         console.log('it is what it is');
