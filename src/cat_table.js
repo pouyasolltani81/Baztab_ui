@@ -413,7 +413,10 @@ async function ChangeApprove(name_fa , approved) {
                 }
         });
 
-        console.log(response.json() , binary_approve);
+
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+        console.log(binary_approve);
         
 
         // Check if the response was successful (status code 2xx)
