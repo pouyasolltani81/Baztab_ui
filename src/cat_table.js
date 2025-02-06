@@ -392,7 +392,7 @@ async function ChangeApprove(name_fa , approved) {
         binary_approve = 1
     
     }
-    
+
     try {
         const response = await fetch('http://79.175.177.113:21800/Categories/approve_llm_tags/', {
             method: 'POST',
@@ -408,7 +408,6 @@ async function ChangeApprove(name_fa , approved) {
             })
         });
     
-        // Check if the response was successful (status code 2xx)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
@@ -417,13 +416,13 @@ async function ChangeApprove(name_fa , approved) {
         console.log('Fetched Data:', data);
         console.log('Approve State:', binary_approve);
     
-        // Optionally, redirect the user after a successful request
-        // window.location.href = window.location.href;
+        sessionStorage.removeItem('categoryall'); 
+      
+        window.location.reload(); 
     
     } catch (error) {
         console.error('Fetch Error:', error);
     }
-       
 
      
 
