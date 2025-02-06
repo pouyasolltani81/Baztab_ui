@@ -281,6 +281,13 @@ subcategories.forEach(subcategory => {
             <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
+
+         <div class="flex gap-2 justify-center">
+
+            
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory._id}')">درج توضیحات</button>
+
+        </div>
         
     </div></td>
                             <td class="py-2 px-4"><div class="p-6  w-fit border-2">
@@ -302,6 +309,13 @@ subcategories.forEach(subcategory => {
             <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa}','${level3.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
+
+        <div class="flex gap-2 justify-center">
+
+            
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3._id}')">درج توضیحات</button>
+
+        </div>
         
     </div></td>
                             <td class="py-2 px-4"><div><div class="p-6  w-fit border-2">
@@ -321,6 +335,14 @@ subcategories.forEach(subcategory => {
 
             <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level4.name_fa}','${level4.slug_fa}')">اطلاعات بیشتر</button>
             <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level4.name_fa}','${level4.slug_fa}')">لیست پروداکت ها</button>
+
+        </div>
+
+
+        <div class="flex gap-2 justify-center">
+
+            
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level4._id}')">درج توضیحات</button>
 
         </div>
         
