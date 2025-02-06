@@ -392,8 +392,7 @@ async function ChangeApprove(name_fa , approved) {
         binary_approve = 1
     
     }
-
-
+    
     try {
         const response = await fetch('http://79.175.177.113:21800/Categories/approve_llm_tags/', {
             method: 'POST',
@@ -401,42 +400,32 @@ async function ChangeApprove(name_fa , approved) {
                 'Content-Type': 'application/json; charset=utf-8',
                 "Accept-Version": 1,
                 'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'authorization': user_token,
+                'Authorization': user_token,
             },
-
-            body: {
-
+            body: JSON.stringify({
                 "name_fa": name_fa,
                 "approve_state": binary_approve
-
-                }
+            })
         });
-
-
-        const data = await response.json();
-        console.log('Fetched Data:', data);
-        console.log(binary_approve);
-        
-
+    
         // Check if the response was successful (status code 2xx)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
-        
-        } else {
-            // window.location.href = window.location.href
         }
-
+    
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+        console.log('Approve State:', binary_approve);
+    
+        // Optionally, redirect the user after a successful request
+        // window.location.href = window.location.href;
+    
+    } catch (error) {
+        console.error('Fetch Error:', error);
+    }
        
 
-       
-    }
-
-    catch (error) {
-        // Log and display the error to the user
-        console.error('Error Getting categories:', error);
-        alert('Failed to load categories: ' + error.message);
-    }
+     
 
 }
 
