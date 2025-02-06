@@ -381,6 +381,18 @@ function renderSubcategories(subcategories, level) {
 
 async function ChangeApprove(name_fa , approved) {
 
+    binary_approve = 0
+
+    if (approved) {
+
+        binary_approve = 0
+    
+    } else {
+
+        binary_approve = 1
+    
+    }
+
 
     try {
         const response = await fetch('http://79.175.177.113:21800/Categories/approve_llm_tags/', {
@@ -396,12 +408,12 @@ async function ChangeApprove(name_fa , approved) {
             body: {
 
                 "name_fa": name_fa,
-                "approve_state": !approved
+                "approve_state": binary_approve
 
                 }
         });
 
-        console.log(response , !approved);
+        console.log(response , binary_approve);
         
 
         // Check if the response was successful (status code 2xx)
