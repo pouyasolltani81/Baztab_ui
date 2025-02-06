@@ -421,7 +421,7 @@ async function ChangeApprove(name_fa , approved) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         
         } else {
-            window.location.href = window.location.href
+            // window.location.href = window.location.href
         }
 
        
