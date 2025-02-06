@@ -413,7 +413,7 @@ async function ChangeApprove(name_fa , approved) {
                 }
         });
 
-        console.log(response , binary_approve);
+        console.log(response.json() , binary_approve);
         
 
         // Check if the response was successful (status code 2xx)
