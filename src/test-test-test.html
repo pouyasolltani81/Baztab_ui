@@ -29,23 +29,28 @@
     </style>
 </head>
 <body>
-    <div class="p-6  w-fit border-2">
-        <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${subcategory.expert_approved ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center"><span> total products : ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span>s</div>
-            <div></div>
-            <div></div>
+    <div class="flex items-center justify-center w-screen h-screen">
 
-        </div>
+        <div class="w-[40rem] h-[25rem] rounded-xl shadow-md bg-gray-50">
+            <div class='text-center font-size-xl bg-violet-100 rounded-t-xl p-4'>📝 darj tozihat</div>
+            <div class="w-full -full p-4">
+                <div>
 
-        <div class="flex gap-2 justify-center">
+                    <div>Please enter the info for category :</div>
+                
+                </div>
+                
+                <textarea name="cat_info" id="cat_info " class="w-full h-[10rem] mt-4 border-2 border-gray-800 rounded-xl p-4"></textarea>
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
 
-        </div>
+                <div class="p-4 mt-4 rounded-xl bg-blue-100 hover:bg-blue-300 text-center cursor-pointe">confirm</div>
+            </div>
+
         
+        </div>
+
     </div>
+
 </body>
 </html>
