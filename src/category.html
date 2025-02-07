@@ -159,33 +159,22 @@
 
 
 <!-- moadals  -->
-<div class="flex items-center justify-center w-screen h-screen absolute hidden" id="info_change_modal">
-
-        <div class="w-[40rem] h-[23rem] rounded-xl shadow-md bg-gray-50">
-            <div class='flex justify-between font-size-xl bg-violet-100 rounded-t-xl p-4' dir="rtl">
-                <span class="cursor-pointer rounded-xl hover:bg-violet-200 p-2 hover:shadow-md transition_all" id="close_info_modal">❌</span>
-                <div class="p-2">📝 درج توضیحات</div>
-                <div></div>
-
-
-            </div>
-            <div class="w-full -full p-4">
-                <div>
-
-                    <div class="text-right" dir="rtl">لطفا توضیحات کتگوری را وارد کنید :</div>
-                
-                </div>
-                
-                <textarea name="category_info_input" id="category_info_input" class="w-full h-[10rem] mt-4 border-2 border-gray-800 rounded-xl p-4" dir="rtl"></textarea>
-
-
-                <div class="p-4 mt-4 rounded-xl bg-blue-100 hover:bg-blue-300 text-center cursor-pointe" id="confirm_info_button">تایید</div>
-            </div>
-
-        
+<div class="fixed inset-0 flex items-center justify-center hidden" id="info_change_modal">
+    <div class="w-[40rem] h-[25rem] rounded-xl shadow-md bg-gray-50">
+        <div class='flex justify-between font-size-xl bg-violet-100 rounded-t-xl p-4' dir="rtl">
+            <span class="cursor-pointer rounded-xl hover:bg-violet-200 p-2 hover:shadow-md transition_all" id="close_info_modal">❌</span>
+            <div class="p-2">📝 درج توضیحات</div>
+            <div></div>
         </div>
-
- </div>
+        <div class="w-full h-full p-4">
+            <div>
+                <div class="text-right" dir="rtl">لطفا توضیحات کتگوری را وارد کنید :</div>
+            </div>
+            <textarea name="category_info_input" id="category_info_input" class="w-full h-[10rem] mt-4 border-2 border-gray-800 rounded-xl p-4" dir="rtl"></textarea>
+            <div class="p-4 mt-4 rounded-xl bg-blue-100 hover:bg-blue-300 text-center cursor-pointer" id="confirm_info_button">تایید</div>
+        </div>
+    </div>
+</div>
 
 
 
