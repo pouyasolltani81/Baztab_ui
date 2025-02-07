@@ -200,7 +200,7 @@ subcategories.forEach(subcategory => {
         <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
 
         </div>
         
@@ -237,7 +237,7 @@ subcategories.forEach(subcategory => {
           <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
 
         </div>
         
@@ -267,7 +267,7 @@ subcategories.forEach(subcategory => {
         <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${level3._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
 
         </div>
         
@@ -315,7 +315,7 @@ subcategories.forEach(subcategory => {
          <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
 
         </div>
         
@@ -343,7 +343,7 @@ subcategories.forEach(subcategory => {
         <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${level3._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
 
         </div>
         
@@ -372,7 +372,7 @@ subcategories.forEach(subcategory => {
         <div class="flex gap-2 justify-center">
 
             
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="gotoproducts('${level4._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level4._id}')">درج توضیحات</button>
 
         </div>
         
@@ -740,4 +740,82 @@ window.addEventListener('load', function() {
             console.error('Error creating categories:', error);
             alert('Failed to creat categories: ' + error.message);
         }
+    }
+
+
+
+
+
+
+    async function Open_info_modal(id) {
+
+        tabels = document.getElementById('findCategoryContent')
+        
+        tabels.classList.add('opacity-20')
+
+        modal_container = document.getElementById('info_change_modal')
+
+        modal_container.classList.remove('hidden')
+
+        close_button = document.getElementById('close_info_modal')
+
+        close_button.addEventListener('click' , () => {
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+        })
+
+
+        confirm_botton = document.getElementById('confirm_info_button')
+        confirm_botton.addEventListener('click' , () => {
+            push_info(id)
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+
+        })
+       
+
+        
+    }
+
+
+    async function push_info(id) {
+
+        try {
+
+            const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+
+            body: JSON.stringify({
+
+                "category_id": id,
+                "advice": document.getElementById('category_info_input').value
+
+                })
+
+            });
+
+            // Check if the response was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+
+            // const data = await response.json();
+            // console.log('New info :', data);
+            
+        } catch (error) {
+
+            console.log(error);
+            
+            
+        }
+        
     }
