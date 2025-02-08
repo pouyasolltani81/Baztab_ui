@@ -40,6 +40,7 @@ async function update_table(){
           
    
          const tableBody = document.getElementById("TableBody");
+         tableBody.innerHTML = ''
          // Assuming data is an array of brand objects with properties id, name, farsiName, and rank
          data.data.brands.forEach(item => {
            console.log(item, 'thisthihst');
@@ -344,8 +345,8 @@ async function push_p(id) {
     
 }
 
-next_page_button = document.getElementById('prev_page')
-perv_page_button = document.getElementById('next_page')
+perv_page_button = document.getElementById('prev_page')
+next_page_button = document.getElementById('next_page')
 page_show = document.getElementById('show_page_number')
 
 
