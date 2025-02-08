@@ -1,9 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Replace with your actual data URL
-  const dataURL = "https://example.com/api/brands"; 
+  console.log('this works0');
+  
 
-  // Fetch the data and populate the table
   fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
             method: 'POST',
             headers: {
@@ -20,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     .then(response => response.json())
     .then(data => {
+        console.log('this works1');
+
       const tableBody = document.getElementById("TableBody");
       // Assuming data is an array of brand objects with properties id, name, farsiName, and rank
       data.data.brands.forEach(item => {
