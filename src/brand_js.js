@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(item, 'thisthihst');
         
         const row = document.createElement("tr");
-        row.classList.add("text-violet-800");
+        row.classList.add("text-gray-800 text-lg");
 
         // Checkbox cell
         const checkboxCell = document.createElement("td");
@@ -85,77 +85,77 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(error => console.error("Error fetching data:", error));
 
-  // Create the yellow and green buttons (initially hidden)
-  const yellowButton = document.createElement("button");
-  yellowButton.textContent = "همه انتخاب شدند";
-  yellowButton.style.backgroundColor = "yellow";
-  yellowButton.style.display = "none";
-  yellowButton.style.position = "fixed";
-  yellowButton.style.bottom = "20px";
-  yellowButton.style.right = "20px";
-  document.body.appendChild(yellowButton);
+//   // Create the yellow and green buttons (initially hidden)
+//   const yellowButton = document.createElement("button");
+//   yellowButton.textContent = "همه انتخاب شدند";
+//   yellowButton.style.backgroundColor = "yellow";
+//   yellowButton.style.display = "none";
+//   yellowButton.style.position = "fixed";
+//   yellowButton.style.bottom = "20px";
+//   yellowButton.style.right = "20px";
+//   document.body.appendChild(yellowButton);
 
-  const greenButton = document.createElement("button");
-  greenButton.textContent = "انتخاب‌های جداگانه";
-  greenButton.style.backgroundColor = "green";
-  greenButton.style.color = "white";
-  greenButton.style.display = "none";
-  greenButton.style.position = "fixed";
-  greenButton.style.bottom = "20px";
-  greenButton.style.right = "20px";
-  document.body.appendChild(greenButton);
+//   const greenButton = document.createElement("button");
+//   greenButton.textContent = "انتخاب‌های جداگانه";
+//   greenButton.style.backgroundColor = "green";
+//   greenButton.style.color = "white";
+//   greenButton.style.display = "none";
+//   greenButton.style.position = "fixed";
+//   greenButton.style.bottom = "20px";
+//   greenButton.style.right = "20px";
+//   document.body.appendChild(greenButton);
 
-  // “Select All” functionality
-  const selectAllButton = document.getElementById("selectAllButton");
-  selectAllButton.addEventListener("click", () => {
-    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
-    // Determine if all checkboxes are already selected
-    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-    // Toggle all checkboxes
-    checkboxes.forEach(cb => cb.checked = !allChecked);
+//   // “Select All” functionality
+//   const selectAllButton = document.getElementById("selectAllButton");
+//   selectAllButton.addEventListener("click", () => {
+//     const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
+//     // Determine if all checkboxes are already selected
+//     const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+//     // Toggle all checkboxes
+//     checkboxes.forEach(cb => cb.checked = !allChecked);
     
-    // When using "select all" show yellow button
-    if (!allChecked) {
-      showYellowButton();
-    } else {
-      hideYellowButton();
-    }
-    // Also hide the green button in this case
-    hideGreenButton();
-  });
+//     // When using "select all" show yellow button
+//     if (!allChecked) {
+//       showYellowButton();
+//     } else {
+//       hideYellowButton();
+//     }
+//     // Also hide the green button in this case
+//     hideGreenButton();
+//   });
 
-  // Handler for individual checkbox changes
-  function individualCheckboxChanged(event) {
-    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
-    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+//   // Handler for individual checkbox changes
+//   function individualCheckboxChanged(event) {
+//     const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
+//     const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
 
-    // If at least one is checked but not all, show green button
-    if (checkedCount > 0 && checkedCount < checkboxes.length) {
-      showGreenButton();
-      hideYellowButton();
-    }
-    // If all are selected manually (or via select all), show yellow button
-    else if (checkedCount === checkboxes.length) {
-      showYellowButton();
-      hideGreenButton();
-    } else {
-      // Hide both if none are selected
-      hideGreenButton();
-      hideYellowButton();
-    }
-  }
+//     // If at least one is checked but not all, show green button
+//     if (checkedCount > 0 && checkedCount < checkboxes.length) {
+//       showGreenButton();
+//       hideYellowButton();
+//     }
+//     // If all are selected manually (or via select all), show yellow button
+//     else if (checkedCount === checkboxes.length) {
+//       showYellowButton();
+//       hideGreenButton();
+//     } else {
+//       // Hide both if none are selected
+//       hideGreenButton();
+//       hideYellowButton();
+//     }
+//   }
 
-  // Helper functions to show/hide the buttons
-  function showYellowButton() {
-    yellowButton.style.display = "block";
-  }
-  function hideYellowButton() {
-    yellowButton.style.display = "none";
-  }
-  function showGreenButton() {
-    greenButton.style.display = "block";
-  }
-  function hideGreenButton() {
-    greenButton.style.display = "none";
-  }
+//   // Helper functions to show/hide the buttons
+//   function showYellowButton() {
+//     yellowButton.style.display = "block";
+//   }
+//   function hideYellowButton() {
+//     yellowButton.style.display = "none";
+//   }
+//   function showGreenButton() {
+//     greenButton.style.display = "block";
+//   }
+//   function hideGreenButton() {
+//     greenButton.style.display = "none";
+//   }
 });

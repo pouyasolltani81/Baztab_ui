@@ -57,8 +57,8 @@ async function fetchdata() {
     // Get the select element by its ID
     const selectElement = document.getElementById('category');
 
-    let selectedOptionId = ''
-    let selectedOptionname = ''
+    let selectedOptionId = '675ec5272c0c13458ebea1fd'
+    let selectedOptionname = 'زیبایی و بهداشت'
 
     // Add an event listener to detect changes in selection
     selectElement.addEventListener('change', function() {
