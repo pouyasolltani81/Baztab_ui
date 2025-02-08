@@ -1,5 +1,35 @@
 let page_number = 1 ;
 
+
+
+
+function showLoader(asyncOperation) {
+    // Create and append the overlay with the spinner
+    const overlay = document.createElement('div');
+    overlay.classList.add('loading-overlay');
+    overlay.innerHTML = `
+      <div class="spinner">
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+        <div class="spinner-segment"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Perform the async operation and hide the loader when done
+    asyncOperation().finally(() => {
+      // Remove the overlay after the operation is done
+      overlay.remove();
+    });
+  }
+
 document.addEventListener("DOMContentLoaded", () => {
     showLoader(async function() {
     await update_table()
