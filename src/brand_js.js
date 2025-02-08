@@ -22,19 +22,23 @@ function showLoader(asyncOperation) {
       </div>
     `;
     document.body.appendChild(overlay);
-  
+
     // Perform the async operation and hide the loader when done
     asyncOperation().finally(() => {
       // Remove the overlay after the operation is done
       overlay.remove();
     });
   }
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    showLoader(async () => {
-      await update_table(); // Ensure this function is async and returning a promise
-    });
-  });
+
+document.addEventListener("DOMContentLoaded", () => {
+    showLoader(async function() {
+    
+    document.getElementById('loading').classList.remove('hidden')
+    await update_table()
+    document.getElementById('loading').classList.add('hidden')
+
+    })
+});
 
 
 async function update_table(){
@@ -45,6 +49,10 @@ async function update_table(){
     
  
         document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name_fa;
+        document.getElementById('mainContent').classList.add('hidden'); // Show main content
+        document.getElementById('loading').classList.remove('hidden')
+
+
         
      fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
                method: 'POST',
@@ -64,7 +72,9 @@ async function update_table(){
    
        ).then(response => response.json())
        .then(data => {
-           document.getElementById('mainContent').classList.remove('hidden'); // Show main content
+           document.getElementById('mainContent').classList.remove('hidden');
+           document.getElementById('loading').classList.add('hidden')
+           
            console.log(data, 'data');
    
           
