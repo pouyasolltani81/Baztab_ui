@@ -52,10 +52,34 @@ async function fetchdata() {
 
 }
 
+
+
+    // Get the select element by its ID
+    const selectElement = document.getElementById('category');
+
+    let selectedOptionId = ''
+    let selectedOptionname = ''
+
+    // Add an event listener to detect changes in selection
+    selectElement.addEventListener('change', function() {
+      // Get the selected option element
+      const selectedOption = selectElement.options[selectElement.selectedIndex];
+      
+      // Retrieve the id of the selected option
+      selectedOptionId = selectedOption.id;
+      selectedOptionId = selectedOption.value;
+
+      
+      // Log the id to the console (or use it as needed)
+      console.log('Selected option id:', selectedOptionId);
+    });
+
 function gotobrand() {
+
+
     data = {
-        'name_fa' : document.getElementById('category').value ,
-        '_id' : document.getElementById('category').id
+        'name_fa' : selectedOptionname,
+        '_id' : selectedOptionId
     }
 
     sessionStorage.setItem('brand_cat', JSON.stringify(data));
