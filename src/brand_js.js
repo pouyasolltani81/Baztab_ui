@@ -346,10 +346,16 @@ async function push_p(id) {
 
 next_page_button = document.getElementById('prev_page')
 perv_page_button = document.getElementById('next_page')
+page_show = document.getElementById('show_page_number')
+
+
+page_show.innerHTML = page_number ;
 
 next_page_button.addEventListener('click' , () => {
 
-    page_number +=1
+    page_number +=1;
+    page_show.innerHTML = page_number ;
+
     showLoader(async function() {
         await update_table()
         })
@@ -366,6 +372,7 @@ next_page_button.addEventListener('click' , () => {
 perv_page_button.addEventListener('click' , () => {
 
     page_number -=1;
+    page_show.innerHTML = page_number ;
 
     showLoader(async function() {
         await update_table()
@@ -374,7 +381,7 @@ perv_page_button.addEventListener('click' , () => {
     if (page_number == 1 ) {
 
         perv_page_button.classList.add('hidden')
-        
+
     }
     
 })
