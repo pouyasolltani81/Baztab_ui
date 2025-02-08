@@ -276,7 +276,7 @@ async function Open_info_modal_p(id) {
 
     modal_container.classList.remove('hidden')
 
-    close_button = document.getElementById('close_info_modal')
+    close_button = document.getElementById('close_p_modal')
 
     close_button.addEventListener('click' , () => {
 
@@ -285,7 +285,7 @@ async function Open_info_modal_p(id) {
     })
 
 
-    confirm_botton = document.getElementById('confirm_info_button')
+    confirm_botton = document.getElementById('confirm_p_button')
     confirm_botton.addEventListener('click' , () => {
         push_p(id)
 
