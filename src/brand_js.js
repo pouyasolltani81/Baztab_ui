@@ -22,19 +22,19 @@ function showLoader(asyncOperation) {
       </div>
     `;
     document.body.appendChild(overlay);
-
+  
     // Perform the async operation and hide the loader when done
     asyncOperation().finally(() => {
       // Remove the overlay after the operation is done
       overlay.remove();
     });
   }
-
-document.addEventListener("DOMContentLoaded", () => {
-    showLoader(async function() {
-    await update_table()
-    })
-});
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    showLoader(async () => {
+      await update_table(); // Ensure this function is async and returning a promise
+    });
+  });
 
 
 async function update_table(){
