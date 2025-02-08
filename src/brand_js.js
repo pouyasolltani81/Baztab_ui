@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       const tableBody = document.getElementById("TableBody");
       // Assuming data is an array of brand objects with properties id, name, farsiName, and rank
-      data.forEach(item => {
+      data.data.brands.forEach(item => {
         const row = document.createElement("tr");
         row.classList.add("text-violet-800");
 
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkbox.type = "checkbox";
         checkbox.classList.add("row-checkbox");
         // Optional: set a data attribute if you need to reference the id later
-        checkbox.dataset.id = item.id;
+        checkbox.dataset.id = item.brand_id;
         checkbox.addEventListener("change", individualCheckboxChanged);
         checkboxCell.appendChild(checkbox);
         row.appendChild(checkboxCell);
@@ -41,25 +41,25 @@ document.addEventListener("DOMContentLoaded", () => {
         // Brand ID
         const idCell = document.createElement("td");
         idCell.className = "px-6 py-4";
-        idCell.textContent = item.id;
+        idCell.textContent = item.brand_id;
         row.appendChild(idCell);
 
         // Brand Name
         const nameCell = document.createElement("td");
         nameCell.className = "px-6 py-4";
-        nameCell.textContent = item.name;
+        nameCell.textContent = item.brand_name;
         row.appendChild(nameCell);
 
         // Brand Name in Farsi
         const farsiCell = document.createElement("td");
         farsiCell.className = "px-6 py-4";
-        farsiCell.textContent = item.farsiName;
+        farsiCell.textContent = item.brand_name_fa;
         row.appendChild(farsiCell);
 
         // Brand Rank
         const rankCell = document.createElement("td");
         rankCell.className = "px-6 py-4";
-        rankCell.textContent = item.rank;
+        rankCell.textContent = item.brand_priority;
         row.appendChild(rankCell);
 
         // Action cell (you can add your buttons or actions here)

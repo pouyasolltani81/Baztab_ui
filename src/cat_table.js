@@ -52,6 +52,18 @@ async function fetchdata() {
 
 }
 
+function gotobrand() {
+    data = {
+        'name_fa' : document.getElementById('category').value ,
+        '_id' : document.getElementById('category').id
+    }
+
+    sessionStorage.setItem('brand_cat', JSON.stringify(data));
+
+    window.location.href = 'brand_cat.html'
+
+}
+
 let currentCategory = ""; // No initial category
 
 // Render categories in the dropdown
