@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const updateButton = document.createElement("span");
         updateButton.className = "w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300";
         updateButton.textContent = "بروز رسانی رتبه";
-        actionCell.appendChild(descButton);
-        actionCell.appendChild(updateButton);
+        // actionCell.appendChild(descButton);
+        // actionCell.appendChild(updateButton);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
@@ -95,8 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
   yellowButton.style.position = "fixed";
   yellowButton.style.bottom = "20px";
   yellowButton.style.right = "20px";
-  yellowButton.classList.add('hidden')
-  document.body.appendChild(yellowButton);
+  yellowButton.style.display = false
+
+//   document.body.appendChild(yellowButton);
 
   const greenButton = document.createElement("button");
   greenButton.textContent = "انتخاب‌های جداگانه";
@@ -106,9 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
   greenButton.style.position = "fixed";
   greenButton.style.bottom = "20px";
   greenButton.style.right = "20px";
-  greenButton.classList.add('hidden')
+  greenButton.style.display = false
 
-  document.body.appendChild(greenButton);
+//   document.body.appendChild(greenButton);
 
   // “Select All” functionality
   const selectAllButton = document.getElementById("selectAllButton");
