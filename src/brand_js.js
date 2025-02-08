@@ -1,7 +1,12 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    showLoader(async function() {
+
+       
+    
  
-     document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name;
+     document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name_fa;
      
   fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
             method: 'POST',
@@ -16,9 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "page": 1,
                 "page_limit": 20
               })
-        })
-    .then(response => response.json())
+        }
+    
+
+    ).then(response => response.json())
     .then(data => {
+        document.getElementById('mainContent').classList.remove('hidden'); // Show main content
         console.log(data, 'data');
 
        
@@ -164,4 +172,5 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideGreenButton() {
     greenButton.style.display = "none";
   }
+});
 });
