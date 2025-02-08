@@ -33,9 +33,9 @@ function showLoader(asyncOperation) {
 document.addEventListener("DOMContentLoaded", () => {
     showLoader(async function() {
     
-    document.getElementById('loading').classList.remove('hidden')
+    
     await update_table()
-    document.getElementById('loading').classList.add('hidden')
+    
 
     })
 });
@@ -75,7 +75,7 @@ async function update_table(){
        ).then(response => response.json())
        .then(data => {
            document.getElementById('mainContent').classList.remove('hidden');
-        //    document.getElementById('loading').classList.add('hidden')
+           document.getElementById('loading').classList.add('hidden')
            
            console.log(data, 'data');
    
