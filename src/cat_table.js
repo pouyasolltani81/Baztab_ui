@@ -770,7 +770,8 @@ window.addEventListener('load', function() {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
 
-            console.log(response.json());
+            let data = await response.json()
+            console.log(data);
             
             alert('دسته با موفقیت ایجاد شد')
     
