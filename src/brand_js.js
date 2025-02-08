@@ -29,7 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(item, 'thisthihst');
         
         const row = document.createElement("tr");
-        row.classList.add("text-gray-800 text-lg");
+        row.classList.add("text-gray-800");
+        row.classList.add("text-lg");
+
 
         // Checkbox cell
         const checkboxCell = document.createElement("td");
