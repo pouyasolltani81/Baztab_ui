@@ -49,7 +49,9 @@ async function update_table(){
     
  
         document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name_fa;
-        document.getElementById('mainContent').classList.add('hidden'); // Show main content
+         // Show main content
+         const tableBody = document.getElementById("TableBody");
+         tableBody.innerHTML = ''
         document.getElementById('loading').classList.remove('hidden')
 
 
