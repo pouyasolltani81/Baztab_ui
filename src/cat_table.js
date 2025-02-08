@@ -71,7 +71,9 @@ function renderCategoryDropdown(responseData) {
             console.log('Main category:', mainCategory); // Log the main category
 
             const option = document.createElement('option');
-            option.value = mainCategory.name_fa; // Set value to the category's name in Farsi (e.g., زیبایی و سلامت)
+            option.value = mainCategory.name_fa;
+            option.id = mainCategory._id; 
+           
             option.innerHTML = mainCategory.name_fa; // Set display name to the category's name in Farsi
             categoryDropdown.appendChild(option);
         });
