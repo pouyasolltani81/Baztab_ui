@@ -771,6 +771,9 @@ async function CreateCategory(parent_id, name, name_fa) {
         console.log(data);
 
         alert('دسته با موفقیت ایجاد شد');
+        sessionStorage.removeItem('categoryall'); 
+      
+        window.location.reload(); 
 
     } catch (error) {
         // Log and display the error to the user
@@ -839,6 +842,9 @@ async function CreateCategory(parent_id, name, name_fa) {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
+
+            sessionStorage.removeItem('categoryall'); 
+            window.location.reload(); 
 
             // const data = await response.json();
             // console.log('New info :', data);
@@ -914,6 +920,7 @@ async function CreateCategory(parent_id, name, name_fa) {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
+            
 
             // const data = await response.json();
             // console.log('New info :', data);
