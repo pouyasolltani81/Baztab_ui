@@ -553,7 +553,7 @@ function createProductTable(products) {
         // Slug Cell (example: slug_fa is undefined, replace it with the actual value)
         const slug = createTableCell(`
             <div class='flex flex-col gap-2'>
-                <span class="text-gray-900 font-bold">${slug_fa}</span>
+                <span class="text-gray-900 font-bold">${product.product_info.category}</span>
             </div>
         `);
 
