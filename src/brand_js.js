@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function Open_info_modal(id) {
 
-    tabels = document.getElementById('findCategoryContent')
+    tabels = document.getElementById('brands_tabel')
     
     tabels.classList.add('opacity-20')
 
