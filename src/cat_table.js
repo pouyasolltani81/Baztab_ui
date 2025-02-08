@@ -744,44 +744,40 @@ window.addEventListener('load', function() {
             document.getElementById('creat_category_button').classList.add('opacity-0')
         }
     })
+async function CreateCategory(parent_id, name, name_fa) {
+    try {
+        const response = await fetch('http://79.175.177.113:21800/Categories/create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": "1",
+                'Accept': "application/json",
+                'authorization': user_token, // Ensure `user_token` is defined in your scope
+            },
+            body: JSON.stringify({
+                "parent_id": parent_id,
+                "name": name,
+                "name_fa": name_fa
+            })
+        });
 
-
-    async function CreateCategory(parent_id , name , name_fa) {
-        try {
-            const response = await fetch('http://79.175.177.113:21800/Categories/create/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    "Accept-Version": 1,
-                    'Accept': "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    'authorization': user_token,
-                },
-                body: {
-                    "parent_id": parent_id,
-                    "name": name,
-                    "name_fa": name_fa
-                }
-            });
-
-    
-            // Check if the response was successful (status code 2xx)
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-
-           const data = await response.json();
-           console.log(data);
-            
-            alert('دسته با موفقیت ایجاد شد')
-    
-    
-        } catch (error) {
-            // Log and display the error to the user
-            console.error('Error creating categories:', error);
-            alert('Failed to creat categories: ' + error.message);
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            const errorData = await response.json(); // Assuming the server returns JSON with error details
+            throw new Error(`Error: ${response.status} ${response.statusText} - ${errorData.message || 'No additional error information'}`);
         }
+
+        const data = await response.json();
+        console.log(data);
+
+        alert('دسته با موفقیت ایجاد شد');
+
+    } catch (error) {
+        // Log and display the error to the user
+        console.error('Error creating categories:', error);
+        alert('Failed to create categories: ' + error.message);
     }
+}
 
 
 
