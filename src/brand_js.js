@@ -1,3 +1,4 @@
+let page_number = 1 ;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -18,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify({
                 "category_id": JSON.parse(sessionStorage.getItem('brand_cat'))._id,
-                "page": 1,
-                "page_limit": 20
+                "page": page_number,
+                "page_limit": 10
               })
         }
     
