@@ -780,10 +780,80 @@ async function CreateCategory(parent_id, name, name_fa) {
 }
 
 
+// Delete category modal 
+
+    async function DeleteCategory() {
+
+        tabels = document.getElementById('findCategoryContent')
+        
+        tabels.classList.add('opacity-20')
+
+        modal_container = document.getElementById('delete_category_modal')
+
+        modal_container.classList.remove('hidden')
+
+        close_button = document.getElementById('close_delete_modal')
+
+        close_button.addEventListener('click' , () => {
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+        })
 
 
+        confirm_botton = document.getElementById('confirm_delete_button')
+        confirm_botton.addEventListener('click' , () => {
+            Delete_c()
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+
+        })
+       
+
+        
+    }
 
 
+    async function Delete_c() {
+
+        try {
+
+            const response = await fetch('http://79.175.177.113:21800/Categories/delete_category/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+
+            body: JSON.stringify({
+                    "category_id": document.getElementById('delete_category_id').value
+                    })
+
+            });
+
+            // Check if the response was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+
+            // const data = await response.json();
+            // console.log('New info :', data);
+            
+        } catch (error) {
+
+            console.log(error);
+            
+            
+        }
+        
+    }
+
+
+// description modal
     async function Open_info_modal(id) {
 
         tabels = document.getElementById('findCategoryContent')

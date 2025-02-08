@@ -28,6 +28,8 @@
     <!-- Menu Links (Center) -->
     <div class="hidden md:flex space-x-4">
       <button id="createCategoryBtn" class="text-gray-600 hover:text-gray-800">ایجاد دسته‌بندی</button>
+      <button  class="text-gray-600 hover:text-gray-800" onclick="DeleteCategory()">حذف دسته‌بندی</button>
+
       <button id="findCategoryBtn" class="text-gray-600 text-teal-600 hover:text-gray-800">یافتن دسته‌بندی</button>
       <!-- <button  class="text-gray-600 text-teal-600 hover:text-gray-800" onclick="gotoAllproducts('' , '')">All Products</button> -->
 
@@ -164,6 +166,8 @@
 
 
 <!-- moadals  -->
+
+<!-- add description modal  -->
 <div class="fixed inset-0 flex items-center justify-center hidden" id="info_change_modal">
     <div class="w-[40rem] h-[25rem] rounded-xl shadow-md bg-gray-50">
         <div class='flex justify-between font-size-xl bg-violet-100 rounded-t-xl p-4' dir="rtl">
@@ -180,6 +184,28 @@
         </div>
     </div>
 </div>
+
+
+<!-- delete category modal  -->
+
+<div class="fixed inset-0 flex items-center justify-center hidden" id="delete_category_modal">
+    <div class="w-[40rem] h-[25rem] rounded-xl shadow-md bg-gray-50">
+        <div class='flex justify-between font-size-xl bg-violet-100 rounded-t-xl p-4' dir="rtl">
+            <span class="cursor-pointer rounded-xl hover:bg-violet-200 p-2 hover:shadow-md transition_all" id="close_delete_modal">❌</span>
+            <div class="p-2">📝 درج توضیحات</div>
+            <div></div>
+        </div>
+        <div class="w-full h-full p-4">
+            <div>
+                <div class="text-right" dir="rtl">لطفا توضیحات کتگوری را وارد کنید :</div>
+            </div>
+            <input type="text" name="delete_category_id" id="delete_category_id" class="w-full h-[10rem] mt-4 border-2 border-gray-800 rounded-xl p-4" dir="rtl">
+            <div class="p-4 mt-4 rounded-xl bg-blue-100 hover:bg-blue-300 text-center cursor-pointer" id="confirm_delete_button">تایید</div>
+        </div>
+    </div>
+</div>
+
+
 
 
 
