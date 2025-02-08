@@ -82,7 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
         actionCell.className = "px-6 py-4 flex gap-2";
         const descButton = document.createElement("span");
         descButton.className = "w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300";
-        descButton.onclick = Open_info_modal(item.brand_id)
+        descButton.onclick = function() {
+            Open_info_modal(item.brand_id);
+          };
+          
+          
         descButton.textContent = "درج توضیحات";
         const updateButton = document.createElement("span");
         updateButton.className = "w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300";
