@@ -1,7 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
  
-     console.log(JSON.parse(sessionStorage.getItem('brand_cat')));
+     document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name;
      
   fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
             method: 'POST',
