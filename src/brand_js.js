@@ -82,11 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
         actionCell.className = "px-6 py-4 flex gap-2";
         const descButton = document.createElement("span");
         descButton.className = "w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300";
+        descButton.onclick = Open_info_modal(item.brand_id)
         descButton.textContent = "درج توضیحات";
         const updateButton = document.createElement("span");
         updateButton.className = "w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300";
         updateButton.textContent = "بروز رسانی رتبه";
-        // actionCell.appendChild(descButton);
+        actionCell.appendChild(descButton);
         // actionCell.appendChild(updateButton);
         row.appendChild(actionCell);
 
@@ -174,3 +175,80 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 });
+
+
+
+
+
+async function Open_info_modal(id) {
+
+    tabels = document.getElementById('findCategoryContent')
+    
+    tabels.classList.add('opacity-20')
+
+    modal_container = document.getElementById('info_change_modal')
+
+    modal_container.classList.remove('hidden')
+
+    close_button = document.getElementById('close_info_modal')
+
+    close_button.addEventListener('click' , () => {
+
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+    })
+
+
+    confirm_botton = document.getElementById('confirm_info_button')
+    confirm_botton.addEventListener('click' , () => {
+        push_info(id)
+
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+
+    })
+   
+
+    
+}
+
+
+async function push_info(id) {
+
+    try {
+
+        const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            "Accept-Version": 1,
+            'Accept': "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'authorization': user_token,
+        },
+
+        body: JSON.stringify({
+
+            "brand_id": id,
+            "description": document.getElementById('category_info_input').value
+
+            })
+
+        });
+
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        // const data = await response.json();
+        // console.log('New info :', data);
+        
+    } catch (error) {
+
+        console.log(error);
+        
+        
+    }
+    
+}
