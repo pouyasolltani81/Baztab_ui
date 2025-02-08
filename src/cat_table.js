@@ -59,12 +59,11 @@ async function fetchdata() {
 
     let selectedOptionId = ''
     let selectedOptionname = ''
-    let selectedOption = selectElement.options[selectElement.selectedIndex];
 
     // Add an event listener to detect changes in selection
     selectElement.addEventListener('change', function() {
       // Get the selected option element
-     
+      const selectedOption = selectElement.options[selectElement.selectedIndex];
       
       // Retrieve the id of the selected option
       selectedOptionId = selectedOption.id;
