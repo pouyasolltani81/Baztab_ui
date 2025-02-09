@@ -445,7 +445,7 @@ document.getElementById('show_page_number').addEventListener('click' , open_pagi
 
 async function open_pagination_modal() {
 
-        tabels = document.getElementById('findCategoryContent')
+        tabels = document.getElementById('brands_tabel')
         
         tabels.classList.add('opacity-20')
 
