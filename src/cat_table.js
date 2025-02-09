@@ -1061,3 +1061,8 @@ document.getElementById('tableSearch').addEventListener('keypress', function (e)
         searchTableAndScroll();
     }
 });
+
+
+document.getElementById('scrollToTopButton').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
