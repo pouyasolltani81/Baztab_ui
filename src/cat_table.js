@@ -1018,3 +1018,46 @@ async function CreateCategory(parent_id, name, name_fa) {
         
     }
     
+    // search script 
+
+    // Function to perform the search and scroll to the matching row
+function searchTableAndScroll() {
+    // Get the search term and convert to lowercase for case-insensitive matching
+    const searchTerm = document.getElementById('tableSearch').value.trim().toLowerCase();
+    if (!searchTerm) {
+        return; // Do nothing if the search term is empty
+    }
+    
+    // Select all rows within the table body (adjust the selector if needed)
+    const rows = document.querySelectorAll('#categoryTableBody tr');
+    let found = false;
+
+    // Loop through each row to check if its text contains the search term
+    rows.forEach(row => {
+        // Convert the entire row's text to lowercase
+        const rowText = row.innerText.toLowerCase();
+        if (rowText.includes(searchTerm) && !found) {
+            // Scroll the row into view with a smooth animation and center it in the viewport
+            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Optionally, add a highlight effect for a moment:
+            row.classList.add('highlight');
+            setTimeout(() => row.classList.remove('highlight'), 2000);
+            found = true;
+        }
+    });
+    
+    // Optionally, notify the user if no match was found
+    if (!found) {
+        alert('No matching row found!');
+    }
+}
+
+// Add event listener for the search button click
+document.getElementById('searchButton').addEventListener('click', searchTableAndScroll);
+
+// Also allow the Enter key in the search input to trigger the search
+document.getElementById('tableSearch').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        searchTableAndScroll();
+    }
+});
