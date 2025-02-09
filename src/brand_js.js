@@ -488,6 +488,7 @@ async function open_pagination_modal() {
 
           page_number = document.getElementById('pagination_input').value;
     page_show.innerHTML = page_number ;
+  
 
     showLoader(async function() {
         await update_table()
