@@ -1,167 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Brands Management</title>
+  <title>مدیریت برندها</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS from CDN -->
+  <!-- لینک به Tailwind CSS -->
+  
     <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    /* Basic utility classes */
-    .hidden { display: none; }
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: white;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      width: 90%;
-      max-width: 500px;
-    }
-  </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-  <div class="container mx-auto p-4">
-    <!-- Header with Brand Category Title -->
-    <h1 id="brand_info_title" class="text-2xl font-bold mb-4">Brand Category Title</h1>
-    
-    <!-- Search Bar and Buttons -->
-    <div class="flex items-center space-x-2 mb-4">
-      <input id="search_input" type="text" placeholder="Search brands..." class="border border-gray-300 rounded p-2 flex-1">
-      <button id="search_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Search</button>
-      <button id="search_refresh_button" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Refresh</button>
+  
+  <!-- نوار منو (Navbar) -->
+  <div class="bg-teal-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-teal-50">
+      <!-- دکمه بازگشت به دسته‌بندی (سمت چپ) -->
+      <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200" onclick="window.location.href = './category.html';">
+        ← بازگشت
+      </button>
+      
+      <!-- لینک‌های منو (مرکز) -->
+      <div class="hidden md:flex space-x-4 space-x-reverse gap-4">
+        <a href="./mall.html" class="text-gray-600 hover:text-teal-800 transition duration-200">آمار پایگاه داده</a>
+      </div>
+      
+      <!-- اطلاعات کاربر و مسیر (سمت راست) -->
+      <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
+        <div class="flex gap-4 text-teal-800 font-semibold">
+          نام کاربری: <span class="text-teal-900" id="Username">something</span>
+        </div>
+        <div class="flex-1 text-teal-800 font-semibold">
+          <span class="cursor-pointer" onclick="window.location.href = './category.html'">دسته‌بندی : </span>
+          <span class="text-teal-900">برندها</span>
+        </div>
+      </div>
     </div>
     
-    <!-- Bulk Action Buttons for Search -->
-    <div class="flex items-center space-x-2 mb-4">
+    <!-- دکمه‌های احراز هویت (در صورت نیاز) -->
+    <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse hidden">
+      <!-- دکمه‌های ورود و ثبت نام -->
+    </div>
+    
+    <!-- منوی موبایل -->
+    <div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
+      <div class="px-6 py-4 space-y-4">
+        <a href="./mall.html"><button class="text-gray-600 hover:text-teal-800">آمار پایگاه داده</button></a>
+        <div class="flex flex-col space-y-4">
+          <!-- دکمه‌های ورود و ثبت نام موبایل -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- المان بارگذاری (spinner) بر اساس کد شما -->
+  <div class="spinner loading-overlay absolute left-1/2 top-1/2" id="loading">
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+    <div class="spinner-segment"></div>
+  </div>
+  
+  <!-- محتوای اصلی -->
+  <div class="container mx-auto p-4">
+    <!-- عنوان دسته‌بندی برند (به صورت داینامیک از sessionStorage دریافت می‌شود) -->
+    <h1 id="brand_info_title" class="text-2xl font-bold mb-4">عنوان دسته‌بندی برند</h1>
+    
+    <!-- نوار جستجو و دکمه‌ها -->
+    <div class="flex items-center space-x-2 space-x-reverse mb-4">
+      <input id="search_input" type="text" placeholder="جستجوی برندها..." class="border border-gray-300 rounded p-2 flex-1">
+      <button id="search_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">جستجو</button>
+      <button id="search_refresh_button" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">بروزرسانی</button>
+    </div>
+    
+    <!-- دکمه‌های تغییر گروهی -->
+    <div class="flex items-center space-x-2 space-x-reverse mb-4">
       <button id="bulk_search_desc_button" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
-        Bulk Change Description
+        تغییر توضیحات گروهی
       </button>
       <button id="bulk_search_rank_button" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
-        Bulk Change Rank
+        تغییر رتبه گروهی
       </button>
     </div>
     
-    <!-- Main Content: Table and Pagination -->
+    <!-- کنترل صفحه‌بندی بالای جدول -->
+    <div class="flex items-center justify-center mt-4 space-x-4 space-x-reverse">
+      <button id="prev_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">
+        قبلی
+      </button>
+      <span id="show_page_number_top" class="cursor-pointer text-xl font-bold">1</span>
+      <button id="next_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+        بعدی
+      </button>
+    </div>
+    
+    <!-- محتویات جدول -->
     <div id="mainContent" class="hidden">
       <div class="overflow-x-auto">
-        <table id="brands_tabel" class="min-w-full bg-white shadow rounded">
+        <table id="brands_tabel" class="min-w-full bg-white shadow rounded mt-4">
           <thead class="bg-gray-200">
             <tr>
-              <th class="px-6 py-3">Select</th>
-              <th class="px-6 py-3">Brand ID</th>
-              <th class="px-6 py-3">Brand Name</th>
-              <th class="px-6 py-3">Brand Name (Farsi)</th>
-              <th class="px-6 py-3">State</th>
-              <th class="px-6 py-3">Rank</th>
-              <th class="px-6 py-3">Actions</th>
+              <th class="px-6 py-3">انتخاب</th>
+              <th class="px-6 py-3">شناسه برند</th>
+              <th class="px-6 py-3">نام برند</th>
+              <th class="px-6 py-3">نام برند (فارسی)</th>
+              <th class="px-6 py-3">وضعیت</th>
+              <th class="px-6 py-3">رتبه</th>
+              <th class="px-6 py-3">عملیات</th>
             </tr>
           </thead>
           <tbody id="TableBody">
-            <!-- Rows are dynamically inserted here -->
+            <!-- ردیف‌ها به صورت داینامیک اضافه می‌شوند -->
           </tbody>
         </table>
       </div>
       
-      <!-- Select All Button -->
+      <!-- دکمه انتخاب همه -->
       <div class="mt-4">
         <button id="selectAllButton" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
-          Select All
+          انتخاب همه
         </button>
       </div>
       
-      <!-- Pagination Controls -->
-      <div class="flex items-center justify-center mt-4 space-x-4">
+      <!-- کنترل صفحه‌بندی پایین جدول -->
+      <div class="flex items-center justify-center mt-4 space-x-4 space-x-reverse">
         <button id="prev_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">
-          Prev
+          قبلی
         </button>
         <span id="show_page_number" class="cursor-pointer text-xl font-bold">1</span>
         <button id="next_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-          Next
+          بعدی
         </button>
       </div>
     </div>
-    
-    <!-- Loading Indicator -->
-    <div id="loading" class="hidden text-center mt-4">
-      Loading...
-    </div>
   </div>
   
-  <!-- Individual Description Modal -->
+  <!-- مودال تغییر توضیحات فردی -->
   <div id="info_change_modal" class="modal hidden">
     <div class="modal-content">
-      <h2 class="text-xl font-bold mb-2">Change Description</h2>
-      <textarea id="category_info_input" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" placeholder="Enter description..."></textarea>
-      <div class="flex justify-end space-x-2">
-        <button id="close_info_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Cancel</button>
-        <button id="confirm_info_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Confirm</button>
+      <h2 class="text-xl font-bold mb-2">تغییر توضیحات</h2>
+      <textarea id="category_info_input" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" placeholder="توضیحات را وارد کنید..."></textarea>
+      <div class="flex justify-end space-x-2 space-x-reverse">
+        <button id="close_info_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">انصراف</button>
+        <button id="confirm_info_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">تأیید</button>
       </div>
     </div>
   </div>
   
-  <!-- Individual Priority Modal -->
+  <!-- مودال تغییر رتبه فردی -->
   <div id="priority_change_modal" class="modal hidden">
     <div class="modal-content">
-      <h2 class="text-xl font-bold mb-2">Change Rank</h2>
-      <input id="category_p_input" type="number" placeholder="Enter new rank" class="w-full border border-gray-300 rounded p-2 mb-4">
-      <div class="flex justify-end space-x-2">
-        <button id="close_p_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Cancel</button>
-        <button id="confirm_p_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Confirm</button>
+      <h2 class="text-xl font-bold mb-2">تغییر رتبه</h2>
+      <input id="category_p_input" type="number" placeholder="رتبه جدید را وارد کنید" class="w-full border border-gray-300 rounded p-2 mb-4">
+      <div class="flex justify-end space-x-2 space-x-reverse">
+        <button id="close_p_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">انصراف</button>
+        <button id="confirm_p_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">تأیید</button>
       </div>
     </div>
   </div>
   
-  <!-- Pagination Modal -->
+  <!-- مودال صفحه‌بندی -->
   <div id="pagination_change_modal" class="modal hidden">
     <div class="modal-content">
-      <h2 class="text-xl font-bold mb-2">Go to Page</h2>
-      <input id="pagination_input" type="number" placeholder="Enter page number" class="w-full border border-gray-300 rounded p-2 mb-4">
-      <div class="flex justify-end space-x-2">
-        <button id="close_pagination_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Cancel</button>
-        <button id="confirm_pagination_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Go</button>
+      <h2 class="text-xl font-bold mb-2">رفتن به صفحه</h2>
+      <input id="pagination_input" type="number" placeholder="شماره صفحه را وارد کنید" class="w-full border border-gray-300 rounded p-2 mb-4">
+      <div class="flex justify-end space-x-2 space-x-reverse">
+        <button id="close_pagination_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">انصراف</button>
+        <button id="confirm_pagination_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">رفتن</button>
       </div>
     </div>
   </div>
   
-  <!-- Bulk Description Modal for Search -->
+  <!-- مودال تغییر توضیحات گروهی -->
   <div id="bulk_info_change_modal" class="modal hidden">
     <div class="modal-content">
-      <h2 class="text-xl font-bold mb-2">Bulk Change Description</h2>
-      <textarea id="bulk_category_info_input" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" placeholder="Enter new description for selected brands"></textarea>
-      <div class="flex justify-end space-x-2">
-        <button id="close_bulk_info_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Cancel</button>
-        <button id="confirm_bulk_info_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Confirm</button>
+      <h2 class="text-xl font-bold mb-2">تغییر توضیحات گروهی</h2>
+      <textarea id="bulk_category_info_input" class="w-full border border-gray-300 rounded p-2 mb-4" rows="4" placeholder="توضیحات جدید برای برندهای انتخاب شده را وارد کنید"></textarea>
+      <div class="flex justify-end space-x-2 space-x-reverse">
+        <button id="close_bulk_info_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">انصراف</button>
+        <button id="confirm_bulk_info_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">تأیید</button>
       </div>
     </div>
   </div>
   
-  <!-- Bulk Priority Modal for Search -->
+  <!-- مودال تغییر رتبه گروهی -->
   <div id="bulk_priority_change_modal" class="modal hidden">
     <div class="modal-content">
-      <h2 class="text-xl font-bold mb-2">Bulk Change Rank</h2>
-      <input id="bulk_category_p_input" type="number" placeholder="Enter new rank for selected brands" class="w-full border border-gray-300 rounded p-2 mb-4">
-      <div class="flex justify-end space-x-2">
-        <button id="close_bulk_priority_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Cancel</button>
-        <button id="confirm_bulk_priority_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Confirm</button>
+      <h2 class="text-xl font-bold mb-2">تغییر رتبه گروهی</h2>
+      <input id="bulk_category_p_input" type="number" placeholder="رتبه جدید برای برندهای انتخاب شده را وارد کنید" class="w-full border border-gray-300 rounded p-2 mb-4">
+      <div class="flex justify-end space-x-2 space-x-reverse">
+        <button id="close_bulk_priority_modal" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">انصراف</button>
+        <button id="confirm_bulk_priority_button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">تأیید</button>
       </div>
     </div>
   </div>
-<!-- The buttons will be created by the script below (or you can add them manually) -->
-
+  
+  <!-- ارجاع به فایل جاوااسکریپت خارجی -->
+  
 <script src="ui_logic_p.js"></script>
 <script src="brand_js.js"></script>
-
 </body>
 </html>
