@@ -239,6 +239,8 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
+
 
         </div>
         
@@ -276,6 +278,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
 
         </div>
         
@@ -306,6 +309,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}')">تغییر مشخصات</button>
 
         </div>
         
@@ -354,6 +358,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
 
         </div>
         
@@ -382,6 +387,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}')">تغییر مشخصات</button>
 
         </div>
         
@@ -411,6 +417,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level4._id}')">درج توضیحات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}')">تغییر مشخصات</button>
 
         </div>
         
@@ -933,3 +940,81 @@ async function CreateCategory(parent_id, name, name_fa) {
         }
         
     }
+
+
+    
+// change category info modal
+    async function change_category_info(id) {
+
+        tabels = document.getElementById('change_info_for_category_modal')
+        
+        tabels.classList.add('opacity-20')
+
+        modal_container = document.getElementById('info_change_id_modal')
+
+        modal_container.classList.remove('hidden')
+
+        close_button = document.getElementById('close_info_id_modal')
+
+        close_button.addEventListener('click' , () => {
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+        })
+
+
+        confirm_botton = document.getElementById('confirm_info_id_button')
+        confirm_botton.addEventListener('click' , () => {
+            push_info(id)
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+
+        })
+       
+
+        
+    }
+
+
+    async function push_info(id) {
+
+        try {
+
+            const response = await fetch('http://79.175.177.113:21800/Categories/update_category/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+
+            body: JSON.stringify({
+                    "category_id": id,
+                    "parent_id": document.getElementById('change_category_parent').value,
+                    "name":document.getElementById('change_category_name').value,
+                    "name_fa":document.getElementById('change_category_name_fa').value
+                    })
+
+            });
+
+            // Check if the response was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            
+
+            // const data = await response.json();
+            // console.log('New info :', data);
+            
+        } catch (error) {
+
+            console.log(error);
+            
+            
+        }
+        
+    }
+    
