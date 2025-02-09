@@ -5,13 +5,13 @@
   <title>مدیریت برندها</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- لینک به Tailwind CSS -->
-  
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
   
-  <!-- نوار منو (Navbar) -->
+  <!-- نوار منو -->
   <div class="bg-teal-50 shadow-md">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-teal-50">
       <!-- دکمه بازگشت به دسته‌بندی (سمت چپ) -->
@@ -30,7 +30,7 @@
           نام کاربری: <span class="text-teal-900" id="Username">something</span>
         </div>
         <div class="flex-1 text-teal-800 font-semibold">
-          <span class="cursor-pointer" onclick="window.location.href = './category.html'">دسته‌بندی : </span>
+          <span class="cursor-pointer" onclick="window.location.href = './category.html'">دسته‌بندی :</span>
           <span class="text-teal-900">برندها</span>
         </div>
       </div>
@@ -38,7 +38,7 @@
     
     <!-- دکمه‌های احراز هویت (در صورت نیاز) -->
     <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse hidden">
-      <!-- دکمه‌های ورود و ثبت نام -->
+      <!-- دکمه‌های ورود/ثبت نام -->
     </div>
     
     <!-- منوی موبایل -->
@@ -46,14 +46,14 @@
       <div class="px-6 py-4 space-y-4">
         <a href="./mall.html"><button class="text-gray-600 hover:text-teal-800">آمار پایگاه داده</button></a>
         <div class="flex flex-col space-y-4">
-          <!-- دکمه‌های ورود و ثبت نام موبایل -->
+          <!-- دکمه‌های ورود/ثبت نام موبایل -->
         </div>
       </div>
     </div>
   </div>
   
-  <!-- المان بارگذاری (spinner) بر اساس کد شما -->
-  <div class="spinner loading-overlay absolute left-1/2 top-1/2" id="loading">
+  <!-- المان لودر (spinner) سفارشی شما -->
+  <div class="spinner loading-overlay absolute left-1/2 top-1/2" id="loading" style="display: none;">
     <div class="spinner-segment"></div>
     <div class="spinner-segment"></div>
     <div class="spinner-segment"></div>
@@ -68,7 +68,7 @@
   
   <!-- محتوای اصلی -->
   <div class="container mx-auto p-4">
-    <!-- عنوان دسته‌بندی برند (به صورت داینامیک از sessionStorage دریافت می‌شود) -->
+    <!-- عنوان دسته‌بندی برند (داینامیک) -->
     <h1 id="brand_info_title" class="text-2xl font-bold mb-4">عنوان دسته‌بندی برند</h1>
     
     <!-- نوار جستجو و دکمه‌ها -->
@@ -88,18 +88,14 @@
       </button>
     </div>
     
-    <!-- کنترل صفحه‌بندی بالای جدول -->
+    <!-- کنترل صفحه‌بندی بالا -->
     <div class="flex items-center justify-center mt-4 space-x-4 space-x-reverse">
-      <button id="prev_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">
-        قبلی
-      </button>
+      <button id="prev_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">قبلی</button>
       <span id="show_page_number_top" class="cursor-pointer text-xl font-bold">1</span>
-      <button id="next_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-        بعدی
-      </button>
+      <button id="next_page_top" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">بعدی</button>
     </div>
     
-    <!-- محتویات جدول -->
+    <!-- محتوای جدول -->
     <div id="mainContent" class="hidden">
       <div class="overflow-x-auto">
         <table id="brands_tabel" class="min-w-full bg-white shadow rounded mt-4">
@@ -127,15 +123,11 @@
         </button>
       </div>
       
-      <!-- کنترل صفحه‌بندی پایین جدول -->
+      <!-- کنترل صفحه‌بندی پایین -->
       <div class="flex items-center justify-center mt-4 space-x-4 space-x-reverse">
-        <button id="prev_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">
-          قبلی
-        </button>
+        <button id="prev_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded hidden">قبلی</button>
         <span id="show_page_number" class="cursor-pointer text-xl font-bold">1</span>
-        <button id="next_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-          بعدی
-        </button>
+        <button id="next_page" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">بعدی</button>
       </div>
     </div>
   </div>

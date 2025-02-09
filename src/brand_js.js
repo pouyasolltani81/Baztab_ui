@@ -3,90 +3,14 @@
 let page_number = 1;
 let searchActive = false; // حالت جستجو یا حالت پیش‌فرض
 
-// تابع نمایش لودر (spinner) بر اساس عملکرد async
+// تابع نمایش لودر (spinner) سفارشی
 function showLoader(asyncOperation) {
-  // المان بارگذاری شما در HTML با id="loading" موجود است
   const loadingElem = document.getElementById("loading");
   loadingElem.style.display = "block";
   asyncOperation().finally(() => {
     loadingElem.style.display = "none";
   });
 }
-
-// رویداد DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  showLoader(async () => {
-    await update_table();
-  });
-
-  // رویداد دکمه جستجو
-  document.getElementById("search_button").addEventListener("click", () => {
-    searchActive = true;
-    page_number = 1;
-    update_search_table(page_number);
-    updatePaginationDisplay();
-  });
-
-  // دکمه بروزرسانی جستجو
-  document.getElementById("search_refresh_button").addEventListener("click", () => {
-    if (searchActive) {
-      update_search_table(page_number);
-    }
-  });
-
-  // دکمه‌های تغییر گروهی
-  document.getElementById("bulk_search_desc_button").addEventListener("click", open_bulk_info_modal);
-  document.getElementById("bulk_search_rank_button").addEventListener("click", open_bulk_priority_modal);
-
-  // دکمه انتخاب همه (رفع مشکل انتخاب همه)
-  document.getElementById("selectAllButton").addEventListener("click", () => {
-    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
-    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-    checkboxes.forEach(cb => cb.checked = !allChecked);
-  });
-
-  // دکمه‌های صفحه‌بندی پایین
-  document.getElementById("next_page").addEventListener("click", () => {
-    page_number++;
-    updatePaginationDisplay();
-    showLoader(async () => {
-      searchActive ? await update_search_table(page_number) : await update_table(page_number);
-    });
-  });
-
-  document.getElementById("prev_page").addEventListener("click", () => {
-    if (page_number > 1) {
-      page_number--;
-      updatePaginationDisplay();
-      showLoader(async () => {
-        searchActive ? await update_search_table(page_number) : await update_table(page_number);
-      });
-    }
-  });
-
-  // دکمه‌های صفحه‌بندی بالا (همگام با دکمه‌های پایین)
-  document.getElementById("next_page_top").addEventListener("click", () => {
-    page_number++;
-    updatePaginationDisplay();
-    showLoader(async () => {
-      searchActive ? await update_search_table(page_number) : await update_table(page_number);
-    });
-  });
-
-  document.getElementById("prev_page_top").addEventListener("click", () => {
-    if (page_number > 1) {
-      page_number--;
-      updatePaginationDisplay();
-      showLoader(async () => {
-        searchActive ? await update_search_table(page_number) : await update_table(page_number);
-      });
-    }
-  });
-
-  // کلیک روی شماره صفحه برای باز کردن مودال صفحه‌بندی
-  document.getElementById("show_page_number").addEventListener("click", open_pagination_modal);
-  document.getElementById("show_page_number_top").addEventListener("click", open_pagination_modal);
-});
 
 // به‌روزرسانی نمایش شماره صفحه و دکمه‌های قبلی/بعدی
 function updatePaginationDisplay() {
@@ -101,14 +25,86 @@ function updatePaginationDisplay() {
   }
 }
 
-// تابع به‌روزرسانی جدول (حالت پیش‌فرض)
+// رویدادهای اولیه پس از بارگذاری DOM
+document.addEventListener("DOMContentLoaded", () => {
+  showLoader(async () => {
+    await update_table();
+  });
+
+  // رویداد دکمه جستجو
+  document.getElementById("search_button").onclick = () => {
+    searchActive = true;
+    page_number = 1;
+    update_search_table(page_number);
+    updatePaginationDisplay();
+  };
+
+  // دکمه بروزرسانی جستجو
+  document.getElementById("search_refresh_button").onclick = () => {
+    if (searchActive) {
+      update_search_table(page_number);
+    }
+  };
+
+  // دکمه‌های تغییر گروهی
+  document.getElementById("bulk_search_desc_button").onclick = open_bulk_info_modal;
+  document.getElementById("bulk_search_rank_button").onclick = open_bulk_priority_modal;
+
+  // دکمه انتخاب همه
+  document.getElementById("selectAllButton").onclick = () => {
+    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+  };
+
+  // دکمه‌های صفحه‌بندی پایین
+  document.getElementById("next_page").onclick = () => {
+    page_number++;
+    updatePaginationDisplay();
+    showLoader(async () => {
+      searchActive ? await update_search_table(page_number) : await update_table(page_number);
+    });
+  };
+
+  document.getElementById("prev_page").onclick = () => {
+    if (page_number > 1) {
+      page_number--;
+      updatePaginationDisplay();
+      showLoader(async () => {
+        searchActive ? await update_search_table(page_number) : await update_table(page_number);
+      });
+    }
+  };
+
+  // دکمه‌های صفحه‌بندی بالا
+  document.getElementById("next_page_top").onclick = () => {
+    page_number++;
+    updatePaginationDisplay();
+    showLoader(async () => {
+      searchActive ? await update_search_table(page_number) : await update_table(page_number);
+    });
+  };
+
+  document.getElementById("prev_page_top").onclick = () => {
+    if (page_number > 1) {
+      page_number--;
+      updatePaginationDisplay();
+      showLoader(async () => {
+        searchActive ? await update_search_table(page_number) : await update_table(page_number);
+      });
+    }
+  };
+
+  // کلیک روی شماره صفحه برای باز کردن مودال صفحه‌بندی
+  document.getElementById("show_page_number").onclick =
+  document.getElementById("show_page_number_top").onclick = open_pagination_modal;
+});
+
+// به‌روزرسانی جدول (حالت پیش‌فرض)
 async function update_table(page) {
-  if (page) {
-    page_number = page;
-  }
+  if (page) page_number = page;
   const tableBody = document.getElementById("TableBody");
   tableBody.innerHTML = "";
-  // فراخوانی API برای دریافت داده‌های برندها (به آدرس واقعی تغییر یابد)
   fetch("http://79.175.177.113:21800/Brands/get_brands_by_category_id/", {
     method: "POST",
     headers: {
@@ -153,11 +149,9 @@ async function update_table(page) {
     .catch(error => console.error("خطا در دریافت داده‌ها:", error));
 }
 
-// تابع به‌روزرسانی جدول جستجو
+// به‌روزرسانی جدول جستجو
 async function update_search_table(page) {
-  if (page) {
-    page_number = page;
-  }
+  if (page) page_number = page;
   const searchQuery = document.getElementById("search_input").value;
   const tableBody = document.getElementById("TableBody");
   tableBody.innerHTML = "";
@@ -205,80 +199,81 @@ async function update_search_table(page) {
     .catch(error => console.error("خطا در دریافت داده‌های جستجو:", error));
 }
 
-// تابع تغییر وضعیت چک‌باکس‌های ردیف (می‌توانید منطق دلخواه خود را اضافه کنید)
+// تابع تغییر وضعیت چک‌باکس (در صورت نیاز)
 function individualCheckboxChanged(event) {
-  // منطق مربوط به تغییر وضعیت هر چک‌باکس
+  // منطق مورد نظر شما (اختیاری)
 }
 
 // مودال تغییر توضیحات فردی
-async function Open_info_modal(id) {
+function Open_info_modal(id) {
   const tableElem = document.getElementById("brands_tabel");
-  tableElem.classList.add("opacity-20");
   const modalElem = document.getElementById("info_change_modal");
+  tableElem.classList.add("opacity-20");
   modalElem.classList.remove("hidden");
-  document.getElementById("close_info_modal").addEventListener("click", () => {
+  
+  document.getElementById("close_info_modal").onclick = () => {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
-  document.getElementById("confirm_info_button").addEventListener("click", () => {
+  };
+  document.getElementById("confirm_info_button").onclick = () => {
     push_info(id);
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
+  };
 }
 
-// عملکرد تغییر توضیحات فردی (پیاده‌سازی واقعی را جایگزین کنید)
-async function push_info(id) {
+// عملکرد تغییر توضیحات فردی (به دلخواه جایگزین شود)
+function push_info(id) {
   console.log("به‌روزرسانی توضیحات برای برند", id);
   // فراخوانی API مربوطه
 }
 
 // مودال تغییر رتبه فردی
-async function Open_info_modal_p(id) {
+function Open_info_modal_p(id) {
   const tableElem = document.getElementById("brands_tabel");
-  tableElem.classList.add("opacity-20");
   const modalElem = document.getElementById("priority_change_modal");
+  tableElem.classList.add("opacity-20");
   modalElem.classList.remove("hidden");
-  document.getElementById("close_p_modal").addEventListener("click", () => {
+  
+  document.getElementById("close_p_modal").onclick = () => {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
-  document.getElementById("confirm_p_button").addEventListener("click", () => {
+  };
+  document.getElementById("confirm_p_button").onclick = () => {
     push_p(id);
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
+  };
 }
 
-// عملکرد تغییر رتبه فردی (پیاده‌سازی واقعی را جایگزین کنید)
-async function push_p(id) {
+// عملکرد تغییر رتبه فردی (به دلخواه جایگزین شود)
+function push_p(id) {
   console.log("به‌روزرسانی رتبه برای برند", id);
   // فراخوانی API مربوطه
 }
 
-// مودال تغییر صفحه‌بندی
-async function open_pagination_modal() {
+// مودال صفحه‌بندی
+function open_pagination_modal() {
   const tableElem = document.getElementById("brands_tabel");
-  tableElem.classList.add("opacity-20");
   const modalElem = document.getElementById("pagination_change_modal");
+  tableElem.classList.add("opacity-20");
   modalElem.classList.remove("hidden");
-  document.getElementById("close_pagination_modal").addEventListener("click", () => {
+  
+  document.getElementById("close_pagination_modal").onclick = () => {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
-  document.getElementById("confirm_pagination_button").addEventListener("click", () => {
+  };
+  document.getElementById("confirm_pagination_button").onclick = () => {
     push_info_pagination();
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
+  };
 }
 
 // عملکرد تغییر صفحه‌بندی
-async function push_info_pagination() {
+function push_info_pagination() {
   let newPage = parseInt(document.getElementById("pagination_input").value, 10);
-  if (isNaN(newPage)) {
-    newPage = 1;
-  }
+  if (isNaN(newPage)) newPage = 1;
   page_number = newPage;
   updatePaginationDisplay();
   showLoader(async () => {
@@ -287,16 +282,17 @@ async function push_info_pagination() {
 }
 
 // مودال تغییر توضیحات گروهی
-async function open_bulk_info_modal() {
+function open_bulk_info_modal() {
   const tableElem = document.getElementById("brands_tabel");
-  tableElem.classList.add("opacity-20");
   const modalElem = document.getElementById("bulk_info_change_modal");
+  tableElem.classList.add("opacity-20");
   modalElem.classList.remove("hidden");
-  document.getElementById("close_bulk_info_modal").addEventListener("click", () => {
+  
+  document.getElementById("close_bulk_info_modal").onclick = () => {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
-  document.getElementById("confirm_bulk_info_button").addEventListener("click", async () => {
+  };
+  document.getElementById("confirm_bulk_info_button").onclick = async () => {
     const newDesc = document.getElementById("bulk_category_info_input").value;
     const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
     for (const cb of checkboxes) {
@@ -306,7 +302,7 @@ async function open_bulk_info_modal() {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
     searchActive ? update_search_table(page_number) : update_table(page_number);
-  });
+  };
 }
 
 async function bulkPush_info(brandId, description) {
@@ -325,25 +321,24 @@ async function bulkPush_info(brandId, description) {
         description: description
       })
     });
-    if (!response.ok) {
-      throw new Error(`خطا: ${response.status} ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(`خطا: ${response.status} ${response.statusText}`);
   } catch (error) {
     console.error(error);
   }
 }
 
 // مودال تغییر رتبه گروهی
-async function open_bulk_priority_modal() {
+function open_bulk_priority_modal() {
   const tableElem = document.getElementById("brands_tabel");
-  tableElem.classList.add("opacity-20");
   const modalElem = document.getElementById("bulk_priority_change_modal");
+  tableElem.classList.add("opacity-20");
   modalElem.classList.remove("hidden");
-  document.getElementById("close_bulk_priority_modal").addEventListener("click", () => {
+  
+  document.getElementById("close_bulk_priority_modal").onclick = () => {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
-  });
-  document.getElementById("confirm_bulk_priority_button").addEventListener("click", async () => {
+  };
+  document.getElementById("confirm_bulk_priority_button").onclick = async () => {
     const newPriority = document.getElementById("bulk_category_p_input").value;
     const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
     for (const cb of checkboxes) {
@@ -353,7 +348,7 @@ async function open_bulk_priority_modal() {
     tableElem.classList.remove("opacity-20");
     modalElem.classList.add("hidden");
     searchActive ? update_search_table(page_number) : update_table(page_number);
-  });
+  };
 }
 
 async function bulkPush_priority(brandId, priority) {
@@ -372,9 +367,7 @@ async function bulkPush_priority(brandId, priority) {
         priority: priority
       })
     });
-    if (!response.ok) {
-      throw new Error(`خطا: ${response.status} ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(`خطا: ${response.status} ${response.statusText}`);
   } catch (error) {
     console.error(error);
   }
