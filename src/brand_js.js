@@ -490,6 +490,12 @@ async function open_pagination_modal() {
 
     page_show.innerHTML = page_number;
 
+    if (page_number > 1 ) {
+        
+        perv_page_button.classList.remove('hidden')
+
+    }
+
     showLoader(async function() {
         await update_table();
     });
