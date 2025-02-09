@@ -41,8 +41,6 @@ async function update_table(page, query = "") {
   }
   console.log("Page:", page_number, "Search query:", query);
 
-  // Update title using the saved brand category in sessionStorage.
-  document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name_fa;
   const tableBody = document.getElementById("TableBody");
   tableBody.innerHTML = '';
   document.getElementById('loading').classList.remove('hidden');
