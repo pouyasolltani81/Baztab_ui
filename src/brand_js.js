@@ -125,8 +125,8 @@ async function update_table(){
 
             // Brand state in Farsi
            const stateCell = document.createElement("td");
-           farsiCell.className = "px-6 py-4";
-           farsiCell.textContent = Object.keys(item.brand_stat).join(" ، ");
+           stateCell.className = "px-6 py-4";
+           stateCell.textContent = Object.keys(item.brand_stat).join(" ، ");
            row.appendChild(stateCell);
    
            // Brand Rank
@@ -438,4 +438,82 @@ perv_page_button.addEventListener('click' , () => {
 })
 
 
+// pagination modal 
 
+document.getElementById('show_page_number').addEventListener('click' , open_pagination_modal())
+
+
+async function open_pagination_modal() {
+
+        tabels = document.getElementById('findCategoryContent')
+        
+        tabels.classList.add('opacity-20')
+
+        modal_container = document.getElementById('pagination_change_modal')
+
+        modal_container.classList.remove('hidden')
+
+        close_button = document.getElementById('close_pagination_modal')
+
+        close_button.addEventListener('click' , () => {
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+        })
+
+
+        confirm_botton = document.getElementById('confirm_pagination_button')
+        confirm_botton.addEventListener('click' , () => {
+            push_info(id)
+
+            tabels.classList.remove('opacity-20')
+            modal_container.classList.add('hidden')
+
+        })
+       
+
+        
+    }
+
+
+    async function push_info() {
+
+        try {
+
+            const response = await fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+
+            body: JSON.stringify({
+
+                   "category_id": JSON.parse(sessionStorage.getItem('brand_cat'))._id,
+                   "page": document.getElementById('pagination_input').value,
+                   "page_limit": 10
+
+                 })
+
+            });
+
+            // Check if the response was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            
+
+            // const data = await response.json();
+            // console.log('New info :', data);
+            
+        } catch (error) {
+
+            console.log(error);
+            
+            
+        }
+        
+    }
