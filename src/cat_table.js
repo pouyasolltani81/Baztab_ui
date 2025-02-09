@@ -239,7 +239,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
 
 
         </div>
@@ -278,7 +278,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
 
         </div>
         
@@ -309,7 +309,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa}')">تغییر مشخصات</button>
 
         </div>
         
@@ -358,7 +358,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
 
         </div>
         
@@ -387,7 +387,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa}')">تغییر مشخصات</button>
 
         </div>
         
@@ -417,7 +417,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level4._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}','${level4.parent_id}','${level4.name}','${level4.name_fa}')">تغییر مشخصات</button>
 
         </div>
         
@@ -944,7 +944,12 @@ async function CreateCategory(parent_id, name, name_fa) {
 
     
 // change category info modal
-    async function change_category_info(id) {
+    async function change_category_info(id , parent ,category_name ,category_name_fa) {
+        document.getElementById('change_category_parent').value =  parent;
+        document.getElementById('change_category_name').value =category_name;
+        document.getElementById('change_category_name_fa').value =category_name_fa;
+
+
 
         tabels = document.getElementById('findCategoryContent')
         
@@ -981,6 +986,8 @@ async function CreateCategory(parent_id, name, name_fa) {
 
         try {
 
+
+
             const response = await fetch('http://79.175.177.113:21800/Categories/update_category/', {
             method: 'POST',
             headers: {
@@ -990,6 +997,7 @@ async function CreateCategory(parent_id, name, name_fa) {
                 "Access-Control-Allow-Origin": "*",
                 'authorization': user_token,
             },
+
 
             body: JSON.stringify({
                     "category_id": id,
@@ -1048,7 +1056,7 @@ function searchTableAndScroll() {
     
     // Optionally, notify the user if no match was found
     if (!found) {
-        alert('No matching row found!');
+        alert('عبارت مورد نظر یافت نشد !');
     }
 }
 
