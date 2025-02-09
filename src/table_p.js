@@ -131,7 +131,7 @@ async function GetProduct(name_fa , page_num , page_size) {
                 "Access-Control-Allow-Origin": "*",
                 'authorization': user_token,
             },
-            body: JSON.stringify({  // Convert the body object to a JSON string
+            body: JSON.stringify({  
                 "category_name_fa": name_fa,
                 "page": page_num,
                 "page_limit": page_size,
@@ -168,8 +168,8 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
       document.getElementById('itemsPerPage').value = page_size
 
 
-      console.log(JSON.stringify({  // Convert the body object to a JSON string
-        "name": '',  // If you don't need "name", remove it
+      console.log(JSON.stringify({  
+        "name": '', 
         "name_fa": name_fa,
         "page": page_num,
         "page_size": page_size
@@ -184,8 +184,8 @@ async function findproducts(name_fa , page_num , page_size) {  // No need to pas
                 "Access-Control-Allow-Origin": "*",
                 'authorization': user_token,
             },
-            body: JSON.stringify({  // Convert the body object to a JSON string
-                "name": '',  // If you don't need "name", remove it
+            body: JSON.stringify({  
+                "name": '', 
                 "name_fa": name_fa,
                 "page": 1,
                 "page_size": 10
@@ -278,11 +278,12 @@ const tableBody = document.getElementById('TableBody');
 const searchbutton = document.getElementById('SearchButton');
 const refreshButton = document.getElementById('refreshButton');
 
-        
+let search_state = false
 
 searchbutton.addEventListener('click', function() {
   showLoader(async function() {
       document.getElementById('mainContent').classList.add('hidden'); 
+      search_state = true
 
       await findproducts(searchBar.value , page_num , page_size);  
       document.getElementById('mainContent').classList.remove('hidden'); 
@@ -296,6 +297,7 @@ refreshButton.addEventListener('click', function() {
       document.getElementById('mainContent').classList.add('hidden'); // Show main content
 
       await GetProduct(productData.category_name_fa , page_num , page_size);
+      search_state = false ;
       searchBar.value = ''
       searchbutton.classList.add('hidden') 
       refreshButton.classList.add('hidden') 
@@ -854,6 +856,9 @@ let name = productData.category_name_fa
 async function ChangePage(name_fa , page, page_size)  {
   try {
       
+    if (search_state) {
+       await  findproducts(searchBar.value , page_num , page_size);  
+    } else {
       
     const response = await fetch('http://79.175.177.113:21800/Products/get_products_paginated/', {
         method: 'POST',
@@ -884,7 +889,7 @@ async function ChangePage(name_fa , page, page_size)  {
       console.log(data);
       
         updateui(data); 
-    } 
+    } }
 
 } catch (error) {
    
