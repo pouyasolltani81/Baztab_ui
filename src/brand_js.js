@@ -41,8 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-async function update_table(){
+async function update_table(page){
+  if (page) {
+    page_number =page ;
+  }
   console.log(page_number);
+  
   
 
     
@@ -499,7 +503,7 @@ async function open_pagination_modal() {
     }
 
     showLoader(async function() {
-        await update_table();
+        await update_table(page_number);
     });
 } catch (error) {
     console.error("An error occurred:", error);
