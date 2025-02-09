@@ -482,29 +482,20 @@ async function open_pagination_modal() {
 
     async function push_info() {
 
-        try {
-
-
-
-          page_number = document.getElementById('pagination_input').value;
-    page_show.innerHTML = page_number ;
-  
-
-    showLoader(async function() {
-        await update_table()
-        })
-
-    if (page_number > 1 ) {
-        
-        perv_page_button.classList.remove('hidden')
-
+       try {
+    let page_number = parseInt(document.getElementById('pagination_input').value, 10);
+    if (isNaN(page_number)) {
+        page_number = 1
     }
 
-        } catch (error) {
+    page_show.innerHTML = page_number;
 
-            console.log(error);
-            
-            
-        }
+    showLoader(async function() {
+        await update_table();
+    });
+} catch (error) {
+    console.error("An error occurred:", error);
+}
+
         
     }
