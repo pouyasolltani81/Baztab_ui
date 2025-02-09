@@ -89,19 +89,23 @@
 
   <div class="container mx-auto p-6 transition"  dir="rtl" id="findCategoryContent"> 
 
-    <div id="search-container" style="margin-bottom: 1rem;">
-      <input type="text" id="tableSearch" placeholder="Enter search term..." style="padding: 0.5rem; width: 200px;" />
-      <button id="searchButton" style="padding: 0.5rem;">Search</button>
-    </div>
 
     <!-- Category Dropdown -->
     <div class="mb-4 flex justify-between ">
       <div class="space-x-3">
+
+        
         <label for="category" class="text-xl font-semibold text-teal-600">انتخاب دسته بندی سطح اول : ‌  </label>
         <select id="category" class="py-2 px-4 border border-teal-400 rounded-lg focus:ring-2 focus:ring-teal-500 text-lg">
           <!-- Categories will be populated dynamically -->
         </select>
       </div>
+
+      
+    <div id="search-container" style="margin-bottom: 1rem;">
+      <input type="text" id="tableSearch" placeholder="Enter search term..." class="rounded-xl p-4" />
+      <button id="searchButton"class='bg-teal-200 rounded-xl p-4'>Search</button>
+    </div>
 
 
       <div class="bg-teal-200 hover:bg-teal-300 cursor-pointer rounded-xl p-4 mb-4" onclick="gotobrand()">برند  های  موجود</div>
