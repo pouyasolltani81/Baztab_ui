@@ -83,7 +83,7 @@ async function update_table(page, query = "") {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.classList.add("row-checkbox");
-        checkbox.dataset.id = item.brand_id;
+        checkbox.dataset.id = item._id;
         checkbox.addEventListener("change", individualCheckboxChanged);
         checkboxCell.appendChild(checkbox);
         row.appendChild(checkboxCell);
@@ -91,7 +91,7 @@ async function update_table(page, query = "") {
         // Brand ID
         const idCell = document.createElement("td");
         idCell.className = "px-6 py-4";
-        idCell.textContent = item.brand_id;
+        idCell.textContent = item._id;
         row.appendChild(idCell);
 
         // Brand Name
@@ -121,7 +121,7 @@ async function update_table(page, query = "") {
         descButton.className = "w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300";
         descButton.textContent = "درج توضیحات";
         descButton.onclick = function () {
-          Open_info_modal(item.brand_id);
+          Open_info_modal(item._id);
         };
 
 
@@ -234,7 +234,7 @@ async function push_p(id, newPriority) {
         'authorization': user_token,
       },
       body: JSON.stringify({
-        "brand_id": id,
+        "_id": id,
         "priority": priority
       })
     });
