@@ -310,6 +310,7 @@ subcategories.forEach(subcategory => {
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
             <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa}')">تغییر مشخصات</button>
+           
 
         </div>
         
