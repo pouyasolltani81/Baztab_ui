@@ -411,7 +411,7 @@ next_page_button.addEventListener('click' , () => {
         await update_table()
         })
 
-    if (page_number == 2 ) {
+    if (page_number > 1 ) {
         
         perv_page_button.classList.remove('hidden')
 
@@ -484,35 +484,21 @@ async function open_pagination_modal() {
 
         try {
 
-            const response = await fetch('http://79.175.177.113:21800/Brands/get_brands_by_category_id/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                "Accept-Version": 1,
-                'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'authorization': user_token,
-            },
 
-            body: JSON.stringify({
 
-                   "category_id": JSON.parse(sessionStorage.getItem('brand_cat'))._id,
-                   "page": document.getElementById('pagination_input').value,
-                   "page_limit": 10
+          page_number = document.getElementById('pagination_input').value;
+    page_show.innerHTML = page_number ;
 
-                 })
+    showLoader(async function() {
+        await update_table()
+        })
 
-            });
+    if (page_number > 1 ) {
+        
+        perv_page_button.classList.remove('hidden')
 
-            // Check if the response was successful (status code 2xx)
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            
+    }
 
-            // const data = await response.json();
-            // console.log('New info :', data);
-            
         } catch (error) {
 
             console.log(error);
