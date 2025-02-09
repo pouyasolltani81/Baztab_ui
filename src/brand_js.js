@@ -1,374 +1,444 @@
-// فایل جاوااسکریپت برای مدیریت عملکرد صفحه
-
+// Global variables
 let page_number = 1;
-let searchActive = false; // حالت جستجو یا حالت پیش‌فرض
+let searchQuery = ""; // current search string (empty for original data)
 
-// تابع نمایش لودر (spinner) سفارشی
+// Loader function (shows an overlay with a spinner during async operations)
 function showLoader(asyncOperation) {
-  const loadingElem = document.getElementById("loading");
-  loadingElem.style.display = "block";
+  const overlay = document.createElement('div');
+  overlay.classList.add('loading-overlay');
+  overlay.innerHTML = `
+    <div class="spinner">
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+      <div class="spinner-segment"></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
   asyncOperation().finally(() => {
-    loadingElem.style.display = "none";
+    overlay.remove();
   });
 }
 
-// به‌روزرسانی نمایش شماره صفحه و دکمه‌های قبلی/بعدی
-function updatePaginationDisplay() {
-  document.getElementById("show_page_number").innerText = page_number;
-  document.getElementById("show_page_number_top").innerText = page_number;
-  if (page_number > 1) {
-    document.getElementById("prev_page").classList.remove("hidden");
-    document.getElementById("prev_page_top").classList.remove("hidden");
-  } else {
-    document.getElementById("prev_page").classList.add("hidden");
-    document.getElementById("prev_page_top").classList.add("hidden");
-  }
-}
-
-// رویدادهای اولیه پس از بارگذاری DOM
+// Load initial table on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
-  showLoader(async () => {
+  showLoader(async function () {
     await update_table();
   });
+});
 
-  // رویداد دکمه جستجو
-  document.getElementById("search_button").onclick = () => {
-    searchActive = true;
-    page_number = 1;
-    update_search_table(page_number);
-    updatePaginationDisplay();
+// Update table function: Accepts an optional page and query.
+// When a query is provided it sends a search request; otherwise, it loads the original data.
+async function update_table(page, query = "") {
+  if (page) {
+    page_number = page;
+  }
+  console.log("Page:", page_number, "Search query:", query);
+
+  // Update title using the saved brand category in sessionStorage.
+  document.getElementById('brand_info_title').innerHTML = JSON.parse(sessionStorage.getItem('brand_cat')).name_fa;
+  const tableBody = document.getElementById("TableBody");
+  tableBody.innerHTML = '';
+  document.getElementById('loading').classList.remove('hidden');
+
+  // Choose endpoint based on whether a search query is provided.
+  let endpoint = query
+    ? 'http://79.175.177.113:21800/Brands/search_brands_by_category_id/'
+    : 'http://79.175.177.113:21800/Brands/get_brands_by_category_id/';
+
+  const bodyData = {
+    "category_id": JSON.parse(sessionStorage.getItem('brand_cat'))._id,
+    "page": page_number,
+    "page_limit": 10
   };
+  if (query) {
+    bodyData.search = query;
+  }
 
-  // دکمه بروزرسانی جستجو
-  document.getElementById("search_refresh_button").onclick = () => {
-    if (searchActive) {
-      update_search_table(page_number);
-    }
-  };
+  fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      "Accept-Version": 1,
+      'Accept': "application/json",
+      'Authorization': user_token,
+    },
+    body: JSON.stringify(bodyData)
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('mainContent').classList.remove('hidden');
+      document.getElementById('loading').classList.add('hidden');
+      console.log(data, 'data');
 
-  // دکمه‌های تغییر گروهی
-  document.getElementById("bulk_search_desc_button").onclick = open_bulk_info_modal;
-  document.getElementById("bulk_search_rank_button").onclick = open_bulk_priority_modal;
+      const tableBody = document.getElementById("TableBody");
+      tableBody.innerHTML = '';
+      data.data.brands.forEach(item => {
+        const row = document.createElement("tr");
+        row.classList.add("text-gray-800", "text-lg");
 
-  // دکمه انتخاب همه
-  document.getElementById("selectAllButton").onclick = () => {
+        // Checkbox cell
+        const checkboxCell = document.createElement("td");
+        checkboxCell.className = "px-6 py-4";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("row-checkbox");
+        checkbox.dataset.id = item.brand_id;
+        checkbox.addEventListener("change", individualCheckboxChanged);
+        checkboxCell.appendChild(checkbox);
+        row.appendChild(checkboxCell);
+
+        // Brand ID
+        const idCell = document.createElement("td");
+        idCell.className = "px-6 py-4";
+        idCell.textContent = item.brand_id;
+        row.appendChild(idCell);
+
+        // Brand Name
+        const nameCell = document.createElement("td");
+        nameCell.className = "px-6 py-4";
+        nameCell.textContent = item.brand_name;
+        row.appendChild(nameCell);
+
+        // Brand Name in Farsi
+        const farsiCell = document.createElement("td");
+        farsiCell.className = "px-6 py-4";
+        farsiCell.textContent = item.brand_name_fa;
+        row.appendChild(farsiCell);
+
+        // Brand state (Farsi) - join keys from brand_stat with a separator
+        const stateCell = document.createElement("td");
+        stateCell.className = "px-6 py-4";
+        stateCell.textContent = Object.keys(item.brand_stat).join(" ، ");
+        row.appendChild(stateCell);
+
+        // Brand Rank
+        const rankCell = document.createElement("td");
+        rankCell.className = "px-6 py-4";
+        rankCell.textContent = item.brand_priority;
+        row.appendChild(rankCell);
+
+        // Action cell with individual update buttons
+        const actionCell = document.createElement("td");
+        actionCell.className = "px-6 py-4 flex gap-2";
+        const descButton = document.createElement("span");
+        descButton.className = "w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300";
+        descButton.textContent = "درج توضیحات";
+        descButton.onclick = function () {
+          Open_info_modal(item.brand_id);
+        };
+
+        const updateButton = document.createElement("span");
+        updateButton.className = "w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300";
+        updateButton.textContent = "بروز رسانی رتبه";
+        updateButton.onclick = function () {
+          Open_info_modal_p(item.brand_id);
+        };
+
+        actionCell.appendChild(descButton);
+        actionCell.appendChild(updateButton);
+        row.appendChild(actionCell);
+
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => console.error("Error fetching data:", error));
+
+  // Code for select-all and individual checkbox state handling.
+  const yellowButton = document.createElement("button");
+  yellowButton.textContent = "همه انتخاب شدند";
+  yellowButton.style.backgroundColor = "yellow";
+  yellowButton.style.display = "none";
+  yellowButton.style.position = "fixed";
+  yellowButton.style.bottom = "20px";
+  yellowButton.style.right = "20px";
+
+  const greenButton = document.createElement("button");
+  greenButton.textContent = "انتخاب‌های جداگانه";
+  greenButton.style.backgroundColor = "green";
+  greenButton.style.color = "white";
+  greenButton.style.display = "none";
+  greenButton.style.position = "fixed";
+  greenButton.style.bottom = "20px";
+  greenButton.style.right = "20px";
+
+  const selectAllButton = document.getElementById("selectAllButton");
+  selectAllButton.addEventListener("click", () => {
     const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
     const allChecked = Array.from(checkboxes).every(cb => cb.checked);
     checkboxes.forEach(cb => cb.checked = !allChecked);
-  };
-
-  // دکمه‌های صفحه‌بندی پایین
-  document.getElementById("next_page").onclick = () => {
-    page_number++;
-    updatePaginationDisplay();
-    showLoader(async () => {
-      searchActive ? await update_search_table(page_number) : await update_table(page_number);
-    });
-  };
-
-  document.getElementById("prev_page").onclick = () => {
-    if (page_number > 1) {
-      page_number--;
-      updatePaginationDisplay();
-      showLoader(async () => {
-        searchActive ? await update_search_table(page_number) : await update_table(page_number);
-      });
+    if (!allChecked) {
+      showYellowButton();
+    } else {
+      hideYellowButton();
     }
-  };
+    hideGreenButton();
+  });
 
-  // دکمه‌های صفحه‌بندی بالا
-  document.getElementById("next_page_top").onclick = () => {
-    page_number++;
-    updatePaginationDisplay();
-    showLoader(async () => {
-      searchActive ? await update_search_table(page_number) : await update_table(page_number);
-    });
-  };
-
-  document.getElementById("prev_page_top").onclick = () => {
-    if (page_number > 1) {
-      page_number--;
-      updatePaginationDisplay();
-      showLoader(async () => {
-        searchActive ? await update_search_table(page_number) : await update_table(page_number);
-      });
+  function individualCheckboxChanged(event) {
+    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox");
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    if (checkedCount > 0 && checkedCount < checkboxes.length) {
+      showGreenButton();
+      hideYellowButton();
+    } else if (checkedCount === checkboxes.length) {
+      showYellowButton();
+      hideGreenButton();
+    } else {
+      hideGreenButton();
+      hideYellowButton();
     }
-  };
+  }
 
-  // کلیک روی شماره صفحه برای باز کردن مودال صفحه‌بندی
-  document.getElementById("show_page_number").onclick =
-  document.getElementById("show_page_number_top").onclick = open_pagination_modal;
+  function showYellowButton() {
+    yellowButton.style.display = "block";
+  }
+  function hideYellowButton() {
+    yellowButton.style.display = "none";
+  }
+  function showGreenButton() {
+    greenButton.style.display = "block";
+  }
+  function hideGreenButton() {
+    greenButton.style.display = "none";
+  }
+}
+
+// Update functions for individual item updates.
+// These functions accept an optional new value for batch updates.
+async function push_info(id, newDescription) {
+  try {
+    const description = newDescription || document.getElementById('category_info_input').value;
+    const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        "Accept-Version": 1,
+        'Accept': "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'authorization': user_token,
+      },
+      body: JSON.stringify({
+        "brand_id": id,
+        "description": description
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function push_p(id, newPriority) {
+  try {
+    const priority = newPriority || document.getElementById('category_p_input').value;
+    const response = await fetch('http://79.175.177.113:21800/Brands/update_brand_priority/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        "Accept-Version": 1,
+        'Accept': "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'authorization': user_token,
+      },
+      body: JSON.stringify({
+        "brand_id": id,
+        "priority": priority
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Pagination controls (next/prev buttons)
+const perv_page_button = document.getElementById('prev_page');
+const next_page_button = document.getElementById('next_page');
+const page_show = document.getElementById('show_page_number');
+
+page_show.innerHTML = page_number;
+
+next_page_button.addEventListener('click', () => {
+  page_number += 1;
+  page_show.innerHTML = page_number;
+  showLoader(async () => {
+    await update_table(page_number, searchQuery);
+  });
+  if (page_number > 1) {
+    perv_page_button.classList.remove('hidden');
+  }
 });
 
-// به‌روزرسانی جدول (حالت پیش‌فرض)
-async function update_table(page) {
-  if (page) page_number = page;
-  const tableBody = document.getElementById("TableBody");
-  tableBody.innerHTML = "";
-  fetch("http://79.175.177.113:21800/Brands/get_brands_by_category_id/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept-Version": 1,
-      Accept: "application/json",
-      Authorization: user_token
-    },
-    body: JSON.stringify({
-      category_id: JSON.parse(sessionStorage.getItem("brand_cat"))._id,
-      page: page_number,
-      page_limit: 10
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("mainContent").classList.remove("hidden");
-      data.data.brands.forEach(item => {
-        const row = document.createElement("tr");
-        row.classList.add("text-gray-800", "text-lg");
-        row.innerHTML = `
-          <td class="px-6 py-4">
-            <input type="checkbox" class="row-checkbox" data-id="${item.brand_id}" onchange="individualCheckboxChanged(event)">
-          </td>
-          <td class="px-6 py-4">${item.brand_id}</td>
-          <td class="px-6 py-4">${item.brand_name}</td>
-          <td class="px-6 py-4">${item.brand_name_fa}</td>
-          <td class="px-6 py-4">${Object.keys(item.brand_stat).join(" ، ")}</td>
-          <td class="px-6 py-4">${item.brand_priority}</td>
-          <td class="px-6 py-4 flex gap-2">
-            <span class="w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300" onclick="Open_info_modal(${item.brand_id})">
-              درج توضیحات
-            </span>
-            <span class="w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300" onclick="Open_info_modal_p(${item.brand_id})">
-              بروز رسانی رتبه
-            </span>
-          </td>
-        `;
-        tableBody.appendChild(row);
-      });
-    })
-    .catch(error => console.error("خطا در دریافت داده‌ها:", error));
-}
-
-// به‌روزرسانی جدول جستجو
-async function update_search_table(page) {
-  if (page) page_number = page;
-  const searchQuery = document.getElementById("search_input").value;
-  const tableBody = document.getElementById("TableBody");
-  tableBody.innerHTML = "";
-  fetch("http://79.175.177.113:21800/Brands/search_brands/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept-Version": 1,
-      Accept: "application/json",
-      Authorization: user_token
-    },
-    body: JSON.stringify({
-      search_query: searchQuery,
-      page: page_number,
-      page_limit: 10
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("mainContent").classList.remove("hidden");
-      data.data.brands.forEach(item => {
-        const row = document.createElement("tr");
-        row.classList.add("text-gray-800", "text-lg");
-        row.innerHTML = `
-          <td class="px-6 py-4">
-            <input type="checkbox" class="row-checkbox" data-id="${item.brand_id}" onchange="individualCheckboxChanged(event)">
-          </td>
-          <td class="px-6 py-4">${item.brand_id}</td>
-          <td class="px-6 py-4">${item.brand_name}</td>
-          <td class="px-6 py-4">${item.brand_name_fa}</td>
-          <td class="px-6 py-4">${Object.keys(item.brand_stat).join(" ، ")}</td>
-          <td class="px-6 py-4">${item.brand_priority}</td>
-          <td class="px-6 py-4 flex gap-2">
-            <span class="w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300" onclick="Open_info_modal(${item.brand_id})">
-              درج توضیحات
-            </span>
-            <span class="w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300" onclick="Open_info_modal_p(${item.brand_id})">
-              بروز رسانی رتبه
-            </span>
-          </td>
-        `;
-        tableBody.appendChild(row);
-      });
-    })
-    .catch(error => console.error("خطا در دریافت داده‌های جستجو:", error));
-}
-
-// تابع تغییر وضعیت چک‌باکس (در صورت نیاز)
-function individualCheckboxChanged(event) {
-  // منطق مورد نظر شما (اختیاری)
-}
-
-// مودال تغییر توضیحات فردی
-function Open_info_modal(id) {
-  const tableElem = document.getElementById("brands_tabel");
-  const modalElem = document.getElementById("info_change_modal");
-  tableElem.classList.add("opacity-20");
-  modalElem.classList.remove("hidden");
-  
-  document.getElementById("close_info_modal").onclick = () => {
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-  document.getElementById("confirm_info_button").onclick = () => {
-    push_info(id);
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-}
-
-// عملکرد تغییر توضیحات فردی (به دلخواه جایگزین شود)
-function push_info(id) {
-  console.log("به‌روزرسانی توضیحات برای برند", id);
-  // فراخوانی API مربوطه
-}
-
-// مودال تغییر رتبه فردی
-function Open_info_modal_p(id) {
-  const tableElem = document.getElementById("brands_tabel");
-  const modalElem = document.getElementById("priority_change_modal");
-  tableElem.classList.add("opacity-20");
-  modalElem.classList.remove("hidden");
-  
-  document.getElementById("close_p_modal").onclick = () => {
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-  document.getElementById("confirm_p_button").onclick = () => {
-    push_p(id);
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-}
-
-// عملکرد تغییر رتبه فردی (به دلخواه جایگزین شود)
-function push_p(id) {
-  console.log("به‌روزرسانی رتبه برای برند", id);
-  // فراخوانی API مربوطه
-}
-
-// مودال صفحه‌بندی
-function open_pagination_modal() {
-  const tableElem = document.getElementById("brands_tabel");
-  const modalElem = document.getElementById("pagination_change_modal");
-  tableElem.classList.add("opacity-20");
-  modalElem.classList.remove("hidden");
-  
-  document.getElementById("close_pagination_modal").onclick = () => {
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-  document.getElementById("confirm_pagination_button").onclick = () => {
-    push_info_pagination();
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-}
-
-// عملکرد تغییر صفحه‌بندی
-function push_info_pagination() {
-  let newPage = parseInt(document.getElementById("pagination_input").value, 10);
-  if (isNaN(newPage)) newPage = 1;
-  page_number = newPage;
-  updatePaginationDisplay();
+perv_page_button.addEventListener('click', () => {
+  page_number -= 1;
+  page_show.innerHTML = page_number;
   showLoader(async () => {
-    searchActive ? await update_search_table(page_number) : await update_table(page_number);
+    await update_table(page_number, searchQuery);
+  });
+  if (page_number === 1) {
+    perv_page_button.classList.add('hidden');
+  }
+});
+
+// Pagination modal to jump to a specific page
+document.getElementById('show_page_number').addEventListener('click', () => {
+  open_pagination_modal();
+});
+
+async function open_pagination_modal() {
+  const tabels = document.getElementById('brands_tabel');
+  tabels.classList.add('opacity-20');
+  const modal_container = document.getElementById('pagination_change_modal');
+  modal_container.classList.remove('hidden');
+
+  document.getElementById('close_pagination_modal').addEventListener('click', () => {
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  });
+
+  document.getElementById('confirm_pagination_button').addEventListener('click', () => {
+    // Read new page number and update the table with the current search query.
+    (async function () {
+      let newPage = parseInt(document.getElementById('pagination_input').value, 10);
+      if (isNaN(newPage)) {
+        newPage = 1;
+      }
+      page_show.innerHTML = newPage;
+      if (newPage > 1) {
+        perv_page_button.classList.remove('hidden');
+      }
+      showLoader(async () => {
+        await update_table(newPage, searchQuery);
+      });
+      tabels.classList.remove('opacity-20');
+      modal_container.classList.add('hidden');
+    })();
   });
 }
 
-// مودال تغییر توضیحات گروهی
-function open_bulk_info_modal() {
-  const tableElem = document.getElementById("brands_tabel");
-  const modalElem = document.getElementById("bulk_info_change_modal");
-  tableElem.classList.add("opacity-20");
-  modalElem.classList.remove("hidden");
-  
-  document.getElementById("close_bulk_info_modal").onclick = () => {
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-  document.getElementById("confirm_bulk_info_button").onclick = async () => {
-    const newDesc = document.getElementById("bulk_category_info_input").value;
-    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
-    for (const cb of checkboxes) {
-      const brandId = cb.dataset.id;
-      await bulkPush_info(brandId, newDesc);
-    }
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-    searchActive ? update_search_table(page_number) : update_table(page_number);
-  };
-}
+// Search and Refresh event listeners
+document.getElementById('search_button').addEventListener('click', () => {
+  searchQuery = document.getElementById('search_input').value.trim();
+  page_number = 1; // Reset to page 1 for a new search
+  showLoader(async () => {
+    await update_table(page_number, searchQuery);
+  });
+});
 
-async function bulkPush_info(brandId, description) {
-  try {
-    const response = await fetch("http://79.175.177.113:21800/Categories/update_category_usage_advices/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Accept-Version": 1,
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        authorization: user_token
-      },
-      body: JSON.stringify({
-        brand_id: brandId,
-        description: description
-      })
-    });
-    if (!response.ok) throw new Error(`خطا: ${response.status} ${response.statusText}`);
-  } catch (error) {
-    console.error(error);
+document.getElementById('refresh_button').addEventListener('click', () => {
+  searchQuery = "";
+  document.getElementById('search_input').value = "";
+  page_number = 1;
+  showLoader(async () => {
+    await update_table(page_number, searchQuery);
+  });
+});
+
+// Batch update for selected items:
+// Batch description update
+document.getElementById('update_selected_desc').addEventListener('click', batchOpen_info_modal);
+async function batchOpen_info_modal() {
+  const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
+  if (checkboxes.length === 0) {
+    alert("لطفا حداقل یک برند انتخاب کنید.");
+    return;
   }
-}
+  const tabels = document.getElementById('brands_tabel');
+  tabels.classList.add('opacity-20');
+  const modal_container = document.getElementById('info_change_modal');
+  modal_container.classList.remove('hidden');
 
-// مودال تغییر رتبه گروهی
-function open_bulk_priority_modal() {
-  const tableElem = document.getElementById("brands_tabel");
-  const modalElem = document.getElementById("bulk_priority_change_modal");
-  tableElem.classList.add("opacity-20");
-  modalElem.classList.remove("hidden");
-  
-  document.getElementById("close_bulk_priority_modal").onclick = () => {
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-  };
-  document.getElementById("confirm_bulk_priority_button").onclick = async () => {
-    const newPriority = document.getElementById("bulk_category_p_input").value;
-    const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
-    for (const cb of checkboxes) {
-      const brandId = cb.dataset.id;
-      await bulkPush_priority(brandId, newPriority);
+  document.getElementById('confirm_info_button').onclick = async () => {
+    const newInfo = document.getElementById('category_info_input').value;
+    for (const checkbox of checkboxes) {
+      const id = checkbox.dataset.id;
+      await push_info(id, newInfo);
     }
-    tableElem.classList.remove("opacity-20");
-    modalElem.classList.add("hidden");
-    searchActive ? update_search_table(page_number) : update_table(page_number);
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+    update_table(page_number, searchQuery);
+  };
+
+  document.getElementById('close_info_modal').onclick = () => {
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
   };
 }
 
-async function bulkPush_priority(brandId, priority) {
-  try {
-    const response = await fetch("http://79.175.177.113:21800/Brands/update_brand_priority/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Accept-Version": 1,
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        authorization: user_token
-      },
-      body: JSON.stringify({
-        brand_id: brandId,
-        priority: priority
-      })
-    });
-    if (!response.ok) throw new Error(`خطا: ${response.status} ${response.statusText}`);
-  } catch (error) {
-    console.error(error);
+// Batch rank update
+document.getElementById('update_selected_rank').addEventListener('click', batchOpen_priority_modal);
+async function batchOpen_priority_modal() {
+  const checkboxes = document.querySelectorAll("#TableBody .row-checkbox:checked");
+  if (checkboxes.length === 0) {
+    alert("لطفا حداقل یک برند انتخاب کنید.");
+    return;
   }
+  const tabels = document.getElementById('brands_tabel');
+  tabels.classList.add('opacity-20');
+  const modal_container = document.getElementById('priority_change_modal');
+  modal_container.classList.remove('hidden');
+
+  document.getElementById('confirm_p_button').onclick = async () => {
+    const newPriority = document.getElementById('category_p_input').value;
+    for (const checkbox of checkboxes) {
+      const id = checkbox.dataset.id;
+      await push_p(id, newPriority);
+    }
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+    update_table(page_number, searchQuery);
+  };
+
+  document.getElementById('close_p_modal').onclick = () => {
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  };
+}
+
+// Individual modal open functions (for single item updates)
+function Open_info_modal(id) {
+  const tabels = document.getElementById('brands_tabel');
+  tabels.classList.add('opacity-20');
+  const modal_container = document.getElementById('info_change_modal');
+  modal_container.classList.remove('hidden');
+
+  document.getElementById('confirm_info_button').onclick = () => {
+    push_info(id);
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  };
+
+  document.getElementById('close_info_modal').onclick = () => {
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  };
+}
+
+function Open_info_modal_p(id) {
+  const tabels = document.getElementById('brands_tabel');
+  tabels.classList.add('opacity-20');
+  const modal_container = document.getElementById('priority_change_modal');
+  modal_container.classList.remove('hidden');
+
+  document.getElementById('confirm_p_button').onclick = () => {
+    push_p(id);
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  };
+
+  document.getElementById('close_p_modal').onclick = () => {
+    tabels.classList.remove('opacity-20');
+    modal_container.classList.add('hidden');
+  };
 }
