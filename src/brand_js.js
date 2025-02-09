@@ -464,7 +464,7 @@ async function open_pagination_modal() {
 
         confirm_botton = document.getElementById('confirm_pagination_button')
         confirm_botton.addEventListener('click' , () => {
-            push_info(id)
+            push_info()
 
             tabels.classList.remove('opacity-20')
             modal_container.classList.add('hidden')
