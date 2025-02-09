@@ -121,12 +121,20 @@ async function update_table(){
            farsiCell.className = "px-6 py-4";
            farsiCell.textContent = item.brand_name_fa;
            row.appendChild(farsiCell);
+
+
+            // Brand state in Farsi
+           const stateCell = document.createElement("td");
+           farsiCell.className = "px-6 py-4";
+           farsiCell.textContent = Object.keys(item.brand_stat).join(" ، ");
+           row.appendChild(stateCell);
    
            // Brand Rank
            const rankCell = document.createElement("td");
            rankCell.className = "px-6 py-4";
            rankCell.textContent = item.brand_priority;
            row.appendChild(rankCell);
+
    
            // Action cell (you can add your buttons or actions here)
            const actionCell = document.createElement("td");
@@ -162,7 +170,7 @@ async function update_table(){
      yellowButton.style.position = "fixed";
      yellowButton.style.bottom = "20px";
      yellowButton.style.right = "20px";
-     yellowButton.style.display = false
+    //  yellowButton.style.display = false
    
    //   document.body.appendChild(yellowButton);
    
@@ -174,7 +182,7 @@ async function update_table(){
      greenButton.style.position = "fixed";
      greenButton.style.bottom = "20px";
      greenButton.style.right = "20px";
-     greenButton.style.display = false
+    //  greenButton.style.display = false
    
    //   document.body.appendChild(greenButton);
    
