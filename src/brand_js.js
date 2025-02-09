@@ -440,7 +440,11 @@ perv_page_button.addEventListener('click' , () => {
 
 // pagination modal 
 
-document.getElementById('show_page_number').addEventListener('click' , open_pagination_modal())
+document.getElementById('show_page_number').addEventListener('click' , () => {
+
+  open_pagination_modal()
+
+} )
 
 
 async function open_pagination_modal() {
