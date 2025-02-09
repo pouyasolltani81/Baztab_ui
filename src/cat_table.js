@@ -946,11 +946,11 @@ async function CreateCategory(parent_id, name, name_fa) {
 // change category info modal
     async function change_category_info(id) {
 
-        tabels = document.getElementById('change_info_for_category_modal')
+        tabels = document.getElementById('findCategoryContent')
         
         tabels.classList.add('opacity-20')
 
-        modal_container = document.getElementById('info_change_id_modal')
+        modal_container = document.getElementById('change_info_for_category_modal')
 
         modal_container.classList.remove('hidden')
 
