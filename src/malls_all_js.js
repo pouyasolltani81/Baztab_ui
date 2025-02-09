@@ -73,7 +73,7 @@ async function update_table(page, query = "") {
 
       const tableBody = document.getElementById("TableBody");
       tableBody.innerHTML = '';
-      data.data.brands.forEach(item => {
+      data.data.forEach(item => {
         const row = document.createElement("tr");
         row.classList.add("text-gray-800", "text-lg");
 
