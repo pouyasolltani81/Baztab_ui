@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function update_table(){
+  console.log(page_number);
+  
 
     
 
