@@ -216,10 +216,10 @@ subcategories.forEach(subcategory => {
             <tr>
                 
                 <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
+                ${subcategory.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, "\\'")}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>llm_processing_products_count
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</span></div>
 
@@ -230,8 +230,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -239,7 +239,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, "\\'")}')">تغییر مشخصات</button>
 
 
         </div>
@@ -249,16 +249,19 @@ subcategories.forEach(subcategory => {
         `;
     } else {
         level3Items.forEach(level3 => {
+            // If level3.name_fa.replace(/'/g, "\\'") contains an apostrophe, escape it:
+             level3.name_fa.replace(/'/g, "\\'").replace(/'/g, "\\'");
+
             const level4Items = level3.level_4 || [];
             if (!level4Items.length) {
                 categoryTableBody.innerHTML += `
                     <tr>
                         
                         <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                        ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
+                        ${subcategory.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, "\\'")}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</div>
 
@@ -269,8 +272,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -278,17 +281,17 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, "\\'")}')">تغییر مشخصات</button>
 
         </div>
         
         
     </div></td>
                         <td class="py-2 px-4 "><div class="p-6  w-fit border-2">
-                        ${level3.name_fa || "N/A"}(ID : ${level3._id})
+                        ${level3.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${level3._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa.replace(/'/g, "\\'")}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level3.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level3.basic_info.llm_processing_products_count}</span>` : '0'}</div>
 
@@ -299,8 +302,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa}','${level3.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa}','${level3.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa.replace(/'/g, "\\'")}','${level3.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa.replace(/'/g, "\\'")}','${level3.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -309,7 +312,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa.replace(/'/g, "\\'")}')">تغییر مشخصات</button>
            
 
         </div>
@@ -336,10 +339,10 @@ subcategories.forEach(subcategory => {
                         <tr>
                             
                             <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                            ${subcategory.name_fa || "N/A"}(ID : ${subcategory._id})
+                            ${subcategory.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${subcategory._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, "\\'")}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</div>
 
@@ -350,8 +353,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -359,16 +362,16 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, "\\'").replace(/'/g, "\\'")}')">تغییر مشخصات</button>
 
         </div>
         
     </div></td>
                             <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                            ${level3.name_fa || "N/A"}(ID : ${level3._id})
+                            ${level3.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${level3._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa.replace(/'/g, "\\'")}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
             <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level3.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level3.basic_info.llm_processing_products_count}</span>` : '0'}</div>
 
@@ -379,8 +382,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa}','${level3.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa}','${level3.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa.replace(/'/g, "\\'")}','${level3.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa.replace(/'/g, "\\'")}','${level3.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -388,16 +391,16 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa.replace(/'/g, "\\'")}')">تغییر مشخصات</button>
 
         </div>
         
     </div></td>
                             <td class="py-2 px-4"><div><div class="p-6  w-fit border-2">
-                            ${level4.name_fa || "N/A"}(ID : ${level4._id})
+                            ${level4.name_fa.replace(/'/g, "\\'") || "N/A"}(ID : ${level4._id})
         <div class="flex justify-center gap-2 flex-col">
 
-            <div class="flex gap-4 justify-center">${level4 ? `<span class="text-xs text-gray-500">Expert approved : ${level4.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level4.name_fa}' , '${level4.expert_approved}')">change</span></span>` : ''}${level4.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level4.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level4.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
+            <div class="flex gap-4 justify-center">${level4 ? `<span class="text-xs text-gray-500">Expert approved : ${level4.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level4.name_fa.replace(/'/g, "\\'")}' , '${level4.expert_approved}')">change</span></span>` : ''}${level4.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level4.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level4.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
             <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level4.basic_info.total_product_count}</span>` : '0'}</span></div>
                         <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level4.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level4.basic_info.llm_processing_products_count}</span>` : '0'}</div>
 
@@ -408,8 +411,8 @@ subcategories.forEach(subcategory => {
 
         <div class="flex gap-2 justify-center">
 
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level4.name_fa}','${level4.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level4.name_fa}','${level4.slug_fa}')">لیست پروداکت ها</button>
+            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level4.name_fa.replace(/'/g, "\\'")}','${level4.slug_fa}')">اطلاعات بیشتر</button>
+            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level4.name_fa.replace(/'/g, "\\'")}','${level4.slug_fa}')">لیست پروداکت ها</button>
 
         </div>
 
@@ -418,7 +421,7 @@ subcategories.forEach(subcategory => {
 
             
             <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level4._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}','${level4.parent_id}','${level4.name}','${level4.name_fa}')">تغییر مشخصات</button>
+            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}','${level4.parent_id}','${level4.name}','${level4.name_fa.replace(/'/g, "\\'")}')">تغییر مشخصات</button>
 
         </div>
         
@@ -447,26 +450,26 @@ function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
         const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
 
-// ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
+// ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
         
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
-                <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+                <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
                 
-                 <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
-                ${isLastLevel ? `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ''}
+                 <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
+                ${isLastLevel ? `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ''}
             </div>
         `;
         return `
             <div class="category-card p-3 border border-gray-300 rounded-lg m-4">
                 <div class="flex justify-between">
-                    <p class="font-semibold text-sm">${subcategory.name_fa} (ID: ${subcategory._id})</p>
+                    <p class="font-semibold text-sm">${subcategory.name_fa.replace(/'/g, "\\'")} (ID: ${subcategory._id})</p>
                     ${subcategory.updatedAt ? `<span class="text-xs text-gray-500 mt-2">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500 mt-2">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
                 </div>
                 ${buttons}
                 <div class='flex justify-between'>  
                     ${isLastLevel ? '<span class="text-xs text-gray-500 mt-2">آخرین سطح</span>' : ''}
-                    ${subcategory ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 mt-2 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa}' , '${subcategory.expert_approved}')">change</span></span>` : ''}
+                    ${subcategory ? `<span class="text-xs text-gray-500 mt-2">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 mt-2 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, "\\'")}' , '${subcategory.expert_approved}')">change</span></span>` : ''}
                     ${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : ''}
 
                 </div>
@@ -583,7 +586,7 @@ async function ChangeApprove(name_fa , approved) {
 //     // Start the row for this level
 //     let rowHtml = `
 //         <tr class="border-b">
-//             <td class="py-2 px-4 font-semibold text-md">${subcategory.name_fa}</td>
+//             <td class="py-2 px-4 font-semibold text-md">${subcategory.name_fa.replace(/'/g, "\\'")}</td>
 //     `;
 
 //     // Add the columns for this level
@@ -614,16 +617,16 @@ async function ChangeApprove(name_fa , approved) {
 
 //         const buttons = `
 //             <div class="flex space-x-2 mt-2 justify-evenly">
-//                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-//                 ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ``}
-//                 ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ``}
+//                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
+//                 ${isLastLevel ?  `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ``}
+//                 ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa.replace(/'/g, "\\'")}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ``}
 //             </div>
 //         `;
         
 //         return `
 //             <div class="category-card p-3 border border-gray-300 rounded-lg m-4">
 //                 <div class="flex justify-between">
-//                     <p class="font-semibold text-sm">${subcategory.name_fa} (ID: ${subcategory._id})</p>
+//                     <p class="font-semibold text-sm">${subcategory.name_fa.replace(/'/g, "\\'")} (ID: ${subcategory._id})</p>
 //                     ${subcategory.updatedAt ? `<span class="text-xs text-gray-500 mt-2">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500 mt-2">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
 //                 </div>
 //                 ${buttons}
