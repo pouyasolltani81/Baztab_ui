@@ -159,9 +159,7 @@ function renderCategoryDropdown(responseData) {
 }
 
 
-
-
-// Render the table for categories and subcategories
+// Render the table for categories and subcategories up to level 7
 function renderTable(responseData) {
     const categoryTableBody = document.getElementById('categoryTableBody');
     const categoryTableHeader = document.getElementById('categoryTableHeader');
@@ -170,8 +168,6 @@ function renderTable(responseData) {
 
     // Find the selected top-level category by its name_fa (currentCategory)
     let selectedCategory = null;
-
-    // Loop through the categories and check if the main category matches currentCategory
     Object.values(responseData.data).forEach(category => {
         Object.values(category).forEach(mainCategory => {
             if (mainCategory.name_fa === currentCategory) {
@@ -179,262 +175,126 @@ function renderTable(responseData) {
             }
         });
     });
-
-    console.log('Selected Category:', selectedCategory); // Log the selected category
-
+    console.log('Selected Category:', selectedCategory);
     if (!selectedCategory) {
-        console.log('Category not found for', currentCategory); // Log if the selected category is not found
-        return; // If category not found, exit
+        console.log('Category not found for', currentCategory);
+        return;
     }
 
-    const subcategories = selectedCategory.level_2 || []; // Get the second level subcategories
-
-    console.log('Subcategories:', subcategories); // Log subcategories for debugging
-    console.log(subcategories.some(sub => sub.level_3) );
-
-    
-    
-// Render the header row based on the subcategory levels (dynamic number of columns)
-categoryTableHeader.innerHTML = `
-    <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
-    ${subcategories.some(sub => sub.level_3?.length) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.length))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.length)))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 8</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.some(l8 => l8.level_9?.length))))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 9</th>' : ''}
-    ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.some(l7 => l7.level_8?.some(l8 => l8.level_9?.some(l9 => l9.level_10?.length)))))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 10</th>' : ''}
-`;
-
-// Render the rows for each subcategory
-subcategories.forEach(subcategory => {
-    const level3Items = subcategory.level_3 || [];
-
-    if (!level3Items.length) {
-        categoryTableBody.innerHTML += `
-            <tr>
-                
-                <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                ${subcategory.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${subcategory._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, '\\u0027')}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>llm_processing_products_count
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</span></div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-
-
-        </div>
-        
-    </div></td>
-            </tr>
-        `;
-    } else {
-        level3Items.forEach(level3 => {
-            // If level3.name_fa.replace(/'/g, '\\u0027') contains an apostrophe, escape it:
-             level3.name_fa.replace(/'/g, '\\u0027').replace(/'/g, '\\u0027');
-
-            const level4Items = level3.level_4 || [];
-            if (!level4Items.length) {
-                categoryTableBody.innerHTML += `
-                    <tr>
-                        
-                        <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                        ${subcategory.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${subcategory._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, '\\u0027')}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-          <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-
-        </div>
-        
-        
-    </div></td>
-                        <td class="py-2 px-4 "><div class="p-6  w-fit border-2">
-                        ${level3.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${level3._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa.replace(/'/g, '\\u0027')}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level3.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level3.basic_info.llm_processing_products_count}</span>` : '0'}</div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa.replace(/'/g, '\\u0027')}','${level3.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa.replace(/'/g, '\\u0027')}','${level3.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-
-        <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-           
-
-        </div>
-        
-        
-    </div></td>
-                        <td colspan="7" class="py-2 px-4 text-center">N/A</td>
-                    </tr>
-                `;
-            } else {
-                level4Items.forEach(level4 => {
-                    
-                    const level5Items = level4.level_5 || [];
-                    const level6Items = level5Items.flatMap(l5 => l5.level_6 || []);
-                    const level7Items = level6Items.flatMap(l6 => l6.level_7 || []);
-                    const level8Items = level7Items.flatMap(l7 => l7.level_8 || []);
-                    const level9Items = level8Items.flatMap(l8 => l8.level_9 || []);
-                    const level10Items = level9Items.flatMap(l9 => l9.level_10 || []);
-
-
-                    console.log(level5Items);
-
-                    categoryTableBody.innerHTML += `
-                        <tr>
-                            
-                            <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                            ${subcategory.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${subcategory._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${subcategory ? `<span class="text-xs text-gray-500">Expert approved : ${subcategory.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${subcategory.name_fa.replace(/'/g, '\\u0027')}' , '${subcategory.expert_approved}')">change</span></span>` : ''}${subcategory.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(subcategory.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(subcategory.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${subcategory.basic_info.total_product_count}</span>` : '0'}</span></div>
-            <div class="flex gap-4 justify-center">${subcategory.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${subcategory.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${subcategory.basic_info.llm_processing_products_count}</span>` : '0'}</div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-         <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${subcategory._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${subcategory._id}','${subcategory.parent_id}','${subcategory.name}','${subcategory.name_fa.replace(/'/g, '\\u0027').replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-
-        </div>
-        
-    </div></td>
-                            <td class="py-2 px-4"><div class="p-6  w-fit border-2">
-                            ${level3.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${level3._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${level3 ? `<span class="text-xs text-gray-500">Expert approved : ${level3.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level3.name_fa.replace(/'/g, '\\u0027')}' , '${level3.expert_approved}')">change</span></span>` : ''}${level3.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level3.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level3.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level3.basic_info.total_product_count}</span>` : '0'}</span></div>
-            <div class="flex gap-4 justify-center">${level3.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level3.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level3.basic_info.llm_processing_products_count}</span>` : '0'}</div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level3.name_fa.replace(/'/g, '\\u0027')}','${level3.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level3.name_fa.replace(/'/g, '\\u0027')}','${level3.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level3._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level3._id}','${level3.parent_id}','${level3.name}','${level3.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-
-        </div>
-        
-    </div></td>
-                            <td class="py-2 px-4"><div><div class="p-6  w-fit border-2">
-                            ${level4.name_fa.replace(/'/g, '\\u0027') || "N/A"}(ID : ${level4._id})
-        <div class="flex justify-center gap-2 flex-col">
-
-            <div class="flex gap-4 justify-center">${level4 ? `<span class="text-xs text-gray-500">Expert approved : ${level4.expert_approved}   <span class="text-xs text-violet-500 cursor-pointer"  onclick="ChangeApprove('${level4.name_fa.replace(/'/g, '\\u0027')}' , '${level4.expert_approved}')">change</span></span>` : ''}${level4.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(level4.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(level4.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}</div>
-            <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${level4.basic_info.total_product_count}</span>` : '0'}</span></div>
-                        <div class="flex gap-4 justify-center">${level4.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${level4.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm proccessing : ${level4.basic_info.llm_processing_products_count}</span>` : '0'}</div>
-
-            <div></div>
-            <div></div>
-
-        </div>
-
-        <div class="flex gap-2 justify-center">
-
-            <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${level4.name_fa.replace(/'/g, '\\u0027')}','${level4.slug_fa}')">اطلاعات بیشتر</button>
-            <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${level4.name_fa.replace(/'/g, '\\u0027')}','${level4.slug_fa}')">لیست پروداکت ها</button>
-
-        </div>
-
-
-        <div class="flex gap-2 justify-center">
-
-            
-            <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${level4._id}')">درج توضیحات</button>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${level4._id}','${level4.parent_id}','${level4.name}','${level4.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
-
-        </div>
-        
-    </div> </td>
-                           
-                        </tr>
-                    `;
-                });
-            }
-        });
+    // level_2 is your subcategories (or level 2)
+    const subcategories = selectedCategory.level_2 || [];
+    console.log('Subcategories:', subcategories);
+
+    // Update the header to support levels 2 to 7 only.
+    categoryTableHeader.innerHTML = `
+        <th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 2</th>
+        ${subcategories.some(sub => sub.level_3?.length) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 3</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.length)) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 4</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.length))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 5</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.length)))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 6</th>' : ''}
+        ${subcategories.some(sub => sub.level_3?.some(l3 => l3.level_4?.some(l4 => l4.level_5?.some(l5 => l5.level_6?.some(l6 => l6.level_7?.length))))) ? '<th class="py-2 px-4 text-left text-lg font-medium text-center">سطح 7</th>' : ''}
+    `;
+
+    // Helper function to render one cell for a category (any level)
+    function renderCategoryCell(category) {
+        if (!category) return `<div class="p-6 w-fit border-2">N/A</div>`;
+        return `<div class="p-6 w-fit border-2">
+            ${category.name_fa.replace(/'/g, '\\u0027') || "N/A"} (ID: ${category._id})
+            <div class="flex justify-center gap-2 flex-col">
+                <div class="flex gap-4 justify-center">
+                    ${category ? `<span class="text-xs text-gray-500">Expert approved : ${category.expert_approved} <span class="text-xs text-violet-500 cursor-pointer" onclick="ChangeApprove('${category.name_fa.replace(/'/g, '\\u0027')}', '${category.expert_approved}')">change</span></span>` : ''}
+                    ${category.updatedAt ? `<span class="text-xs text-gray-500">آخرین بروزرسانی در : ${moment(category.updatedAt).format('jYYYY/jMM/jDD HH:mm:ss')}</span>` : `<span class="text-xs text-gray-500">ایجاد شده در : ${moment(category.created_at).format('jYYYY/jMM/jDD HH:mm:ss')}</span>`}
+                </div>
+                <div class="flex gap-4 justify-center">
+                    ${category.basic_info ? `<span class="text-xs text-gray-500 mt-2">Total items : ${category.basic_info.total_product_count}</span>` : '0'}
+                </div>
+                <div class="flex gap-4 justify-center">
+                    ${category.basic_info ? `<span class="text-xs text-gray-500 mt-2">In stock : ${category.basic_info.in_stock_count}</span><span class="text-xs text-gray-500 mt-2">llm processing : ${category.basic_info.llm_processing_products_count}</span>` : '0'}
+                </div>
+            </div>
+            <div class="flex gap-2 justify-center">
+                <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${category.name_fa.replace(/'/g, '\\u0027')}', '${category.slug_fa}')">اطلاعات بیشتر</button>
+                <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${category.name_fa.replace(/'/g, '\\u0027')}', '${category.slug_fa}')">لیست پروداکت ها</button>
+            </div>
+            <div class="flex gap-2 justify-center">
+                <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${category._id}')">درج توضیحات</button>
+                <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${category._id}', '${category.parent_id}', '${category.name}', '${category.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
+            </div>
+        </div>`;
     }
-});
 
+    // Render the rows – nested loops for each level from 2 to 7.
+    subcategories.forEach(level2 => {
+        const level3Items = level2.level_3 || [];
+        if (level3Items.length === 0) {
+            categoryTableBody.innerHTML += `<tr>
+                <td>${renderCategoryCell(level2)}</td>
+                <td colspan="5" class="py-2 px-4 text-center">N/A</td>
+            </tr>`;
+        } else {
+            level3Items.forEach(level3 => {
+                const level4Items = level3.level_4 || [];
+                if (level4Items.length === 0) {
+                    categoryTableBody.innerHTML += `<tr>
+                        <td>${renderCategoryCell(level2)}</td>
+                        <td>${renderCategoryCell(level3)}</td>
+                        <td colspan="4" class="py-2 px-4 text-center">N/A</td>
+                    </tr>`;
+                } else {
+                    level4Items.forEach(level4 => {
+                        const level5Items = level4.level_5 || [];
+                        if (level5Items.length === 0) {
+                            categoryTableBody.innerHTML += `<tr>
+                                <td>${renderCategoryCell(level2)}</td>
+                                <td>${renderCategoryCell(level3)}</td>
+                                <td>${renderCategoryCell(level4)}</td>
+                                <td colspan="3" class="py-2 px-4 text-center">N/A</td>
+                            </tr>`;
+                        } else {
+                            level5Items.forEach(level5 => {
+                                const level6Items = level5.level_6 || [];
+                                if (level6Items.length === 0) {
+                                    categoryTableBody.innerHTML += `<tr>
+                                        <td>${renderCategoryCell(level2)}</td>
+                                        <td>${renderCategoryCell(level3)}</td>
+                                        <td>${renderCategoryCell(level4)}</td>
+                                        <td>${renderCategoryCell(level5)}</td>
+                                        <td colspan="2" class="py-2 px-4 text-center">N/A</td>
+                                    </tr>`;
+                                } else {
+                                    level6Items.forEach(level6 => {
+                                        const level7Items = level6.level_7 || [];
+                                        if (level7Items.length === 0) {
+                                            categoryTableBody.innerHTML += `<tr>
+                                                <td>${renderCategoryCell(level2)}</td>
+                                                <td>${renderCategoryCell(level3)}</td>
+                                                <td>${renderCategoryCell(level4)}</td>
+                                                <td>${renderCategoryCell(level5)}</td>
+                                                <td>${renderCategoryCell(level6)}</td>
+                                                <td class="py-2 px-4 text-center">N/A</td>
+                                            </tr>`;
+                                        } else {
+                                            level7Items.forEach(level7 => {
+                                                categoryTableBody.innerHTML += `<tr>
+                                                    <td>${renderCategoryCell(level2)}</td>
+                                                    <td>${renderCategoryCell(level3)}</td>
+                                                    <td>${renderCategoryCell(level4)}</td>
+                                                    <td>${renderCategoryCell(level5)}</td>
+                                                    <td>${renderCategoryCell(level6)}</td>
+                                                    <td>${renderCategoryCell(level7)}</td>
+                                                </tr>`;
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
 
 
 // <td class="py-2 px-4">${renderSubcategories(level5Items, 5)}</td>
@@ -443,7 +303,7 @@ subcategories.forEach(subcategory => {
 // <td class="py-2 px-4">${renderSubcategories(level8Items, 8)}</td>
 // <td class="py-2 px-4">${renderSubcategories(level9Items, 9)}</td>
 // <td class="py-2 px-4">${renderSubcategories(level10Items, 10)}</td>
-}
+
 
 // Recursive function to render subcategories dynamically for each level
 function renderSubcategories(subcategories, level) {
