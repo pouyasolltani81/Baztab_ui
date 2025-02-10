@@ -218,7 +218,7 @@ function renderTable(responseData) {
             </div>
             <div class="flex gap-2 justify-center">
                 <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${category._id}')">درج توضیحات</button>
-                <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4" onclick="change_category_info('${category._id}', '${category.parent_id}', '${category.name}', '${category.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
+                <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4 hidden" onclick="change_category_info('${category._id}', '${category.parent_id}', '${category.name}', '${category.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
             </div>
         </div>`;
     }
