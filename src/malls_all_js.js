@@ -199,7 +199,7 @@ async function update_table(page, query = "") {
 async function push_info(id, newDescription) {
   try {
     const description = newDescription || document.getElementById('category_info_input').value;
-    const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
+    const response = await fetch('http://79.175.177.113:21800/ShoppingMall/update_shopping_mall_description/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
