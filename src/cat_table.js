@@ -1,7 +1,7 @@
-function llm_analysis(name , slug){
+function llm_analysis(name, slug) {
     data = {
-        'name_fa' : name ,
-        'slug' : slug 
+        'name_fa': name,
+        'slug': slug
     }
 
     sessionStorage.setItem('categorydata', JSON.stringify(data));
@@ -12,37 +12,37 @@ function llm_analysis(name , slug){
 async function fetchdata() {
     try {
         if (JSON.parse(sessionStorage.getItem('categoryall'))) {
-            const data =JSON.parse(sessionStorage.getItem('categoryall'))
-            renderCategoryDropdown(data);  
+            const data = JSON.parse(sessionStorage.getItem('categoryall'))
+            renderCategoryDropdown(data);
         } else {
-        const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                "Accept-Version": 1,
-                'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'authorization': user_token,
-            },
-        });
+            const response = await fetch('http://79.175.177.113:21800/Categories/get_categories_tree/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    "Accept-Version": 1,
+                    'Accept': "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    'authorization': user_token,
+                },
+            });
 
-        // Check if the response was successful (status code 2xx)
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            // Check if the response was successful (status code 2xx)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Fetched Data:', data);
+
+            // Check if the response contains valid categories data
+            if (data && data.data && data.data['Saleman_bot']) {
+
+                sessionStorage.setItem('categoryall', JSON.stringify(data));
+                renderCategoryDropdown(data);
+            } else {
+                throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
+            }
         }
-
-        const data = await response.json();
-        console.log('Fetched Data:', data);
-
-        // Check if the response contains valid categories data
-        if (data && data.data && data.data['Saleman_bot']) {
-            
-            sessionStorage.setItem('categoryall', JSON.stringify(data));
-            renderCategoryDropdown(data);  
-        } else {
-            throw new Error('Invalid data format: "Saleman_bot" not found in the response.');
-        }
-    }
 
     } catch (error) {
         // Log and display the error to the user
@@ -54,32 +54,32 @@ async function fetchdata() {
 
 
 
-    // Get the select element by its ID
-    const selectElement = document.getElementById('category');
+// Get the select element by its ID
+const selectElement = document.getElementById('category');
 
-    let selectedOptionId = '675ec5272c0c13458ebea1fd'
-    let selectedOptionname = 'زیبایی و بهداشت'
+let selectedOptionId = '675ec5272c0c13458ebea1fd'
+let selectedOptionname = 'زیبایی و بهداشت'
 
-    // Add an event listener to detect changes in selection
-    selectElement.addEventListener('change', function() {
-      // Get the selected option element
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
-      
-      // Retrieve the id of the selected option
-      selectedOptionId = selectedOption.id;
-      selectedOptionname = selectedOption.value;
+// Add an event listener to detect changes in selection
+selectElement.addEventListener('change', function () {
+    // Get the selected option element
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-      
-      // Log the id to the console (or use it as needed)
-      console.log('Selected option id:', selectedOptionId);
-    });
+    // Retrieve the id of the selected option
+    selectedOptionId = selectedOption.id;
+    selectedOptionname = selectedOption.value;
+
+
+    // Log the id to the console (or use it as needed)
+    console.log('Selected option id:', selectedOptionId);
+});
 
 function gotobrand() {
 
 
     data = {
-        'name_fa' : selectedOptionname,
-        '_id' : selectedOptionId
+        'name_fa': selectedOptionname,
+        '_id': selectedOptionId
     }
 
     sessionStorage.setItem('brand_cat', JSON.stringify(data));
@@ -108,17 +108,17 @@ function renderCategoryDropdown(responseData) {
 
             const option = document.createElement('option');
             option.value = mainCategory.name_fa;
-            option.id = mainCategory._id; 
-           
+            option.id = mainCategory._id;
+
             option.innerHTML = mainCategory.name_fa; // Set display name to the category's name in Farsi
             categoryDropdown.appendChild(option);
         });
     });
 
     console.log(sessionStorage.getItem('lastselectedcategory'))
-    
-    
-    if (sessionStorage.getItem('lastselectedcategory')){
+
+
+    if (sessionStorage.getItem('lastselectedcategory')) {
         currentCategory = JSON.parse(sessionStorage.getItem('lastselectedcategory')).c_value
         category.value = currentCategory
 
@@ -131,22 +131,22 @@ function renderCategoryDropdown(responseData) {
 
     // Trigger the table render when a category is selected
     categoryDropdown.addEventListener('change', (e) => {
-        
+
         currentCategory = e.target.value;
 
-        
+
         let c_data = {
-            'c_value' : currentCategory
+            'c_value': currentCategory
         }
         sessionStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
         currentCategory = JSON.parse(sessionStorage.getItem('lastselectedcategory')).c_value
-        console.log('change:' , currentCategory)
+        console.log('change:', currentCategory)
 
         renderTable(responseData);
     });
 
     let c_data = {
-        'c_value' : currentCategory
+        'c_value': currentCategory
     }
 
     sessionStorage.setItem('lastselectedcategory', JSON.stringify(c_data));
@@ -218,7 +218,7 @@ function renderTable(responseData) {
             </div>
             <div class="flex gap-2 justify-center">
                 <button class="px-3 py-1 bg-violet-500 text-white rounded-md text-sm p-4 mt-4" onclick="Open_info_modal('${category._id}')">درج توضیحات</button>
-                <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4 hidden" onclick="change_category_info('${category._id}', '${category.parent_id}', '${category.name}', '${category.name_fa.replace(/'/g, '\\u0027')}')">تغییر مشخصات</button>
+                <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm p-4 mt-4 " onclick="change_category_info('${category._id}', '${category.parent_id}', '${category.name}', '${category.name_fa.replace(/'/g, '\\\u0027')}')">تغییر مشخصات</button>
             </div>
         </div>`;
     }
@@ -310,8 +310,8 @@ function renderSubcategories(subcategories, level) {
     return subcategories.map(subcategory => {
         const isLastLevel = !subcategory[`level_${level + 1}`] || subcategory[`level_${level + 1}`].length === 0;
 
-// ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
-        
+        // ${isLastLevel ? `<button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm p-4" onclick="gotoproducts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">لیست پروداکت ها</button>` : ''}
+
         const buttons = `
             <div class="flex space-x-2 mt-2 justify-evenly">
                 <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm" onclick="gotocharts('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">اطلاعات بیشتر</button>
@@ -340,18 +340,18 @@ function renderSubcategories(subcategories, level) {
 
 
 
-async function ChangeApprove(name_fa , approved) {
+async function ChangeApprove(name_fa, approved) {
 
     binary_approve = 0
 
     if (approved) {
 
         binary_approve = 0
-    
+
     } else {
 
         binary_approve = 1
-    
+
     }
 
     try {
@@ -368,24 +368,24 @@ async function ChangeApprove(name_fa , approved) {
                 "approve_state": binary_approve
             })
         });
-    
+
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-    
+
         const data = await response.json();
         console.log('Fetched Data:', data);
         console.log('Approve State:', binary_approve);
-    
-        sessionStorage.removeItem('categoryall'); 
-      
-        window.location.reload(); 
-    
+
+        sessionStorage.removeItem('categoryall');
+
+        window.location.reload();
+
     } catch (error) {
         console.error('Fetch Error:', error);
     }
 
-     
+
 
 }
 
@@ -482,7 +482,7 @@ async function ChangeApprove(name_fa , approved) {
 //                 ${isLastLevel ?  `<button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm p-4" onclick="llm_analysis('${subcategory.name_fa.replace(/'/g, '\\u0027')}','${subcategory.slug_fa}')">تحلیل هوش مصنوعی</button>` : ``}
 //             </div>
 //         `;
-        
+
 //         return `
 //             <div class="category-card p-3 border border-gray-300 rounded-lg m-4">
 //                 <div class="flex justify-between">
@@ -505,48 +505,48 @@ async function initialize_PAGE() {
     }
 }
 
-function gotoproducts(name,slug) {
+function gotoproducts(name, slug) {
     console.log(name);
-    
+
     const data = {
         category_name_fa: name,
         slug_fa: slug,
         all: false
 
-      };
+    };
 
-    sessionStorage.setItem('productResponse', JSON.stringify(data));  
+    sessionStorage.setItem('productResponse', JSON.stringify(data));
     // sessionStorage.setItem('productResponse', JSON.stringify(name));  
     window.location.href = './product_table.html';
 }
 
-function gotocharts(name  , slug) {
+function gotocharts(name, slug) {
     console.log(name);
     const data = {
         category_name_fa: name,
         slug_fa: slug,
-      };
+    };
 
-    sessionStorage.setItem('name_far', JSON.stringify(data));    
+    sessionStorage.setItem('name_far', JSON.stringify(data));
     window.location.href = './charts.html';
 }
 
 
 
 // Start loading and use `showLoader` to show the spinner
-window.addEventListener('load', function() {
-    showLoader(async function() {
+window.addEventListener('load', function () {
+    showLoader(async function () {
         await initialize_PAGE();  // Simulate page load logic
         document.getElementById('mainContent').classList.remove('hidden'); // Show main content
     });
 });
 
 
-    function showLoader(asyncOperation) {
-      // Create and append the overlay with the spinner
-      const overlay = document.createElement('div');
-      overlay.classList.add('loading-overlay');
-      overlay.innerHTML = `
+function showLoader(asyncOperation) {
+    // Create and append the overlay with the spinner
+    const overlay = document.createElement('div');
+    overlay.classList.add('loading-overlay');
+    overlay.innerHTML = `
         <div class="spinner">
           <div class="spinner-segment"></div>
           <div class="spinner-segment"></div>
@@ -560,61 +560,61 @@ window.addEventListener('load', function() {
           <div class="spinner-segment"></div>
         </div>
       `;
-      document.body.appendChild(overlay);
+    document.body.appendChild(overlay);
 
-      // Perform the async operation and hide the loader when done
-      asyncOperation().finally(() => {
+    // Perform the async operation and hide the loader when done
+    asyncOperation().finally(() => {
         // Remove the overlay after the operation is done
         overlay.remove();
-      });
+    });
+}
+
+
+
+//  creat category functions 
+
+
+let parent = true
+
+document.getElementById('selectcategorytype_child').addEventListener('click', () => {
+    parent = false;
+    document.getElementById('selectcategorytype_child').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
+    document.getElementById('selectcategorytype_parent').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
+    document.getElementById('parent_id_container').classList.remove('scale-y-0')
+
+    document.getElementById('parent_id').value = ''
+
+})
+
+
+
+document.getElementById('selectcategorytype_parent').addEventListener('click', () => {
+    parent = true;
+    document.getElementById('selectcategorytype_parent').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
+    document.getElementById('selectcategorytype_child').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
+    document.getElementById('parent_id_container').classList.add('scale-y-0')
+
+})
+
+
+
+document.getElementById('creat_category_button').addEventListener('click', () => {
+    let parent_id = document.getElementById('parent_id').value ? document.getElementById('parent_id').value : ''
+    let name = document.getElementById('name').value ? document.getElementById('name').value : ''
+    let name_fa = document.getElementById('name_fa').value ? document.getElementById('name_fa').value : ''
+
+    CreateCategory(parent_id, name, name_fa)
+
+})
+
+
+document.getElementById('name_fa').addEventListener('input', function () {
+    if (document.getElementById('name_fa').value) {
+        document.getElementById('creat_category_button').classList.remove('opacity-0')
+    } else {
+        document.getElementById('creat_category_button').classList.add('opacity-0')
     }
-
-   
-
-    //  creat category functions 
-
-
-    let parent = true
-
-    document.getElementById('selectcategorytype_child').addEventListener('click' , () => {
-        parent = false;
-        document.getElementById('selectcategorytype_child').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('selectcategorytype_parent').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('parent_id_container').classList.remove('scale-y-0')
-
-        document.getElementById('parent_id').value  = ''
-
-    })
-
-
-
-    document.getElementById('selectcategorytype_parent').addEventListener('click' , () => {
-        parent = true;
-        document.getElementById('selectcategorytype_parent').classList = 'border-2 border-teal-400 bg-teal-100 text-teal-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('selectcategorytype_child').classList = 'border-2 border-gray-400 bg-gray-100 text-gray-600 font-semibold p-2 text-center rounded-lg cursor-pointer hover:shadow-lg transition'
-        document.getElementById('parent_id_container').classList.add('scale-y-0')
-    
-    })
-
-
-
-    document.getElementById('creat_category_button').addEventListener('click' , () => {
-        let parent_id = document.getElementById('parent_id').value  ? document.getElementById('parent_id').value  : ''
-        let name = document.getElementById('name').value  ? document.getElementById('name').value  : ''
-        let name_fa = document.getElementById('name_fa').value ? document.getElementById('name_fa').value  : ''
-
-        CreateCategory(parent_id,name,name_fa)
-
-    })
-
-
-    document.getElementById('name_fa').addEventListener('input', function() {
-        if  (document.getElementById('name_fa').value){
-            document.getElementById('creat_category_button').classList.remove('opacity-0')
-        } else {
-            document.getElementById('creat_category_button').classList.add('opacity-0')
-        }
-    })
+})
 async function CreateCategory(parent_id, name, name_fa) {
     try {
         const response = await fetch('http://79.175.177.113:21800/Categories/create/', {
@@ -642,9 +642,9 @@ async function CreateCategory(parent_id, name, name_fa) {
         console.log(data);
 
         alert('دسته با موفقیت ایجاد شد');
-        sessionStorage.removeItem('categoryall'); 
-      
-        window.location.reload(); 
+        sessionStorage.removeItem('categoryall');
+
+        window.location.reload();
 
     } catch (error) {
         // Log and display the error to the user
@@ -656,44 +656,44 @@ async function CreateCategory(parent_id, name, name_fa) {
 
 // Delete category modal 
 
-    async function DeleteCategory() {
+async function DeleteCategory() {
 
-        tabels = document.getElementById('findCategoryContent')
-        
-        tabels.classList.add('opacity-20')
+    tabels = document.getElementById('findCategoryContent')
 
-        modal_container = document.getElementById('delete_category_modal')
+    tabels.classList.add('opacity-20')
 
-        modal_container.classList.remove('hidden')
+    modal_container = document.getElementById('delete_category_modal')
 
-        close_button = document.getElementById('close_delete_modal')
+    modal_container.classList.remove('hidden')
 
-        close_button.addEventListener('click' , () => {
+    close_button = document.getElementById('close_delete_modal')
 
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-        })
+    close_button.addEventListener('click', () => {
 
-
-        confirm_botton = document.getElementById('confirm_delete_button')
-        confirm_botton.addEventListener('click' , () => {
-            Delete_c()
-
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-
-        })
-       
-
-        
-    }
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+    })
 
 
-    async function Delete_c() {
+    confirm_botton = document.getElementById('confirm_delete_button')
+    confirm_botton.addEventListener('click', () => {
+        Delete_c()
 
-        try {
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
 
-            const response = await fetch('http://79.175.177.113:21800/Categories/delete_category/', {
+    })
+
+
+
+}
+
+
+async function Delete_c() {
+
+    try {
+
+        const response = await fetch('http://79.175.177.113:21800/Categories/delete_category/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -704,71 +704,71 @@ async function CreateCategory(parent_id, name, name_fa) {
             },
 
             body: JSON.stringify({
-                    "category_id": document.getElementById('delete_category_id').value
-                    })
+                "category_id": document.getElementById('delete_category_id').value
+            })
 
-            });
+        });
 
-            // Check if the response was successful (status code 2xx)
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-
-            sessionStorage.removeItem('categoryall'); 
-            window.location.reload(); 
-
-            // const data = await response.json();
-            // console.log('New info :', data);
-            
-        } catch (error) {
-
-            console.log(error);
-            
-            
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        
+
+        sessionStorage.removeItem('categoryall');
+        window.location.reload();
+
+        // const data = await response.json();
+        // console.log('New info :', data);
+
+    } catch (error) {
+
+        console.log(error);
+
+
     }
+
+}
 
 
 // description modal
-    async function Open_info_modal(id) {
+async function Open_info_modal(id) {
 
-        tabels = document.getElementById('findCategoryContent')
-        
-        tabels.classList.add('opacity-20')
+    tabels = document.getElementById('findCategoryContent')
 
-        modal_container = document.getElementById('info_change_modal')
+    tabels.classList.add('opacity-20')
 
-        modal_container.classList.remove('hidden')
+    modal_container = document.getElementById('info_change_modal')
 
-        close_button = document.getElementById('close_info_modal')
+    modal_container.classList.remove('hidden')
 
-        close_button.addEventListener('click' , () => {
+    close_button = document.getElementById('close_info_modal')
 
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-        })
+    close_button.addEventListener('click', () => {
 
-
-        confirm_botton = document.getElementById('confirm_info_button')
-        confirm_botton.addEventListener('click' , () => {
-            push_info(id)
-
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-
-        })
-       
-
-        
-    }
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+    })
 
 
-    async function push_info(id) {
+    confirm_botton = document.getElementById('confirm_info_button')
+    confirm_botton.addEventListener('click', () => {
+        push_info(id)
 
-        try {
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
 
-            const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
+    })
+
+
+
+}
+
+
+async function push_info(id) {
+
+    try {
+
+        const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -783,76 +783,76 @@ async function CreateCategory(parent_id, name, name_fa) {
                 "category_id": id,
                 "advice": document.getElementById('category_info_input').value
 
-                })
+            })
 
-            });
+        });
 
-            // Check if the response was successful (status code 2xx)
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            
-
-            // const data = await response.json();
-            // console.log('New info :', data);
-            
-        } catch (error) {
-
-            console.log(error);
-            
-            
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        
+
+
+        // const data = await response.json();
+        // console.log('New info :', data);
+
+    } catch (error) {
+
+        console.log(error);
+
+
     }
 
+}
 
-    
+
+
 // change category info modal
-    async function change_category_info(id , parent ,category_name ,category_name_fa) {
-        document.getElementById('change_category_parent').value =  parent;
-        document.getElementById('change_category_name').value =category_name;
-        document.getElementById('change_category_name_fa').value =category_name_fa;
+async function change_category_info(id, parent, category_name, category_name_fa) {
+    document.getElementById('change_category_parent').value = parent;
+    document.getElementById('change_category_name').value = category_name;
+    document.getElementById('change_category_name_fa').value = category_name_fa;
 
 
 
-        tabels = document.getElementById('findCategoryContent')
-        
-        tabels.classList.add('opacity-20')
+    tabels = document.getElementById('findCategoryContent')
 
-        modal_container = document.getElementById('change_info_for_category_modal')
+    tabels.classList.add('opacity-20')
 
-        modal_container.classList.remove('hidden')
+    modal_container = document.getElementById('change_info_for_category_modal')
 
-        close_button = document.getElementById('close_info_id_modal')
+    modal_container.classList.remove('hidden')
 
-        close_button.addEventListener('click' , () => {
+    close_button = document.getElementById('close_info_id_modal')
 
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-        })
+    close_button.addEventListener('click', () => {
 
-
-        confirm_botton = document.getElementById('confirm_info_id_button')
-        confirm_botton.addEventListener('click' , () => {
-            push_info(id)
-
-            tabels.classList.remove('opacity-20')
-            modal_container.classList.add('hidden')
-
-        })
-       
-
-        
-    }
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+    })
 
 
-    async function push_info(id) {
+    confirm_botton = document.getElementById('confirm_info_id_button')
+    confirm_botton.addEventListener('click', () => {
+        push_info(id)
 
-        try {
+        tabels.classList.remove('opacity-20')
+        modal_container.classList.add('hidden')
+
+    })
 
 
 
-            const response = await fetch('http://79.175.177.113:21800/Categories/update_category/', {
+}
+
+
+async function push_info(id) {
+
+    try {
+
+
+
+        const response = await fetch('http://79.175.177.113:21800/Categories/update_category/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -864,74 +864,74 @@ async function CreateCategory(parent_id, name, name_fa) {
 
 
             body: JSON.stringify({
-                    "category_id": id,
-                    "parent_id": document.getElementById('change_category_parent').value,
-                    "name":document.getElementById('change_category_name').value,
-                    "name_fa":document.getElementById('change_category_name_fa').value
-                    })
+                "category_id": id,
+                "parent_id": document.getElementById('change_category_parent').value,
+                "name": document.getElementById('change_category_name').value,
+                "name_fa": document.getElementById('change_category_name_fa').value
+            })
 
-            });
+        });
 
-            // Check if the response was successful (status code 2xx)
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            
-
-            // const data = await response.json();
-            // console.log('New info :', data);
-            
-        } catch (error) {
-
-            console.log(error);
-            
-            
+        // Check if the response was successful (status code 2xx)
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        
-    }
-    
-    // search script 
 
-    // Function to perform the search and scroll to the matching row
+
+        // const data = await response.json();
+        // console.log('New info :', data);
+
+    } catch (error) {
+
+        console.log(error);
+
+
+    }
+
+}
+
+// search script 
+
+// Function to perform the search and scroll to the matching row
 // Global variables to keep track of search state
 let lastSearchTerm = "";
 let currentMatchIndex = -1;
 
 function searchTableAndScroll() {
-  // Get the search term from the input field and convert to lowercase
-  const searchInput = document.getElementById('tableSearch');
-  const searchTerm = searchInput.value.trim().toLowerCase();
-  if (!searchTerm) {
-    return; // Do nothing if the search term is empty
-  }
-  
-  // If the search term has changed, reset the match index
-  if (searchTerm !== lastSearchTerm) {
-    currentMatchIndex = -1;
-    lastSearchTerm = searchTerm;
-  }
-  
-  // Get all rows from the table body
-  const rows = Array.from(document.querySelectorAll('#categoryTableBody tr'));
-  // Filter rows that include the search term (case-insensitive)
-  const matchingRows = rows.filter(row => row.innerText.toLowerCase().includes(searchTerm));
-  
-  // If no matches are found, alert the user
-  if (matchingRows.length === 0) {
-    alert('عبارت مورد نظر یافت نشد !');
-    return;
-  }
-  
-  // Move to the next matching row (wrap around if at the end)
-  currentMatchIndex = (currentMatchIndex + 1) % matchingRows.length;
-  const row = matchingRows[currentMatchIndex];
-  
-  // Scroll the matching row into view smoothly and center it
-  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-  // Highlight the matching row for a brief moment
-  row.classList.add('highlight');
-  setTimeout(() => row.classList.remove('highlight'), 2000);
+    // Get the search term from the input field and convert to lowercase
+    const searchInput = document.getElementById('tableSearch');
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    if (!searchTerm) {
+        return; // Do nothing if the search term is empty
+    }
+
+    // If the search term has changed, reset the match index
+    if (searchTerm !== lastSearchTerm) {
+        currentMatchIndex = -1;
+        lastSearchTerm = searchTerm;
+    }
+
+    // Get all rows from the table body
+    const rows = Array.from(document.querySelectorAll('#categoryTableBody tr'));
+    // Filter rows that include the search term (case-insensitive)
+    const matchingRows = rows.filter(row => row.innerText.toLowerCase().includes(searchTerm));
+
+    // If no matches are found, alert the user
+    if (matchingRows.length === 0) {
+        alert('عبارت مورد نظر یافت نشد !');
+        return;
+    }
+
+    // Move to the next matching row (wrap around if at the end)
+    currentMatchIndex = (currentMatchIndex + 1) % matchingRows.length;
+    const row = matchingRows[currentMatchIndex];
+
+    // Scroll the matching row into view smoothly and center it
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Highlight the matching row for a brief moment
+    row.classList.add('highlight');
+    setTimeout(() => row.classList.remove('highlight'), 2000);
 }
 
 // Attach event listener to the search button
@@ -939,9 +939,9 @@ document.getElementById('searchButton').addEventListener('click', searchTableAnd
 
 // Allow the Enter key in the search input to trigger the search
 document.getElementById('tableSearch').addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    searchTableAndScroll();
-  }
+    if (e.key === 'Enter') {
+        searchTableAndScroll();
+    }
 });
 
 // Create a fixed button on the bottom left using Tailwind CSS (teal)
