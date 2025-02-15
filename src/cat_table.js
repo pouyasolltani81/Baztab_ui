@@ -752,7 +752,7 @@ async function Open_info_modal(id) {
 
     confirm_botton = document.getElementById('confirm_info_button')
     confirm_botton.addEventListener('click', () => {
-        push_info(id)
+        push_info_3(id)
 
         tabels.classList.remove('opacity-20')
         modal_container.classList.add('hidden')
@@ -764,7 +764,7 @@ async function Open_info_modal(id) {
 }
 
 
-async function push_info(id) {
+async function push_info_3(id) {
 
     try {
 
@@ -845,7 +845,7 @@ async function change_category_info(id, parent, category_name, category_name_fa)
 
     confirm_botton = document.getElementById('confirm_info_id_button')
     confirm_botton.addEventListener('click', () => {
-        push_info(id)
+        push_info_2(id)
 
         tabels.classList.remove('opacity-20')
         modal_container.classList.add('hidden')
@@ -857,7 +857,7 @@ async function change_category_info(id, parent, category_name, category_name_fa)
 }
 
 
-async function push_info(id) {
+async function push_info_2(id) {
 
     try {
 
