@@ -768,6 +768,18 @@ async function push_info(id) {
 
     try {
 
+
+        let info_data = {
+
+            "category_id": id,
+            "advice": document.getElementById('category_info_input').value
+
+        }
+
+
+        console.log(info_data);
+        
+
         const response = await fetch('http://79.175.177.113:21800/Categories/update_category_usage_advices/', {
             method: 'POST',
             headers: {
@@ -778,14 +790,13 @@ async function push_info(id) {
                 'authorization': user_token,
             },
 
-            body: JSON.stringify({
-
-                "category_id": id,
-                "advice": document.getElementById('category_info_input').value
-
-            })
+            body: JSON.stringify(info_data)
 
         });
+
+
+        console.log(response);
+        
 
         // Check if the response was successful (status code 2xx)
         if (!response.ok) {
