@@ -883,6 +883,12 @@ async function push_info_2(id) {
 
         });
 
+
+        sessionStorage.removeItem('categoryall');
+
+        window.location.reload();
+
+
         // Check if the response was successful (status code 2xx)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
