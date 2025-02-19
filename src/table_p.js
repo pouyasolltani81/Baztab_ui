@@ -260,6 +260,7 @@ function updateui(data) {
 
     total_pages = data.data.total_pages;
 
+    console.log('test for ' , products , data);
 
 
     createProductTable(products);
