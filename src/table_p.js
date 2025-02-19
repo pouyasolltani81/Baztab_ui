@@ -313,6 +313,7 @@ searchbutton.addEventListener('click', function () {
 refreshButton.addEventListener('click', function () {
     showLoader(async function () {
         document.getElementById('mainContent').classList.add('hidden'); // Show main content
+        page_num = 1;
 
         await GetProduct(productData.category_name_fa, page_num, page_size);
         search_state = false;
