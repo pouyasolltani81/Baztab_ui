@@ -465,6 +465,11 @@ function createProductTable(products) {
         productTableContainer.innerHTML = '';
     }
 
+    console.log('product test');
+    console.log(products);
+
+    
+
     productTableContainer.innerHTML = '';
 
     addscroll = true
