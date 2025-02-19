@@ -314,6 +314,20 @@ refreshButton.addEventListener('click', function () {
     showLoader(async function () {
         document.getElementById('mainContent').classList.add('hidden'); // Show main content
         page_num = 1;
+        pagenum.innerHTML = page_num
+            if (page_num == 1) {
+                document.getElementById('PrevPageButton').classList.add('hidden')
+            } else {
+                document.getElementById('PrevPageButton').classList.remove('hidden')
+            }
+
+
+
+            if (page_num == total_pages) {
+                document.getElementById('NextPageButton').classList.add('hidden')
+            } else {
+                document.getElementById('NextPageButton').classList.remove('hidden')
+            }
 
         await GetProduct(productData.category_name_fa, page_num, page_size);
         search_state = false;
