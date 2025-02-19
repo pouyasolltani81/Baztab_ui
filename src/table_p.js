@@ -204,7 +204,7 @@ async function findproducts(name_fa, page_num, page_size) {  // No need to pass 
             body: JSON.stringify({
                 "name": '',
                 "name_fa": name_fa,
-                "page": 1,
+                "page": page_num,
                 "page_size": 10
             })
         });
