@@ -8,7 +8,7 @@ async function connect_to_server(endpoint, method, header, type, body, route) {
 
     }
 
-    header_c.append(header)
+    header_c.push(header)
 
     try {
 
