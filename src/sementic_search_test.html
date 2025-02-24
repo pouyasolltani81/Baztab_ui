@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Semantic Search Service</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-8">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">Semantic Search Service</h1>
+        <p class="mt-2 text-lg">
+          Search similar content in the database using text, image, or audio.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- Introduction -->
+      <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">Test Our API Service</h2>
+        <p class="text-gray-600">
+          Enter a search query or upload an image/audio file to perform a semantic search in the database. You may optionally specify the number of top results.
+        </p>
+      </section>
+
+      <!-- Form Section -->
+      <section class="bg-white shadow rounded-lg p-6 mb-8">
+        <form id="searchForm" class="space-y-4">
+          <!-- Query Input -->
+          <div>
+            <label for="query" class="block text-sm font-medium text-gray-700">Query</label>
+            <input
+              type="text"
+              name="query"
+              id="query"
+              placeholder="Enter your search query"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <!-- Topk Input -->
+          <div>
+            <label for="topk" class="block text-sm font-medium text-gray-700">Top K Results (optional)</label>
+            <input
+              type="number"
+              name="topk"
+              id="topk"
+              placeholder="e.g. 50"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <!-- Image Upload -->
+          <div>
+            <label for="image" class="block text-sm font-medium text-gray-700">Image File (optional)</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              accept="image/*"
+              class="mt-1 block w-full"
+            />
+          </div>
+          <!-- Audio Upload -->
+          <div>
+            <label for="audio" class="block text-sm font-medium text-gray-700">Audio File (optional)</label>
+            <input
+              type="file"
+              name="audio"
+              id="audio"
+              accept="audio/*"
+              class="mt-1 block w-full"
+            />
+          </div>
+          <p class="text-sm text-gray-500">
+            Note: Provide only one type of input—either text, image, or audio.
+          </p>
+          <!-- Buttons -->
+          <div class="flex space-x-4">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Search
+            </button>
+            <button type="reset" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+              Reset
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+        <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Product cards will be injected here -->
+        </div>
+      </section>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div class="text-white text-xl">Loading...</div>
+      </div>
+    </main>
+
+    <script src="./ui_logic_p.js"></script>
+
+    
+
+    <!-- JavaScript to handle form submission and display results -->
+    <script>
+      document.getElementById('searchForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Clear previous results
+        document.getElementById('resultsContainer').innerHTML = '';
+        document.getElementById('resultsSection').classList.add('hidden');
+
+        // Show loading indicator
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+
+        // Retrieve form values
+        const query = document.getElementById('query').value;
+        const topk = document.getElementById('topk').value;
+        const imageFile = document.getElementById('image').files[0];
+        const audioFile = document.getElementById('audio').files[0];
+
+        // Ensure one (and only one) input type is provided
+        let providedCount = 0;
+        if (query.trim() !== '') providedCount++;
+        if (imageFile) providedCount++;
+        if (audioFile) providedCount++;
+        if (providedCount === 0) {
+          alert('Please provide at least one input: text, image, or audio.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          return;
+        }
+        if (providedCount > 1) {
+          alert('Please provide only one type of input: either text, image, or audio.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          return;
+        }
+
+        // Create form data payload
+        const formData = new FormData();
+        formData.append('query', query);
+        formData.append('topk', topk);
+        if (imageFile) {
+          formData.append('image', imageFile);
+        }
+        if (audioFile) {
+          formData.append('audio', audioFile);
+        }
+
+        try {
+          const response = await fetch('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const result = await response.json();
+
+          // Hide loading indicator
+          document.getElementById('loadingIndicator').classList.add('hidden');
+
+          if (result.return !== true) {
+            alert('Error: ' + result.message);
+            return;
+          }
+
+          const resultsContainer = document.getElementById('resultsContainer');
+          result.data.forEach((item) => {
+            // Create a card for each product
+            const card = document.createElement('div');
+            card.className = 'bg-white shadow rounded-lg overflow-hidden';
+
+            // Add product image if available
+            if (item.metadata && item.metadata.primary_image) {
+              const img = document.createElement('img');
+              img.src = item.metadata.primary_image;
+              img.alt = item.metadata.name || 'Product Image';
+              img.className = 'w-full h-48 object-cover';
+              card.appendChild(img);
+            }
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'p-4';
+
+            // Product name
+            const nameEl = document.createElement('h3');
+            nameEl.className = 'text-lg font-bold mb-2';
+            nameEl.textContent = item.metadata?.name || 'Unnamed Product';
+            cardBody.appendChild(nameEl);
+
+            // Category
+            if (item.metadata?.category) {
+              const categoryEl = document.createElement('p');
+              categoryEl.className = 'text-sm text-gray-600';
+              categoryEl.textContent = 'Category: ' + item.metadata.category;
+              cardBody.appendChild(categoryEl);
+            }
+
+            // Price (if provided and numeric)
+            if (item.metadata?.price && !isNaN(item.metadata.price)) {
+              const priceEl = document.createElement('p');
+              priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
+              priceEl.textContent = 'Price: ' + item.metadata.price;
+              cardBody.appendChild(priceEl);
+            }
+
+            card.appendChild(cardBody);
+            resultsContainer.appendChild(card);
+          });
+
+          if (result.data.length > 0) {
+            document.getElementById('resultsSection').classList.remove('hidden');
+          } else {
+            alert('No results found.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
