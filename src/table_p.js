@@ -210,7 +210,7 @@ async function findproducts(name_fa, page_num, page_size) {  // No need to pass 
         // });
 
 
-        const response = await connect_to_server('http://79.175.177.113:21800/Products/search_product_by_name/' , 'POST' , {'authorization': user_token} , 'application/json' , JSON.stringify({
+        const response = await connect_to_server('http://79.175.177.113:21800/Products/search_product_by_name/' , 'POST' , user_token, 'application/json' , JSON.stringify({
                     "name": '',
                     "name_fa": name_fa,
                     "page": page_num,
