@@ -193,6 +193,8 @@
         const topk = document.getElementById('topk').value;
         const imageFile = document.getElementById('image').files[0];
         const audioFile = document.getElementById('audio').files[0];
+        console.log(query ,  topk , imageFile ,audioFile);
+        
 
         // Ensure one (and only one) input type is provided
         let providedCount = 0;
@@ -236,6 +238,9 @@
             },
             body: formData,
           });
+
+          console.log(response);
+          
 
           if (!response.ok) {
             throw new Error('Network response was not ok');
