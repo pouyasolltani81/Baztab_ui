@@ -223,21 +223,14 @@
           formData.append('audio', audioFile);
         }
 
-        console.log(formData);
+        console.log(formData , query ,topk );
         
 
         try {
-          const response = await fetch('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                "Accept-Version": 1,
-                'Accept': "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'authorization': user_token,
-            },
-            body: formData,
-          });
+
+
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
+          
 
           console.log(response);
           
