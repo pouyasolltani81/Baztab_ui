@@ -1,3 +1,4 @@
+const log = console.log
 async function connect_to_server(endpoint, method, header, type, body, route) {
 
     let header_c = {
@@ -10,6 +11,7 @@ async function connect_to_server(endpoint, method, header, type, body, route) {
     }
 
     // header_c.push(header)
+    log(header_c)
 
     try {
 
