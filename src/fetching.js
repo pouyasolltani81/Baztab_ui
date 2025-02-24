@@ -12,6 +12,7 @@ async function connect_to_server(endpoint, method, user_token, type, body, route
 
     // header_c.push(header)
     log(header_c)
+    log(body)
 
     try {
 
