@@ -235,7 +235,7 @@
         try {
 
 
-        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'application/json', body_c , 'sementic_search' )
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , body_c , 'sementic_search' )
           
 
           console.log(response);
