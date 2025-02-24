@@ -5,10 +5,11 @@ async function connect_to_server(endpoint, method, header, type, body, route) {
         "Accept-Version": 1,
         'Accept': "application/json",
         "Access-Control-Allow-Origin": "*",
+        header
 
     }
 
-    header_c.push(header)
+    // header_c.push(header)
 
     try {
 
