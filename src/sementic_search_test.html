@@ -219,9 +219,16 @@
         formData.append('topk', topk);
         if (imageFile) {
           formData.append('image', imageFile);
+        } else {
+          formData.append('image', null);
         }
         if (audioFile) {
           formData.append('audio', audioFile);
+        } else {
+
+          formData.append('audio', null);
+
+
         }
 
         console.log(formData , query ,topk );
