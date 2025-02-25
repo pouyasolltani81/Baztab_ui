@@ -5,7 +5,7 @@ async function connect_to_server(endpoint, method, user_token, type, body, route
         'Content-Type': type,
         "Accept-Version": 1,
         'Accept': "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         'authorization': user_token,
 
     }
