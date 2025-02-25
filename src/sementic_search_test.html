@@ -226,16 +226,16 @@
 
         console.log(formData , query ,topk );
 
-        const body_c = {
-            'query' : query, 
-            'topk' : 5
-        }
+        // const body_c = {
+        //     'query' : query, 
+        //     'topk' : 5
+        // }
         
 
         try {
 
 
-        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , body_c , 'sementic_search' )
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
           
 
           console.log(response);
