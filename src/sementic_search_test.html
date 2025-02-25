@@ -215,8 +215,8 @@
 
         // Create form data payload
         const formData = new FormData();
-        // formData.append('query', query);
-        // formData.append('topk', topk);
+        formData.append('query', query);
+        formData.append('topk', topk);
         if (imageFile) {
           formData.append('image', imageFile);
         } else {
@@ -242,7 +242,7 @@
         try {
 
 
-        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
           
 
           console.log(response);
