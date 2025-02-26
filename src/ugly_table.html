@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center min-h-screen">
+<body class="bg-gradient-to-r from-blue-500 to-indigo-600  min-h-screen">
 
 
   <!-- Modal -->
@@ -31,6 +31,9 @@
 
     </div>
   </div>
+
+
+  
 
 
 
@@ -105,7 +108,16 @@
     </div>
   </div>
 
-  <div class="w-full max-w-md px-4">
+
+    <!-- Results Section -->
+      <section id="resultsSection" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+        <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Product cards will be injected here -->
+        </div>
+      </section>
+
+  <div class="w-full fixed bottom-5 px-4">
     <form id="searchForm" class="relative">
       <input type="file" id="imageInput" accept="image/*" class="hidden" />
       <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
