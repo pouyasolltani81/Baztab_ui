@@ -215,7 +215,10 @@
 
         // Create form data payload
         const formData = new FormData();
-        formData.append('query', query);
+        if (query) {
+          formData.append('query', query);
+        }
+        
         formData.append('topk', topk);
         if (imageFile) {
           formData.append('image', imageFile);
