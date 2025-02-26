@@ -1,124 +1,206 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دستیار خرید</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> FontAwesome Icons -->
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="loading_2.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="loading_2.css">
 </head>
 </head>
+
 <body class="bg-gradient-to-r from-blue-100 via-teal-100 to-white">
 
+    <!-- Modal -->
+    <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
+            <!-- Close Button -->
+            <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
 
-<div class="wrapper text-teal-600 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden" id="loading_2">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="shadow"></div>
-    <div class="shadow"></div>
-    <div class="shadow"></div>
-</div>
+            <!-- Results Section -->
+            <section id="resultsSection" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+                <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product cards will be injected here -->
+                </div>
+            </section>
 
-    <div id="app" class="min-h-screen flex flex-col justify-center items-center transition-all ease-in-out duration-500">
-     
-        <div id="chat-bar" class="hidden w-full max-w-md bg-gray-200 text-white p-6 rounded-lg shadow-lg transform scale-100 transition-all ease-in-out duration-500">
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="wrapper text-teal-600 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden" id="loading_2">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+    </div>
+
+    <div id="app"
+        class="min-h-screen flex flex-col justify-center items-center transition-all ease-in-out duration-500">
+
+        <div id="chat-bar"
+            class="hidden w-full max-w-md bg-gray-200 text-white p-6 rounded-lg shadow-lg transform scale-100 transition-all ease-in-out duration-500">
             <h2 class="m-4 text-3xl font-semibold text-gray-800 text-center">دستیار خرید</h2>
-            <p class="text-sm mb-4 text-gray-600 text-center">سلام! من می‌توانم به شما در یافتن محصولات مناسب کمک کنم. فقط بگویید به دنبال چه چیزی هستید، و من گزینه‌ها را پیشنهاد خواهم کرد.</p>
+            <p class="text-sm mb-4 text-gray-600 text-center">سلام! من می‌توانم به شما در یافتن محصولات مناسب کمک کنم.
+                فقط بگویید به دنبال چه چیزی هستید، و من گزینه‌ها را پیشنهاد خواهم کرد.</p>
             <div class="mt-4 flex items-center space-x-2 flex-col gap-4">
-                <input id="chat-input" type="text" placeholder="چه چیزی می‌خواهید پیدا کنید؟" class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" />
-                <button id="start-chat-btn" class="w-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
+                <input id="chat-input" type="text" placeholder="چه چیزی می‌خواهید پیدا کنید؟"
+                    class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg" />
+                <button id="start-chat-btn"
+                    class="w-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-400 transition duration-200">
                     <i class="fas fa-comments mr-2"></i> شروع چت
                 </button>
             </div>
+
+            <div class="w-full max-w-md px-4">
+                <form id="searchForm" class="relative">
+                    <input type="file" id="imageInput" accept="image/*" class="hidden" />
+                    <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
+
+
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+                        <button type="button" id="imageBtn"
+                            class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.766 2.297a1 1 0 00.95.684H18a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </button>
+                        <button type="button" id="audioBtn"
+                            class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 18v2a4 4 0 01-8 0v-2" />
+                            </svg>
+
+                        </button>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search..."
+                        class="w-full pl-28 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+                </form>
+                <div id="resultsSection" class="hidden mt-6">
+                    <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
+                    <div id="resultsContainer" class="grid gap-4"></div>
+                </div>
+            </div>
+
         </div>
 
-        
+
         <div id="chat-layout" class="w-full   flex min-h-screen transition-all ease-in-out duration-500">
-         
-            <div class="md:w-full w-full bg-gray-200 text-white p-6 flex flex-col transition-all ease-in-out duration-500 min-h-screen" id="chat_container">
+
+            <div class="md:w-full w-full bg-gray-200 text-white p-6 flex flex-col transition-all ease-in-out duration-500 min-h-screen"
+                id="chat_container">
                 <div class="bg-gray-100 rounded-md p-2 mb-[50px]">
                     <h2 class="text-2xl font-semibold text-teal-800 text-center pb-[20px]">دستیار خرید</h2>
-                    <p class="text-sm mb-4 text-teal-700 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک کنم!</p>
+                    <p class="text-sm mb-4 text-teal-700 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک
+                        کنم!</p>
 
                 </div>
-                
 
-               
-                <div id="icon-container" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex  opacity-100 transition-all ease-in-out duration-500">
-                        <img src="./imgs/grinning-face-svgrepo-com.svg" alt="" class="w-[60px] bounce">
-                        <img id="wave-hand" src="./imgs/waving-hand-svgrepo-com.svg" alt="" class="w-[60px] wave">
+
+
+                <div id="icon-container"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex  opacity-100 transition-all ease-in-out duration-500">
+                    <img src="./imgs/grinning-face-svgrepo-com.svg" alt="" class="w-[60px] bounce">
+                    <img id="wave-hand" src="./imgs/waving-hand-svgrepo-com.svg" alt="" class="w-[60px] wave">
                 </div>
-                   
+
                 <div id="chat-history" class="flex-grow overflow-y-auto space-y-4">
 
-                   
-                   
 
-                 
+
+
+
                 </div>
 
 
-                
-                    <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4 scale-x-0 hidden" id="meta_tags">
 
-                        <div id="metadata-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></div>
-                                    <!-- Displaying selected options -->
-                        <div id="selected-options" class="mb-6">
+                <div class="bg-gray-100 p-4 flex items-center space-x-2 mt-4 rounded-md gap-4 scale-x-0 hidden"
+                    id="meta_tags">
+
+                    <div id="metadata-container"
+                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></div>
+                    <!-- Displaying selected options -->
+                    <div id="selected-options" class="mb-6">
                         <!-- <h3 class="text-xl font-semibold text-gray-700">منتخب ها:</h3> -->
-                        </div>
-                        
-
                     </div>
-                    
+
+
+                </div>
+
 
                 <div class="bg-gray-100 p-4 flex flex-col md:flex-row items-center space-x-2 mt-4 rounded-md gap-4">
 
-                    <button id="product_modal" class="hidden  md:hidden h-full bg-violet-500 text-white w-full rounded-lg hover:bg-violet-400 transition duration-200 py-2" onclick="open_products()">
-                            
-                        مشاهده محصولات 
-                    
+                    <button id="product_modal"
+                        class="hidden  md:hidden h-full bg-violet-500 text-white w-full rounded-lg hover:bg-violet-400 transition duration-200 py-2"
+                        onclick="open_products()">
+
+                        مشاهده محصولات
+
                     </button>
 
-                    <div class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg flex flex-col gap-2 p-2 md:basis-10/12">
+                    <div
+                        class="text-gray-800 w-full px-4 py-2 border border-teal-300 rounded-lg flex flex-col gap-2 p-2 md:basis-10/12">
                         <div id="selected-tags-container" class="flex flex-wrap gap-2"></div>
-                            
-                        <textarea  id="user-input" class="w-full p-2 bg-gray-100 rounded-md  focus:outline-none  resize-none" rows="1" style="overflow:hidden; max-height: 6.5rem;" placeholder="جستجوی محصولات..." ></textarea>
-                        
+
+                        <textarea id="user-input"
+                            class="w-full p-2 bg-gray-100 rounded-md  focus:outline-none  resize-none" rows="1"
+                            style="overflow:hidden; max-height: 6.5rem;" placeholder="جستجوی محصولات..."></textarea>
+
                     </div>
 
                     <div class="flex gap-2 w-full h-full md:basis-2/12">
 
-                        <button id="send-btn" class="h-full bg-teal-500 text-white w-full rounded-lg hover:bg-teal-400 transition duration-200 py-2">
-                            
+                        <button id="send-btn"
+                            class="h-full bg-teal-500 text-white w-full rounded-lg hover:bg-teal-400 transition duration-200 py-2">
+
                             <i class="fas fa-paper-plane"></i>
-                        
+
                         </button>
 
-                        <button id="new-btn" class="h-full bg-blue-500 text-white w-full rounded-lg hover:bg-blue-400 transition duration-200 py-2">
-                            
+                        <button id="new-btn"
+                            class="h-full bg-blue-500 text-white w-full rounded-lg hover:bg-blue-400 transition duration-200 py-2">
+
                             <i class="fas fa-plus"></i>
-                        
-                        </button>
-                        
-                    </div>
-                        
-                       
 
-                  
+                        </button>
+
+                    </div>
+
+
+
+
                 </div>
             </div>
 
-           
-            <div class="min-h-dvh absolute  md:relative md:h-auto md:w-3/12  bg-gray-50  overflow-y-auto  md:w-[0px] transition-all duration-300 hidden" id="product_container">
-                
+
+            <div class="min-h-dvh absolute  md:relative md:h-auto md:w-3/12  bg-gray-50  overflow-y-auto  md:w-[0px] transition-all duration-300 hidden"
+                id="product_container">
+
                 <h2 class="text-xl font-semibold text-teal-600 mb-4 text-center">محصولات یافت شده</h2>
-                
-               
+
+
                 <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  
+
                 </div>
 
                 <div class="md:hidden h-[100px] w-full">
@@ -127,25 +209,149 @@
 
                 <div class="fixed bottom-0 right-0 p-4 w-screen flex justify-center items-center">
 
-                    <button id="new-btn" class="h-[50px] md:hidden bg-teal-500 text-white w-full rounded-lg hover:bg-teal-400 transition duration-200 py-2" onclick="close_products()">
-                            
-                        بازگشت 
-                    
+                    <button id="new-btn"
+                        class="h-[50px] md:hidden bg-teal-500 text-white w-full rounded-lg hover:bg-teal-400 transition duration-200 py-2"
+                        onclick="close_products()">
+
+                        بازگشت
+
                     </button>
 
                 </div>
-                
+
 
 
             </div>
 
-            
+
         </div>
     </div>
-    
-    
-    
+
+
+
     <script src="./chatbot.js"></script>
 
+    <script src="./fetching.js"></script>
+
+
+    <script>
+        const imageBtn = document.getElementById('imageBtn');
+        const audioBtn = document.getElementById('audioBtn');
+
+
+        const imageInput = document.getElementById('imageInput');
+        const audioInput = document.getElementById('audioInput');
+
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let audioFile;
+
+        imageBtn.addEventListener('click', () => imageInput.click());
+
+        audioBtn.addEventListener('click', () => audioInput.click());
+
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = searchInput.value;
+            const imageFile = imageInput.files[0];
+            const audioFile = audioInput.files[0];
+
+            const formData = new FormData();
+            if (query) formData.append('query', query);
+            if (imageFile) formData.append('image', imageFile);
+            if (audioFile) formData.append('audio', audioFile);
+
+
+            const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
+            console.log(response);
+
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+
+
+
+            if (result.return !== true) {
+                alert('Error: ' + result.message);
+                return;
+            }
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            result.data.forEach((item) => {
+                // Create a card for each product
+                const card = document.createElement('div');
+                card.className = 'bg-white shadow rounded-lg overflow-hidden';
+
+                // Add product image if available
+                if (item.metadata && item.metadata.primary_image) {
+                    const img = document.createElement('img');
+                    img.src = item.metadata.primary_image;
+                    img.alt = item.metadata.name || 'Product Image';
+                    img.className = 'w-full h-48 object-cover';
+                    card.appendChild(img);
+                }
+
+                const cardBody = document.createElement('div');
+                cardBody.className = 'p-4';
+
+                // Product name
+                const nameEl = document.createElement('h3');
+                nameEl.className = 'text-lg font-bold mb-2';
+                nameEl.textContent = item.metadata?.name || 'Unnamed Product';
+                cardBody.appendChild(nameEl);
+
+                // Category
+                if (item.metadata?.category) {
+                    const categoryEl = document.createElement('p');
+                    categoryEl.className = 'text-sm text-gray-600';
+                    categoryEl.textContent = 'Category: ' + item.metadata.category;
+                    cardBody.appendChild(categoryEl);
+                }
+
+                // Price (if provided and numeric)
+                if (item.metadata?.price && !isNaN(item.metadata.price)) {
+                    const priceEl = document.createElement('p');
+                    priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
+                    priceEl.textContent = 'Price: ' + item.metadata.price;
+                    cardBody.appendChild(priceEl);
+                }
+
+                card.appendChild(cardBody);
+                resultsContainer.appendChild(card);
+            });
+            console.log(result);
+
+
+            if (result.data.length > 0) {
+                document.getElementById('resultsSection').classList.remove('hidden');
+            } else {
+                alert('No results found.');
+            }
+
+
+
+        });
+
+
+        const modal = document.getElementById('myModal');
+        const closeModal = document.getElementById('closeModal');
+
+        function showModal() {
+            modal.classList.remove('hidden');
+        }
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    </script>
+
+
 </body>
+
 </html>
