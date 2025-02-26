@@ -27,7 +27,6 @@
                 <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
                 <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <h1>test</h1>
                     <!-- Product cards will be injected here -->
                 </div>
             </section>
@@ -112,13 +111,7 @@
 
                                     <button type="submit" id="submitbutton"
                                         class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 18v2a4 4 0 01-8 0v-2" />
-                                        </svg>
+                                        <img src="./imgs/left-arrow-svgrepo-com.svg" alt="" srcset="">
             
                                     </button>
                                 </div>
@@ -310,7 +303,7 @@
             result.data.forEach((item) => {
                 // Create a card for each product
                 const card = document.createElement('div');
-                card.className = 'bg-white shadow rounded-lg overflow-hidden';
+                card.className = 'bg-white rounded-lg overflow-hidden';
 
                 // Add product image if available
                 if (item.metadata && item.metadata.primary_image) {
