@@ -1,166 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Categories</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search Bar with Image & Audio Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 p-6 font-sans">
+<body class="bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center min-h-screen">
 
-  <div class="container mx-auto">
-    <!-- Category Dropdown -->
-    <div class="mb-4">
-      <div class="flex items-center space-x-3">
-        <label for="category" class="text-xl font-semibold text-teal-600">Category:</label>
-        <select id="category" class="py-2 px-4 border border-teal-400 rounded-lg focus:ring-2 focus:ring-teal-500 text-lg">
-          <option value="category1">Category 1</option>
-          <option value="category2">Category 2</option>
-          <option value="category3">Category 3</option>
-        </select>
+
+
+
+       <!-- Navbar -->
+<div class="bg-teal-50 shadow-md ">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-teal-50">
+
+    <!-- Back to Category Button (Left) -->
+    <button type="button" id="BackToCategory" class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200" onclick=" window.location.href = './category.html';">
+      ← بازگشت
+    </button>
+  
+    <!-- Menu Links (Center) -->
+    <div class="hidden md:flex space-x-4 space-x-reverse gap-4">
+      <a href="./mall.html" class="text-gray-600 hover:text-teal-800 transition duration-200">آمار پایگاه داده</a>
+    </div>
+  
+    <!-- User and Breadcrumb Info (Right) -->
+    
+      <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
+        <div class="flex gap-4 text-teal-800 font-semibold">
+            نام کاربری: <span class="text-teal-900" id="Username">something</span>
+        </div>
+        <div class="flex-1 text-teal-800 font-semibold">
+          <span class="cursor-pointer" onclick="window.location.href = './category.html'">دسته‌بندی : </span> <span class="text-teal-900">Products</span>
       </div>
     </div>
-
-    <!-- Table for Categories and Subcategories -->
-    <table class="min-w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
-      <thead class="bg-teal-600 text-white">
-        <tr>
-          <th class="py-2 px-4 text-left text-lg font-medium">Category</th>
-        </tr>
-      </thead>
-      <tbody id="categoryTableBody">
-        <!-- Dynamic rows will be injected here -->
-      </tbody>
-    </table>
   </div>
+  
+    <!-- Auth Buttons (Right) -->
+    <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse hidden">
+      <!-- <button id="loginBtn" class="bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 rounded-md px-4 py-2 transition duration-200">
+        ورود
+      </button>
+      <button id="registerBtn" class="bg-teal-500 text-white hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-50 rounded-md px-4 py-2 transition duration-200">
+        ثبت نام
+      </button> -->
+    </div>
+    
+    <!-- Mobile Hamburger Button -->
+    <div class="md:hidden flex items-center space-x-2 space-x-reverse">
+      <!-- <button id="hamburgerMenuBtn" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button> -->
+    </div>
+  </div>
+</div>
 
-  <script>
-    const categoriesData = {
-      category1: [
-        {
-          name: "Category 1A",
-          subcategories: [
-            { name: "Sub 1A1", subcategories: [] },
-            { name: "Sub 1A2", subcategories: [
-              { name: "Sub 1A2a", subcategories: [] },
-              { name: "Sub 1A2b", subcategories: [] }
-            ]}
-          ]
-        },
-        {
-          name: "Category 1B",
-          subcategories: [
-            { name: "Sub 1B1", subcategories: [] },
-            { name: "Sub 1B2", subcategories: [] }
-          ]
-        },
-      ],
-      category2: [
-        {
-          name: "Category 2A",
-          subcategories: [
-            { name: "Sub 2A1", subcategories: [] },
-            { name: "Sub 2A2", subcategories: [] }
-          ]
-        },
-        {
-          name: "Category 2B",
-          subcategories: [
-            { name: "Sub 2B1", subcategories: [] },
-            { name: "Sub 2B2", subcategories: [] }
-          ]
-        }
-      ],
-      category3: [
-        {
-          name: "Category 3A",
-          subcategories: [
-            { name: "Sub 3A1", subcategories: [] },
-            { name: "Sub 3A2", subcategories: [] }
-          ]
-        },
-        {
-          name: "Category 3B",
-          subcategories: [
-            { name: "Sub 3B1", subcategories: [] },
-            { name: "Sub 3B2", subcategories: [] }
-          ]
-        }
-      ]
-    };
+<!-- Mobile Menu (Hidden by default, shown when hamburger is clicked) -->
+<div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
+  <div class="px-6 py-4 space-y-4 ">
+    <!-- <button id="findCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">محصولات</button> -->
+    <!-- <button id="createCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">به روز رسانی</button> -->
+    <a href="./mall.html"><button  class="text-gray-600 text-gray-600 hover:text-teal-800">آمار پایگاه داده</button></a>
 
-    let currentCategory = 'category1';
+    <div class="flex flex-col space-y-4 ">
+      <!-- <button id="loginBtnMobile" class="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2 transition duration-200 w-full">
+        ورود
+      </button>
+      <button id="registerBtnMobile" class="bg-teal-500 text-white hover:bg-teal-600 rounded-md px-4 py-2 transition duration-200 w-full">
+        ثبت نام
+      </button> -->
+    </div>
+  </div>
+</div>
 
-    function renderTable() {
-      const categoryTableBody = document.getElementById('categoryTableBody');
-      const categoryData = categoriesData[currentCategory];
-      
-      categoryTableBody.innerHTML = '';
+    <div class="w-full max-w-md px-4">
+        <form id="searchForm" class="relative">
+            <input type="file" id="imageInput" accept="image/*" class="hidden" />
+            
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+                <button type="button" id="imageBtn" class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.766 2.297a1 1 0 00.95.684H18a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
+                    </svg>
+                </button>
+                <button type="button" id="audioBtn" class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18v2a4 4 0 01-8 0v-2" />
+                    </svg>
+                </button>
+            </div>
+            <input type="text" id="searchInput" placeholder="Search..." class="w-full pl-28 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+        </form>
+        <div id="resultsSection" class="hidden mt-6">
+            <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
+            <div id="resultsContainer" class="grid gap-4"></div>
+        </div>
+    </div>
 
-      function renderSubcategories(subcategories, level = 0, columns = []) {
-        if (subcategories.length > 0) {
-          columns[level] = columns[level] || [];
 
-          subcategories.forEach((subcategory, index) => {
-            columns[level].push({
-              name: subcategory.name,
-              buttons: `
-                <div class="flex space-x-3">
-                  <button class="px-3 py-1 bg-teal-500 text-white rounded-md text-sm">More Info</button>
-                  <button class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm">Get Product</button>
-                  <button class="px-3 py-1 bg-green-500 text-white rounded-md text-sm">Add to Cart</button>
-                </div>
-              `,
-              subcategories: subcategory.subcategories,
-              isLast: index === subcategories.length - 1 // Check if it's the last subcategory at this level
-            });
 
-            if (subcategory.subcategories.length > 0) {
-              renderSubcategories(subcategory.subcategories, level + 1, columns);
+    <!-- Results Section -->
+    <section id="resultsSection" class="hidden">
+      <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+      <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Product cards will be injected here -->
+      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <div class="text-white text-xl">Loading...</div>
+    </div>
+
+
+
+    <script src="./fetching.js"></script>
+    <script src="./ui_logic_p.js"></script>
+    <script>
+        const imageBtn = document.getElementById('imageBtn');
+        const audioBtn = document.getElementById('audioBtn');
+        const imageInput = document.getElementById('imageInput');
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let audioFile;
+
+        imageBtn.addEventListener('click', () => imageInput.click());
+
+        audioBtn.addEventListener('click', async () => {
+            if (isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                audioBtn.classList.remove('bg-red-500');
+            } else {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+                mediaRecorder.onstop = () => {
+                    audioFile = new Blob(audioChunks, { type: 'audio/wav' });
+                    console.log('Recorded audio:', audioFile);
+                };
+                mediaRecorder.start();
+                isRecording = true;
+                audioBtn.classList.add('bg-red-500');
             }
+        });
+
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = searchInput.value;
+            const imageFile = imageInput.files[0];
+            const formData = new FormData();
+            if (query) formData.append('query', query);
+            if (imageFile) formData.append('image', imageFile);
+            if (audioFile) formData.append('audio', audioFile);
+            
+
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
+        console.log(response);
+          
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const result = await response.json();
+
+          // Hide loading indicator
+          document.getElementById('loadingIndicator').classList.add('hidden');
+
+          if (result.return !== true) {
+            alert('Error: ' + result.message);
+            return;
+          }
+
+          const resultsContainer = document.getElementById('resultsContainer');
+          result.data.forEach((item) => {
+            // Create a card for each product
+            const card = document.createElement('div');
+            card.className = 'bg-white shadow rounded-lg overflow-hidden';
+
+            // Add product image if available
+            if (item.metadata && item.metadata.primary_image) {
+              const img = document.createElement('img');
+              img.src = item.metadata.primary_image;
+              img.alt = item.metadata.name || 'Product Image';
+              img.className = 'w-full h-48 object-cover';
+              card.appendChild(img);
+            }
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'p-4';
+
+            // Product name
+            const nameEl = document.createElement('h3');
+            nameEl.className = 'text-lg font-bold mb-2';
+            nameEl.textContent = item.metadata?.name || 'Unnamed Product';
+            cardBody.appendChild(nameEl);
+
+            // Category
+            if (item.metadata?.category) {
+              const categoryEl = document.createElement('p');
+              categoryEl.className = 'text-sm text-gray-600';
+              categoryEl.textContent = 'Category: ' + item.metadata.category;
+              cardBody.appendChild(categoryEl);
+            }
+
+            // Price (if provided and numeric)
+            if (item.metadata?.price && !isNaN(item.metadata.price)) {
+              const priceEl = document.createElement('p');
+              priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
+              priceEl.textContent = 'Price: ' + item.metadata.price;
+              cardBody.appendChild(priceEl);
+            }
+
+            card.appendChild(cardBody);
+            resultsContainer.appendChild(card);
           });
-        }
+          console.log(result);
+          
 
-        return columns;
-      }
+          if (result.data.length > 0) {
+            document.getElementById('resultsSection').classList.remove('hidden');
+          } else {
+            alert('No results found.');
+          }
 
-      categoryData.forEach(category => {
-        const subcategoryColumns = renderSubcategories(category.subcategories);
+          
 
-        const columnsHtml = subcategoryColumns.map((col, index) => {
-          return `
-            <td class="py-2 px-4">
-              <div class="flex flex-col justify-evenly h-[35rem] gap-4">
-                ${col.map(sub => `
-                  <div class="relative category-card p-3">
-                    <div class="category-card-content">
-                      <p class="font-semibold text-sm">${sub.name}</p>
-                      ${sub.buttons}
-                    </div>
-                    <!-- Add a vertical line for the last subcategory -->
-                    ${sub.isLast ? '<div class="absolute inset-0 right-0 border-l-2 border-dashed border-gray-400"></div>' : ''}
-                  </div>
-                `).join('')}
-              </div>
-            </td>
-          `;
-        }).join('');
-
-        categoryTableBody.innerHTML += `
-          <tr class="border-b">
-            <td class="py-2 px-4 font-semibold text-md">${category.name}</td>
-            ${columnsHtml}
-          </tr>
-        `;
-      });
-    }
-
-    renderTable();
-
-    document.getElementById('category').addEventListener('change', (e) => {
-      currentCategory = e.target.value;
-      renderTable();
-    });
-  </script>
+        });
+    </script>
 </body>
 </html>
