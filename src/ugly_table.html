@@ -11,6 +11,29 @@
 <body class="bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center min-h-screen">
 
 
+  <!-- Modal -->
+  <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
+      <!-- Close Button -->
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+        &times;
+      </button>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+        <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Product cards will be injected here -->
+        </div>
+      </section>
+
+
+
+    </div>
+  </div>
+
+
+
 
 
   <!-- Navbar -->
@@ -119,19 +142,6 @@
 
 
 
-  <!-- Results Section -->
-  <section id="resultsSection" class="hidden">
-    <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
-    <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Product cards will be injected here -->
-    </div>
-  </section>
-
-  <!-- Loading Indicator -->
-  <div id="loadingIndicator" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="text-white text-xl">Loading...</div>
-  </div>
-
 
 
   <script src="./fetching.js"></script>
@@ -139,7 +149,7 @@
   <script>
     const imageBtn = document.getElementById('imageBtn');
     const audioBtn = document.getElementById('audioBtn');
-    
+
 
     const imageInput = document.getElementById('imageInput');
     const audioInput = document.getElementById('audioInput');
@@ -177,8 +187,7 @@
 
       const result = await response.json();
 
-      // Hide loading indicator
-      document.getElementById('loadingIndicator').classList.add('hidden');
+
 
       if (result.return !== true) {
         alert('Error: ' + result.message);
@@ -239,6 +248,18 @@
 
 
 
+    });
+
+
+    const modal = document.getElementById('myModal');
+    const closeModal = document.getElementById('closeModal');
+
+    function showModal() {
+      modal.classList.remove('hidden');
+    }
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
     });
   </script>
 </body>

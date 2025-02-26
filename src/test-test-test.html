@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overlay Div with Interactive Icons</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
-<body >
+<body>
 
-    <div class="text-center p-4 text-xl">برند های موجود برای <span>booo</span></div>
-
-<div class="flex flex-col" dir="rtl">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <table class="min-w-full text-center text-sm font-light text-surface dark:text-white">
-          <thead class="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
-            <tr>
-              <th scope="col" class="px-6 py-4">
-                <span id="selectAllButton" class="cursor-pointer">انتخاب همه</span>
-              </th>
-              <th scope="col" class="px-6 py-4">شناسه برند</th>
-              <th scope="col" class="px-6 py-4">نام برند</th>
-              <th scope="col" class="px-6 py-4">نام برند به زبان فارسی</th>
-              <th scope="col" class="px-6 py-4">رتبه برند</th>
-              <th scope="col" class="px-6 py-4"></th>
-            </tr>
-          </thead>
-          <tbody id="TableBody">
-            <!-- Dynamic rows will be inserted here -->
-            <!-- Example row (will be replaced by fetched data) -->
-            <!--
-            <tr class="text-violet-800">
-              <td class="px-6 py-4">
-                <input type="checkbox" class="row-checkbox">
-              </td>
-              <td class="px-6 py-4">اطلاعات برند</td>
-              <td class="px-6 py-4">اطلاعات محصول</td>
-              <td class="px-6 py-4">اطلاعات فروشگاه</td>
-              <td class="px-6 py-4">اطلاعات</td>
-              <td class="px-6 py-4 flex gap-2">
-                <span class="w-full p-2 rounded-xl bg-blue-200 hover:bg-blue-500 cursor-pointer transition duration-300">درج توضیحات</span>
-                <span class="w-full p-2 rounded-xl bg-teal-200 hover:bg-teal-500 cursor-pointer transition duration-300">بروز رسانی رتبه</span>
-              </td>
-            </tr>
-            -->
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <!-- Modal -->
+<div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
+      <!-- Close Button -->
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+          &times;
+      </button>
+      
+      <!-- Modal Content -->
+      <h2 class="text-2xl font-semibold mb-4">Modal Title</h2>
+      <p class="text-gray-700">This is the content of the modal. You can place any HTML elements here!</p>
   </div>
 </div>
 
-<!-- The buttons will be created by the script below (or you can add them manually) -->
+<!-- JavaScript to handle modal visibility -->
+<script>
+  const modal = document.getElementById('myModal');
+  const closeModal = document.getElementById('closeModal');
 
-<!-- <script src="ui_logic_p.js"></script>s -->
-<script src="brand_js.js"></script>
+  function showModal() {
+      modal.classList.remove('hidden');
+  }
 
+  closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+  });
+</script>
+
+<!-- Example button to trigger the modal -->
+<button onclick="showModal()" class="mt-4 p-2 bg-blue-500 text-white rounded">Open Modal</button>
+
+  
 </body>
 </html>
