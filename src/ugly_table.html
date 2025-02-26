@@ -11,27 +11,6 @@
 <body class="bg-gradient-to-r from-blue-500 to-indigo-600  min-h-screen">
 
 
-  <!-- Modal -->
-  <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
-      <!-- Close Button -->
-      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-        &times;
-      </button>
-
-      <!-- Results Section -->
-      <section id="resultsSection" class="hidden">
-        <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
-        <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Product cards will be injected here -->
-        </div>
-      </section>
-
-
-
-    </div>
-  </div>
-
 
   
 
@@ -117,163 +96,196 @@
         </div>
       </section>
 
-  <div class="w-full fixed bottom-5 px-4">
-    <form id="searchForm" class="relative">
-      <input type="file" id="imageInput" accept="image/*" class="hidden" />
-      <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
+  
 
+                        <div class="w-full px-4">
+                            <form id="searchForm" class="relative">
+                                <input type="file" id="imageInput" accept="image/*" class="hidden" />
+                                <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
+            
+            
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+                                    <button type="button" id="imageBtn"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <img class="w-5" src="./imgs/camera-svgrepo-com.svg" alt="" srcset="">
 
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
-        <button type="button" id="imageBtn"
-          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.766 2.297a1 1 0 00.95.684H18a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
-          </svg>
-        </button>
-        <button type="button" id="audioBtn"
-          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18v2a4 4 0 01-8 0v-2" />
-          </svg>
+                                    </button>
+                                    <button type="button" id="audioBtn"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 18v2a4 4 0 01-8 0v-2" />
+                                        </svg>
+            
+                                    </button>
 
-        </button>
-      </div>
-      <input type="text" id="searchInput" placeholder="Search..."
-        class="w-full pl-28 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
-    </form>
-    <div id="resultsSection" class="hidden mt-6">
-      <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
-      <div id="resultsContainer" class="grid gap-4"></div>
-    </div>
-  </div>
-
-
-
-
+                                    <button type="submit" id="submitbutton"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <img class="w-5" src="./imgs/left-arrow-svgrepo-com.svg" alt="" srcset="">
+            
+                                    </button>
+                                </div>
+                                <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
+                                    class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+                            </form>
+                            <div id="resultsSection" class="hidden mt-6">
+                                <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
+                                <div id="resultsContainer" class="grid gap-4"></div>
+                            </div>
+                        </div>
 
   <script src="./fetching.js"></script>
   <script src="./ui_logic_p.js"></script>
-  <script>
-    const imageBtn = document.getElementById('imageBtn');
-    const audioBtn = document.getElementById('audioBtn');
+ <script>
+      document.getElementById('searchForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
+        // Clear previous results
+        document.getElementById('resultsContainer').innerHTML = '';
+        document.getElementById('resultsSection').classList.add('hidden');
 
-    const imageInput = document.getElementById('imageInput');
-    const audioInput = document.getElementById('audioInput');
+        // Show loading indicator
+        document.getElementById('loadingIndicator').classList.remove('hidden');
 
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
-    let audioFile;
+        // Retrieve form values
+        const query = document.getElementById('query').value;
+        const topk = document.getElementById('topk').value;
+        const imageFile = document.getElementById('image').files[0];
+        const audioFile = document.getElementById('audio').files[0];
+        console.log(query ,  topk , imageFile ,audioFile);
+        
 
-    imageBtn.addEventListener('click', () => imageInput.click());
-
-    audioBtn.addEventListener('click', () => audioInput.click());
-
-    searchForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const query = searchInput.value;
-      const imageFile = imageInput.files[0];
-      const audioFile = audioInput.files[0];
-
-      const formData = new FormData();
-      if (query) formData.append('query', query);
-      if (imageFile) formData.append('image', imageFile);
-      if (audioFile) formData.append('audio', audioFile);
-
-
-      const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
-      console.log(response);
-
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const result = await response.json();
-
-
-
-      if (result.return !== true) {
-        alert('Error: ' + result.message);
-        return;
-      }
-
-      const resultsContainer = document.getElementById('resultsContainer');
-      result.data.forEach((item) => {
-        // Create a card for each product
-        const card = document.createElement('div');
-        card.className = 'bg-white shadow rounded-lg overflow-hidden';
-
-        // Add product image if available
-        if (item.metadata && item.metadata.primary_image) {
-          const img = document.createElement('img');
-          img.src = item.metadata.primary_image;
-          img.alt = item.metadata.name || 'Product Image';
-          img.className = 'w-full h-48 object-cover';
-          card.appendChild(img);
+        // Ensure one (and only one) input type is provided
+        let providedCount = 0;
+        if (query.trim() !== '') providedCount++;
+        if (imageFile) providedCount++;
+        if (audioFile) providedCount++;
+        if (providedCount === 0) {
+          alert('Please provide at least one input: text, image, or audio.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          return;
+        }
+        if (providedCount > 1) {
+          alert('Please provide only one type of input: either text, image, or audio.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          return;
         }
 
-        const cardBody = document.createElement('div');
-        cardBody.className = 'p-4';
-
-        // Product name
-        const nameEl = document.createElement('h3');
-        nameEl.className = 'text-lg font-bold mb-2';
-        nameEl.textContent = item.metadata?.name || 'Unnamed Product';
-        cardBody.appendChild(nameEl);
-
-        // Category
-        if (item.metadata?.category) {
-          const categoryEl = document.createElement('p');
-          categoryEl.className = 'text-sm text-gray-600';
-          categoryEl.textContent = 'Category: ' + item.metadata.category;
-          cardBody.appendChild(categoryEl);
+        // Create form data payload
+        const formData = new FormData();
+        if (query) {
+          formData.append('query', query);
         }
-
-        // Price (if provided and numeric)
-        if (item.metadata?.price && !isNaN(item.metadata.price)) {
-          const priceEl = document.createElement('p');
-          priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
-          priceEl.textContent = 'Price: ' + item.metadata.price;
-          cardBody.appendChild(priceEl);
+        
+        formData.append('topk', topk);
+        if (imageFile) {
+          formData.append('image', imageFile);
         }
+        //  else {
+        //   formData.append('image', '');
+        // }
+        if (audioFile) {
+          formData.append('audio', audioFile);
+        } 
+        // else {
 
-        card.appendChild(cardBody);
-        resultsContainer.appendChild(card);
+        //   formData.append('audio', '');
+
+
+        // }
+
+        console.log(formData , query ,topk );
+
+        // const body_c = {
+        //     'query' : query, 
+        //     'topk' : 5
+        // }
+        
+
+        try {
+
+
+        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/' , 'POST' , user_token, 'multipart/form-data' , formData , 'sementic_search' )
+          
+
+          console.log(response);
+          
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const result = await response.json();
+
+          // Hide loading indicator
+          document.getElementById('loadingIndicator').classList.add('hidden');
+
+          if (result.return !== true) {
+            alert('Error: ' + result.message);
+            return;
+          }
+
+          const resultsContainer = document.getElementById('resultsContainer');
+          result.data.forEach((item) => {
+            // Create a card for each product
+            const card = document.createElement('div');
+            card.className = 'bg-white shadow rounded-lg overflow-hidden';
+
+            // Add product image if available
+            if (item.metadata && item.metadata.primary_image) {
+              const img = document.createElement('img');
+              img.src = item.metadata.primary_image;
+              img.alt = item.metadata.name || 'Product Image';
+              img.className = 'w-full h-48 object-cover';
+              card.appendChild(img);
+            }
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'p-4';
+
+            // Product name
+            const nameEl = document.createElement('h3');
+            nameEl.className = 'text-lg font-bold mb-2';
+            nameEl.textContent = item.metadata?.name || 'Unnamed Product';
+            cardBody.appendChild(nameEl);
+
+            // Category
+            if (item.metadata?.category) {
+              const categoryEl = document.createElement('p');
+              categoryEl.className = 'text-sm text-gray-600';
+              categoryEl.textContent = 'Category: ' + item.metadata.category;
+              cardBody.appendChild(categoryEl);
+            }
+
+            // Price (if provided and numeric)
+            if (item.metadata?.price && !isNaN(item.metadata.price)) {
+              const priceEl = document.createElement('p');
+              priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
+              priceEl.textContent = 'Price: ' + item.metadata.price;
+              cardBody.appendChild(priceEl);
+            }
+
+            card.appendChild(cardBody);
+            resultsContainer.appendChild(card);
+          });
+          console.log(result);
+          
+
+          if (result.data.length > 0) {
+            document.getElementById('resultsSection').classList.remove('hidden');
+          } else {
+            alert('No results found.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+          document.getElementById('loadingIndicator').classList.add('hidden');
+        }
       });
-      console.log(result);
-
-
-      if (result.data.length > 0) {
-        document.getElementById('resultsSection').classList.remove('hidden');
-      } else {
-        alert('No results found.');
-      }
-
-
-
-    });
-
-
-    const modal = document.getElementById('myModal');
-    const closeModal = document.getElementById('closeModal');
-
-    function showModal() {
-      modal.classList.remove('hidden');
-    }
-
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-    });
-  </script>
+    </script>
 </body>
 
 </html>
