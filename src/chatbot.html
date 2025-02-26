@@ -79,44 +79,60 @@
                     <p class="text-sm mb-4 text-teal-700 text-center">بگویید به دنبال چه چیزی هستید تا من به شما کمک
                         کنم!</p>
 
-                </div>
 
 
-                <div class="w-full max-w-md px-4">
-                    <form id="searchForm" class="relative">
-                        <input type="file" id="imageInput" accept="image/*" class="hidden" />
-                        <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
-    
-    
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
-                            <button type="button" id="imageBtn"
-                                class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.766 2.297a1 1 0 00.95.684H18a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
-                                </svg>
-                            </button>
-                            <button type="button" id="audioBtn"
-                                class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 18v2a4 4 0 01-8 0v-2" />
-                                </svg>
-    
-                            </button>
+                        <div class="w-full max-w-md px-4">
+                            <form id="searchForm" class="relative">
+                                <input type="file" id="imageInput" accept="image/*" class="hidden" />
+                                <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
+            
+            
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+                                    <button type="button" id="imageBtn"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.766 2.297a1 1 0 00.95.684H18a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
+                                        </svg>
+                                    </button>
+                                    <button type="button" id="audioBtn"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 18v2a4 4 0 01-8 0v-2" />
+                                        </svg>
+            
+                                    </button>
+
+                                    <button type="submit" id="submitbutton"
+                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 18v2a4 4 0 01-8 0v-2" />
+                                        </svg>
+            
+                                    </button>
+                                </div>
+                                <input type="text" id="searchInput" placeholder="Search..."
+                                    class="w-full text-gray-800 pl-28 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+                            </form>
+                            <div id="resultsSection" class="hidden mt-6">
+                                <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
+                                <div id="resultsContainer" class="grid gap-4"></div>
+                            </div>
                         </div>
-                        <input type="text" id="searchInput" placeholder="Search..."
-                            class="w-full pl-28 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
-                    </form>
-                    <div id="resultsSection" class="hidden mt-6">
-                        <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
-                        <div id="resultsContainer" class="grid gap-4"></div>
-                    </div>
+
                 </div>
+
+
+                
     
 
 
@@ -272,6 +288,8 @@
             const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
             console.log(response);
 
+
+            showModal()
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
