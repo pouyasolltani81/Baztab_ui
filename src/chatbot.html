@@ -23,9 +23,9 @@
             </button>
 
             <!-- Results Section -->
-            <section id="resultsSection" class="hidden">
+            <section id="sementic_resultsSection" class="hidden">
                 <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
-                <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Product cards will be injected here -->
                 </div>
             </section>
@@ -304,7 +304,7 @@
                 return;
             }
 
-            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsContainer = document.getElementById('sementic_results');
             result.data.forEach((item) => {
                 // Create a card for each product
                 const card = document.createElement('div');
@@ -351,7 +351,7 @@
 
 
             if (result.data.length > 0) {
-                document.getElementById('resultsSection').classList.remove('hidden');
+                document.getElementById('sementic_resultsSection').classList.remove('hidden');
             } else {
                 alert('No results found.');
             }
