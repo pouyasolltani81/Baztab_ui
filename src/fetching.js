@@ -2,7 +2,7 @@ const log = console.log
 async function connect_to_server(endpoint, method, user_token, type, body, route) {
 
     let header_c = {
-        'Content-Type': type,
+        // 'Content-Type': type,
         "Accept-Version": 1,
         'Accept': "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -27,8 +27,6 @@ async function connect_to_server(endpoint, method, user_token, type, body, route
     }
 
     catch (e) {
-
-
         console.log('error from :', route, 'it says :', e)
     }
 

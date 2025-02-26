@@ -219,17 +219,19 @@
         formData.append('topk', topk);
         if (imageFile) {
           formData.append('image', imageFile);
-        } else {
-          formData.append('image', '');
         }
+        //  else {
+        //   formData.append('image', '');
+        // }
         if (audioFile) {
           formData.append('audio', audioFile);
-        } else {
+        } 
+        // else {
 
-          formData.append('audio', '');
+        //   formData.append('audio', '');
 
 
-        }
+        // }
 
         console.log(formData , query ,topk );
 
