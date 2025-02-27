@@ -14,6 +14,30 @@
 
 
 
+  <!-- Modal -->
+  <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
+      <!-- Close Button -->
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">
+        &times;
+      </button>
+
+      <!-- Results Section -->
+      <section id="sementic_resultsSection_2" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های مشابه</h2>
+        <div id="sementic_results_2"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
+
+          <!-- Product cards will be injected here -->
+        </div>
+      </section>
+
+
+
+    </div>
+  </div>
+
+
 
 
 
@@ -90,7 +114,8 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto" dir="rtl">
+    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
+      dir="rtl">
 
       <!-- Product cards will be injected here -->
     </div>
@@ -130,7 +155,7 @@
       <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
         class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
     </form>
-   
+
   </div>
 
   <script src="./fetching.js"></script>
@@ -191,7 +216,7 @@
       const resultsContainer = document.getElementById('sementic_results');
       resultsContainer.innerHTML = '';
 
-      result.data.forEach((item , index) => {
+      result.data.forEach((item, index) => {
         // Create a card for each product
         const card = document.createElement('div');
         card.className = 'bg-white rounded-lg overflow-hidden';
@@ -255,8 +280,17 @@
     });
 
 
+
     const modal = document.getElementById('myModal');
     const closeModal = document.getElementById('closeModal');
+
+    function showModal() {
+      modal.classList.remove('hidden');
+    }
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
 
 
   </script>
