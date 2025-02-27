@@ -17,7 +17,7 @@
 
   <!-- Modal -->
   <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl h-3/4 max-h-2xl overflow-auto relative">
       <!-- Close Button -->
       <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">
         &times;
@@ -125,7 +125,7 @@
 
   <div class="w-full fixed bottom-5 px-4" dir="rtl">
 
-    <div class="preview">
+    <div id="preview" class="hidden">
       <img id="imagePreview" src="#" alt="Image Preview" class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
       <audio id="audioPreview" controls class="hidden m-6 rounded-xl border-4 border-teal-800"></audio>
     </div>
@@ -197,6 +197,8 @@
 
     // Handle image upload
     imageInput.addEventListener('change', (event) => {
+      document.getElementById('preview').classList.remove('hidden')
+
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -211,6 +213,8 @@
 
     // Handle audio upload
     audioInput.addEventListener('change', (event) => {
+      document.getElementById('preview').classList.remove('hidden')
+
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -240,6 +244,8 @@
       console.log(response);
 
       searchInput.value = 'search again ...'
+
+      document.getElementById('preview').classList.add('hidden')
 
 
       if (!response.ok) {
