@@ -233,13 +233,15 @@
           cardBody.appendChild(priceEl);
         }
 
-        card.appendChild(cardBody);
-  
+
         const info_button = document.createElement('button');
         info_button.id = 'index'
         info_button.className = 'w-full bg-tea-500 p-4 text-center rounded-xl'
         info_button.textContent = 'more info'
+        cardBody.appendChild(info_button);
 
+
+        card.appendChild(cardBody);
         resultsContainer.appendChild(card);
       });
       console.log(result);
