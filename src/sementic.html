@@ -30,6 +30,16 @@
 
           <!-- Product cards will be injected here -->
         </div>
+
+        <section id="sementic_resultsSection_3" class="hidden">
+          <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های مشابه</h2>
+          <div id="sementic_results_3"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
+  
+            <!-- Product cards will be injected here -->
+          </div>
+        </section>
+  
       </section>
 
 
@@ -260,11 +270,11 @@
         info_button.id = 'similar_search_' + index;
         info_button.className = 'w-full bg-teal-500 p-4 mt-4 text-center rounded-xl'
         info_button.textContent = 'اطلاعات بیشتر'
-        info_button.onclick = () => {
-          console.log(item.metadata.id)
-          showModal()
-          populateModal();
-        }
+        // info_button.onclick = () => {
+        //   console.log(item.metadata.id)
+        //   showModal()
+        //   populateModal();
+        // }
         cardBody.appendChild(info_button);
 
 
