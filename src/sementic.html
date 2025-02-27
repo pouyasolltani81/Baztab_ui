@@ -194,7 +194,7 @@
       const resultsContainer = document.getElementById('sementic_results');
       resultsContainer.innerHTML = '';
 
-      result.data.forEach((item) => {
+      result.data.forEach((item , index) => {
         // Create a card for each product
         const card = document.createElement('div');
         card.className = 'bg-white rounded-lg overflow-hidden';
@@ -234,6 +234,12 @@
         }
 
         card.appendChild(cardBody);
+  
+        const info_button = document.createElement('button');
+        info_button.id = 'index'
+        info_button.className = 'w-full bg-tea-500 p-4 text-center rounded-xl'
+        info_button.textContent = 'more info'
+
         resultsContainer.appendChild(card);
       });
       console.log(result);
