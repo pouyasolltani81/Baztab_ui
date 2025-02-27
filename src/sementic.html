@@ -25,24 +25,14 @@
 
       <!-- Results Section -->
       <section id="sementic_resultsSection_2" class="hidden">
-        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های مشابه</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
         <div id="sementic_results_2"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
+          class=" max-h-[50rem] overflow-auto flex flex-col-reverse " dir="rtl">
 
           <!-- Product cards will be injected here -->
         </div>
 
-        <section id="sementic_resultsSection_3" class="hidden">
-          <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های مشابه</h2>
-          <div id="sementic_results_3"
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
-  
-            <!-- Product cards will be injected here -->
-          </div>
-        </section>
-  
-      </section>
-
+      
 
 
     </div>
@@ -325,7 +315,7 @@
       // Product Price
       if (product.metadata[0]?.price) {
         const price = document.createElement('p');
-        price.textContent = `Price: ${product.metadata[0].price.toLocaleString()} IRR`;
+        price.textContent = `قیمت: ${product.metadata[0].price.toLocaleString()} IRR`;
         price.className = 'text-gray-700 mb-2';
         card.appendChild(price);
       }
@@ -333,7 +323,7 @@
       // Product Category
       if (product.metadata[0]?.category) {
         const category = document.createElement('p');
-        category.textContent = `Category: ${product.metadata[0].category}`;
+        category.textContent = `کتگوری: ${product.metadata[0].category}`;
         category.className = 'text-gray-500 mb-2';
         card.appendChild(category);
       }
@@ -364,7 +354,7 @@
       // Availability
       if (data.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
         const availability = document.createElement('p');
-        availability.textContent = `Availability: ${data.data[0].product_data[0].price_info.is_available ? 'In Stock' : 'Out of Stock'}`;
+        availability.textContent = `موجودی: ${data.data[0].product_data[0].price_info.is_available ? 'موجود' : 'ناموجود'}`;
         availability.className = 'text-green-600 mb-2';
         card.appendChild(availability);
       }
@@ -372,7 +362,7 @@
       // Shipping Fee
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
         const shippingFee = document.createElement('p');
-        shippingFee.textContent = `Shipping Fee: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? 'Free' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? 'قیمت ارسال' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
         shippingFee.className = 'text-gray-600 mb-2';
         card.appendChild(shippingFee);
       }
@@ -380,7 +370,7 @@
       // Order Limit
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.order_limit !== undefined) {
         const orderLimit = document.createElement('p');
-        orderLimit.textContent = `Order Limit: ${data.data[0].product_data[0].price_info.price_list[0].order_limit}`;
+        orderLimit.textContent = `موجودی: ${data.data[0].product_data[0].price_info.price_list[0].order_limit}`;
         orderLimit.className = 'text-gray-600 mb-2';
         card.appendChild(orderLimit);
       }
@@ -388,7 +378,7 @@
       // Discount Percent
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.discount_percent !== undefined) {
         const discount = document.createElement('p');
-        discount.textContent = `Discount: ${data.data[0].product_data[0].price_info.price_list[0].discount_percent}%`;
+        discount.textContent = `تخفیف: ${data.data[0].product_data[0].price_info.price_list[0].discount_percent}%`;
         discount.className = 'text-red-600 mb-4';
         card.appendChild(discount);
       }
@@ -397,7 +387,7 @@
       if (product.metadata[0]?.scrape_url) {
         const link = document.createElement('a');
         link.href = product.metadata[0].scrape_url;
-        link.textContent = 'View Product on Digikala';
+        link.textContent = 'این محصول را در سایت ببینید';
         link.className = 'text-blue-600 hover:text-blue-800 underline';
         link.target = '_blank';
         card.appendChild(link);
