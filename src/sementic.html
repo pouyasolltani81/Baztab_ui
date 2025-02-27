@@ -10,6 +10,7 @@
 </head>
 
 <!-- <body class="bg-gradient-to-r from-blue-500 to-indigo-600  min-h-screen"> -->
+
 <body class="bg-gray-400 min-h-screen">
 
 
@@ -115,6 +116,7 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
+    <div id="img2text" class="flex gap-6"></div>
     <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
       dir="rtl">
 
@@ -127,7 +129,8 @@
   <div class="w-full fixed bottom-5 px-4" dir="rtl">
 
     <div id="preview" class="hidden">
-      <img id="imagePreview" src="#" alt="Image Preview" class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
+      <img id="imagePreview" src="#" alt="Image Preview"
+        class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
       <audio id="audioPreview" controls class="hidden m-6 rounded-xl border-4 border-teal-800"></audio>
     </div>
     <form id="searchForm" class="relative">
@@ -240,7 +243,23 @@
       if (audioFile) formData.append('audio', audioFile);
       formData.append('topk', 5);
 
+
+      const formData_totext = new FormData();
+      if (imageFile) formData.append('image', imageFile);
+
+      if (imageFile) {
+
+      }
       searchInput.value = 'loading please wait ....'
+
+      if (imageFile) {
+        const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
+        console.log(response_totext);
+        const result_totext = await response_totext.json();
+        document.getElementById('img2text').innerHTML = `<div>${result_totext.data.produc_name}</div><div>${result_totext.data.description}</div><div>${result_totext.data.produc_brand}</div><div>${result_totext.data.produc_metadata}</div>`
+      
+
+      }
       const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
       console.log(response);
 
@@ -254,6 +273,8 @@
       }
 
       const result = await response.json();
+    
+
 
 
 
