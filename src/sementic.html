@@ -12,7 +12,7 @@
 
 
 
-  
+
 
 
 
@@ -87,174 +87,174 @@
     </div>
   </div>
 
-<!-- Results Section -->
-            <section id="sementic_resultsSection" class="hidden p-6 mb-20">
-                <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-                <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
+  <!-- Results Section -->
+  <section id="sementic_resultsSection" class="hidden p-6 mb-20">
+    <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
+    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
 
-                    <!-- Product cards will be injected here -->
-                </div>
-            </section>
+      <!-- Product cards will be injected here -->
+    </div>
+  </section>
 
-  
 
-                        <div class="w-full fixed bottom-5 px-4" dir="rtl">
-                            <form id="searchForm" class="relative">
-                                <input type="file" id="imageInput" accept="image/*" class="hidden" />
-                                <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
-            
-            
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
-                                    <button type="button" id="imageBtn"
-                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                        <img class="w-5" src="./imgs/camera-svgrepo-com.svg" alt="" srcset="">
 
-                                    </button>
-                                    <button type="button" id="audioBtn"
-                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 18v2a4 4 0 01-8 0v-2" />
-                                        </svg>
-            
-                                    </button>
+  <div class="w-full fixed bottom-5 px-4" dir="rtl">
+    <form id="searchForm" class="relative">
+      <input type="file" id="imageInput" accept="image/*" class="hidden" />
+      <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
 
-                                    <button type="submit" id="submitbutton"
-                                        class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-                                        <img class="w-5" src="./imgs/left-arrow-svgrepo-com.svg" alt="" srcset="">
-            
-                                    </button>
-                                </div>
-                                <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
-                                    class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
-                            </form>
-                            <div id="resultsSection" class="hidden mt-6">
-                                <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
-                                <div id="resultsContainer" class="grid gap-4"></div>
-                            </div>
-                        </div>
+
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+        <button type="button" id="imageBtn"
+          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+          <img class="w-5" src="./imgs/camera-svgrepo-com.svg" alt="" srcset="">
+
+        </button>
+        <button type="button" id="audioBtn"
+          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18v2a4 4 0 01-8 0v-2" />
+          </svg>
+
+        </button>
+
+        <button type="submit" id="submitbutton"
+          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
+          <img class="w-5" src="./imgs/left-arrow-svgrepo-com.svg" alt="" srcset="">
+
+        </button>
+      </div>
+      <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
+        class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+    </form>
+    <div id="resultsSection" class="hidden mt-6">
+      <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
+      <div id="resultsContainer" class="grid gap-4"></div>
+    </div>
+  </div>
 
   <script src="./fetching.js"></script>
-  <script src="./ui_logic_p.js"></script>
-
-    <script>
-        const imageBtn = document.getElementById('imageBtn');
-        const audioBtn = document.getElementById('audioBtn');
-
-
-        const imageInput = document.getElementById('imageInput');
-        const audioInput = document.getElementById('audioInput');
-
-        const searchForm = document.getElementById('searchForm');
-        const searchInput = document.getElementById('searchInput');
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-        let audioFile;
-
-        imageBtn.addEventListener('click', () => imageInput.click());
-
-        audioBtn.addEventListener('click', () => audioInput.click());
-
-        searchForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const query = searchInput.value;
-            const imageFile = imageInput.files[0];
-            const audioFile = audioInput.files[0];
-
-            const formData = new FormData();
-            if (query) formData.append('query', query);
-            if (imageFile) formData.append('image', imageFile);
-            if (audioFile) formData.append('audio', audioFile);
-            formData.append('topk', 5);
-
-            searchInput.value = 'loading please wait ....'
-            const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
-            console.log(response);
-
-            searchInput.value = 'search again ...'
+  <!-- <script src="./ui_logic_p.js"></script> -->
+  <script>let user_token = '8ff3960bbd957b7e663b16467400bba2';
+  </script>
+  <script>
+    const imageBtn = document.getElementById('imageBtn');
+    const audioBtn = document.getElementById('audioBtn');
 
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+    const imageInput = document.getElementById('imageInput');
+    const audioInput = document.getElementById('audioInput');
 
-            const result = await response.json();
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+    let audioFile;
 
+    imageBtn.addEventListener('click', () => imageInput.click());
 
+    audioBtn.addEventListener('click', () => audioInput.click());
 
-            if (result.return !== true) {
-                alert('Error: ' + result.message);
-                return;
-            }
+    searchForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const query = searchInput.value;
+      const imageFile = imageInput.files[0];
+      const audioFile = audioInput.files[0];
 
-            const resultsContainer = document.getElementById('sementic_results');
-            resultsContainer.innerHTML ='';
+      const formData = new FormData();
+      if (query) formData.append('query', query);
+      if (imageFile) formData.append('image', imageFile);
+      if (audioFile) formData.append('audio', audioFile);
+      formData.append('topk', 5);
 
-            result.data.forEach((item) => {
-                // Create a card for each product
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-lg overflow-hidden';
+      searchInput.value = 'loading please wait ....'
+      const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
+      console.log(response);
 
-                // Add product image if available
-                if (item.metadata && item.metadata.primary_image) {
-                    const img = document.createElement('img');
-                    img.src = item.metadata.primary_image;
-                    img.alt = item.metadata.name || 'Product Image';
-                    img.className = 'w-full h-48 object-cover';
-                    card.appendChild(img);
-                }
-
-                const cardBody = document.createElement('div');
-                cardBody.className = 'p-4';
-
-                // Product name
-                const nameEl = document.createElement('h3');
-                nameEl.className = 'text-lg font-bold mb-2';
-                nameEl.textContent = item.metadata?.name || 'Unnamed Product';
-                cardBody.appendChild(nameEl);
-
-                // Category
-                if (item.metadata?.category) {
-                    const categoryEl = document.createElement('p');
-                    categoryEl.className = 'text-sm text-gray-600';
-                    categoryEl.textContent = 'Category: ' + item.metadata.category;
-                    cardBody.appendChild(categoryEl);
-                }
-
-                // Price (if provided and numeric)
-                if (item.metadata?.price && !isNaN(item.metadata.price)) {
-                    const priceEl = document.createElement('p');
-                    priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
-                    priceEl.textContent = 'Price: ' + item.metadata.price;
-                    cardBody.appendChild(priceEl);
-                }
-
-                card.appendChild(cardBody);
-                resultsContainer.appendChild(card);
-            });
-            console.log(result);
+      searchInput.value = 'search again ...'
 
 
-            if (result.data.length > 0) {
-                document.getElementById('sementic_resultsSection').classList.remove('hidden');
-            } else {
-                alert('No results found.');
-            }
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
 
 
 
-        });
+      if (result.return !== true) {
+        alert('Error: ' + result.message);
+        return;
+      }
+
+      const resultsContainer = document.getElementById('sementic_results');
+      resultsContainer.innerHTML = '';
+
+      result.data.forEach((item) => {
+        // Create a card for each product
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg overflow-hidden';
+
+        // Add product image if available
+        if (item.metadata && item.metadata.primary_image) {
+          const img = document.createElement('img');
+          img.src = item.metadata.primary_image;
+          img.alt = item.metadata.name || 'Product Image';
+          img.className = 'w-full h-48 object-cover';
+          card.appendChild(img);
+        }
+
+        const cardBody = document.createElement('div');
+        cardBody.className = 'p-4';
+
+        // Product name
+        const nameEl = document.createElement('h3');
+        nameEl.className = 'text-lg font-bold mb-2';
+        nameEl.textContent = item.metadata?.name || 'Unnamed Product';
+        cardBody.appendChild(nameEl);
+
+        // Category
+        if (item.metadata?.category) {
+          const categoryEl = document.createElement('p');
+          categoryEl.className = 'text-sm text-gray-600';
+          categoryEl.textContent = 'Category: ' + item.metadata.category;
+          cardBody.appendChild(categoryEl);
+        }
+
+        // Price (if provided and numeric)
+        if (item.metadata?.price && !isNaN(item.metadata.price)) {
+          const priceEl = document.createElement('p');
+          priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
+          priceEl.textContent = 'Price: ' + item.metadata.price;
+          cardBody.appendChild(priceEl);
+        }
+
+        card.appendChild(cardBody);
+        resultsContainer.appendChild(card);
+      });
+      console.log(result);
 
 
-        const modal = document.getElementById('myModal');
-        const closeModal = document.getElementById('closeModal');
+      if (result.data.length > 0) {
+        document.getElementById('sementic_resultsSection').classList.remove('hidden');
+      } else {
+        alert('No results found.');
+      }
 
 
-    </script>
+
+    });
+
+
+    const modal = document.getElementById('myModal');
+    const closeModal = document.getElementById('closeModal');
+
+
+  </script>
 
 
 </body>
