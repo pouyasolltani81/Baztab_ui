@@ -300,7 +300,8 @@
 
 
     // Function to create a detailed product card with null handling
-    function createProductCard(product) {
+    function createProductCard(data_t ,product) {
+      let data = data_t
       const card = document.createElement('div');
       card.className = 'bg-white rounded-lg shadow-md p-6 mb-6';
 
@@ -425,7 +426,7 @@
 
       if (data.data[0]?.similar_products?.length > 0) {
         data.data[0].similar_products.forEach(product => {
-          const card = createProductCard(product);
+          const card = createProductCard(data ,product);
           resultsContainer.appendChild(card);
         });
       } else {
