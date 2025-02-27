@@ -116,7 +116,7 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="img2text" class="ggrid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 text-center" dir="rtl"></div>
+    <div id="img2text" class="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto" dir="rtl"></div>
     <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
       dir="rtl">
 
@@ -253,8 +253,29 @@
         const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
         console.log(response_totext);
         const result_totext = await response_totext.json();
-        document.getElementById('img2text').innerHTML = `<div>نام : ${result_totext.data.produc_name}</div><div>توضیحات : ${result_totext.data.description}</div><div>برند : ${result_totext.data.produc_brand}</div><div>متا دیتا : ${result_totext.data.produc_metadata}</div>`
-      
+        document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
+    <div class="text-xl font-semibold text-gray-800 mb-4">
+        نام : ${result_totext.data.produc_name}
+    </div>
+
+    <!-- Description -->
+    <div class="text-gray-600 mb-4">
+        <span class="font-medium text-gray-700">توضیحات :</span>
+        ${result_totext.data.description}
+    </div>
+
+    <!-- Brand -->
+    <div class="text-gray-600 mb-4">
+        <span class="font-medium text-gray-700">برند :</span>
+        ${result_totext.data.produc_brand}
+    </div>
+
+    <!-- Metadata -->
+    <div class="text-gray-600">
+        <span class="font-medium text-gray-700">متا دیتا :</span>
+        ${result_totext.data.produc_metadata}
+    </div>`
+
 
       }
       const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
@@ -270,7 +291,7 @@
       }
 
       const result = await response.json();
-    
+
 
 
 
