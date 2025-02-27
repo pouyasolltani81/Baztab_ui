@@ -205,7 +205,7 @@
       formData.append('topk', 5);
 
       searchInput.value = 'loading please wait ....'
-      const response = await connect_to_server_a('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
+      const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
       console.log(response);
 
       searchInput.value = 'search again ...'
