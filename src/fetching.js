@@ -31,3 +31,37 @@ async function connect_to_server(endpoint, method, user_token, type, body, route
     }
 
 } 
+
+async function connect_to_server_a(endpoint, method, user_token, type, body, route) {
+    // Define headers
+    let headers = {
+        'Accept-Version': 1,
+        'Accept': 'application/json',
+        'authorization': user_token,
+    };
+
+    // Add Content-Type header if type is provided
+    if (type) {
+        headers['Content-Type'] = type;
+    }
+
+    log('Headers:', headers);
+    log('Body:', body);
+
+    try {
+        // Make the request using Axios
+        const response = await axios({
+            method: method, // HTTP method (GET, POST, etc.)
+            url: endpoint, // API endpoint
+            headers: headers, // Request headers
+            data: body, // Request body (for POST, PUT, etc.)
+        });
+
+        // Return the response data
+        return response.data;
+    } catch (error) {
+        // Handle errors
+        console.error(`Error from ${route}:`, error.message || error);
+        throw error; // Re-throw the error if needed
+    }
+}
