@@ -261,7 +261,9 @@
         info_button.className = 'w-full bg-teal-500 p-4 mt-4 text-center rounded-xl'
         info_button.textContent = 'اطلاعات بیشتر'
         info_button.onclick = () => {
-          console.log(item.metadata)
+          console.log(item.metadata.id)
+          showModal()
+          populateModal();
         }
         cardBody.appendChild(info_button);
 
@@ -281,6 +283,151 @@
 
 
     });
+
+
+
+
+
+    // Function to create a detailed product card with null handling
+    function createProductCard(product) {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow-md p-6 mb-6';
+
+      // Product Image
+      if (product.metadata[0]?.primary_image) {
+        const image = document.createElement('img');
+        image.src = product.metadata[0].primary_image;
+        image.alt = product.metadata[0].name || 'Product Image';
+        image.className = 'w-full h-64 object-cover rounded-lg mb-4';
+        card.appendChild(image);
+      }
+
+      // Product Name
+      if (product.metadata[0]?.name) {
+        const name = document.createElement('h3');
+        name.textContent = product.metadata[0].name;
+        name.className = 'text-xl font-semibold mb-2';
+        card.appendChild(name);
+      }
+
+      // Product Price
+      if (product.metadata[0]?.price) {
+        const price = document.createElement('p');
+        price.textContent = `Price: ${product.metadata[0].price.toLocaleString()} IRR`;
+        price.className = 'text-gray-700 mb-2';
+        card.appendChild(price);
+      }
+
+      // Product Category
+      if (product.metadata[0]?.category) {
+        const category = document.createElement('p');
+        category.textContent = `Category: ${product.metadata[0].category}`;
+        category.className = 'text-gray-500 mb-2';
+        card.appendChild(category);
+      }
+
+      // Product Description (from llm_enriched_description)
+      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
+        const description = document.createElement('p');
+        description.textContent = data.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
+        description.className = 'text-gray-600 mb-4';
+        card.appendChild(description);
+      }
+
+      // Product Tags (from llm_tags)
+      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
+        const tags = document.createElement('div');
+        tags.className = 'flex flex-wrap gap-2 mb-4';
+        data.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
+          if (tag) {
+            const tagElement = document.createElement('span');
+            tagElement.textContent = tag;
+            tagElement.className = 'bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm';
+            tags.appendChild(tagElement);
+          }
+        });
+        card.appendChild(tags);
+      }
+
+      // Availability
+      if (data.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
+        const availability = document.createElement('p');
+        availability.textContent = `Availability: ${data.data[0].product_data[0].price_info.is_available ? 'In Stock' : 'Out of Stock'}`;
+        availability.className = 'text-green-600 mb-2';
+        card.appendChild(availability);
+      }
+
+      // Shipping Fee
+      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
+        const shippingFee = document.createElement('p');
+        shippingFee.textContent = `Shipping Fee: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? 'Free' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+        shippingFee.className = 'text-gray-600 mb-2';
+        card.appendChild(shippingFee);
+      }
+
+      // Order Limit
+      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.order_limit !== undefined) {
+        const orderLimit = document.createElement('p');
+        orderLimit.textContent = `Order Limit: ${data.data[0].product_data[0].price_info.price_list[0].order_limit}`;
+        orderLimit.className = 'text-gray-600 mb-2';
+        card.appendChild(orderLimit);
+      }
+
+      // Discount Percent
+      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.discount_percent !== undefined) {
+        const discount = document.createElement('p');
+        discount.textContent = `Discount: ${data.data[0].product_data[0].price_info.price_list[0].discount_percent}%`;
+        discount.className = 'text-red-600 mb-4';
+        card.appendChild(discount);
+      }
+
+      // View Product Link
+      if (product.metadata[0]?.scrape_url) {
+        const link = document.createElement('a');
+        link.href = product.metadata[0].scrape_url;
+        link.textContent = 'View Product on Digikala';
+        link.className = 'text-blue-600 hover:text-blue-800 underline';
+        link.target = '_blank';
+        card.appendChild(link);
+      }
+
+      return card;
+    }
+
+    // Function to populate the modal with product cards
+    async function populateModal(itemid) {
+
+      const formData = new FormData(itemid);
+      if (query) formData.append('query', query);
+      const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
+      const resultsContainer = document.getElementById('sementic_results_2');
+      resultsContainer.innerHTML = ''; // Clear existing content
+
+
+      const result = await response.json();
+
+
+      let data = result;
+
+      console.log(data);
+      
+
+      if (data.data[0]?.similar_products?.length > 0) {
+        data.data[0].similar_products.forEach(product => {
+          const card = createProductCard(product);
+          resultsContainer.appendChild(card);
+        });
+      } else {
+        const noProductsMessage = document.createElement('p');
+        noProductsMessage.textContent = 'No similar products found.';
+        noProductsMessage.className = 'text-gray-600 text-center';
+        resultsContainer.appendChild(noProductsMessage);
+      }
+
+      // Show the results section
+      document.getElementById('sementic_resultsSection_2').classList.remove('hidden');
+    }
+
 
 
 
