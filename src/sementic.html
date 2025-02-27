@@ -26,13 +26,12 @@
       <!-- Results Section -->
       <section id="sementic_resultsSection_2" class="hidden">
         <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
-        <div id="sementic_results_2"
-          class=" max-h-[50rem] overflow-auto flex flex-col-reverse " dir="rtl">
+        <div id="sementic_results_2" class=" max-h-[50rem] overflow-auto flex flex-col-reverse " dir="rtl">
 
           <!-- Product cards will be injected here -->
         </div>
 
-      
+
 
 
     </div>
@@ -125,6 +124,11 @@
 
 
   <div class="w-full fixed bottom-5 px-4" dir="rtl">
+
+    <div class="preview">
+      <img id="imagePreview" src="#" alt="Image Preview" class="hidden" />
+      <audio id="audioPreview" controls class="hidden"></audio>
+    </div>
     <form id="searchForm" class="relative">
       <input type="file" id="imageInput" accept="image/*" class="hidden" />
       <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
@@ -173,6 +177,12 @@
 
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
+
+
+    const imagePreview = document.getElementById('imagePreview');
+    const audioPreview = document.getElementById('audioPreview');
+
+
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
@@ -181,6 +191,37 @@
     imageBtn.addEventListener('click', () => imageInput.click());
 
     audioBtn.addEventListener('click', () => audioInput.click());
+
+
+
+
+    // Handle image upload
+    imageInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imagePreview.src = e.target.result;
+          imagePreview.classList.remove('hidden');
+          audioPreview.classList.add('hidden'); // Hide audio preview
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle audio upload
+    audioInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          audioPreview.src = e.target.result;
+          audioPreview.classList.remove('hidden');
+          imagePreview.classList.add('hidden'); // Hide image preview
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
     searchForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -290,7 +331,7 @@
 
 
     // Function to create a detailed product card with null handling
-    function createProductCard(data_t ,product) {
+    function createProductCard(data_t, product) {
       let data = data_t
       const card = document.createElement('div');
       card.className = 'bg-white rounded-lg shadow-md p-6 mb-6';
@@ -362,7 +403,7 @@
       // Shipping Fee
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
         const shippingFee = document.createElement('p');
-        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? 'قیمت ارسال' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
         shippingFee.className = 'text-gray-600 mb-2';
         card.appendChild(shippingFee);
       }
@@ -400,7 +441,7 @@
     async function populateModal(itemid) {
 
       const resultsContainer = document.getElementById('sementic_results_2');
-      resultsContainer.innerHTML = 'loading ...'; // Clear existing content
+      resultsContainer.innerHTML = '';
 
 
       const formData = new FormData();
@@ -414,11 +455,11 @@
       let data = result;
 
       console.log(data);
-      
+
 
       if (data.data[0]?.similar_products?.length > 0) {
         data.data[0].similar_products.forEach(product => {
-          const card = createProductCard(data ,product);
+          const card = createProductCard(data, product);
           resultsContainer.appendChild(card);
         });
       } else {
