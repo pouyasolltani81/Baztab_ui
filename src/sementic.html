@@ -90,7 +90,7 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto">
+    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto" dir="rtl">
 
       <!-- Product cards will be injected here -->
     </div>
@@ -130,10 +130,7 @@
       <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
         class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
     </form>
-    <div id="resultsSection" class="hidden mt-6">
-      <h2 class="text-white text-lg font-bold mb-4">Search Results</h2>
-      <div id="resultsContainer" class="grid gap-4"></div>
-    </div>
+   
   </div>
 
   <script src="./fetching.js"></script>
@@ -221,7 +218,7 @@
         if (item.metadata?.category) {
           const categoryEl = document.createElement('p');
           categoryEl.className = 'text-sm text-gray-600';
-          categoryEl.textContent = 'Category: ' + item.metadata.category;
+          categoryEl.textContent = 'کتگوری: ' + item.metadata.category;
           cardBody.appendChild(categoryEl);
         }
 
@@ -229,7 +226,7 @@
         if (item.metadata?.price && !isNaN(item.metadata.price)) {
           const priceEl = document.createElement('p');
           priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
-          priceEl.textContent = 'Price: ' + item.metadata.price;
+          priceEl.textContent = 'قیمت: ' + item.metadata.price;
           cardBody.appendChild(priceEl);
         }
 
@@ -237,7 +234,7 @@
         const info_button = document.createElement('button');
         info_button.id = 'similar_search_' + index;
         info_button.className = 'w-full bg-teal-500 p-4 mt-4 text-center rounded-xl'
-        info_button.textContent = 'more info'
+        info_button.textContent = 'اطلاعات بیشتر'
         cardBody.appendChild(info_button);
 
 
