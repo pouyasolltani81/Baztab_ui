@@ -245,11 +245,8 @@
 
 
       const formData_totext = new FormData();
-      if (imageFile) formData.append('image', imageFile);
+      if (imageFile) formData_totext.append('image', imageFile);
 
-      if (imageFile) {
-
-      }
       searchInput.value = 'loading please wait ....'
 
       if (imageFile) {
