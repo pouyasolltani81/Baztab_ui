@@ -271,11 +271,11 @@
         info_button.id = 'similar_search_' + index;
         info_button.className = 'w-full bg-teal-500 p-4 mt-4 text-center rounded-xl'
         info_button.textContent = 'اطلاعات بیشتر'
-        // info_button.onclick = () => {
-        //   console.log(item.metadata.id)
-        //   showModal()
-        //   populateModal();
-        // }
+        info_button.onclick = () => {
+          console.log(item.metadata.id)
+          showModal()
+          populateModal();
+        }
         cardBody.appendChild(info_button);
 
 
