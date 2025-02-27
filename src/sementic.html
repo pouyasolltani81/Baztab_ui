@@ -116,7 +116,7 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="img2text" class="flex gap-6"></div>
+    <div id="img2text" class="ggrid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 text-center" dir="rtl"></div>
     <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
       dir="rtl">
 
@@ -253,7 +253,7 @@
         const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
         console.log(response_totext);
         const result_totext = await response_totext.json();
-        document.getElementById('img2text').innerHTML = `<div>${result_totext.data.produc_name}</div><div>${result_totext.data.description}</div><div>${result_totext.data.produc_brand}</div><div>${result_totext.data.produc_metadata}</div>`
+        document.getElementById('img2text').innerHTML = `<div>نام : ${result_totext.data.produc_name}</div><div>توضیحات : ${result_totext.data.description}</div><div>برند : ${result_totext.data.produc_brand}</div><div>متا دیتا : ${result_totext.data.produc_metadata}</div>`
       
 
       }
