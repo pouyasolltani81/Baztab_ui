@@ -128,11 +128,11 @@
 
   <div class="w-full fixed bottom-5 px-4" dir="rtl">
 
-    <div id="preview" class="hidden">
+    <div id="preview" class="hidden flex">
       <img id="imagePreview" src="#" alt="Image Preview"
         class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
       <audio id="audioPreview" controls class="hidden m-6 rounded-xl border-4 border-teal-800"></audio>
-      <div class=" m-6 rounded-xl border-4 border-teal-800 p-6" id="remove_preview"> Remove </div>
+      <div class=" m-6 rounded-xl border-4 border-teal-800 p-6 flex items-center justify-center bg-red-600" id="remove_preview"> Remove </div>
     </div>
     <form id="searchForm" class="relative">
       <input type="file" id="imageInput" accept="image/*" class="hidden" />
@@ -204,7 +204,7 @@
 
     document.getElementById('remove_preview').addEventListener('click' , () => {
 
-      imagePreview.classList.add('hidden');
+      document.getElementById('preview').classList.add('hidden');
 
       imageInput.value = '';
       audioInput.value = '';
