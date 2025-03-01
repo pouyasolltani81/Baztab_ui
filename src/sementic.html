@@ -174,6 +174,8 @@
   <script>let user_token = '8ff3960bbd957b7e663b16467400bba2';
   </script>
   <script>
+
+    const mongoDB_id = '/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i'
     const imageBtn = document.getElementById('imageBtn');
     const audioBtn = document.getElementById('audioBtn');
 
@@ -187,6 +189,11 @@
 
     const imagePreview = document.getElementById('imagePreview');
     const audioPreview = document.getElementById('audioPreview');
+
+    searchInput.value;
+    function test_regex() {
+      mongoDB_id.test(searchInput.value)
+    }
 
 
     let mediaRecorder;
