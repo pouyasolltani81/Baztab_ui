@@ -286,11 +286,16 @@
         ${result_totext.data.produc_brand}
     </div>
 
+    
+
     <!-- Metadata -->
     <div class="text-gray-600">
         <span class="font-medium text-gray-700">متا دیتا :</span>
         ${result_totext.data.produc_metadata}
     </div>`
+
+
+    
 
 
       }
@@ -364,6 +369,15 @@
           priceEl.textContent = 'قیمت: ' + item.metadata.price;
           cardBody.appendChild(priceEl);
         }
+
+
+        if (item.scores) {
+          const Score = document.createElement('p');
+          Score.className = 'text-sm text-green-600 font-semibold mt-2';
+          Score.textContent = 'score: ' + item.scores;
+          cardBody.appendChild(Score);
+        }
+
 
 
         const info_button = document.createElement('button');
