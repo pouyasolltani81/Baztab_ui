@@ -28,7 +28,7 @@
       <!-- Results Section -->
       <section id="sementic_resultsSection_2" class="hidden">
         <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
-        <div id="sementic_results_2" class=" max-h-[50rem] overflow-auto flex flex-col-reverse " dir="rtl">
+        <div id="sementic_results_2" class="  overflow-auto flex flex-col-reverse " dir="rtl">
 
           <!-- Product cards will be injected here -->
         </div>
@@ -304,7 +304,7 @@
         if (query) formData.append('query', query);
         if (imageFile) formData.append('image', imageFile);
         if (audioFile) formData.append('audio', audioFile);
-        formData.append('topk', 5);
+        formData.append('topk', 15);
 
 
         const formData_totext = new FormData();
