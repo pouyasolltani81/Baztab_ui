@@ -116,7 +116,7 @@
   <!-- Results Section -->
   <section id="sementic_resultsSection" class="hidden p-6 mb-20">
     <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="img2text" class="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto" dir="rtl"></div>
+    <div id="img2text" class="bg-white rounded-lg shadow-md p-6 w-full mb-6 " dir="rtl"></div>
     <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
       dir="rtl">
 
@@ -234,8 +234,8 @@
     searchForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const query = searchInput.value;
-      const imageFile = imageInput.files[0];
-      const audioFile = audioInput.files[0];
+      let imageFile = imageInput.files[0];
+      let audioFile = audioInput.files[0];
 
       const formData = new FormData();
       if (query) formData.append('query', query);
@@ -281,7 +281,10 @@
       const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
       console.log(response);
 
-      searchInput.value = 'search again ...'
+      searchInput.value = ''
+      // Reset file inputs
+      imageInput.value = '';
+      audioInput.value = '';
 
       document.getElementById('preview').classList.add('hidden')
 
@@ -306,8 +309,8 @@
 
       result.data.forEach((item, index) => {
 
-      console.log(item);
-      
+        console.log(item);
+
         // Create a card for each product
         const card = document.createElement('div');
         card.className = 'bg-white rounded-lg overflow-hidden';
@@ -543,7 +546,3 @@
 </body>
 
 </html>
-
-
-
-
