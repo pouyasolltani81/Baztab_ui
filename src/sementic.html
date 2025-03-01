@@ -270,32 +270,6 @@
       });
     }
 
-    // Example usage with FormData
-    async function handleImageUpload(imageFile) {
-      if (!imageFile) return;
-
-      try {
-        // Resize the image and reduce its quality
-        const resizedBlob = await resizeAndReduceQuality(imageFile, 800, 600, 0.5); // Resize to max 800x600 with 50% quality
-        const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-
-        // Append the resized image to FormData
-        const formData_totext = new FormData();
-        formData_totext.append('image', resizedFile);
-
-        // Send the FormData to the server
-        const response = await fetch('https://example.com/upload', {
-          method: 'POST',
-          body: formData_totext,
-        });
-
-        const result = await response.json();
-        console.log('Upload successful:', result);
-      } catch (error) {
-        console.error('Error resizing or uploading image:', error);
-      }
-    }
-
 
 
 
@@ -382,17 +356,15 @@
 
         const formData = new FormData();
         if (query) formData.append('query', query);
-        if (imageFile) formData.append('image', imageFile);
+        // if (imageFile) formData.append('image', imageFile);
         if (audioFile) formData.append('audio', audioFile);
         formData.append('topk', 15);
 
-
-        const formData_totext = new FormData();
         if (imageFile) {
           resizeAndReduceQuality(imageFile, 800, 600, 0.5)
             .then((resizedBlob) => {
               const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-              formData_totext.append('image', resizedFile);
+              formData.append('image', resizedFile);
 
               // Now you can send formData_totext to the server
             })
@@ -401,40 +373,40 @@
             });
         }
 
-        if (imageFile) {
-          const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
-          console.log(response_totext);
-          const result_totext = await response_totext.json();
-          document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
-    <div class="text-xl font-semibold text-gray-800 mb-4">
-        نام : ${result_totext.data.produc_name}
-    </div>
+    //     if (imageFile) {
+    //       const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
+    //       console.log(response_totext);
+    //       const result_totext = await response_totext.json();
+    //       document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
+    // <div class="text-xl font-semibold text-gray-800 mb-4">
+    //     نام : ${result_totext.data.produc_name}
+    // </div>
 
-    <!-- Description -->
-    <div class="text-gray-600 mb-4">
-        <span class="font-medium text-gray-700">توضیحات :</span>
-        ${result_totext.data.description}
-    </div>
+    // <!-- Description -->
+    // <div class="text-gray-600 mb-4">
+    //     <span class="font-medium text-gray-700">توضیحات :</span>
+    //     ${result_totext.data.description}
+    // </div>
 
-    <!-- Brand -->
-    <div class="text-gray-600 mb-4">
-        <span class="font-medium text-gray-700">برند :</span>
-        ${result_totext.data.produc_brand}
-    </div>
+    // <!-- Brand -->
+    // <div class="text-gray-600 mb-4">
+    //     <span class="font-medium text-gray-700">برند :</span>
+    //     ${result_totext.data.produc_brand}
+    // </div>
 
     
 
-    <!-- Metadata -->
-    <div class="text-gray-600">
-        <span class="font-medium text-gray-700">متا دیتا :</span>
-        ${result_totext.data.produc_metadata}
-    </div>`
+    // <!-- Metadata -->
+    // <div class="text-gray-600">
+    //     <span class="font-medium text-gray-700">متا دیتا :</span>
+    //     ${result_totext.data.produc_metadata}
+    // </div>`
 
 
 
 
 
-        }
+    //     }
         const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
         console.log(response);
 
