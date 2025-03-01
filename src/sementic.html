@@ -263,13 +263,12 @@
 
 
       if (mongoDB_id.test(query)) {
-
-        document.getElementById('sementic_resultsSection').remove('hidden');
+        document.getElementById('sementic_resultsSection').classList.remove('hidden')
 
 
 
         const resultsContainer = document.getElementById('sementic_results');
-        // resultsContainer.innerHTML = '';
+        resultsContainer.innerHTML = '';
 
 
         const formData = new FormData();
