@@ -360,6 +360,14 @@
         if (audioFile) formData.append('audio', audioFile);
         formData.append('topk', 15);
 
+
+        
+
+        const formData_totext = new FormData();
+      
+        if (imageFile) formData_totext.append('image', imageFile);
+     
+
         // if (imageFile) {
         //   resizeAndReduceQuality(imageFile, 224, 224, 0.7)
         //     .then((resizedBlob) => {
