@@ -192,30 +192,30 @@ async function findproducts(name_fa, page_num, page_size) {  // No need to pass 
             "page_size": page_size
         }));
 
-        // const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_name/', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         "Accept-Version": 1,
-        //         'Accept': "application/json",
-        //         "Access-Control-Allow-Origin": "*",
-        //         'authorization': user_token,
-        //     },
-        //     body: JSON.stringify({
-        //         "name": '',
-        //         "name_fa": name_fa,
-        //         "page": page_num,
-        //         "page_size": 10
-        //     })
-        // });
+        const response = await fetch('http://79.175.177.113:21800/Products/search_product_by_name/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept-Version": 1,
+                'Accept': "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'authorization': user_token,
+            },
+            body: JSON.stringify({
+                "name": '',
+                "name_fa": name_fa,
+                "page": page_num,
+                "page_size": 10
+            })
+        });
 
 
-        const response = await connect_to_server('http://79.175.177.113:21800/Products/search_product_by_name/' , 'POST' , user_token, 'application/json' , JSON.stringify({
-                    "name": '',
-                    "name_fa": name_fa,
-                    "page": page_num,
-                    "page_size": 10
-                }) , 'table_p' )
+        // const response = await connect_to_server('http://79.175.177.113:21800/Products/search_product_by_name/' , 'POST' , user_token, 'application/json' , JSON.stringify({
+        //             "name": '',
+        //             "name_fa": name_fa,
+        //             "page": page_num,
+        //             "page_size": 10
+        //         }) , 'table_p' )
 
         // Check if the response was successful (status code 2xx)
         if (!response.ok) {
