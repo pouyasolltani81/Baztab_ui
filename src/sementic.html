@@ -120,7 +120,7 @@
     <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[50rem] overflow-auto"
       dir="rtl">
 
-      <!-- Product cards will be injected here -->
+
     </div>
   </section>
 
@@ -132,10 +132,12 @@
       <img id="imagePreview" src="#" alt="Image Preview"
         class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
       <audio id="audioPreview" controls class="hidden m-6 rounded-xl border-4 border-teal-800"></audio>
+      <div class=" m-6 rounded-xl border-4 border-teal-800 p-6" id="remove_preview"> Remove </div>
     </div>
     <form id="searchForm" class="relative">
       <input type="file" id="imageInput" accept="image/*" class="hidden" />
       <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
+      
 
 
       <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
@@ -195,6 +197,20 @@
     imageBtn.addEventListener('click', () => imageInput.click());
 
     audioBtn.addEventListener('click', () => audioInput.click());
+
+
+
+
+
+    document.getElementById('remove_preview').addEventListener('click' , () => {
+
+      imagePreview.classList.add('hidden');
+
+      imageInput.value = '';
+      audioInput.value = '';
+
+
+    })
 
 
 
