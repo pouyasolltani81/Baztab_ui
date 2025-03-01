@@ -356,22 +356,22 @@
 
         const formData = new FormData();
         if (query) formData.append('query', query);
-        // if (imageFile) formData.append('image', imageFile);
+        if (imageFile) formData.append('image', imageFile);
         if (audioFile) formData.append('audio', audioFile);
         formData.append('topk', 15);
 
-        if (imageFile) {
-          resizeAndReduceQuality(imageFile, 224, 224, 0.7)
-            .then((resizedBlob) => {
-              const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-              formData.append('image', resizedFile);
+        // if (imageFile) {
+        //   resizeAndReduceQuality(imageFile, 224, 224, 0.7)
+        //     .then((resizedBlob) => {
+        //       const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
+        //       formData.append('image', resizedFile);
 
-              // Now you can send formData_totext to the server
-            })
-            .catch((error) => {
-              console.error('Error resizing image:', error);
-            });
-        }
+        //       // Now you can send formData_totext to the server
+        //     })
+        //     .catch((error) => {
+        //       console.error('Error resizing image:', error);
+        //     });
+        // }
 
         if (imageFile) {
           try {
