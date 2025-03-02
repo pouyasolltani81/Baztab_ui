@@ -28,7 +28,7 @@
       <!-- Results Section -->
       <section id="sementic_resultsSection_2" class="hidden">
         <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
-        <div id="sementic_results_2" class=" max-h-[50rem] overflow-auto flex flex-col-reverse " dir="rtl">
+        <div id="sementic_results_2" class=" max-h-[35rem] overflow-auto flex flex-col-reverse " dir="rtl">
 
           <!-- Product cards will be injected here -->
         </div>
@@ -548,51 +548,51 @@
       card.className = 'bg-white rounded-lg shadow-md p-6 mb-6';
 
       // Product Image
-      if (product.metadata[0]?.primary_image) {
+      if (product.metadata?.primary_image) {
         const image = document.createElement('img');
-        image.src = product.metadata[0].primary_image;
-        image.alt = product.metadata[0].name || 'Product Image';
+        image.src = product.metadata.primary_image;
+        image.alt = product.metadata.name || 'Product Image';
         image.className = 'w-full h-64 object-cover rounded-lg mb-4';
         card.appendChild(image);
       }
 
       // Product Name
-      if (product.metadata[0]?.name) {
+      if (product.metadata?.name) {
         const name = document.createElement('h3');
-        name.textContent = product.metadata[0].name;
+        name.textContent = product.metadata.name;
         name.className = 'text-xl font-semibold mb-2';
         card.appendChild(name);
       }
 
       // Product Price
-      if (product.metadata[0]?.price) {
+      if (product.metadata?.price) {
         const price = document.createElement('p');
-        price.textContent = `قیمت: ${product.metadata[0].price.toLocaleString()} IRR`;
+        price.textContent = `قیمت: ${product.metadata.price.toLocaleString()} IRR`;
         price.className = 'text-gray-700 mb-2';
         card.appendChild(price);
       }
 
       // Product Category
-      if (product.metadata[0]?.category) {
+      if (product.metadata?.category) {
         const category = document.createElement('p');
-        category.textContent = `کتگوری: ${product.metadata[0].category}`;
+        category.textContent = `کتگوری: ${product.metadata.category}`;
         category.className = 'text-gray-500 mb-2';
         card.appendChild(category);
       }
 
       // Product Description (from llm_enriched_description)
-      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
+      if (data.data[0]?.product_data?.proccessd_data?.llm_enriched_description?.description_fa) {
         const description = document.createElement('p');
-        description.textContent = data.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
+        description.textContent = data.data[0].product_data.proccessd_data.llm_enriched_description.description_fa;
         description.className = 'text-gray-600 mb-4';
         card.appendChild(description);
       }
 
       // Product Tags (from llm_tags)
-      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
+      if (data.data[0]?.product_data?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
         const tags = document.createElement('div');
         tags.className = 'flex flex-wrap gap-2 mb-4';
-        data.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
+        data.data[0].product_data.proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
           if (tag) {
             const tagElement = document.createElement('span');
             tagElement.textContent = tag;
@@ -604,9 +604,9 @@
       }
 
       // Availability
-      if (data.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
+      if (data.data[0]?.product_data?.price_info?.is_available !== undefined) {
         const availability = document.createElement('p');
-        availability.textContent = `موجودی: ${data.data[0].product_data[0].price_info.is_available ? 'موجود' : 'ناموجود'}`;
+        availability.textContent = `موجودی: ${data.data[0].product_data.price_info.is_available ? 'موجود' : 'ناموجود'}`;
         availability.className = 'text-green-600 mb-2';
         card.appendChild(availability);
       }
@@ -614,31 +614,41 @@
       // Shipping Fee
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
         const shippingFee = document.createElement('p');
-        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data.price_info.price_list.shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
         shippingFee.className = 'text-gray-600 mb-2';
         card.appendChild(shippingFee);
       }
 
       // Order Limit
-      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.order_limit !== undefined) {
+      if (data.data[0]?.product_data?.price_info?.price_list?.order_limit !== undefined) {
         const orderLimit = document.createElement('p');
-        orderLimit.textContent = `موجودی: ${data.data[0].product_data[0].price_info.price_list[0].order_limit}`;
+        orderLimit.textContent = `موجودی: ${data.data[0].product_data.price_info.price_list.order_limit}`;
         orderLimit.className = 'text-gray-600 mb-2';
         card.appendChild(orderLimit);
       }
 
       // Discount Percent
-      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.discount_percent !== undefined) {
+      if (data.data[0]?.product_data?.price_info?.price_list?.discount_percent !== undefined) {
         const discount = document.createElement('p');
-        discount.textContent = `تخفیف: ${data.data[0].product_data[0].price_info.price_list[0].discount_percent}%`;
+        discount.textContent = `تخفیف: ${data.data[0].product_data.price_info.price_list.discount_percent}%`;
         discount.className = 'text-red-600 mb-4';
         card.appendChild(discount);
       }
 
+       // View Product Link
+      if (product.metadata?.textualy_similarity_score && product.metadata?.visualy_similarity_score ) {
+        const score = document.createElement('a');
+        score.href = product.metadata.scrape_url;
+        score.textContent = `score : ${product.metadata?.visualy_similarity_score + product.metadata?.textualy_similarity_score}`;
+        score.className = 'text-green-600 hover:text-green-800 underline';
+        score.target = '_blank';
+        card.appendChild(score);
+      }
+
       // View Product Link
-      if (product.metadata[0]?.scrape_url) {
+      if (product.metadata?.scrape_url) {
         const link = document.createElement('a');
-        link.href = product.metadata[0].scrape_url;
+        link.href = product.metadata.scrape_url;
         link.textContent = 'این محصول را در سایت ببینید';
         link.className = 'text-blue-600 hover:text-blue-800 underline';
         link.target = '_blank';
