@@ -640,11 +640,12 @@
 
        // View Product Link
       if (product.metadata?.textualy_similarity_score || product.metadata?.visualy_similarity_score ) {
-        const score = document.createElement('a');
+        console.log('halllooooo');
+        
+        const score = document.createElement('p');
         score.href = product.metadata.scrape_url;
         score.textContent = `score : ${product.metadata?.visualy_similarity_score + product.metadata?.textualy_similarity_score}`;
         score.className = 'text-green-600 hover:text-green-800 underline';
-        score.target = '_blank';
         card.appendChild(score);
       }
 
