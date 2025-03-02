@@ -572,15 +572,15 @@
         card.appendChild(price);
       }
         // View Product Link
-      // if (product.metadata?.textualy_similarity_score || product.metadata?.visualy_similarity_score ) {
-        console.log(product.metadata?.visualy_similarity_score , product);
+      if (product.textualy_similarity_score || product.visualy_similarity_score ) {
+        console.log('halllooooo');
         
         const score = document.createElement('p');
-        score.href = product.metadata.scrape_url;
-        score.textContent = `score : ${product.metadata?.visualy_similarity_score + product.metadata?.textualy_similarity_score}`;
+        score.textContent = `score : ${product.visualy_similarity_score + product.textualy_similarity_score}`;
         score.className = 'text-green-600 hover:text-green-800 underline';
         card.appendChild(score);
-      // }
+        
+      }
 
       // Product Category
       if (product.metadata?.category) {
