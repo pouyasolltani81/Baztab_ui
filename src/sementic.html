@@ -581,18 +581,18 @@
       }
 
       // Product Description (from llm_enriched_description)
-      if (data.data[0]?.product_data?.proccessd_data?.llm_enriched_description?.description_fa) {
+      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
         const description = document.createElement('p');
-        description.textContent = data.data[0].product_data.proccessd_data.llm_enriched_description.description_fa;
+        description.textContent = data.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
         description.className = 'text-gray-600 mb-4';
         card.appendChild(description);
       }
 
       // Product Tags (from llm_tags)
-      if (data.data[0]?.product_data?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
+      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
         const tags = document.createElement('div');
         tags.className = 'flex flex-wrap gap-2 mb-4';
-        data.data[0].product_data.proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
+        data.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
           if (tag) {
             const tagElement = document.createElement('span');
             tagElement.textContent = tag;
@@ -604,9 +604,9 @@
       }
 
       // Availability
-      if (data.data[0]?.product_data?.price_info?.is_available !== undefined) {
+      if (data.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
         const availability = document.createElement('p');
-        availability.textContent = `موجودی: ${data.data[0].product_data.price_info.is_available ? 'موجود' : 'ناموجود'}`;
+        availability.textContent = `موجودی: ${data.data[0].product_data[0].price_info.is_available ? 'موجود' : 'ناموجود'}`;
         availability.className = 'text-green-600 mb-2';
         card.appendChild(availability);
       }
@@ -614,7 +614,7 @@
       // Shipping Fee
       if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
         const shippingFee = document.createElement('p');
-        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data.price_info.price_list.shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list.shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
         shippingFee.className = 'text-gray-600 mb-2';
         card.appendChild(shippingFee);
       }
@@ -622,17 +622,17 @@
       console.log(data);
 
       // Order Limit
-      if (data.data[0]?.product_data?.price_info?.price_list?.order_limit !== undefined) {
+      if (data.data[0]?.product_data[0]?.price_info?.price_list?.order_limit !== undefined) {
         const orderLimit = document.createElement('p');
-        orderLimit.textContent = `موجودی: ${data.data[0].product_data.price_info.price_list.order_limit}`;
+        orderLimit.textContent = `موجودی: ${data.data[0].product_data[0].price_info.price_list.order_limit}`;
         orderLimit.className = 'text-gray-600 mb-2';
         card.appendChild(orderLimit);
       }
 
       // Discount Percent
-      if (data.data[0]?.product_data?.price_info?.price_list?.discount_percent !== undefined) {
+      if (data.data[0]?.product_data[0]?.price_info?.price_list?.discount_percent !== undefined) {
         const discount = document.createElement('p');
-        discount.textContent = `تخفیف: ${data.data[0].product_data.price_info.price_list.discount_percent}%`;
+        discount.textContent = `تخفیف: ${data.data[0].product_data[0].price_info.price_list.discount_percent}%`;
         discount.className = 'text-red-600 mb-4';
         card.appendChild(discount);
       }
