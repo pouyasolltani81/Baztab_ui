@@ -619,6 +619,8 @@
         card.appendChild(shippingFee);
       }
 
+      console.log(data);
+
       // Order Limit
       if (data.data[0]?.product_data?.price_info?.price_list?.order_limit !== undefined) {
         const orderLimit = document.createElement('p');
@@ -634,6 +636,7 @@
         discount.className = 'text-red-600 mb-4';
         card.appendChild(discount);
       }
+      
 
        // View Product Link
       if (product.metadata?.textualy_similarity_score && product.metadata?.visualy_similarity_score ) {
