@@ -639,7 +639,7 @@
       
 
        // View Product Link
-      if (product.metadata?.textualy_similarity_score && product.metadata?.visualy_similarity_score ) {
+      if (product.metadata?.textualy_similarity_score || product.metadata?.visualy_similarity_score ) {
         const score = document.createElement('a');
         score.href = product.metadata.scrape_url;
         score.textContent = `score : ${product.metadata?.visualy_similarity_score + product.metadata?.textualy_similarity_score}`;
