@@ -361,7 +361,7 @@ function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
         const formData = new FormData();
         
         if (query) formData.append('query', query);
-        if (imageFile) formData.append('image', imageFile);
+        // if (imageFile) formData.append('image', imageFile);
         if (audioFile) formData.append('audio', audioFile);
         formData.append('topk', 15);
 
@@ -370,14 +370,16 @@ function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
 
         const formData_totext = new FormData();
       
-        if (imageFile) formData_totext.append('image', imageFile);
+        // if (imageFile) formData_totext.append('image', imageFile);
      
 
         if (imageFile) {
-          resizeAndReduceQuality(imageFile, 224, 224, 0.7)
+          resizeAndReduceQuality(imageFile, 1024, 1024, 0.7)
             .then((resizedBlob) => {
               const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-              // formData.append('image', resizedFile);
+              formData.append('image', resizedFile);
+              formData_totext.append('image', resizedFile);
+
 
               // Now you can send formData_totext to the server
             })
