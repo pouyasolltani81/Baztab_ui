@@ -355,6 +355,7 @@
 
 
         const formData = new FormData();
+        
         if (query) formData.append('query', query);
         if (imageFile) formData.append('image', imageFile);
         if (audioFile) formData.append('audio', audioFile);
@@ -582,6 +583,18 @@
         price.className = 'text-gray-700 mb-2';
         card.appendChild(price);
       }
+
+
+
+      
+      // Product ID
+      if (product.metadata?.id) {
+        const id = document.createElement('p');
+        id.textContent = `قیمت: ${product.metadata.id.toLocaleString()} IRR`;
+        id.className = 'text-gray-700 mb-2';
+        card.appendChild(id);
+      }
+
         // View Product Link
       if (product.textualy_similarity_score || product.visualy_similarity_score ) {
         console.log('halllooooo');
