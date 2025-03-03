@@ -215,60 +215,58 @@
 
 
     })
+function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
 
+    reader.onload = (e) => {
+      img.src = e.target.result;
+      console.log('Original image data URL:', img.src);
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
-    function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const reader = new FileReader();
+        let width = img.width;
+        let height = img.height;
 
-        // Read the uploaded file
-        reader.onload = (e) => {
-          img.src = e.target.result;
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width *= ratio;
+          height *= ratio;
+        }
 
-          // When the image is loaded, resize it
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
 
-            // Calculate new dimensions while maintaining aspect ratio
-            let width = img.width;
-            let height = img.height;
+        ctx.drawImage(img, 0, 0, width, height);
 
-            if (width > maxWidth || height > maxHeight) {
-              const ratio = Math.min(maxWidth / width, maxHeight / height);
-              width *= ratio;
-              height *= ratio;
+        // Log the resized image
+        const resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
+        console.log('Resized image data URL:', resizedDataUrl);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error('Failed to resize image.'));
+              return;
             }
+            resolve(blob);
+          },
+          'image/jpeg',
+          quality
+        );
+      };
 
-            // Set canvas dimensions
-            canvas.width = width;
-            canvas.height = height;
+      img.onerror = (error) => reject(new Error('Image load error: ' + error));
+    };
 
-            // Draw the resized image on the canvas
-            ctx.drawImage(img, 0, 0, width, height);
+    reader.onerror = (error) => reject(new Error('File read error: ' + error));
+    reader.readAsDataURL(file);
+  });
+}
 
-            // Convert the canvas image to a Blob with reduced quality
-            canvas.toBlob(
-              (blob) => {
-                if (!blob) {
-                  reject(new Error('Failed to resize image.'));
-                  return;
-                }
-                resolve(blob);
-              },
-              'image/jpeg', // Output format (can also use 'image/png')
-              quality // Image quality (0 to 1)
-            );
-          };
-
-          img.onerror = (error) => reject(error);
-        };
-
-        reader.onerror = (error) => reject(error);
-        reader.readAsDataURL(file);
-      });
-    }
 
 
 
@@ -370,18 +368,18 @@
         if (imageFile) formData_totext.append('image', imageFile);
      
 
-        // if (imageFile) {
-        //   resizeAndReduceQuality(imageFile, 224, 224, 0.7)
-        //     .then((resizedBlob) => {
-        //       const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-        //       formData.append('image', resizedFile);
+        if (imageFile) {
+          resizeAndReduceQuality(imageFile, 224, 224, 0.7)
+            .then((resizedBlob) => {
+              const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
+              // formData.append('image', resizedFile);
 
-        //       // Now you can send formData_totext to the server
-        //     })
-        //     .catch((error) => {
-        //       console.error('Error resizing image:', error);
-        //     });
-        // }
+              // Now you can send formData_totext to the server
+            })
+            .catch((error) => {
+              console.error('Error resizing image:', error);
+            });
+        }
 
         if (imageFile) {
           try {
