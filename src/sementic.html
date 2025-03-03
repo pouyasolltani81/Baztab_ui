@@ -390,9 +390,10 @@ function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
 
         if (imageFile) {
           try {
+
             const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
-          console.log(response_totext);
-          const result_totext = await response_totext.json();
+            const result_totext = await response_totext.json();
+            console.log(result_totext);
           document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
     <div class="text-xl font-semibold text-gray-800 mb-4">
         نام : ${result_totext.data.produc_name}
