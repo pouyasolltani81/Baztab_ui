@@ -579,7 +579,7 @@
       // Product Price
       if (product.metadata?.price) {
         const price = document.createElement('p');
-        price.textContent = `قیمت: ${product.metadata.price.toLocaleString()} IRR`;
+        price.textContent = `شناسه: ${product.metadata.price.toLocaleString()}`;
         price.className = 'text-gray-700 mb-2';
         card.appendChild(price);
       }
