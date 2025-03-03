@@ -278,29 +278,16 @@
     imageInput.addEventListener('change', (event) => {
       document.getElementById('preview').classList.remove('hidden')
 
-      // const file = event.target.files[0];
-      let resizedFile = ''
+      const file = event.target.files[0];
       
-        if ( event.target.files[0]) {
-          resizeAndReduceQuality( event.target.files[0], 224, 224, 0.7)
-            .then((resizedBlob) => {
-              resizedFile = new File([resizedBlob],  event.target.files[0].name, { type: 'image/jpeg' });
-             
-
-              // Now you can send formData_totext to the server
-            })
-            .catch((error) => {
-              console.error('Error resizing image:', error);
-            });
-        }
-      if (resizedFile) {
+      if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           imagePreview.src = e.target.result;
           imagePreview.classList.remove('hidden');
           audioPreview.classList.add('hidden'); // Hide audio preview
         };
-        reader.readAsDataURL(resizedFile);
+        reader.readAsDataURL(file);
       }
     });
 
