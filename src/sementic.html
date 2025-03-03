@@ -495,7 +495,7 @@
 
           
           // ID
-          if (item.metadata?.id && !isNaN(item.metadata.id)) {
+          if (item.metadata?.id) {
             const id = document.createElement('p');
             id.className = 'text-sm text-gray-600 font-semibold mt-2';
             id.textContent = 'شناسه: ' + item.metadata.id;
