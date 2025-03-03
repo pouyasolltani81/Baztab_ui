@@ -395,7 +395,7 @@ function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
           const result_totext = await response_totext.json();
           document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
     <div class="text-xl font-semibold text-gray-800 mb-4">
-        نام : ${result_totext.data.product_name}
+        نام : ${result_totext.data.produc_name}
     </div>
 
     <!-- Description -->
