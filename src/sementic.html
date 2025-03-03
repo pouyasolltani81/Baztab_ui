@@ -216,9 +216,14 @@
 
     })
 function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
+  console.log('resizing ...');
+  
   return new Promise((resolve, reject) => {
+  console.log('resizing2 ...');
+
     const img = new Image();
     const reader = new FileReader();
+    
 
     reader.onload = (e) => {
       img.src = e.target.result;
