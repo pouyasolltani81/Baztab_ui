@@ -493,6 +493,17 @@
           }
 
 
+          
+          // ID
+          if (item.metadata?.id && !isNaN(item.metadata.id)) {
+            const id = document.createElement('p');
+            id.className = 'text-sm text-gray-600 font-semibold mt-2';
+            id.textContent = 'شناسه: ' + item.metadata.id;
+            cardBody.appendChild(id);
+          }
+
+
+
           if (item.scores) {
             const Score = document.createElement('p');
             Score.className = 'text-sm text-green-600 font-semibold mt-2';
