@@ -430,8 +430,7 @@
                   "text-sm text-green-600 font-semibold mt-2";
                 score.textContent =
                   "score: " +
-                  (item.visualy_similarity_score +
-                    item.textualy_similarity_score);
+                  (item.scores);
                 cardBody.appendChild(score);
               }
               const info_button = document.createElement("button");
