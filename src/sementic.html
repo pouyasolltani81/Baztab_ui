@@ -6,95 +6,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Search Bar with Image & Audio Icons</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
- <!-- Cropper.js CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" integrity="sha512-UtLOu9C7NuThQhuXXrGwx9Jb/z9zPQJctuAgNUBK3Z6kkSYT9wJ+2+dh6klS+TDBCV9kNPBbAxbVD+vCcfGPaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cropper.js CSS (v1.6.2) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
+      integrity="sha512-UtLOu9C7NuThQhuXXrGwx9Jb/z9zPQJctuAgNUBK3Z6kkSYT9wJ+2+dh6klS+TDBCV9kNPBbAxbVD+vCcfGPaA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
-  <body class="bg-gray-100 p-4">
-    <!-- Upload Buttons -->
-    <div class="mb-4 space-x-2">
-      <button id="imageBtn" class="px-4 py-2 bg-blue-500 text-white rounded">
-        Upload Image
-      </button>
-      <button id="audioBtn" class="px-4 py-2 bg-green-500 text-white rounded">
-        Upload Audio
-      </button>
-    </div>
-    <!-- Hidden File Inputs -->
-    <input type="file" id="imageInput" accept="image/*" class="hidden" />
-    <input type="file" id="audioInput" accept="audio/*" class="hidden" />
-
-    <!-- Search Form -->
-    <form id="searchForm" class="mb-4 space-x-2">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search..."
-        class="px-4 py-2 border border-gray-300 rounded"
-      />
-      <button type="submit" class="px-4 py-2 bg-purple-500 text-white rounded">
-        Search
-      </button>
-    </form>
-
-    <!-- Preview Container -->
+  <body class="bg-gray-400 min-h-screen">
+    <!-- Loading Overlay -->
     <div
-      id="preview"
-      class="hidden flex relative items-center justify-center border border-teal-800 rounded-xl p-4 bg-white"
+      id="loadingIndicator"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
     >
-      <img
-        id="imagePreview"
-        src="#"
-        alt="Image Preview"
-        class="hidden w-40 h-40 m-4 rounded-xl border-4 border-teal-800 cursor-pointer"
-      />
-      <audio
-        id="audioPreview"
-        controls
-        class="hidden m-4 rounded-xl border-4 border-teal-800"
-      ></audio>
-      <!-- Remove Button stays with same id -->
-      <div
-        id="remove_preview"
-        class="absolute top-2 left-2 bg-red-600 text-white text-xl rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
-      >
-        &times;
+      <div class="text-white text-2xl font-semibold">
+        Loading...
       </div>
     </div>
 
-    <!-- Modal for Cropping / Resizing -->
+    <!-- Product Details Modal (Provided Design) -->
     <div
-      id="cropModal"
-      class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+      id="myModal"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
     >
       <div
-        id="cropModalContent"
-        class="bg-white rounded-lg p-6 w-full max-w-2xl"
+        class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl max-h-2xl overflow-auto relative"
       >
+        <!-- Close Button -->
+        <button
+          id="closeModal"
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl"
+        >
+          &times;
+        </button>
+        <!-- Results Section -->
+        <section id="sementic_resultsSection_2" class="hidden">
+          <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
+          <div
+            id="sementic_results_2"
+            class="max-h-[35rem] overflow-auto flex flex-col-reverse"
+            dir="rtl"
+          >
+            <!-- Product cards will be injected here -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Crop/Resize Modal (New) -->
+    <div
+      id="cropModal"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-2xl overflow-auto relative">
+        <!-- Close Button -->
+        <button
+          id="cropModalCancelBtn"
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl"
+        >
+          &times;
+        </button>
         <h2 class="text-2xl font-bold mb-4">Adjust Image</h2>
         <div>
-          <img
-            id="cropImage"
-            src="#"
-            alt="Crop Image"
-            class="w-full"
-          />
+          <img id="cropImage" src="#" alt="Crop Image" class="w-full" />
         </div>
+        <!-- Resizing Inputs -->
+        <div class="mt-4 space-y-2">
+          <div>
+            <label class="block text-gray-700" for="maxDimension">Max Dimension (px):</label>
+            <input
+              type="number"
+              id="maxDimension"
+              class="w-full border border-gray-300 rounded px-3 py-2"
+              value="1024"
+              min="100"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700" for="qualityInput">Quality (%):</label>
+            <input
+              type="number"
+              id="qualityInput"
+              class="w-full border border-gray-300 rounded px-3 py-2"
+              value="70"
+              min="1"
+              max="100"
+            />
+          </div>
+        </div>
+        <!-- Modal Buttons -->
         <div class="mt-4 flex justify-end space-x-2">
           <button
             id="cropApplyBtn"
             class="px-4 py-2 bg-blue-500 text-white rounded"
           >
-            Crop &amp; Apply
+            Crop & Apply
           </button>
           <button
             id="resizeApplyBtn"
             class="px-4 py-2 bg-yellow-500 text-white rounded"
           >
-            Resize/Quality &amp; Apply
+            Resize & Apply
           </button>
           <button
-            id="modalCancelBtn"
+            id="cropModalCancelBtn2"
             class="px-4 py-2 bg-gray-500 text-white rounded"
           >
             Cancel
@@ -103,30 +121,185 @@
       </div>
     </div>
 
-    <!-- Semantic Results Section -->
-    <div id="sementic_resultsSection" class="hidden mt-4">
-      <div id="sementic_results" class="space-y-4"></div>
-    </div>
-    <div id="img2text" class="hidden mt-4"></div>
-
-    <!-- Product Details Modal -->
-    <div
-      id="myModal"
-      class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
-    >
-      <div class="bg-white rounded-lg p-6 w-full max-w-3xl relative">
+    <!-- Navbar -->
+    <div class="bg-teal-50 shadow-md">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-teal-50">
+        <!-- Back to Category Button (Left) -->
         <button
-          id="closeModal"
-          class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center"
+          type="button"
+          id="BackToCategory"
+          class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200"
+          onclick="window.location.href = './category.html';"
         >
-          &times;
+          ← بازگشت
         </button>
-        <div id="sementic_results_2" class="mt-4"></div>
+        <!-- Menu Links (Center) -->
+        <div class="hidden md:flex space-x-4 space-x-reverse gap-4">
+          <a
+            href="./mall.html"
+            class="text-gray-600 hover:text-teal-800 transition duration-200"
+            >آمار پایگاه داده</a
+          >
+        </div>
+        <!-- User and Breadcrumb Info (Right) -->
+        <div
+          class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg"
+        >
+          <div class="flex gap-4 text-teal-800 font-semibold">
+            نام کاربری:
+            <span class="text-teal-900" id="Username">something</span>
+          </div>
+          <div class="flex-1 text-teal-800 font-semibold">
+            <span class="cursor-pointer" onclick="window.location.href = './category.html'">
+              دسته‌بندی :
+            </span>
+            <span class="text-teal-900">Products</span>
+          </div>
+        </div>
+      </div>
+      <!-- Auth Buttons (Right) -->
+      <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse hidden">
+        <!-- (Optional Auth Buttons) -->
+      </div>
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center space-x-2 space-x-reverse">
+        <!-- (Optional Hamburger Menu) -->
       </div>
     </div>
-<!-- Cropper.js Script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.js" integrity="sha512-lR8d1BXfYQuiqoM/LeGFVtxFyspzWFTZNyYIiE5O2CcAGtTCRRUMLloxATRuLz8EmR2fYqdXYlrGh+D6TVGp3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
+      <div class="px-6 py-4 space-y-4">
+        <a href="./mall.html">
+          <button class="text-gray-600 hover:text-teal-800 w-full text-center">
+            آمار پایگاه داده
+          </button>
+        </a>
+        <div class="flex flex-col space-y-4">
+          <!-- (Optional Mobile Auth Buttons) -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <section id="sementic_resultsSection" class="hidden p-6 mb-20">
+      <h2 class="text-2xl font-semibold mb-4 text-center">
+        پروداکت های یافت شده
+      </h2>
+      <div
+        id="img2text"
+        class="bg-white rounded-lg shadow-md p-6 w-full mb-6"
+        dir="rtl"
+      ></div>
+      <div
+        id="sementic_results"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-auto"
+        dir="rtl"
+      ></div>
+    </section>
+
+    <!-- Fixed Bottom Section: Preview and Search Form -->
+    <div class="w-full fixed bottom-5 px-4" dir="rtl">
+      <div id="preview" class="hidden flex relative">
+        <img
+          id="imagePreview"
+          src="#"
+          alt="Image Preview"
+          class="hidden w-40 h-40 m-6 rounded-xl border-4 border-teal-800"
+        />
+        <audio
+          id="audioPreview"
+          controls
+          class="hidden m-6 rounded-xl border-4 border-teal-800"
+        ></audio>
+        <div
+          id="remove_preview"
+          class="absolute top-0 left-0 m-2 p-2 text-white text-xl bg-red-600 rounded-full cursor-pointer"
+        >
+          &times;
+        </div>
+      </div>
+      <form id="searchForm" class="relative">
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          class="hidden"
+        />
+        <input
+          type="file"
+          name="audioInput"
+          id="audioInput"
+          accept="audio/*"
+          class="hidden"
+        />
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
+          <button
+            type="button"
+            id="imageBtn"
+            class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none"
+          >
+            <img
+              class="w-5"
+              src="./imgs/camera-svgrepo-com.svg"
+              alt=""
+            />
+          </button>
+          <button
+            type="button"
+            id="audioBtn"
+            class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 18v2a4 4 0 01-8 0v-2"
+              />
+            </svg>
+          </button>
+          <button
+            type="submit"
+            id="submitbutton"
+            class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none"
+          >
+            <img
+              class="w-5"
+              src="./imgs/left-arrow-svgrepo-com.svg"
+              alt=""
+            />
+          </button>
+        </div>
+        <input
+          type="text"
+          dir="ltr"
+          id="searchInput"
+          placeholder="Search..."
+          class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+        />
+      </form>
+    </div>
+
+    <!-- Cropper.js Script (v1.6.2) -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.js"
+      integrity="sha512-lR8d1BXfYQuiqoM/LeGFVtxFyspzWFTZNyYIiE5O2CcAGtTCRRUMLloxATRuLz8EmR2fYqdXYlrGh+D6TVGp3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   <script src="./fetching.js"></script>
   
   <script src="sementic_js.js"></script>

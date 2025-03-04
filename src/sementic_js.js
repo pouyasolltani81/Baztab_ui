@@ -1,5 +1,5 @@
  "use strict";
-      // User token and MongoDB id regex
+      // User token and regex
       const user_token = "8ff3960bbd957b7e663b16467400bba2";
       const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
@@ -14,26 +14,40 @@
       const audioPreview = document.getElementById("audioPreview");
       const removePreview = document.getElementById("remove_preview");
       const previewContainer = document.getElementById("preview");
+      const loadingIndicator = document.getElementById("loadingIndicator");
 
-      // Modal elements for cropping
+      // Modal elements for cropping/resizing
       const cropModal = document.getElementById("cropModal");
       const cropImage = document.getElementById("cropImage");
       const cropApplyBtn = document.getElementById("cropApplyBtn");
       const resizeApplyBtn = document.getElementById("resizeApplyBtn");
-      const modalCancelBtn = document.getElementById("modalCancelBtn");
+      const modalCancelBtn = document.getElementById("cropModalCancelBtn");
+      const modalCancelBtn2 = document.getElementById("cropModalCancelBtn2");
       let cropper = null;
 
-      // Media recorder variables (if used)
+      // Modal for product details
+      const productModal = document.getElementById("myModal");
+      const closeModal = document.getElementById("closeModal");
+
+      // Media recorder variables (if needed)
       let mediaRecorder;
       let audioChunks = [];
       let isRecording = false;
       let audioFile;
 
-      // Helper to safely add event listeners
+      // Helper: safely add event listener
       function safeAddListener(element, event, callback) {
         if (element) {
           element.addEventListener(event, callback);
         }
+      }
+
+      // Show/hide loading indicator
+      function showLoading() {
+        if (loadingIndicator) loadingIndicator.classList.remove("hidden");
+      }
+      function hideLoading() {
+        if (loadingIndicator) loadingIndicator.classList.add("hidden");
       }
 
       // Button events
@@ -50,30 +64,25 @@
       });
 
       // Resize and reduce quality function with error handling
-      function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
+      function resizeAndReduceQuality(file, maxDim, quality = 0.5) {
         console.log("Resizing image...");
         return new Promise((resolve, reject) => {
-          if (!file) {
-            return reject(new Error("No file provided."));
-          }
+          if (!file) return reject(new Error("No file provided."));
           const img = new Image();
           const reader = new FileReader();
           reader.onload = (e) => {
-            if (!e.target || !e.target.result) {
+            if (!e.target || !e.target.result)
               return reject(new Error("Failed to load file."));
-            }
             img.src = e.target.result;
             console.log("Original image data URL:", img.src);
             img.onload = () => {
               const canvas = document.createElement("canvas");
               const ctx = canvas.getContext("2d");
-              if (!ctx) {
-                return reject(new Error("Failed to get canvas context."));
-              }
-              let width = img.width;
-              let height = img.height;
-              if (width > maxWidth || height > maxHeight) {
-                const ratio = Math.min(maxWidth / width, maxHeight / height);
+              if (!ctx) return reject(new Error("Failed to get canvas context."));
+              let width = img.width,
+                height = img.height;
+              if (width > maxDim || height > maxDim) {
+                const ratio = Math.min(maxDim / width, maxDim / height);
                 width = Math.floor(width * ratio);
                 height = Math.floor(height * ratio);
               }
@@ -84,18 +93,19 @@
               console.log("Resized image data URL:", resizedDataUrl);
               canvas.toBlob(
                 (blob) => {
-                  if (!blob) {
+                  if (!blob)
                     return reject(new Error("Failed to create blob from canvas."));
-                  }
                   resolve(blob);
                 },
                 "image/jpeg",
                 quality
               );
             };
-            img.onerror = (error) => reject(new Error("Image load error: " + error));
+            img.onerror = (error) =>
+              reject(new Error("Image load error: " + error));
           };
-          reader.onerror = (error) => reject(new Error("File read error: " + error));
+          reader.onerror = (error) =>
+            reject(new Error("File read error: " + error));
           reader.readAsDataURL(file);
         });
       }
@@ -103,9 +113,8 @@
       // Image input change: show preview and set crop modal image
       safeAddListener(imageInput, "change", (event) => {
         try {
-          if (!event || !event.target || !event.target.files) {
+          if (!event || !event.target || !event.target.files)
             throw new Error("Invalid event data.");
-          }
           const file = event.target.files[0];
           if (file) {
             const reader = new FileReader();
@@ -127,12 +136,11 @@
         }
       });
 
-      // Audio input change: show audio preview
+      // Audio input change: show preview
       safeAddListener(audioInput, "change", (event) => {
         try {
-          if (!event || !event.target || !event.target.files) {
+          if (!event || !event.target || !event.target.files)
             throw new Error("Invalid event data.");
-          }
           const file = event.target.files[0];
           if (file) {
             const reader = new FileReader();
@@ -153,16 +161,15 @@
         }
       });
 
-      // When clicking the image preview, open the crop/adjust modal
+      // Open crop modal when clicking on image preview
       safeAddListener(imagePreview, "click", () => {
         try {
-          if (!imagePreview.src || imagePreview.src === "#") {
+          if (!imagePreview.src || imagePreview.src === "#")
             throw new Error("No image to preview.");
-          }
           cropModal.classList.remove("hidden");
           if (cropper) cropper.destroy();
           cropper = new Cropper(cropImage, {
-            aspectRatio: NaN, // Free ratio
+            aspectRatio: NaN, // free ratio
             viewMode: 1,
             autoCropArea: 1,
             movable: true,
@@ -175,25 +182,27 @@
         }
       });
 
-      // Modal buttons for cropping, resizing, or cancelling
-      safeAddListener(modalCancelBtn, "click", () => {
+      // Close crop modal (both cancel buttons)
+      function closeCropModal() {
         cropModal.classList.add("hidden");
         if (cropper) {
           cropper.destroy();
           cropper = null;
         }
-      });
+      }
+      safeAddListener(modalCancelBtn, "click", closeCropModal);
+      safeAddListener(modalCancelBtn2, "click", closeCropModal);
 
+      // Crop & Apply button
       safeAddListener(cropApplyBtn, "click", async () => {
         try {
           if (!cropper) throw new Error("Cropper not initialized.");
+          showLoading();
           const canvas = cropper.getCroppedCanvas();
           if (!canvas) throw new Error("Failed to get cropped canvas.");
           const croppedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
           imagePreview.src = croppedDataUrl;
-          cropModal.classList.add("hidden");
-          cropper.destroy();
-          cropper = null;
+          // Update file input with cropped file
           canvas.toBlob((blob) => {
             if (blob && imageInput && imageInput.files[0]) {
               const croppedFile = new File(
@@ -205,22 +214,31 @@
               dataTransfer.items.add(croppedFile);
               imageInput.files = dataTransfer.files;
             }
+            hideLoading();
           }, "image/jpeg", 0.8);
+          closeCropModal();
         } catch (error) {
           console.error("Error applying crop:", error);
+          hideLoading();
         }
       });
 
+      // Resize & Apply button – uses user inputs for max dimension and quality
       safeAddListener(resizeApplyBtn, "click", async () => {
         try {
-          if (!imageInput || !imageInput.files || !imageInput.files[0]) {
+          if (!imageInput || !imageInput.files || !imageInput.files[0])
             throw new Error("No image file available for resizing.");
-          }
+          // Get user inputs for max dimension and quality
+          const maxDimInput = document.getElementById("maxDimension");
+          const qualityInput = document.getElementById("qualityInput");
+          const maxDim = maxDimInput ? parseInt(maxDimInput.value, 10) : 1024;
+          const qualityPercent = qualityInput ? parseInt(qualityInput.value, 10) : 70;
+          const quality = qualityPercent / 100;
+          showLoading();
           const resizedBlob = await resizeAndReduceQuality(
             imageInput.files[0],
-            1024,
-            1024,
-            0.7
+            maxDim,
+            quality
           );
           const resizedFile = new File(
             [resizedBlob],
@@ -232,37 +250,42 @@
             if (e.target && e.target.result) {
               imagePreview.src = e.target.result;
             }
+            hideLoading();
           };
           reader.readAsDataURL(resizedFile);
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(resizedFile);
           imageInput.files = dataTransfer.files;
-          cropModal.classList.add("hidden");
-          if (cropper) {
-            cropper.destroy();
-            cropper = null;
-          }
+          closeCropModal();
         } catch (error) {
           console.error("Error applying resize:", error);
+          hideLoading();
         }
       });
 
-      // Search form submission handling with error checking
+      // Product details modal handling
+      function showProductModal() {
+        if (productModal) productModal.classList.remove("hidden");
+      }
+      safeAddListener(closeModal, "click", () => {
+        if (productModal) productModal.classList.add("hidden");
+      });
+
+      // Search form submission handling with loading indicator
       safeAddListener(searchForm, "submit", async (e) => {
         e.preventDefault();
         try {
+          showLoading();
           const query = searchInput ? searchInput.value : "";
           const imageFile =
             imageInput && imageInput.files ? imageInput.files[0] : null;
           const audioFile =
             audioInput && audioInput.files ? audioInput.files[0] : null;
           if (searchInput) searchInput.value = "loading please wait ....";
-          // If query is a MongoDB id, perform semantic search by id
+          // If query matches MongoDB id, do semantic search by id
           if (mongoDB_id.test(query)) {
-            const sementicResultsSection =
-              document.getElementById("sementic_resultsSection");
-            const resultsContainer =
-              document.getElementById("sementic_results");
+            const sementicResultsSection = document.getElementById("sementic_resultsSection");
+            const resultsContainer = document.getElementById("sementic_results");
             if (sementicResultsSection)
               sementicResultsSection.classList.remove("hidden");
             if (resultsContainer) resultsContainer.innerHTML = "";
@@ -279,19 +302,21 @@
             );
             const result = await response.json();
             console.log(result);
+            const resultsContainerEl = document.getElementById("sementic_results");
             if (result.data[0]?.similar_products?.length > 0) {
               result.data[0].similar_products.forEach((product) => {
                 const card = createProductCard(result, product);
-                resultsContainer.appendChild(card);
+                resultsContainerEl.appendChild(card);
               });
             } else {
               const noProductsMessage = document.createElement("p");
               noProductsMessage.textContent = "No similar products found.";
-              noProductsMessage.className = "text-gray-600 text-center";
-              resultsContainer.appendChild(noProductsMessage);
+              noProductsMessage.className =
+                "text-gray-600 text-center";
+              resultsContainerEl.appendChild(noProductsMessage);
             }
           } else {
-            // Build form data for combined search
+            // Combined search with query, image, and audio
             const formData = new FormData();
             if (query) formData.append("query", query);
             if (imageFile) formData.append("image", imageFile);
@@ -350,11 +375,11 @@
             const resultData = await response.json();
             if (resultData.return !== true) {
               alert("Error: " + resultData.message);
+              hideLoading();
               return;
             }
-            const resultsContainer =
-              document.getElementById("sementic_results");
-            if (resultsContainer) resultsContainer.innerHTML = "";
+            const resultsContainerEl = document.getElementById("sementic_results");
+            if (resultsContainerEl) resultsContainerEl.innerHTML = "";
             resultData.data.forEach((item, index) => {
               console.log(item);
               const card = document.createElement("div");
@@ -416,14 +441,13 @@
               info_button.textContent = "اطلاعات بیشتر";
               info_button.onclick = () => {
                 console.log(item.metadata.id);
-                showModal();
+                showProductModal();
                 populateModal(item.metadata.id);
               };
               cardBody.appendChild(info_button);
               card.appendChild(cardBody);
-              resultsContainer.appendChild(card);
+              resultsContainerEl.appendChild(card);
             });
-            console.log(resultData);
             if (resultData.data.length > 0) {
               document
                 .getElementById("sementic_resultsSection")
@@ -432,8 +456,10 @@
               alert("No results found.");
             }
           }
+          hideLoading();
         } catch (error) {
           console.error("Error during search form submission:", error);
+          hideLoading();
         }
       });
 
@@ -589,24 +615,22 @@
         }
       }
 
-      // Modal for product details
-      const modal = document.getElementById("myModal");
-      const closeModal = document.getElementById("closeModal");
-      function showModal() {
-        if (modal) modal.classList.remove("hidden");
+      // Product details modal handling
+      function showProductModal() {
+        if (productModal) productModal.classList.remove("hidden");
       }
       safeAddListener(closeModal, "click", () => {
-        if (modal) modal.classList.add("hidden");
+        if (productModal) productModal.classList.add("hidden");
       });
 
-      // Placeholder connect_to_server function with error handling
+      // Placeholder for connect_to_server function
       async function connect_to_server(url, method, token, contentType, formData, tag) {
         try {
           const response = await fetch(url, {
             method: method,
             headers: {
               Authorization: token,
-              // Do not manually set 'Content-Type' for FormData
+              // Let FormData set Content-Type automatically
             },
             body: formData,
           });
