@@ -7,751 +7,142 @@
   <title>Search Bar with Image & Audio Icons</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-
-<!-- <body class="bg-gradient-to-r from-blue-500 to-indigo-600  min-h-screen"> -->
-
-<body class="bg-gray-400 min-h-screen">
-
-
-
-
-
-  <!-- Modal -->
-  <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl  max-h-2xl overflow-auto relative">
-      <!-- Close Button -->
-      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">
-        &times;
+ <!-- Cropper.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+      integrity="sha512-VeNwDboTP19ELRy8wO8W6xBOk81nX4Q2nqOLBM/9U3sRC7J6RNEHghJFlTCw0iUc24OfB2eXfIqhlwW3fnLUNQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="bg-gray-100 p-4">
+    <!-- Upload Buttons -->
+    <div class="mb-4 space-x-2">
+      <button id="imageBtn" class="px-4 py-2 bg-blue-500 text-white rounded">
+        Upload Image
       </button>
-
-      <!-- Results Section -->
-      <section id="sementic_resultsSection_2" class="hidden">
-        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
-        <div id="sementic_results_2" class=" max-h-[35rem] overflow-auto flex flex-col-reverse " dir="rtl">
-
-          <!-- Product cards will be injected here -->
-        </div>
-
-
-
-
-    </div>
-  </div>
-
-
-
-
-
-
-  <!-- Navbar -->
-  <div class="bg-teal-50 shadow-md ">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-teal-50">
-
-      <!-- Back to Category Button (Left) -->
-      <button type="button" id="BackToCategory"
-        class="text-gray-700 font-semibold hover:text-gray-900 transition duration-200"
-        onclick=" window.location.href = './category.html';">
-        ← بازگشت
+      <button id="audioBtn" class="px-4 py-2 bg-green-500 text-white rounded">
+        Upload Audio
       </button>
-
-      <!-- Menu Links (Center) -->
-      <div class="hidden md:flex space-x-4 space-x-reverse gap-4">
-        <a href="./mall.html" class="text-gray-600 hover:text-teal-800 transition duration-200">آمار پایگاه داده</a>
-      </div>
-
-      <!-- User and Breadcrumb Info (Right) -->
-
-      <div class="flex gap-4 border-2 border-teal-600 rounded-md p-4 bg-teal-100 shadow-lg">
-        <div class="flex gap-4 text-teal-800 font-semibold">
-          نام کاربری: <span class="text-teal-900" id="Username">something</span>
-        </div>
-        <div class="flex-1 text-teal-800 font-semibold">
-          <span class="cursor-pointer" onclick="window.location.href = './category.html'">دسته‌بندی : </span> <span
-            class="text-teal-900">Products</span>
-        </div>
-      </div>
     </div>
+    <!-- Hidden File Inputs -->
+    <input type="file" id="imageInput" accept="image/*" class="hidden" />
+    <input type="file" id="audioInput" accept="audio/*" class="hidden" />
 
-    <!-- Auth Buttons (Right) -->
-    <div id="AUTH_BUTTONS_MAIN" class="flex space-x-4 space-x-reverse hidden">
-      <!-- <button id="loginBtn" class="bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 rounded-md px-4 py-2 transition duration-200">
-        ورود
+    <!-- Search Form -->
+    <form id="searchForm" class="mb-4 space-x-2">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search..."
+        class="px-4 py-2 border border-gray-300 rounded"
+      />
+      <button type="submit" class="px-4 py-2 bg-purple-500 text-white rounded">
+        Search
       </button>
-      <button id="registerBtn" class="bg-teal-500 text-white hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-50 rounded-md px-4 py-2 transition duration-200">
-        ثبت نام
-      </button> -->
-    </div>
-
-    <!-- Mobile Hamburger Button -->
-    <div class="md:hidden flex items-center space-x-2 space-x-reverse">
-      <!-- <button id="hamburgerMenuBtn" class="text-gray-600 hover:text-gray-800 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button> -->
-    </div>
-  </div>
-  </div>
-
-  <!-- Mobile Menu (Hidden by default, shown when hamburger is clicked) -->
-  <div id="mobileMenu" class="md:hidden bg-white shadow-md hidden">
-    <div class="px-6 py-4 space-y-4 ">
-      <!-- <button id="findCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">محصولات</button> -->
-      <!-- <button id="createCategoryBtnMobile" class="text-gray-600 hover:text-gray-800 w-full text-center">به روز رسانی</button> -->
-      <a href="./mall.html"><button class="text-gray-600 text-gray-600 hover:text-teal-800">آمار پایگاه
-          داده</button></a>
-
-      <div class="flex flex-col space-y-4 ">
-        <!-- <button id="loginBtnMobile" class="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2 transition duration-200 w-full">
-        ورود
-      </button>
-      <button id="registerBtnMobile" class="bg-teal-500 text-white hover:bg-teal-600 rounded-md px-4 py-2 transition duration-200 w-full">
-        ثبت نام
-      </button> -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Results Section -->
-  <section id="sementic_resultsSection" class="hidden p-6 mb-20">
-    <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت های یافت شده</h2>
-    <div id="img2text" class="bg-white rounded-lg shadow-md p-6 w-full mb-6 " dir="rtl"></div>
-    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  overflow-auto" dir="rtl">
-
-
-    </div>
-  </section>
-
-
-
-  <div class="w-full fixed bottom-5 px-4" dir="rtl">
-
-    <div id="preview" class="hidden flex">
-      <img id="imagePreview" src="#" alt="Image Preview"
-        class="hidden w-[10rem] h-[10rem] m-6 rounded-xl border-4 border-teal-800" />
-      <audio id="audioPreview" controls class="hidden m-6 rounded-xl border-4 border-teal-800"></audio>
-      <div
-        class=" m-6 rounded-xl border-4 border-teal-800 p-6 flex items-center justify-center bg-red-600 cursor-pointer"
-        id="remove_preview"> Remove </div>
-    </div>
-    <form id="searchForm" class="relative">
-      <input type="file" id="imageInput" accept="image/*" class="hidden" />
-      <input type="file" name="audioInput" id="audioInput" accept="audio/*" class="hidden" />
-
-
-
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3 space-x-2">
-        <button type="button" id="imageBtn"
-          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-          <img class="w-5" src="./imgs/camera-svgrepo-com.svg" alt="" srcset="">
-
-        </button>
-        <button type="button" id="audioBtn"
-          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 1v11m0 0a4 4 0 01-4-4V5a4 4 0 018 0v3a4 4 0 01-4 4z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18v2a4 4 0 01-8 0v-2" />
-          </svg>
-
-        </button>
-
-        <button type="submit" id="submitbutton"
-          class="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition transform hover:scale-105 focus:outline-none">
-          <img class="w-5" src="./imgs/left-arrow-svgrepo-com.svg" alt="" srcset="">
-
-        </button>
-      </div>
-      <input type="text" dir="ltr" id="searchInput" placeholder="Search..."
-        class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
     </form>
 
-  </div>
+    <!-- Preview Container -->
+    <div
+      id="preview"
+      class="hidden flex relative items-center justify-center border border-teal-800 rounded-xl p-4 bg-white"
+    >
+      <img
+        id="imagePreview"
+        src="#"
+        alt="Image Preview"
+        class="hidden w-40 h-40 m-4 rounded-xl border-4 border-teal-800 cursor-pointer"
+      />
+      <audio
+        id="audioPreview"
+        controls
+        class="hidden m-4 rounded-xl border-4 border-teal-800"
+      ></audio>
+      <!-- Remove Button stays with same id -->
+      <div
+        id="remove_preview"
+        class="absolute top-2 left-2 bg-red-600 text-white text-xl rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
+      >
+        &times;
+      </div>
+    </div>
+
+    <!-- Modal for Cropping / Resizing -->
+    <div
+      id="cropModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+    >
+      <div
+        id="cropModalContent"
+        class="bg-white rounded-lg p-6 w-full max-w-2xl"
+      >
+        <h2 class="text-2xl font-bold mb-4">Adjust Image</h2>
+        <div>
+          <img
+            id="cropImage"
+            src="#"
+            alt="Crop Image"
+            class="w-full"
+          />
+        </div>
+        <div class="mt-4 flex justify-end space-x-2">
+          <button
+            id="cropApplyBtn"
+            class="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Crop &amp; Apply
+          </button>
+          <button
+            id="resizeApplyBtn"
+            class="px-4 py-2 bg-yellow-500 text-white rounded"
+          >
+            Resize/Quality &amp; Apply
+          </button>
+          <button
+            id="modalCancelBtn"
+            class="px-4 py-2 bg-gray-500 text-white rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semantic Results Section -->
+    <div id="sementic_resultsSection" class="hidden mt-4">
+      <div id="sementic_results" class="space-y-4"></div>
+    </div>
+    <div id="img2text" class="hidden mt-4"></div>
+
+    <!-- Product Details Modal -->
+    <div
+      id="myModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-3xl relative">
+        <button
+          id="closeModal"
+          class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center"
+        >
+          &times;
+        </button>
+        <div id="sementic_results_2" class="mt-4"></div>
+      </div>
+    </div>
+<!-- Cropper.js Script -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"
+      integrity="sha512-YhXr4RUj2jcb3dT6A8/vGgB1GcvRZ+B+KtF8cpgvMW5X1UJj0AOrWJ7N0oJ6GUdk8fz8rj6UwwmJz7CJo5uO9w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
 
   <script src="./fetching.js"></script>
-  <!-- <script src="./ui_logic_p.js"></script> -->
-  <script>let user_token = '8ff3960bbd957b7e663b16467400bba2';
-  </script>
-  <script>
-
-    const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i
-    const imageBtn = document.getElementById('imageBtn');
-    const audioBtn = document.getElementById('audioBtn');
-
-
-    const imageInput = document.getElementById('imageInput');
-    const audioInput = document.getElementById('audioInput');
-
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
-
-
-    const imagePreview = document.getElementById('imagePreview');
-    const audioPreview = document.getElementById('audioPreview');
-
-
-
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
-    let audioFile;
-
-    imageBtn.addEventListener('click', () => imageInput.click());
-
-    audioBtn.addEventListener('click', () => audioInput.click());
-
-
-
-
-
-    document.getElementById('remove_preview').addEventListener('click', () => {
-
-      document.getElementById('preview').classList.add('hidden');
-
-      imageInput.value = '';
-      audioInput.value = '';
-
-
-    })
-function resizeAndReduceQuality(file, maxWidth, maxHeight, quality = 0.5) {
-  console.log('resizing ...');
   
-  return new Promise((resolve, reject) => {
-  console.log('resizing2 ...');
-
-    const img = new Image();
-    const reader = new FileReader();
-    
-
-    reader.onload = (e) => {
-      img.src = e.target.result;
-      console.log('Original image data URL:', img.src);
-      
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth || height > maxHeight) {
-          const ratio = Math.min(maxWidth / width, maxHeight / height);
-          width *= ratio;
-          height *= ratio;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        ctx.drawImage(img, 0, 0, width, height);
-
-        // Log the resized image
-        const resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
-        console.log('Resized image data URL:', resizedDataUrl);
-
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error('Failed to resize image.'));
-              return;
-            }
-            resolve(blob);
-          },
-          'image/jpeg',
-          quality
-        );
-      };
-
-      img.onerror = (error) => reject(new Error('Image load error: ' + error));
-    };
-
-    reader.onerror = (error) => reject(new Error('File read error: ' + error));
-    reader.readAsDataURL(file);
-  });
-}
-
-
-
-
-
-
-    // Handle image upload
-    imageInput.addEventListener('change', (event) => {
-      document.getElementById('preview').classList.remove('hidden')
-
-      const file = event.target.files[0];
-      
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          imagePreview.src = e.target.result;
-          imagePreview.classList.remove('hidden');
-          audioPreview.classList.add('hidden'); // Hide audio preview
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Handle audio upload
-    audioInput.addEventListener('change', (event) => {
-      document.getElementById('preview').classList.remove('hidden')
-
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          audioPreview.src = e.target.result;
-          audioPreview.classList.remove('hidden');
-          imagePreview.classList.add('hidden'); // Hide image preview
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    searchForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const query = searchInput.value;
-      let imageFile = imageInput.files[0];
-      let audioFile = audioInput.files[0];
-
-
-      searchInput.value = 'loading please wait ....'
-
-
-      if (mongoDB_id.test(query)) {
-        document.getElementById('sementic_resultsSection').classList.remove('hidden')
-
-
-
-        const resultsContainer = document.getElementById('sementic_results');
-        resultsContainer.innerHTML = '';
-        document.getElementById('img2text').classList.add('hidden')
-
-
-        const formData = new FormData();
-        formData.append('query', query);
-        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
-
-
-        const result = await response.json();
-
-
-        let data = result;
-
-        console.log(data);
-
-
-        if (data.data[0]?.similar_products?.length > 0) {
-          data.data[0].similar_products.forEach(product => {
-            const card = createProductCard(data, product);
-            resultsContainer.appendChild(card);
-          });
-        } else {
-          const noProductsMessage = document.createElement('p');
-          noProductsMessage.textContent = 'No similar products found.';
-          noProductsMessage.className = 'text-gray-600 text-center';
-          resultsContainer.appendChild(noProductsMessage);
-        }
-
-      } else {
-
-
-        const formData = new FormData();
-        
-        if (query) formData.append('query', query);
-        if (imageFile) formData.append('image', imageFile);
-        if (audioFile) formData.append('audio', audioFile);
-        formData.append('topk', 15);
-
-
-        
-
-        const formData_totext = new FormData();
-      
-        if (imageFile) formData_totext.append('image', imageFile);
-     
-
-        // if (imageFile) {
-        //   resizeAndReduceQuality(imageFile, 1024, 1024, 0.7)
-        //     .then((resizedBlob) => {
-        //       const resizedFile = new File([resizedBlob], imageFile.name, { type: 'image/jpeg' });
-        //       formData.append('image', resizedFile);
-        //       // formData_totext.append('image', resizedFile);
-
-
-
-        //     })
-        //     .catch((error) => {
-        //       console.error('Error resizing image:', error);
-        //     });
-        // }
-
-        
-        if (imageFile) {
-          try {
-
-            const response_totext = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/Image2text_fa/', 'POST', user_token, 'multipart/form-data', formData_totext, 'sementic_search')
-            const result_totext = await response_totext.json();
-            console.log(result_totext);
-          document.getElementById('img2text').innerHTML = ` <!-- Product Name -->
-    <div class="text-xl font-semibold text-gray-800 mb-4">
-        نام : ${result_totext.data.produc_name}
-    </div>
-
-    <!-- Description -->
-    <div class="text-gray-600 mb-4">
-        <span class="font-medium text-gray-700">توضیحات :</span>
-        ${result_totext.data.description}
-    </div>
-
-    <!-- Brand -->
-    <div class="text-gray-600 mb-4">
-        <span class="font-medium text-gray-700">برند :</span>
-        ${result_totext.data.produc_brand}
-    </div>
-
-    
-
-    <!-- Metadata -->
-    <div class="text-gray-600">
-        <span class="font-medium text-gray-700">متا دیتا :</span>
-        ${result_totext.data.produc_metadata}
-    </div>`
-
-
-
-          }catch(e){
-            console.log(e);
-            
-          }
-          
-
-
-        }
-
-
-        const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
-        console.log(response);
-
-        searchInput.value = ''
-        // Reset file inputs
-        imageInput.value = '';
-        audioInput.value = '';
-
-        document.getElementById('preview').classList.add('hidden')
-
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
-
-
-
-
-
-        if (result.return !== true) {
-          alert('Error: ' + result.message);
-          return;
-        }
-
-        const resultsContainer = document.getElementById('sementic_results');
-        resultsContainer.innerHTML = '';
-
-        result.data.forEach((item, index) => {
-
-          console.log(item);
-
-          // Create a card for each product
-          const card = document.createElement('div');
-          card.className = 'bg-white rounded-lg overflow-hidden';
-
-          // Add product image if available
-          if (item.metadata && item.metadata.primary_image) {
-            const img = document.createElement('img');
-            img.src = item.metadata.primary_image;
-            img.alt = item.metadata.name || 'Product Image';
-            img.className = 'w-full h-48 object-cover';
-            card.appendChild(img);
-          }
-
-          const cardBody = document.createElement('div');
-          cardBody.className = 'p-4';
-
-          // Product name
-          const nameEl = document.createElement('h3');
-          nameEl.className = 'text-lg font-bold mb-2';
-          nameEl.textContent = item.metadata?.name || 'Unnamed Product';
-          cardBody.appendChild(nameEl);
-
-          // Category
-          if (item.metadata?.category) {
-            const categoryEl = document.createElement('p');
-            categoryEl.className = 'text-sm text-gray-600';
-            categoryEl.textContent = 'کتگوری: ' + item.metadata.category;
-            cardBody.appendChild(categoryEl);
-          }
-
-          // Price (if provided and numeric)
-          if (item.metadata?.price && !isNaN(item.metadata.price)) {
-            const priceEl = document.createElement('p');
-            priceEl.className = 'text-sm text-green-600 font-semibold mt-2';
-            priceEl.textContent = 'قیمت: ' + item.metadata.price;
-            cardBody.appendChild(priceEl);
-          }
-
-
-          
-          // ID
-          if (item.metadata?.id) {
-            const id = document.createElement('p');
-            id.className = 'text-sm text-gray-600 font-semibold mt-2';
-            id.textContent = 'شناسه: ' + item.metadata.id;
-            cardBody.appendChild(id);
-          }
-
-
-
-          if (item.scores) {
-            const Score = document.createElement('p');
-            Score.className = 'text-sm text-green-600 font-semibold mt-2';
-            Score.textContent = 'score: ' + item.scores;
-            cardBody.appendChild(Score);
-          }
-
-
-
-          const info_button = document.createElement('button');
-          info_button.id = 'similar_search_' + index;
-          info_button.className = 'w-full bg-teal-500 p-4 mt-4 text-center rounded-xl'
-          info_button.textContent = 'اطلاعات بیشتر'
-          info_button.onclick = () => {
-            console.log(item.metadata.id)
-            showModal()
-            populateModal(item.metadata.id);
-          }
-          cardBody.appendChild(info_button);
-
-
-          card.appendChild(cardBody);
-          resultsContainer.appendChild(card);
-        });
-        console.log(result);
-
-
-        if (result.data.length > 0) {
-          document.getElementById('sementic_resultsSection').classList.remove('hidden');
-        } else {
-          alert('No results found.');
-        }
-
-
-
-      }
-
-
-      
-
-
-    });
-
-
-
-
-
-    // Function to create a detailed product card with null handling
-    function createProductCard(data_t, product) {
-      let data = data_t
-
-      console.log(product);
-      
-      const card = document.createElement('div');
-      card.className = 'bg-white rounded-lg shadow-md p-6 mb-6';
-
-      // Product Image
-      if (product.metadata?.primary_image) {
-        const image = document.createElement('img');
-        image.src = product.metadata.primary_image;
-        image.alt = product.metadata.name || 'Product Image';
-        image.className = 'w-full h-64 object-cover rounded-lg mb-4';
-        card.appendChild(image);
-      }
-
-      // Product Name
-      if (product.metadata?.name) {
-        const name = document.createElement('h3');
-        name.textContent = product.metadata.name;
-        name.className = 'text-xl font-semibold mb-2';
-        card.appendChild(name);
-      }
-
-      // Product Price
-      if (product.metadata?.price) {
-        const price = document.createElement('p');
-        price.textContent = `قیمت: ${product.metadata.price.toLocaleString()} IRR`;
-        price.className = 'text-gray-700 mb-2';
-        card.appendChild(price);
-      }
-
-
-
-      
-      // Product ID
-      if (product.metadata?.id) {
-        const id = document.createElement('p');
-        id.textContent = `شناسه: ${product.metadata.id.toLocaleString()}`;
-        id.className = 'text-gray-700 mb-2';
-        card.appendChild(id);
-      }
-
-        // View Product Link
-      if (product.textualy_similarity_score || product.visualy_similarity_score ) {
-        console.log('halllooooo');
-        
-        const score = document.createElement('p');
-        score.textContent = `score : ${product.visualy_similarity_score + product.textualy_similarity_score}`;
-        score.className = 'text-green-600 hover:text-green-800 underline';
-        card.appendChild(score);
-        
-      }
-
-      // Product Category
-      if (product.metadata?.category) {
-        const category = document.createElement('p');
-        category.textContent = `کتگوری: ${product.metadata.category}`;
-        category.className = 'text-gray-500 mb-2';
-        card.appendChild(category);
-      }
-
-      // Product Description (from llm_enriched_description)
-      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
-        const description = document.createElement('p');
-        description.textContent = data.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
-        description.className = 'text-gray-600 mb-4';
-        card.appendChild(description);
-      }
-
-      // Product Tags (from llm_tags)
-      if (data.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
-        const tags = document.createElement('div');
-        tags.className = 'flex flex-wrap gap-2 mb-4';
-        data.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach(tag => {
-          if (tag) {
-            const tagElement = document.createElement('span');
-            tagElement.textContent = tag;
-            tagElement.className = 'bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm';
-            tags.appendChild(tagElement);
-          }
-        });
-        card.appendChild(tags);
-      }
-
-      // Availability
-      if (data.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
-        const availability = document.createElement('p');
-        availability.textContent = `موجودی: ${data.data[0].product_data[0].price_info.is_available ? 'موجود' : 'ناموجود'}`;
-        availability.className = 'text-green-600 mb-2';
-        card.appendChild(availability);
-      }
-
-      // Shipping Fee
-      if (data.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
-        const shippingFee = document.createElement('p');
-        shippingFee.textContent = `قیمت ارسال: ${data.data[0].product_data[0].price_info.price_list.shipping_fee === 0 ? '--- ' : `${data.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
-        shippingFee.className = 'text-gray-600 mb-2';
-        card.appendChild(shippingFee);
-      }
-
-      console.log(data);
-
-      // Order Limit
-      if (data.data[0]?.product_data[0]?.price_info?.price_list?.order_limit !== undefined) {
-        const orderLimit = document.createElement('p');
-        orderLimit.textContent = `موجودی: ${data.data[0].product_data[0].price_info.price_list.order_limit}`;
-        orderLimit.className = 'text-gray-600 mb-2';
-        card.appendChild(orderLimit);
-      }
-
-      // Discount Percent
-      if (data.data[0]?.product_data[0]?.price_info?.price_list?.discount_percent !== undefined) {
-        const discount = document.createElement('p');
-        discount.textContent = `تخفیف: ${data.data[0].product_data[0].price_info.price_list.discount_percent}%`;
-        discount.className = 'text-red-600 mb-4';
-        card.appendChild(discount);
-      }
-      
-
-     
-
-      // View Product Link
-      if (product.metadata?.scrape_url) {
-        const link = document.createElement('a');
-        link.href = product.metadata.scrape_url;
-        link.textContent = 'این محصول را در سایت ببینید';
-        link.className = 'text-blue-600 hover:text-blue-800 underline';
-        link.target = '_blank';
-        card.appendChild(link);
-      }
-
-      return card;
-    }
-
-    // Function to populate the modal with product cards
-    async function populateModal(itemid) {
-
-      const resultsContainer = document.getElementById('sementic_results_2');
-      resultsContainer.innerHTML = '';
-
-
-      const formData = new FormData();
-      formData.append('query', itemid);
-      const response = await connect_to_server('http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/', 'POST', user_token, 'multipart/form-data', formData, 'sementic_search')
-
-
-      const result = await response.json();
-
-
-      let data = result;
-
-      console.log(data);
-
-
-      if (data.data[0]?.similar_products?.length > 0) {
-        data.data[0].similar_products.forEach(product => {
-          const card = createProductCard(data, product);
-          resultsContainer.appendChild(card);
-        });
-      } else {
-        const noProductsMessage = document.createElement('p');
-        noProductsMessage.textContent = 'No similar products found.';
-        noProductsMessage.className = 'text-gray-600 text-center';
-        resultsContainer.appendChild(noProductsMessage);
-      }
-
-      // Show the results section
-      document.getElementById('sementic_resultsSection_2').classList.remove('hidden');
-    }
-
-
-
-
-    const modal = document.getElementById('myModal');
-    const closeModal = document.getElementById('closeModal');
-
-    function showModal() {
-      modal.classList.remove('hidden');
-    }
-
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-    });
-
-
-  </script>
-
+  <script src="sementic_js.js"></script>
+ 
 
 </body>
 
