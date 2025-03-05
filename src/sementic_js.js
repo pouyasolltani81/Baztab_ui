@@ -421,7 +421,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         if (item.scores) {
           const score = document.createElement("p");
           score.className = "text-sm text-green-600 font-semibold mt-2";
-          score.textContent = "score: " + item.scores;
+          score.textContent = "امتیاز: " + item.scores;
           cardBody.appendChild(score);
         }
         const info_button = document.createElement("button");
