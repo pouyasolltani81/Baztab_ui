@@ -284,7 +284,7 @@ safeAddListener(searchForm, "submit", async (e) => {
     const audioFile =
       audioInput && audioInput.files ? audioInput.files[0] : null;
 
-    if (searchInput) searchInput.value = "loading please wait ....";
+    if (searchInput) searchInput.value = "";
 
     // Update input preview section (below img2text)
     if (inputPreviewSection) {
