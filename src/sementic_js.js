@@ -15,7 +15,7 @@ const audioPreview = document.getElementById("audioPreview");
 const removePreview = document.getElementById("remove_preview");
 const previewContainer = document.getElementById("preview");
 const loadingIndicator = document.getElementById("loadingIndicator");
-const inputDisplay = document.getElementById("inputDisplay");
+const inputPreviewSection = document.getElementById("inputPreviewSection");
 
 // Modal elements for cropping/resizing
 const cropModal = document.getElementById("cropModal");
@@ -62,8 +62,7 @@ safeAddListener(removePreview, "click", () => {
   if (previewContainer) previewContainer.classList.add("hidden");
   if (imageInput) imageInput.value = "";
   if (audioInput) audioInput.value = "";
-  // Also clear the input display
-  if (inputDisplay) inputDisplay.innerHTML = "";
+  if (inputPreviewSection) inputPreviewSection.innerHTML = "";
 });
 
 // Resize and reduce quality function with error handling
@@ -82,8 +81,7 @@ function resizeAndReduceQuality(file, maxDim, quality = 0.5) {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         if (!ctx) return reject(new Error("Failed to get canvas context."));
-        let width = img.width,
-          height = img.height;
+        let width = img.width, height = img.height;
         if (width > maxDim || height > maxDim) {
           const ratio = Math.min(maxDim / width, maxDim / height);
           width = Math.floor(width * ratio);
@@ -115,8 +113,10 @@ function resizeAndReduceQuality(file, maxDim, quality = 0.5) {
 
 // Function to open the crop modal and initialize Cropper.js
 function openCropModal() {
-  if (!imagePreview.src || imagePreview.src === "#")
-    return console.error("No image available for cropping.");
+  if (!imagePreview.src || imagePreview.src === "#") {
+    console.error("No image available for cropping.");
+    return;
+  }
   cropModal.classList.remove("hidden");
   if (cropper) cropper.destroy();
   cropper = new Cropper(cropImage, {
@@ -130,7 +130,7 @@ function openCropModal() {
   });
 }
 
-// Image input change: show preview, update crop modal, and auto open crop modal
+// Image input change: show preview, update crop modal, and auto-open crop modal
 safeAddListener(imageInput, "change", (event) => {
   try {
     if (!event || !event.target || !event.target.files)
@@ -144,7 +144,7 @@ safeAddListener(imageInput, "change", (event) => {
           imagePreview.classList.remove("hidden");
           if (audioPreview) audioPreview.classList.add("hidden");
           cropImage.src = e.target.result;
-          // Automatically open crop modal after image is uploaded
+          // Auto open crop modal after image upload
           openCropModal();
         }
       };
@@ -158,7 +158,7 @@ safeAddListener(imageInput, "change", (event) => {
   }
 });
 
-// Audio input change: show preview and hide crop modal related to image
+// Audio input change: show preview and hide image-to-text (since input is not image)
 safeAddListener(audioInput, "change", (event) => {
   try {
     if (!event || !event.target || !event.target.files)
@@ -171,7 +171,7 @@ safeAddListener(audioInput, "change", (event) => {
           audioPreview.src = e.target.result;
           audioPreview.classList.remove("hidden");
           if (imagePreview) imagePreview.classList.add("hidden");
-          // Hide img2text since input is not an image
+          // Hide image-to-text container since input is not an image
           document.getElementById("img2text").classList.add("hidden");
         }
       };
@@ -231,7 +231,6 @@ safeAddListener(resizeApplyBtn, "click", async () => {
   try {
     if (!imageInput || !imageInput.files || !imageInput.files[0])
       throw new Error("No image file available for resizing.");
-    // Get user inputs for max dimension and quality
     const maxDimInput = document.getElementById("maxDimension");
     const qualityInput = document.getElementById("qualityInput");
     const maxDim = maxDimInput ? parseInt(maxDimInput.value, 10) : 1024;
@@ -287,13 +286,13 @@ safeAddListener(searchForm, "submit", async (e) => {
 
     if (searchInput) searchInput.value = "loading please wait ....";
 
-    // Show input preview (uploaded image/audio/query) at top of page
-    if (inputDisplay) {
+    // Update input preview section (below img2text)
+    if (inputPreviewSection) {
       if (imageFile) {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target && e.target.result) {
-            inputDisplay.innerHTML = `<img src="${e.target.result}" class="w-40 h-40 rounded-xl border-4 border-teal-800" />`;
+            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-40 h-40 rounded-xl border-4 border-teal-800" />`;
           }
         };
         reader.readAsDataURL(imageFile);
@@ -301,22 +300,19 @@ safeAddListener(searchForm, "submit", async (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target && e.target.result) {
-            inputDisplay.innerHTML = `<audio controls class="w-full rounded-xl border-4 border-teal-800" src="${e.target.result}"></audio>`;
+            inputPreviewSection.innerHTML = `<audio controls class="w-full rounded-xl border-4 border-teal-800" src="${e.target.result}"></audio>`;
           }
         };
         reader.readAsDataURL(audioFile);
       } else if (query) {
-        inputDisplay.innerHTML = `<p class="text-gray-800 text-lg font-semibold">Query: ${query}</p>`;
+        inputPreviewSection.innerHTML = `<p class="text-gray-800 text-lg font-semibold">Query: ${query}</p>`;
       }
     }
 
-    // Call the agent endpoint to populate the page
     let response, resultData;
     if (mongoDB_id.test(query)) {
-      const sementicResultsSection =
-        document.getElementById("sementic_resultsSection");
-      const resultsContainer =
-        document.getElementById("sementic_results");
+      const sementicResultsSection = document.getElementById("sementic_resultsSection");
+      const resultsContainer = document.getElementById("sementic_results");
       if (sementicResultsSection)
         sementicResultsSection.classList.remove("hidden");
       if (resultsContainer) resultsContainer.innerHTML = "";
@@ -333,8 +329,7 @@ safeAddListener(searchForm, "submit", async (e) => {
       );
       resultData = await response.json();
       console.log(resultData);
-      const resultsContainerEl =
-        document.getElementById("sementic_results");
+      const resultsContainerEl = document.getElementById("sementic_results");
       if (resultData.data[0]?.similar_products?.length > 0) {
         resultData.data[0].similar_products.forEach((product) => {
           const card = createProductCard(resultData, product);
@@ -343,12 +338,10 @@ safeAddListener(searchForm, "submit", async (e) => {
       } else {
         const noProductsMessage = document.createElement("p");
         noProductsMessage.textContent = "No similar products found.";
-        noProductsMessage.className =
-          "text-gray-600 text-center";
+        noProductsMessage.className = "text-gray-600 text-center";
         resultsContainerEl.appendChild(noProductsMessage);
       }
     } else {
-      // Combined search with query, image, and audio
       const formData = new FormData();
       if (query) formData.append("query", query);
       if (imageFile) formData.append("image", imageFile);
@@ -357,14 +350,13 @@ safeAddListener(searchForm, "submit", async (e) => {
       const formData_totext = new FormData();
       if (imageFile) {
         formData_totext.append("image", imageFile);
-        // Show loading inside the img2text container
+        // Show loading inside the img2text container if image is present
         const img2textDiv = document.getElementById("img2text");
         if (img2textDiv) {
           img2textDiv.classList.remove("hidden");
           img2textDiv.innerHTML = `<div class="text-center text-gray-600">Loading image-to-text...</div>`;
         }
       } else {
-        // Hide img2text container if no image is provided
         document.getElementById("img2text").classList.add("hidden");
       }
       response = await connect_to_server(
@@ -389,8 +381,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         hideLoading();
         return;
       }
-      const resultsContainerEl =
-        document.getElementById("sementic_results");
+      const resultsContainerEl = document.getElementById("sementic_results");
       if (resultsContainerEl) resultsContainerEl.innerHTML = "";
       resultData.data.forEach((item, index) => {
         console.log(item);
@@ -407,46 +398,35 @@ safeAddListener(searchForm, "submit", async (e) => {
         cardBody.className = "p-4";
         const nameEl = document.createElement("h3");
         nameEl.className = "text-lg font-bold mb-2";
-        nameEl.textContent =
-          item.metadata?.name || "Unnamed Product";
+        nameEl.textContent = item.metadata?.name || "Unnamed Product";
         cardBody.appendChild(nameEl);
         if (item.metadata?.category) {
           const categoryEl = document.createElement("p");
           categoryEl.className = "text-sm text-gray-600";
-          categoryEl.textContent =
-            "کتگوری: " + item.metadata.category;
+          categoryEl.textContent = "کتگوری: " + item.metadata.category;
           cardBody.appendChild(categoryEl);
         }
-        if (
-          item.metadata?.price &&
-          !isNaN(item.metadata.price)
-        ) {
+        if (item.metadata?.price && !isNaN(item.metadata.price)) {
           const priceEl = document.createElement("p");
-          priceEl.className =
-            "text-sm text-green-600 font-semibold mt-2";
-          priceEl.textContent =
-            "قیمت: " + item.metadata.price;
+          priceEl.className = "text-sm text-green-600 font-semibold mt-2";
+          priceEl.textContent = "قیمت: " + item.metadata.price;
           cardBody.appendChild(priceEl);
         }
         if (item.metadata?.id) {
           const id = document.createElement("p");
-          id.className =
-            "text-sm text-gray-600 font-semibold mt-2";
-          id.textContent =
-            "شناسه: " + item.metadata.id;
+          id.className = "text-sm text-gray-600 font-semibold mt-2";
+          id.textContent = "شناسه: " + item.metadata.id;
           cardBody.appendChild(id);
         }
         if (item.scores) {
           const score = document.createElement("p");
-          score.className =
-            "text-sm text-green-600 font-semibold mt-2";
+          score.className = "text-sm text-green-600 font-semibold mt-2";
           score.textContent = "score: " + item.scores;
           cardBody.appendChild(score);
         }
         const info_button = document.createElement("button");
         info_button.id = "similar_search_" + index;
-        info_button.className =
-          "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+        info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
         info_button.textContent = "اطلاعات بیشتر";
         info_button.onclick = () => {
           console.log(item.metadata.id);
@@ -458,9 +438,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         resultsContainerEl.appendChild(card);
       });
       if (resultData.data.length > 0) {
-        document
-          .getElementById("sementic_resultsSection")
-          .classList.remove("hidden");
+        document.getElementById("sementic_resultsSection").classList.remove("hidden");
       } else {
         alert("No results found.");
       }
@@ -547,20 +525,13 @@ function createProductCard(data_t, product) {
       category.className = "text-gray-500 mb-2";
       card.appendChild(category);
     }
-    if (
-      data_t.data[0]?.product_data[0]?.proccessd_data
-        ?.llm_enriched_description?.description_fa
-    ) {
+    if (data_t.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
       const description = document.createElement("p");
-      description.textContent =
-        data_t.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
+      description.textContent = data_t.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
       description.className = "text-gray-600 mb-4";
       card.appendChild(description);
     }
-    if (
-      data_t.data[0]?.product_data[0]?.proccessd_data
-        ?.llm_enriched_description?.llm_tags?.length > 0
-    ) {
+    if (data_t.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
       const tags = document.createElement("div");
       tags.className = "flex flex-wrap gap-2 mb-4";
       data_t.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach((tag) => {
