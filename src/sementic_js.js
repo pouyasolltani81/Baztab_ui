@@ -359,7 +359,6 @@ safeAddListener(searchForm, "submit", async (e) => {
       } else {
         document.getElementById("img2text").classList.add("hidden");
       }
-      hideLoading();
 
       response = await connect_to_server(
         "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
@@ -443,6 +442,9 @@ safeAddListener(searchForm, "submit", async (e) => {
       } else {
         alert("No results found.");
       }
+
+      hideLoading();
+
       // If image file exists, then after populating the agent call, make an additional call to image2text
       if (imageFile) {
         try {
@@ -550,6 +552,13 @@ function createProductCard(data_t, product) {
       availability.textContent = `موجودی: ${data_t.data[0].product_data[0].price_info.is_available ? "موجود" : "ناموجود"}`;
       availability.className = "text-green-600 mb-2";
       card.appendChild(availability);
+    }
+
+    if (product.textualy_similarity_score !== undefined) {
+      const score = document.createElement("p");
+      score.textContent = `امتیاز: ${product.textualy_similarity_score + product.visualy_similarity_score}`;
+      score.className = "text-green-600 mb-2";
+      card.appendChild(score);
     }
     if (data_t.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
       const shippingFee = document.createElement("p");
