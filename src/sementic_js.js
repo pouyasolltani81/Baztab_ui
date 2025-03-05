@@ -324,38 +324,7 @@
             formData.append("topk", 15);
             const formData_totext = new FormData();
             if (imageFile) formData_totext.append("image", imageFile);
-            if (imageFile) {
-              try {
-                const response_totext = await connect_to_server(
-                  "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
-                  "POST",
-                  user_token,
-                  "multipart/form-data",
-                  formData_totext,
-                  "sementic_search"
-                );
-                const result_totext = await response_totext.json();
-                console.log(result_totext);
-                document.getElementById("img2text").innerHTML = `
-                  <div class="text-xl font-semibold text-gray-800 mb-4">
-                      نام : ${result_totext.data.produc_name}
-                  </div>
-                  <div class="text-gray-600 mb-4">
-                      <span class="font-medium text-gray-700">توضیحات :</span>
-                      ${result_totext.data.description}
-                  </div>
-                  <div class="text-gray-600 mb-4">
-                      <span class="font-medium text-gray-700">برند :</span>
-                      ${result_totext.data.produc_brand}
-                  </div>
-                  <div class="text-gray-600">
-                      <span class="font-medium text-gray-700">متا دیتا :</span>
-                      ${result_totext.data.produc_metadata}
-                  </div>`;
-              } catch (e) {
-                console.error(e);
-              }
-            }
+            
             const response = await connect_to_server(
               "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
               "POST",
@@ -456,6 +425,38 @@
             }
           }
           hideLoading();
+          if (imageFile) {
+            try {
+              const response_totext = await connect_to_server(
+                "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
+                "POST",
+                user_token,
+                "multipart/form-data",
+                formData_totext,
+                "sementic_search"
+              );
+              const result_totext = await response_totext.json();
+              console.log(result_totext);
+              document.getElementById("img2text").innerHTML = `
+                <div class="text-xl font-semibold text-gray-800 mb-4">
+                    نام : ${result_totext.data.produc_name}
+                </div>
+                <div class="text-gray-600 mb-4">
+                    <span class="font-medium text-gray-700">توضیحات :</span>
+                    ${result_totext.data.description}
+                </div>
+                <div class="text-gray-600 mb-4">
+                    <span class="font-medium text-gray-700">برند :</span>
+                    ${result_totext.data.produc_brand}
+                </div>
+                <div class="text-gray-600">
+                    <span class="font-medium text-gray-700">متا دیتا :</span>
+                    ${result_totext.data.produc_metadata}
+                </div>`;
+            } catch (e) {
+              console.error(e);
+            }
+          }
         } catch (error) {
           console.error("Error during search form submission:", error);
           hideLoading();
@@ -553,17 +554,23 @@
             shippingFee.className = "text-gray-600 mb-2";
             card.appendChild(shippingFee);
           }
-          if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.order_limit !== undefined) {
-            const orderLimit = document.createElement("p");
-            orderLimit.textContent = `موجودی: ${data_t.data[0].product_data[0].price_info.price_list.order_limit}`;
-            orderLimit.className = "text-gray-600 mb-2";
-            card.appendChild(orderLimit);
-          }
+          // if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.order_limit !== undefined) {
+          //   const orderLimit = document.createElement("p");
+          //   orderLimit.textContent = `امتیاز: ${data_t.data[0].product_data[0].price_info.price_list.order_limit +  }`;
+          //   orderLimit.className = "text-gray-600 mb-2";
+          //   card.appendChild(orderLimit);
+          // }
           if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.discount_percent !== undefined) {
             const discount = document.createElement("p");
             discount.textContent = `تخفیف: ${data_t.data[0].product_data[0].price_info.price_list.discount_percent}%`;
             discount.className = "text-red-600 mb-4";
             card.appendChild(discount);
+          }
+          if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.discount_percent !== undefined) {
+            const score = document.createElement("p");
+            score.textContent = `تخفیف: ${data_t.data[0].product_data[0].price_info.price_list.score_percent}%`;
+            score.className = "text-red-600 mb-4";
+            card.appendChild(score);
           }
           if (product.metadata?.scrape_url) {
             const link = document.createElement("a");
