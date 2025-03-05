@@ -594,6 +594,7 @@ async function populateModal(itemid) {
     if (resultsContainer) resultsContainer.innerHTML = "";
     const formData = new FormData();
     formData.append("query", itemid);
+    showLoading()
     const response = await connect_to_server(
       "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
       "POST",
@@ -619,6 +620,7 @@ async function populateModal(itemid) {
   } catch (error) {
     console.error("Error populating modal:", error);
   }
+  hideLoading()
 }
 
 // Product details modal handling
