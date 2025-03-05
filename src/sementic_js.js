@@ -292,7 +292,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target && e.target.result) {
-            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-40 h-40 rounded-xl border-4 border-teal-800" />`;
+            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-50 h-50 rounded-xl border-4 border-teal-800" />`;
           }
         };
         reader.readAsDataURL(imageFile);
@@ -359,6 +359,8 @@ safeAddListener(searchForm, "submit", async (e) => {
       } else {
         document.getElementById("img2text").classList.add("hidden");
       }
+      hideLoading();
+
       response = await connect_to_server(
         "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
         "POST",
@@ -378,7 +380,6 @@ safeAddListener(searchForm, "submit", async (e) => {
       resultData = await response.json();
       if (resultData.return !== true) {
         alert("Error: " + resultData.message);
-        hideLoading();
         return;
       }
       const resultsContainerEl = document.getElementById("sementic_results");
