@@ -409,7 +409,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         if (item.metadata?.price && !isNaN(item.metadata.price)) {
           const priceEl = document.createElement("p");
           priceEl.className = "text-sm text-green-600 font-semibold mt-2";
-          priceEl.textContent = "قیمت: " + item.metadata.price;
+          priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
           cardBody.appendChild(priceEl);
         }
         if (item.metadata?.id) {
