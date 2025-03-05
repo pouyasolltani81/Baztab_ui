@@ -292,7 +292,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target && e.target.result) {
-            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-50 h-50 rounded-xl border-4 border-teal-800" />`;
+            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-[40rem] rounded-xl border-4 border-teal-800" />`;
           }
         };
         reader.readAsDataURL(imageFile);
