@@ -14,7 +14,7 @@
     referrerpolicy="no-referrer"
   />
 </head>
-<body class="bg-gray-300 min-h-screen pt-36">
+<body class="bg-gray-300 min-h-screen">
   <!-- Navbar -->
   <nav class="bg-white shadow fixed w-full z-50">
     <div class="max-w-7xl mx-auto px-4">
@@ -50,8 +50,87 @@
     </div>
   </nav>
 
+  <!-- Loading Overlay -->
+  <div
+    id="loadingIndicator"
+    class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
+  >
+    <div class="text-white text-2xl font-semibold" dir="rtl">
+      در حال جستجو ...
+    </div>
+  </div>
+
+  <!-- Product Details Modal (Provided Design) -->
+  <div
+    id="myModal"
+    class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
+  >
+    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl max-h-2xl overflow-auto relative">
+      <!-- Close Button -->
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">
+        &times;
+      </button>
+      <!-- Results Section -->
+      <section id="sementic_resultsSection_2" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
+        <div id="sementic_results_2" class="max-h-[35rem] overflow-auto flex flex-col-reverse" dir="rtl">
+          <!-- Product cards will be injected here -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Crop/Resize Modal (New) -->
+  <div
+    id="cropModal"
+    class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden"
+  >
+    <div class="bg-white rounded-lg shadow-lg max-h-[35rem] p-6 w-11/12 max-w-2xl overflow-auto relative" dir="rtl">
+      <!-- Close Button -->
+      <button id="cropModalCancelBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">
+        &times;
+      </button>
+      <h2 class="text-2xl font-bold p-4">تنظیمات عکس </h2>
+      <div>
+        <img id="cropImage" src="#" alt="Crop Image" class="w-full" />
+      </div>
+      <!-- Resizing Inputs -->
+      <div class="mt-4 space-y-2">
+        <div>
+          <label class="block text-gray-700" for="maxDimension">بیشترین طول عکس (px):</label>
+          <input type="number" id="maxDimension" class="w-full border border-gray-300 rounded px-3 py-2" value="1024" min="100" />
+        </div>
+        <div>
+          <label class="block text-gray-700" for="qualityInput">کیفیت (%):</label>
+          <input type="number" id="qualityInput" class="w-full border border-gray-300 rounded px-3 py-2" value="70" min="1" max="100" />
+        </div>
+      </div>
+      <!-- Modal Buttons -->
+      <div class="mt-4 flex justify-start gap-4">
+        <button id="cropApplyBtn" class="px-4 py-2 bg-blue-500 text-white rounded">
+          کراپ
+        </button>
+        <button id="resizeApplyBtn" class="px-4 py-2 bg-yellow-500 text-white rounded">
+          تغییر سایز
+        </button>
+        <button id="cropModalCancelBtn2" class="px-4 py-2 bg-gray-500 text-white rounded">
+          لغو
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <section id="sementic_resultsSection" class="hidden p-6 mb-20">
+    <!-- Image-to-text section -->
+    <div id="img2text" class="bg-white rounded-lg shadow-md p-6 w-full mb-6" dir="rtl"></div>
+    <!-- New Input Preview Section (below img2text) -->
+    <div id="inputPreviewSection" class="p-4 flex justify-center"></div>
+    <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-auto" dir="rtl"></div>
+  </section>
+
   <!-- Fixed top Section: Preview and Search Form -->
-  <!-- Adjusted top offset so it doesn’t overlap with the main content -->
+  <!-- Adjusted top offset to account for the fixed navbar -->
   <div class="w-full fixed top-20 px-4" dir="rtl">
     <form id="searchForm" class="relative">
       <input type="file" id="imageInput" accept="image/*" class="hidden" />
@@ -81,66 +160,6 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class="relative z-10">
-    <!-- Results Section -->
-    <section id="sementic_resultsSection" class="hidden p-6 mb-20">
-      <!-- Image-to-text section -->
-      <div id="img2text" class="bg-white rounded-lg shadow-md p-6 w-full mb-6" dir="rtl"></div>
-      <!-- New Input Preview Section (below img2text) -->
-      <div id="inputPreviewSection" class="p-4 flex justify-center"></div>
-      <div id="sementic_results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-auto" dir="rtl"></div>
-    </section>
-  </main>
-
-  <!-- Other modals (Loading, Product Details, Crop/Resize) remain unchanged... -->
-
-  <!-- Loading Overlay -->
-  <div id="loadingIndicator" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="text-white text-2xl font-semibold" dir="rtl">
-      در حال جستجو ...
-    </div>
-  </div>
-
-  <!-- Product Details Modal -->
-  <div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl max-h-2xl overflow-auto relative">
-      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">&times;</button>
-      <section id="sementic_resultsSection_2" class="hidden">
-        <h2 class="text-2xl font-semibold mb-4 text-center">پروداکت</h2>
-        <div id="sementic_results_2" class="max-h-[35rem] overflow-auto flex flex-col-reverse" dir="rtl">
-          <!-- Product cards will be injected here -->
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <!-- Crop/Resize Modal -->
-  <div id="cropModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg max-h-[35rem] p-6 w-11/12 max-w-2xl overflow-auto relative" dir="rtl">
-      <button id="cropModalCancelBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">&times;</button>
-      <h2 class="text-2xl font-bold p-4">تنظیمات عکس </h2>
-      <div>
-        <img id="cropImage" src="#" alt="Crop Image" class="w-full" />
-      </div>
-      <div class="mt-4 space-y-2">
-        <div>
-          <label class="block text-gray-700" for="maxDimension">بیشترین طول عکس (px):</label>
-          <input type="number" id="maxDimension" class="w-full border border-gray-300 rounded px-3 py-2" value="1024" min="100" />
-        </div>
-        <div>
-          <label class="block text-gray-700" for="qualityInput">کیفیت (%):</label>
-          <input type="number" id="qualityInput" class="w-full border border-gray-300 rounded px-3 py-2" value="70" min="1" max="100" />
-        </div>
-      </div>
-      <div class="mt-4 flex justify-start gap-4">
-        <button id="cropApplyBtn" class="px-4 py-2 bg-blue-500 text-white rounded">کراپ</button>
-        <button id="resizeApplyBtn" class="px-4 py-2 bg-yellow-500 text-white rounded">تغییر سایز</button>
-        <button id="cropModalCancelBtn2" class="px-4 py-2 bg-gray-500 text-white rounded">لغو</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Cropper.js Script (v1.6.2) -->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.js"
@@ -150,7 +169,7 @@
   ></script>
   <script src="./fetching.js"></script>
   <script src="sementic_js.js"></script>
-
+  
   <!-- Mobile Menu Toggle Script -->
   <script>
     const mobileMenuButton = document.getElementById('mobile-menu-button');
