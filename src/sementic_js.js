@@ -111,23 +111,58 @@ function resizeAndReduceQuality(file, maxDim, quality = 0.5) {
   });
 }
 
-// Function to open the crop modal and initialize Cropper.js
-function openCropModal() {
-  if (!imagePreview.src || imagePreview.src === "#") {
-    console.error("No image available for cropping.");
-    return;
+// Function to connect to the server and initialize cropping with response data
+async function openCropModal() {
+  try {
+    if (!imagePreview.src || imagePreview.src === "#") {
+      console.error("No image available for cropping.");
+      return;
+    }
+
+    const formData = new FormData();
+    const response = await fetch(imagePreview.src);
+    const blob = await response.blob();
+    formData.append("image", blob, "image.jpg");
+
+    const serverResponse = await connect_to_server(
+      "http://79.175.177.113:21800/AIAnalyze/visually_object_detection/",
+      "POST",
+      user_token,
+      "multipart/form-data",
+      formData,
+      "sementic_search"
+    );
+
+    if (serverResponse && serverResponse.return && serverResponse.data && serverResponse.data.coordinates) {
+      const { x1, y1, x2, y2 } = serverResponse.data.coordinates;
+      
+      cropModal.classList.remove("hidden");
+      if (cropper) cropper.destroy();
+      
+      cropper = new Cropper(cropImage, {
+        aspectRatio: NaN, // free ratio
+        viewMode: 1,
+        autoCropArea: 1,
+        movable: true,
+        zoomable: true,
+        rotatable: true,
+        scalable: true,
+        ready() {
+          // Set crop box with server response coordinates
+          cropper.setCropBoxData({
+            left: x1,
+            top: y1,
+            width: x2 - x1,
+            height: y2 - y1
+          });
+        }
+      });
+    } else {
+      console.error("Invalid server response:", serverResponse);
+    }
+  } catch (error) {
+    console.error("Error connecting to server:", error);
   }
-  cropModal.classList.remove("hidden");
-  if (cropper) cropper.destroy();
-  cropper = new Cropper(cropImage, {
-    aspectRatio: NaN, // free ratio
-    viewMode: 1,
-    autoCropArea: 1,
-    movable: true,
-    zoomable: true,
-    rotatable: true,
-    scalable: true,
-  });
 }
 
 // Image input change: show preview, update crop modal, and auto-open crop modal
