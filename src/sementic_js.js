@@ -131,7 +131,7 @@ async function openCropModal() {
       "multipart/form-data",
       formData,
       "sementic_search"
-    );
+    ).json();
 
     const result = await serverResponse.json()
     console.log(result);
