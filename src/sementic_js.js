@@ -354,7 +354,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         const img2textDiv = document.getElementById("img2text");
         if (img2textDiv) {
           img2textDiv.classList.remove("hidden");
-          img2textDiv.innerHTML = `<div class="text-center text-gray-600">Loading image-to-text...</div>`;
+          img2textDiv.innerHTML = `<div class="text-center text-gray-600">بارگزاری تصویر ...</div>`;
         }
       } else {
         document.getElementById("img2text").classList.add("hidden");
