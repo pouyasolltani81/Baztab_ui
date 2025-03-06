@@ -133,6 +133,10 @@ async function openCropModal() {
       "sementic_search"
     );
 
+    const result = await serverResponse.json()
+    console.log(result);
+    
+
     if (serverResponse && serverResponse.return && serverResponse.data && serverResponse.data.coordinates) {
       const { x1, y1, x2, y2 } = serverResponse.data.coordinates;
       
