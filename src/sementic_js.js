@@ -131,14 +131,14 @@ async function openCropModal() {
       "multipart/form-data",
       formData,
       "sementic_search"
-    ).json();
+    );
 
     const result = await serverResponse.json()
     console.log(result);
     
 
-    if (serverResponse && serverResponse.return && serverResponse.data && serverResponse.data.coordinates) {
-      const { x1, y1, x2, y2 } = serverResponse.data.coordinates;
+    if (result && result.return && result.data && result.data.coordinates) {
+      const { x1, y1, x2, y2 } = result.data.coordinates;
       
       cropModal.classList.remove("hidden");
       if (cropper) cropper.destroy();
@@ -162,7 +162,7 @@ async function openCropModal() {
         }
       });
     } else {
-      console.error("Invalid server response:", serverResponse);
+      console.error("Invalid server response:", result);
     }
   } catch (error) {
     console.error("Error connecting to server:", error);
