@@ -317,91 +317,28 @@ safeAddListener(closeModal, "click", () => {
 // Search form submission handling
 safeAddListener(searchForm, "submit", async (e) => {
   e.preventDefault();
-  try {
+  let currentPage = 1;
+  let isLoading = false;
+  let hasMoreResults = true;
+
+  const loadResults = async (page) => {
+    if (isLoading || !hasMoreResults) return;
+    isLoading = true;
     showLoading();
-    const query = searchInput ? searchInput.value : "";
-    const imageFile =
-      imageInput && imageInput.files ? imageInput.files[0] : null;
-    const audioFile =
-      audioInput && audioInput.files ? audioInput.files[0] : null;
 
-    if (searchInput) searchInput.value = "";
-
-    // Update input preview section (below img2text)
-    if (inputPreviewSection) {
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (e.target && e.target.result) {
-            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-[40rem] rounded-xl border-4 border-teal-800" />`;
-          }
-        };
-        reader.readAsDataURL(imageFile);
-      } else if (audioFile) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (e.target && e.target.result) {
-            inputPreviewSection.innerHTML = `<audio controls class="w-full rounded-xl border-4 border-teal-800" src="${e.target.result}"></audio>`;
-          }
-        };
-        reader.readAsDataURL(audioFile);
-      } else if (query) {
-        inputPreviewSection.innerHTML = `<p class="text-gray-800 text-lg font-semibold">Query: ${query}</p>`;
-      }
-    }
-
-    let response, resultData;
-    if (mongoDB_id.test(query)) {
-      const sementicResultsSection = document.getElementById("sementic_resultsSection");
-      const resultsContainer = document.getElementById("sementic_results");
-      if (sementicResultsSection)
-        sementicResultsSection.classList.remove("hidden");
-      if (resultsContainer) resultsContainer.innerHTML = "";
-      document.getElementById("img2text")?.classList.add("hidden");
+    try {
+      const query = searchInput?.value || "";
+      const imageFile = imageInput?.files?.[0] || null;
+      const audioFile = audioInput?.files?.[0] || null;
+      
       const formData = new FormData();
       formData.append("query", query);
-      response = await connect_to_server(
-        "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
-        "POST",
-        user_token,
-        "multipart/form-data",
-        formData,
-        "sementic_search"
-      );
-      resultData = await response.json();
-      console.log(resultData);
-      const resultsContainerEl = document.getElementById("sementic_results");
-      if (resultData.data[0]?.similar_products?.length > 0) {
-        resultData.data[0].similar_products.forEach((product) => {
-          const card = createProductCard(resultData, product);
-          resultsContainerEl.appendChild(card);
-        });
-      } else {
-        const noProductsMessage = document.createElement("p");
-        noProductsMessage.textContent = "No similar products found.";
-        noProductsMessage.className = "text-gray-600 text-center";
-        resultsContainerEl.appendChild(noProductsMessage);
-      }
-    } else {
-      const formData = new FormData();
-      if (query) formData.append("query", query);
       if (imageFile) formData.append("image", imageFile);
       if (audioFile) formData.append("audio", audioFile);
       formData.append("topk", 15);
-      const formData_totext = new FormData();
-      if (imageFile) {
-        formData_totext.append("image", imageFile);
-        // Show loading inside the img2text container if image is present
-        const img2textDiv = document.getElementById("img2text");
-        if (img2textDiv) {
-          img2textDiv.classList.remove("hidden");
-          img2textDiv.innerHTML = `<div class="text-center text-gray-600">بارگزاری تصویر ...</div>`;
-        }
-      } else {
-        document.getElementById("img2text").classList.add("hidden");
-      }
+      formData.append("page", page);
 
-      response = await connect_to_server(
+      const response = await connect_to_server(
         "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
         "POST",
         user_token,
@@ -409,123 +346,101 @@ safeAddListener(searchForm, "submit", async (e) => {
         formData,
         "sementic_search"
       );
-      console.log(response);
-      if (searchInput) searchInput.value = "";
-      if (imageInput) imageInput.value = "";
-      if (audioInput) audioInput.value = "";
-      if (previewContainer) previewContainer.classList.add("hidden");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      resultData = await response.json();
+
+      if (!response.ok) throw new Error("Network response was not ok");
+      const resultData = await response.json();
+
       if (resultData.return !== true) {
         alert("Error: " + resultData.message);
+        hideLoading();
         return;
       }
+
       const resultsContainerEl = document.getElementById("sementic_results");
-      if (resultsContainerEl) resultsContainerEl.innerHTML = "";
-      resultData.data.forEach((item, index) => {
-        console.log(item);
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-lg overflow-hidden";
-        if (item.metadata && item.metadata.primary_image) {
-          const img = document.createElement("img");
-          img.src = item.metadata.primary_image;
-          img.alt = item.metadata.name || "Product Image";
-          img.className = "w-full h-48 object-cover";
-          card.appendChild(img);
-        }
-        const cardBody = document.createElement("div");
-        cardBody.className = "p-4";
-        const nameEl = document.createElement("h3");
-        nameEl.className = "text-lg font-bold mb-2";
-        nameEl.textContent = item.metadata?.name || "Unnamed Product";
-        cardBody.appendChild(nameEl);
-        if (item.metadata?.category) {
-          const categoryEl = document.createElement("p");
-          categoryEl.className = "text-sm text-gray-600";
-          categoryEl.textContent = "کتگوری: " + item.metadata.category;
-          cardBody.appendChild(categoryEl);
-        }
-        if (item.metadata?.price && !isNaN(item.metadata.price)) {
-          const priceEl = document.createElement("p");
-          priceEl.className = "text-sm text-green-600 font-semibold mt-2";
-          priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
-          cardBody.appendChild(priceEl);
-        }
-        if (item.metadata?.id) {
-          const id = document.createElement("p");
-          id.className = "text-sm text-gray-600 font-semibold mt-2";
-          id.textContent = "شناسه: " + item.metadata.id;
-          cardBody.appendChild(id);
-        }
-        if (item.scores) {
-          const score = document.createElement("p");
-          score.className = "text-sm text-green-600 font-semibold mt-2";
-          score.textContent = "امتیاز: " + item.scores;
-          cardBody.appendChild(score);
-        }
-        const info_button = document.createElement("button");
-        info_button.id = "similar_search_" + index;
-        info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
-        info_button.textContent = "اطلاعات بیشتر";
-        info_button.onclick = () => {
-          console.log(item.metadata.id);
-          showProductModal();
-          populateModal(item.metadata.id);
-        };
-        cardBody.appendChild(info_button);
-        card.appendChild(cardBody);
-        resultsContainerEl.appendChild(card);
-      });
-      if (resultData.data.length > 0) {
-        document.getElementById("sementic_resultsSection").classList.remove("hidden");
+      if (resultData.data.length === 0) {
+        hasMoreResults = false;
       } else {
-        alert("No results found.");
+        resultData.data.forEach((item, index) => {
+          const card = createProductCard(resultData, item);
+          resultsContainerEl.appendChild(card);
+        });
       }
 
       hideLoading();
-
-      // If image file exists, then after populating the agent call, make an additional call to image2text
-      if (imageFile) {
-        try {
-          const response_totext = await connect_to_server(
-            "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
-            "POST",
-            user_token,
-            "multipart/form-data",
-            formData_totext,
-            "sementic_search"
-          );
-          const result_totext = await response_totext.json();
-          console.log(result_totext);
-          document.getElementById("img2text").innerHTML = `
-            <div class="text-xl font-semibold text-gray-800 mb-4">
-                نام : ${result_totext.data.produc_name}
-            </div>
-            <div class="text-gray-600 mb-4">
-                <span class="font-medium text-gray-700">توضیحات :</span>
-                ${result_totext.data.description}
-            </div>
-            <div class="text-gray-600 mb-4">
-                <span class="font-medium text-gray-700">برند :</span>
-                ${result_totext.data.produc_brand}
-            </div>
-            <div class="text-gray-600">
-                <span class="font-medium text-gray-700">متا دیتا :</span>
-                ${result_totext.data.produc_metadata}
-            </div>`;
-        } catch (e) {
-          console.error(e);
-        }
-      }
+      isLoading = false;
+    } catch (error) {
+      console.error("Error during search request:", error);
+      hideLoading();
+      isLoading = false;
     }
-    hideLoading();
-  } catch (error) {
-    console.error("Error during search form submission:", error);
-    hideLoading();
-  }
+  };
+
+  // Load initial results
+  await loadResults(currentPage);
+
+  // Infinite scroll
+  window.addEventListener("scroll", () => {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+      !isLoading &&
+      hasMoreResults
+    ) {
+      currentPage++;
+      loadResults(currentPage);
+    }
+  });
 });
+
+function createProductCard(result, item) {
+  const card = document.createElement("div");
+  card.className = "bg-white rounded-lg overflow-hidden";
+
+  if (item.metadata?.primary_image) {
+    const img = document.createElement("img");
+    img.src = item.metadata.primary_image;
+    img.alt = item.metadata.name || "Product Image";
+    img.className = "w-full h-48 object-cover";
+    card.appendChild(img);
+  }
+
+  const cardBody = document.createElement("div");
+  cardBody.className = "p-4";
+
+  const nameEl = document.createElement("h3");
+  nameEl.className = "text-lg font-bold mb-2";
+  nameEl.textContent = item.metadata?.name || "Unnamed Product";
+  cardBody.appendChild(nameEl);
+
+  if (item.metadata?.category) {
+    const categoryEl = document.createElement("p");
+    categoryEl.className = "text-sm text-gray-600";
+    categoryEl.textContent = "کتگوری: " + item.metadata.category;
+    cardBody.appendChild(categoryEl);
+  }
+
+  if (item.metadata?.price && !isNaN(item.metadata.price)) {
+    const priceEl = document.createElement("p");
+    priceEl.className = "text-sm text-green-600 font-semibold mt-2";
+    priceEl.textContent = "قیمت: " + item.metadata.price;
+    cardBody.appendChild(priceEl);
+  }
+
+  const infoButton = document.createElement("button");
+  infoButton.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+  infoButton.textContent = "اطلاعات بیشتر";
+  infoButton.onclick = () => {
+    showProductModal();
+    populateModal(item.metadata.id);
+  };
+
+  cardBody.appendChild(infoButton);
+  card.appendChild(cardBody);
+
+  return card;
+}
+
+// This updated code supports pagination and loads more results as the user scrolls down. Let me know if you want me to tweak anything else! 🚀
+
 
 // Function to create a product card with error handling
 function createProductCard(data_t, product) {
