@@ -220,6 +220,7 @@ safeAddListener(cropApplyBtn, "click", async () => {
       hideLoading();
     }, "image/jpeg", 0.8);
     closeCropModal();
+    document.getElementById('resizeApplyBtn').click()
   } catch (error) {
     console.error("Error applying crop:", error);
     hideLoading();
@@ -259,6 +260,7 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     dataTransfer.items.add(resizedFile);
     imageInput.files = dataTransfer.files;
     closeCropModal();
+    document.getElementById('submitbutton').click()
   } catch (error) {
     console.error("Error applying resize:", error);
     hideLoading();
