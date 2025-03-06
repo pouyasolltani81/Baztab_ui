@@ -142,27 +142,9 @@
     </section>
 
 
-    <!-- Fixed Bottom Section: Preview and Search Form -->
+    <!-- Fixed top Section: Preview and Search Form -->
     <div class="w-full fixed top-5 px-4" dir="rtl">
-      <div id="preview" class="hidden flex relative">
-        <img
-          id="imagePreview"
-          src="#"
-          alt="Image Preview"
-          class="hidden w-40 h-40 m-6 rounded-xl border-4 border-teal-800"
-        />
-        <audio
-          id="audioPreview"
-          controls
-          class="hidden m-6 rounded-xl border-4 border-teal-800"
-        ></audio>
-        <div
-          id="remove_preview"
-          class="absolute top-0 left-0 m-2 p-2 text-white text-xl bg-red-600 rounded-full cursor-pointer"
-        >
-          &times;
-        </div>
-      </div>
+      
       <form id="searchForm" class="relative">
         <input
           type="file"
@@ -235,6 +217,25 @@
           class="w-full text-gray-800 pl-36 pr-4 py-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
         />
       </form>
+      <div id="preview" class="hidden flex relative">
+        <img
+          id="imagePreview"
+          src="#"
+          alt="Image Preview"
+          class="hidden w-40 h-40 m-6 rounded-xl border-4 border-teal-800"
+        />
+        <audio
+          id="audioPreview"
+          controls
+          class="hidden m-6 rounded-xl border-4 border-teal-800"
+        ></audio>
+        <div
+          id="remove_preview"
+          class="absolute top-0 left-0 m-2 p-2 text-white text-xl bg-red-600 rounded-full cursor-pointer"
+        >
+          &times;
+        </div>
+      </div>
     </div>
 
     <!-- Cropper.js Script (v1.6.2) -->
