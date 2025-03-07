@@ -3,7 +3,7 @@
 const user_token = "8ff3960bbd957b7e663b16467400bba2";
 const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 // Flag: if true, upload image in base64 format; if false, upload as file (normal format)
-let uploadImageAsBase64 = true;
+let uploadImageAsBase64 = false;
 
 // Element selectors with null-checks
 const imageBtn = document.getElementById("imageBtn");
