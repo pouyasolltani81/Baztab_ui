@@ -256,7 +256,7 @@ safeAddListener(cropApplyBtn, "click", async () => {
     imagePreview.src = croppedDataUrl;
     // Also update the input preview section to show the cropped image
     if (inputPreviewSection) {
-      inputPreviewSection.innerHTML = `<img src="${croppedDataUrl}" class="w-[40rem] rounded-xl border-4 border-teal-800" />`;
+      inputPreviewSection.innerHTML = `<img src="${croppedDataUrl}" class="w-[40rem] max-h-[20rem] rounded-xl border-4 border-teal-800" />`;
     }
     // Capture crop coordinates for request
     croppedCoordinates = cropper.getData(true);
@@ -456,7 +456,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target && e.target.result) {
-            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-[40rem] rounded-xl border-4 border-teal-800" />`;
+            inputPreviewSection.innerHTML = `<img src="${e.target.result}" class="w-[40rem] max-h-[20rem] rounded-xl border-4 border-teal-800" />`;
           }
         };
         reader.readAsDataURL(imageFile);
