@@ -3,7 +3,7 @@
 const user_token = "8ff3960bbd957b7e663b16467400bba2";
 const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 // Flag: if true, upload image in base64 format; if false, upload as file (normal format)
-let uploadImageAsBase64 = false;
+let uploadImageAsBase64 = true;
 
 // Element selectors with null-checks
 const imageBtn = document.getElementById("imageBtn");
@@ -390,8 +390,8 @@ async function performSearch(page, appendResults = false) {
       resultsContainerEl.innerHTML = "";
     }
     if (resultData.data && resultData.data.length > 0) {
-      resultData.data.forEach((item, index) => {
-        const card = createProductCard(resultData, item);
+      resultData.data.forEach((product, index) => {
+        const card = createProductCard(product);
         resultsContainerEl.appendChild(card);
       });
     } else {
@@ -527,105 +527,104 @@ window.addEventListener("scroll", async () => {
   }
 });
 
-// Function to create a product card with error handling
-function createProductCard(data_t, product) {
+// Updated createProductCard function to match the new data structure
+function createProductCard(product) {
   try {
-    console.log(data_t);
-    
     const card = document.createElement("div");
     card.className = "bg-white rounded-lg shadow-md p-6 mb-6";
-    if (product.metadata?.primary_image) {
-      const image = document.createElement("img");
-      image.src = product.metadata.primary_image;
-      image.alt = product.metadata.name || "Product Image";
-      image.className = "w-full h-64 object-cover rounded-lg mb-4";
-      card.appendChild(image);
+    
+    // Display primary image if available
+    if (product.metadata && product.metadata.primary_image) {
+      const img = document.createElement("img");
+      img.src = product.metadata.primary_image;
+      img.alt = product.metadata.name || "Product Image";
+      img.className = "w-full h-64 object-cover rounded-lg mb-4";
+      card.appendChild(img);
     }
-    if (product.metadata?.name) {
-      const name = document.createElement("h3");
-      name.textContent = product.metadata.name;
-      name.className = "text-xl font-semibold mb-2";
-      card.appendChild(name);
+    
+    // Name
+    if (product.metadata && product.metadata.name) {
+      const nameEl = document.createElement("h3");
+      nameEl.textContent = product.metadata.name;
+      nameEl.className = "text-xl font-semibold mb-2";
+      card.appendChild(nameEl);
     }
-    if (product.metadata?.price) {
-      const price = document.createElement("p");
-      price.textContent = `قیمت: ${product.metadata.price.toLocaleString()} IRR`;
-      price.className = "text-gray-700 mb-2";
-      card.appendChild(price);
+    
+    // Price
+    if (product.metadata && product.metadata.price) {
+      const priceEl = document.createElement("p");
+      priceEl.textContent = `قیمت: ${product.metadata.price.toLocaleString()} IRR`;
+      priceEl.className = "text-gray-700 mb-2";
+      card.appendChild(priceEl);
     }
-    if (product.metadata?.id) {
-      const id = document.createElement("p");
-      id.textContent = `شناسه: ${product.metadata.id.toLocaleString()}`;
-      id.className = "text-gray-700 mb-2";
-      card.appendChild(id);
+    
+    // ID
+    if (product.metadata && product.metadata.id) {
+      const idEl = document.createElement("p");
+      idEl.textContent = `شناسه: ${product.metadata.id}`;
+      idEl.className = "text-gray-700 mb-2";
+      card.appendChild(idEl);
     }
-    if (product.scores) {
-      const score = document.createElement("p");
-      score.textContent = `score : ${product.visualy_similarity_score + product.textualy_similarity_score}`;
-      score.className = "text-green-600 hover:text-green-800 underline";
-      card.appendChild(score);
+    
+    // Category
+    if (product.metadata && product.metadata.category) {
+      const categoryEl = document.createElement("p");
+      categoryEl.textContent = `کتگوری: ${product.metadata.category}`;
+      categoryEl.className = "text-gray-500 mb-2";
+      card.appendChild(categoryEl);
     }
-    if (product.metadata?.category) {
-      const category = document.createElement("p");
-      category.textContent = `کتگوری: ${product.metadata.category}`;
-      category.className = "text-gray-500 mb-2";
-      card.appendChild(category);
+    
+    // Score (if available)
+    if (typeof product.scores !== "undefined") {
+      const scoreEl = document.createElement("p");
+      scoreEl.textContent = `امتیاز: ${product.scores}`;
+      scoreEl.className = "text-green-600 mb-2";
+      card.appendChild(scoreEl);
     }
-    if (data_t.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.description_fa) {
-      const description = document.createElement("p");
-      description.textContent = data_t.data[0].product_data[0].proccessd_data.llm_enriched_description.description_fa;
-      description.className = "text-gray-600 mb-4";
-      card.appendChild(description);
-    }
-    if (data_t.data[0]?.product_data[0]?.proccessd_data?.llm_enriched_description?.llm_tags?.length > 0) {
-      const tags = document.createElement("div");
-      tags.className = "flex flex-wrap gap-2 mb-4";
-      data_t.data[0].product_data[0].proccessd_data.llm_enriched_description.llm_tags.forEach((tag) => {
-        if (tag) {
-          const tagElement = document.createElement("span");
-          tagElement.textContent = tag;
-          tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
-          tags.appendChild(tagElement);
+    
+    // Parse the doc field for description and tags using "[sep]" as a delimiter.
+    if (product.doc) {
+      const parts = product.doc.split("[sep]");
+      // Assume that the 6th part (index 5) contains the description.
+      if (parts.length > 5 && parts[5].trim() !== "") {
+        const descEl = document.createElement("p");
+        descEl.textContent = parts[5].trim();
+        descEl.className = "text-gray-600 mb-4";
+        card.appendChild(descEl);
+      }
+      // Assume that the 7th part (index 6) contains a tags array in string form.
+      if (parts.length > 6 && parts[6].trim() !== "") {
+        let tagsStr = parts[6].trim();
+        try {
+          // Convert tags string to valid JSON format and parse it.
+          const tagsArray = JSON.parse(tagsStr.replace(/'/g, '"'));
+          if (Array.isArray(tagsArray)) {
+            const tagsDiv = document.createElement("div");
+            tagsDiv.className = "flex flex-wrap gap-2 mb-4";
+            tagsArray.forEach(tag => {
+              const tagElement = document.createElement("span");
+              tagElement.textContent = tag;
+              tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
+              tagsDiv.appendChild(tagElement);
+            });
+            card.appendChild(tagsDiv);
+          }
+        } catch (e) {
+          console.error("Error parsing tags:", e);
         }
-      });
-      card.appendChild(tags);
+      }
     }
-    if (data_t.data[0]?.product_data[0]?.price_info?.is_available !== undefined) {
-      const availability = document.createElement("p");
-      availability.textContent = `موجودی: ${data_t.data[0].product_data[0].price_info.is_available ? "موجود" : "ناموجود"}`;
-      availability.className = "text-green-600 mb-2";
-      card.appendChild(availability);
+    
+    // Link if available
+    if (product.metadata && product.metadata.scrape_url) {
+      const linkEl = document.createElement("a");
+      linkEl.href = product.metadata.scrape_url;
+      linkEl.textContent = "این محصول را در سایت ببینید";
+      linkEl.className = "text-blue-600 hover:text-blue-800 underline";
+      linkEl.target = "_blank";
+      card.appendChild(linkEl);
     }
-    if (product.textualy_similarity_score !== undefined) {
-      const score = document.createElement("p");
-      score.textContent = `امتیاز: ${product.textualy_similarity_score + product.visualy_similarity_score}`;
-      score.className = "text-green-600 mb-2";
-      card.appendChild(score);
-    }
-    if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.[0]?.shipping_fee !== undefined) {
-      const shippingFee = document.createElement("p");
-      shippingFee.textContent = `قیمت ارسال: ${
-        data_t.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0
-          ? "--- "
-          : `${data_t.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`
-      }`;
-      shippingFee.className = "text-gray-600 mb-2";
-      card.appendChild(shippingFee);
-    }
-    if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.discount_percent !== undefined) {
-      const discount = document.createElement("p");
-      discount.textContent = `تخفیف: ${data_t.data[0].product_data[0].price_info.price_list.discount_percent}%`;
-      discount.className = "text-red-600 mb-4";
-      card.appendChild(discount);
-    }
-    if (product.metadata?.scrape_url) {
-      const link = document.createElement("a");
-      link.href = product.metadata.scrape_url;
-      link.textContent = "این محصول را در سایت ببینید";
-      link.className = "text-blue-600 hover:text-blue-800 underline";
-      link.target = "_blank";
-      card.appendChild(link);
-    }
+    
     return card;
   } catch (error) {
     console.error("Error creating product card:", error);
@@ -653,7 +652,7 @@ async function populateModal(itemid) {
     console.log(result);
     if (result.data[0]?.similar_products?.length > 0) {
       result.data[0].similar_products.forEach((product) => {
-        const card = createProductCard(result, product);
+        const card = createProductCard(product);
         resultsContainer.appendChild(card);
       });
     } else {
