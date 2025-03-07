@@ -630,6 +630,9 @@ async function populateModal(itemid) {
       result.data[0].similar_products.forEach((product) => {
         const card = createProductCard(product);
         resultsContainer.appendChild(card);
+        document.getElementById('sementic_resultsSection').classList.remove('hidden')
+        document.getElementById('preview').classList.add('hidden')
+
       });
     } else {
       const noProductsMessage = document.createElement("p");
