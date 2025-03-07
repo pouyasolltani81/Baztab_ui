@@ -379,6 +379,8 @@ async function performSearch(page, appendResults = false) {
       resultData.data.forEach((product) => {
         const card = createProductCard(product);
         resultsContainerEl.appendChild(card);
+         document.getElementById('sementic_resultsSection').classList.remove('hidden')
+        document.getElementById('preview').classList.add('hidden')
       });
     } else if (resultsContainerEl && !appendResults) {
       const noProductsMessage = document.createElement("p");
