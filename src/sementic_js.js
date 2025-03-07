@@ -527,7 +527,7 @@ window.addEventListener("scroll", async () => {
   }
 });
 
-// Updated createProductCard function to match the new data structure
+// Updated createProductCard function to match the new data structure and revert tag parsing to the previous approach.
 function createProductCard(product) {
   try {
     const card = document.createElement("div");
@@ -594,35 +594,19 @@ function createProductCard(product) {
       }
       // Assume that the 7th part (index 6) contains a tags array in string form.
       if (parts.length > 6 && parts[6].trim() !== "") {
-        let tagsStr = parts[6].trim();
+        const tagsStr = parts[6].trim();
         try {
-          let tagsArray;
-          if (tagsStr.startsWith("[")) {
-            // Already an array; replace single quotes with double quotes.
-            tagsArray = JSON.parse(tagsStr.replace(/'/g, '"'));
-          } else {
-            // Likely in the form: colors:["چند رنگ"]
-            // Fix by quoting the key and wrapping in braces if needed.
-            let fixedStr = tagsStr.replace(/(\w+):/g, '"$1":');
-            if (!fixedStr.trim().startsWith("{")) {
-              fixedStr = "{" + fixedStr + "}";
-            }
-            const obj = JSON.parse(fixedStr);
-            const keys = Object.keys(obj);
-            if (keys.length === 1 && Array.isArray(obj[keys[0]])) {
-              tagsArray = obj[keys[0]];
-            } else {
-              tagsArray = [];
-            }
-          }
+          const tagsArray = JSON.parse(tagsStr.replace(/'/g, '"'));
           if (Array.isArray(tagsArray)) {
             const tagsDiv = document.createElement("div");
             tagsDiv.className = "flex flex-wrap gap-2 mb-4";
-            tagsArray.forEach(tag => {
-              const tagElement = document.createElement("span");
-              tagElement.textContent = tag;
-              tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
-              tagsDiv.appendChild(tagElement);
+            tagsArray.forEach((tag) => {
+              if (tag) {
+                const tagElement = document.createElement("span");
+                tagElement.textContent = tag;
+                tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
+                tagsDiv.appendChild(tagElement);
+              }
             });
             card.appendChild(tagsDiv);
           }
