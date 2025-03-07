@@ -593,27 +593,27 @@ function createProductCard(product) {
         card.appendChild(descEl);
       }
       // Assume that the 7th part (index 6) contains a tags array in string form.
-      if (parts.length > 6 && parts[6].trim() !== "") {
-        const tagsStr = parts[6].trim();
-        try {
-          const tagsArray = JSON.parse(tagsStr.replace(/'/g, '"'));
-          if (Array.isArray(tagsArray)) {
-            const tagsDiv = document.createElement("div");
-            tagsDiv.className = "flex flex-wrap gap-2 mb-4";
-            tagsArray.forEach((tag) => {
-              if (tag) {
-                const tagElement = document.createElement("span");
-                tagElement.textContent = tag;
-                tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
-                tagsDiv.appendChild(tagElement);
-              }
-            });
-            card.appendChild(tagsDiv);
-          }
-        } catch (e) {
-          console.error("Error parsing tags:", e);
-        }
-      }
+      // if (parts.length > 6 && parts[6].trim() !== "") {
+      //   const tagsStr = parts[6].trim();
+      //   try {
+      //     const tagsArray = JSON.parse(tagsStr.replace(/'/g, '"'));
+      //     if (Array.isArray(tagsArray)) {
+      //       const tagsDiv = document.createElement("div");
+      //       tagsDiv.className = "flex flex-wrap gap-2 mb-4";
+      //       tagsArray.forEach((tag) => {
+      //         if (tag) {
+      //           const tagElement = document.createElement("span");
+      //           tagElement.textContent = tag;
+      //           tagElement.className = "bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm";
+      //           tagsDiv.appendChild(tagElement);
+      //         }
+      //       });
+      //       card.appendChild(tagsDiv);
+      //     }
+      //   } catch (e) {
+      //     console.error("Error parsing tags:", e);
+      //   }
+      // }
     }
     
     // Link if available
