@@ -2,6 +2,8 @@
 // User token and regex
 const user_token = "8ff3960bbd957b7e663b16467400bba2";
 const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
+// Flag: if true, upload image in base64 format; if false, upload as file (normal format)
+let uploadImageAsBase64 = false;
 
 // Element selectors with null-checks
 const imageBtn = document.getElementById("imageBtn");
@@ -323,20 +325,25 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     const query = searchInput ? searchInput.value : "";
     const imageFile = imageInput.files[0];
     const audioFile = (audioInput && audioInput.files && audioInput.files[0]) ? audioInput.files[0] : null;
-    const imageBase64 = await fileToBase64(imageFile);
-    let audioBase64 = "";
+    let imageData;
+    if (uploadImageAsBase64) {
+      imageData = await fileToBase64(imageFile);
+    } else {
+      imageData = imageFile;
+    }
+    let audioData = "";
     if (audioFile) {
-      audioBase64 = await fileToBase64(audioFile);
+      audioData = await fileToBase64(audioFile);
     }
     // Set global search parameters
     searchParams = {
       query: query,
       page: 1,
       page_limit: 15,
-      image_coordinates: croppedCoordinates, // may be null if not cropped
+      image_coordinates: croppedCoordinates,
       full_content: 1,
-      image: imageBase64,
-      audio: audioBase64
+      image: imageData,
+      audio: audioData
     };
     currentPage = 1; // reset page number for new search
     await performSearch(currentPage, false);
@@ -358,7 +365,12 @@ async function performSearch(page, appendResults = false) {
     if (searchParams.image_coordinates) {
       formData.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
     }
-    formData.append("image", searchParams.image || "");
+    // Append image depending on flag: either as base64 string or file object.
+    if (searchParams.image instanceof File) {
+      formData.append("image", searchParams.image);
+    } else {
+      formData.append("image", searchParams.image || "");
+    }
     formData.append("audio", searchParams.audio || "");
     
     // Main agent-based search call
@@ -401,7 +413,11 @@ async function performSearch(page, appendResults = false) {
       if (searchParams.image_coordinates) {
         formDataToText.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
       }
-      formDataToText.append("image", searchParams.image);
+      if (searchParams.image instanceof File) {
+        formDataToText.append("image", searchParams.image);
+      } else {
+        formDataToText.append("image", searchParams.image || "");
+      }
       formDataToText.append("audio", searchParams.audio || "");
       const responseToText = await connect_to_server(
         "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
@@ -472,8 +488,15 @@ safeAddListener(searchForm, "submit", async (e) => {
       }
     }
     
-    const imageBase64 = imageFile ? await fileToBase64(imageFile) : "";
-    const audioBase64 = audioFile ? await fileToBase64(audioFile) : "";
+    let imageData = "";
+    if (imageFile) {
+      if (uploadImageAsBase64) {
+        imageData = await fileToBase64(imageFile);
+      } else {
+        imageData = imageFile;
+      }
+    }
+    const audioData = audioFile ? await fileToBase64(audioFile) : "";
     
     // Set global search parameters for manual search
     searchParams = {
@@ -482,8 +505,8 @@ safeAddListener(searchForm, "submit", async (e) => {
       page_limit: 15,
       image_coordinates: croppedCoordinates,
       full_content: 1,
-      image: imageBase64,
-      audio: audioBase64
+      image: imageData,
+      audio: audioData
     };
     currentPage = 1;
     await performSearch(currentPage, false);
