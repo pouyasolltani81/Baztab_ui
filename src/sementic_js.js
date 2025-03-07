@@ -36,11 +36,28 @@ let audioChunks = [];
 let isRecording = false;
 let audioFile;
 
+// Global variables for search parameters and infinite scroll
+let currentPage = 1;
+let isLoadingMore = false;
+let searchParams = {}; // Will hold {query, page_limit, full_content, image_coordinates, image, audio}
+let croppedCoordinates = null; // Set after cropping
+
 // Helper: safely add event listener
 function safeAddListener(element, event, callback) {
   if (element) {
     element.addEventListener(event, callback);
   }
+}
+
+// Helper: Convert file to Base64 string
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) return resolve("");
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 }
 
 // Show/hide loading indicator
@@ -118,10 +135,10 @@ async function openCropModal() {
       console.error("No image available for cropping.");
       return;
     }
-
-    const formData = new FormData();
+    // Get image blob from preview src
     const response = await fetch(imagePreview.src);
     const blob = await response.blob();
+    const formData = new FormData();
     formData.append("image", blob, "image.jpg");
 
     const serverResponse = await connect_to_server(
@@ -132,17 +149,15 @@ async function openCropModal() {
       formData,
       "sementic_search"
     );
-
-    const result = await serverResponse.json()
+    const result = await serverResponse.json();
     console.log(result);
-    
 
     if (result && result.return && result.data && result.data.coordinates) {
       const { x1, y1, x2, y2 } = result.data.coordinates;
-      
+
       cropModal.classList.remove("hidden");
       if (cropper) cropper.destroy();
-      
+
       cropper = new Cropper(cropImage, {
         aspectRatio: NaN, // free ratio
         viewMode: 1,
@@ -235,15 +250,18 @@ function closeCropModal() {
 safeAddListener(modalCancelBtn, "click", closeCropModal);
 safeAddListener(modalCancelBtn2, "click", closeCropModal);
 
-// Crop & Apply button
+// Crop & Apply button – now capture crop coordinates and auto-trigger resize
 safeAddListener(cropApplyBtn, "click", async () => {
   try {
     if (!cropper) throw new Error("Cropper not initialized.");
     showLoading();
     const canvas = cropper.getCroppedCanvas();
     if (!canvas) throw new Error("Failed to get cropped canvas.");
+    // Get cropped image data URL
     const croppedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
     imagePreview.src = croppedDataUrl;
+    // Capture current crop coordinates (as an object) for the request
+    croppedCoordinates = cropper.getData(true);
     // Update file input with cropped file
     canvas.toBlob((blob) => {
       if (blob && imageInput && imageInput.files[0]) {
@@ -259,16 +277,16 @@ safeAddListener(cropApplyBtn, "click", async () => {
       hideLoading();
     }, "image/jpeg", 0.8);
     closeCropModal();
-    // document.getElementById('resizeApplyBtn').click()
-    document.getElementById('submitbutton').click()
-
+    // Instead of directly triggering search, trigger resize so that the image is resized before search.
+    if (resizeApplyBtn) resizeApplyBtn.click();
   } catch (error) {
     console.error("Error applying crop:", error);
     hideLoading();
   }
 });
 
-// Resize & Apply button – uses user inputs for max dimension and quality
+// Resize & Apply button – uses user inputs for max dimension and quality,
+// then automatically triggers the search using the new FormData parameters.
 safeAddListener(resizeApplyBtn, "click", async () => {
   try {
     if (!imageInput || !imageInput.files || !imageInput.files[0])
@@ -300,36 +318,138 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(resizedFile);
     imageInput.files = dataTransfer.files;
-    closeCropModal();
-    document.getElementById('submitbutton').click()
+    
+    // Automatically build search parameters and perform search:
+    const query = searchInput ? searchInput.value : "";
+    const imageFile = imageInput.files[0];
+    const audioFile = (audioInput && audioInput.files && audioInput.files[0]) ? audioInput.files[0] : null;
+    const imageBase64 = await fileToBase64(imageFile);
+    let audioBase64 = "";
+    if (audioFile) {
+      audioBase64 = await fileToBase64(audioFile);
+    }
+    // Set global search parameters
+    searchParams = {
+      query: query,
+      page: 1,
+      page_limit: 15,
+      image_coordinates: croppedCoordinates, // may be null if not cropped
+      full_content: 1,
+      image: imageBase64,
+      audio: audioBase64
+    };
+    currentPage = 1; // reset page number for new search
+    await performSearch(currentPage, false);
   } catch (error) {
     console.error("Error applying resize:", error);
     hideLoading();
   }
 });
 
-// Show product details modal
-function showProductModal() {
-  if (productModal) productModal.classList.remove("hidden");
+// Function to perform the search (or fetch additional pages) using the new FormData parameters
+async function performSearch(page, appendResults = false) {
+  try {
+    showLoading();
+    const formData = new FormData();
+    formData.append("query", searchParams.query || "");
+    formData.append("page", page);
+    formData.append("page_limit", searchParams.page_limit);
+    formData.append("full_content", searchParams.full_content);
+    if (searchParams.image_coordinates) {
+      formData.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
+    }
+    formData.append("image", searchParams.image || "");
+    formData.append("audio", searchParams.audio || "");
+    
+    // Main agent-based search call
+    const response = await connect_to_server(
+      "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
+      "POST",
+      user_token,
+      "multipart/form-data",
+      formData,
+      "sementic_search"
+    );
+    const resultData = await response.json();
+    console.log(resultData);
+    
+    const resultsContainerEl = document.getElementById("sementic_results");
+    if (!appendResults && resultsContainerEl) {
+      resultsContainerEl.innerHTML = "";
+    }
+    if (resultData.data && resultData.data.length > 0) {
+      resultData.data.forEach((item, index) => {
+        const card = createProductCard(resultData, item);
+        resultsContainerEl.appendChild(card);
+      });
+    } else {
+      if (!appendResults && resultsContainerEl) {
+        const noProductsMessage = document.createElement("p");
+        noProductsMessage.textContent = "No results found.";
+        noProductsMessage.className = "text-gray-600 text-center";
+        resultsContainerEl.appendChild(noProductsMessage);
+      }
+    }
+    
+    // If an image exists, call the image2text endpoint with the same parameters
+    if (searchParams.image) {
+      const formDataToText = new FormData();
+      formDataToText.append("query", searchParams.query || "");
+      formDataToText.append("page", page);
+      formDataToText.append("page_limit", searchParams.page_limit);
+      formDataToText.append("full_content", searchParams.full_content);
+      if (searchParams.image_coordinates) {
+        formDataToText.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
+      }
+      formDataToText.append("image", searchParams.image);
+      formDataToText.append("audio", searchParams.audio || "");
+      const responseToText = await connect_to_server(
+        "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
+        "POST",
+        user_token,
+        "multipart/form-data",
+        formDataToText,
+        "sementic_search"
+      );
+      const resultToText = await responseToText.json();
+      console.log(resultToText);
+      const img2textDiv = document.getElementById("img2text");
+      if (img2textDiv) {
+        img2textDiv.innerHTML = `
+          <div class="text-xl font-semibold text-gray-800 mb-4">
+              نام : ${resultToText.data.produc_name}
+          </div>
+          <div class="text-gray-600 mb-4">
+              <span class="font-medium text-gray-700">توضیحات :</span>
+              ${resultToText.data.description}
+          </div>
+          <div class="text-gray-600 mb-4">
+              <span class="font-medium text-gray-700">برند :</span>
+              ${resultToText.data.produc_brand}
+          </div>
+          <div class="text-gray-600">
+              <span class="font-medium text-gray-700">متا دیتا :</span>
+              ${resultToText.data.produc_metadata}
+          </div>`;
+      }
+    }
+    hideLoading();
+  } catch (error) {
+    console.error("Error during performSearch:", error);
+    hideLoading();
+  }
 }
-safeAddListener(closeModal, "click", () => {
-  if (productModal) productModal.classList.add("hidden");
-});
 
-// Search form submission handling
+// Search form submission handling (for manual searches)
 safeAddListener(searchForm, "submit", async (e) => {
   e.preventDefault();
   try {
     showLoading();
     const query = searchInput ? searchInput.value : "";
-    const imageFile =
-      imageInput && imageInput.files ? imageInput.files[0] : null;
-    const audioFile =
-      audioInput && audioInput.files ? audioInput.files[0] : null;
-
-    if (searchInput) searchInput.value = "";
-
-    // Update input preview section (below img2text)
+    const imageFile = (imageInput && imageInput.files && imageInput.files[0]) ? imageInput.files[0] : null;
+    const audioFile = (audioInput && audioInput.files && audioInput.files[0]) ? audioInput.files[0] : null;
+    
+    // Update input preview section
     if (inputPreviewSection) {
       if (imageFile) {
         const reader = new FileReader();
@@ -351,181 +471,36 @@ safeAddListener(searchForm, "submit", async (e) => {
         inputPreviewSection.innerHTML = `<p class="text-gray-800 text-lg font-semibold">Query: ${query}</p>`;
       }
     }
-
-    let response, resultData;
-    if (mongoDB_id.test(query)) {
-      const sementicResultsSection = document.getElementById("sementic_resultsSection");
-      const resultsContainer = document.getElementById("sementic_results");
-      if (sementicResultsSection)
-        sementicResultsSection.classList.remove("hidden");
-      if (resultsContainer) resultsContainer.innerHTML = "";
-      document.getElementById("img2text")?.classList.add("hidden");
-      const formData = new FormData();
-      formData.append("query", query);
-      response = await connect_to_server(
-        "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
-        "POST",
-        user_token,
-        "multipart/form-data",
-        formData,
-        "sementic_search"
-      );
-      resultData = await response.json();
-      console.log(resultData);
-      const resultsContainerEl = document.getElementById("sementic_results");
-      if (resultData.data[0]?.similar_products?.length > 0) {
-        resultData.data[0].similar_products.forEach((product) => {
-          const card = createProductCard(resultData, product);
-          resultsContainerEl.appendChild(card);
-        });
-      } else {
-        const noProductsMessage = document.createElement("p");
-        noProductsMessage.textContent = "No similar products found.";
-        noProductsMessage.className = "text-gray-600 text-center";
-        resultsContainerEl.appendChild(noProductsMessage);
-      }
-    } else {
-      const formData = new FormData();
-      if (query) formData.append("query", query);
-      if (imageFile) formData.append("image", imageFile);
-      if (audioFile) formData.append("audio", audioFile);
-      formData.append("topk", 15);
-      const formData_totext = new FormData();
-      if (imageFile) {
-        formData_totext.append("image", imageFile);
-        // Show loading inside the img2text container if image is present
-        const img2textDiv = document.getElementById("img2text");
-        if (img2textDiv) {
-          img2textDiv.classList.remove("hidden");
-          img2textDiv.innerHTML = `<div class="text-center text-gray-600">بارگزاری تصویر ...</div>`;
-        }
-      } else {
-        document.getElementById("img2text").classList.add("hidden");
-      }
-
-      response = await connect_to_server(
-        "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
-        "POST",
-        user_token,
-        "multipart/form-data",
-        formData,
-        "sementic_search"
-      );
-      console.log(response);
-      if (searchInput) searchInput.value = "";
-      if (imageInput) imageInput.value = "";
-      if (audioInput) audioInput.value = "";
-      if (previewContainer) previewContainer.classList.add("hidden");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      resultData = await response.json();
-      if (resultData.return !== true) {
-        alert("Error: " + resultData.message);
-        return;
-      }
-      const resultsContainerEl = document.getElementById("sementic_results");
-      if (resultsContainerEl) resultsContainerEl.innerHTML = "";
-      resultData.data.forEach((item, index) => {
-        console.log(item);
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-lg overflow-hidden";
-        if (item.metadata && item.metadata.primary_image) {
-          const img = document.createElement("img");
-          img.src = item.metadata.primary_image;
-          img.alt = item.metadata.name || "Product Image";
-          img.className = "w-full h-48 object-cover";
-          card.appendChild(img);
-        }
-        const cardBody = document.createElement("div");
-        cardBody.className = "p-4";
-        const nameEl = document.createElement("h3");
-        nameEl.className = "text-lg font-bold mb-2";
-        nameEl.textContent = item.metadata?.name || "Unnamed Product";
-        cardBody.appendChild(nameEl);
-        if (item.metadata?.category) {
-          const categoryEl = document.createElement("p");
-          categoryEl.className = "text-sm text-gray-600";
-          categoryEl.textContent = "کتگوری: " + item.metadata.category;
-          cardBody.appendChild(categoryEl);
-        }
-        if (item.metadata?.price && !isNaN(item.metadata.price)) {
-          const priceEl = document.createElement("p");
-          priceEl.className = "text-sm text-green-600 font-semibold mt-2";
-          priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
-          cardBody.appendChild(priceEl);
-        }
-        if (item.metadata?.id) {
-          const id = document.createElement("p");
-          id.className = "text-sm text-gray-600 font-semibold mt-2";
-          id.textContent = "شناسه: " + item.metadata.id;
-          cardBody.appendChild(id);
-        }
-        if (item.scores) {
-          const score = document.createElement("p");
-          score.className = "text-sm text-green-600 font-semibold mt-2";
-          score.textContent = "امتیاز: " + item.scores;
-          cardBody.appendChild(score);
-        }
-        const info_button = document.createElement("button");
-        info_button.id = "similar_search_" + index;
-        info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
-        info_button.textContent = "اطلاعات بیشتر";
-        info_button.onclick = () => {
-          console.log(item.metadata.id);
-          showProductModal();
-          populateModal(item.metadata.id);
-        };
-        cardBody.appendChild(info_button);
-        card.appendChild(cardBody);
-        resultsContainerEl.appendChild(card);
-      });
-      if (resultData.data.length > 0) {
-        document.getElementById("sementic_resultsSection").classList.remove("hidden");
-      } else {
-        alert("No results found.");
-      }
-
-      hideLoading();
-
-      // If image file exists, then after populating the agent call, make an additional call to image2text
-      if (imageFile) {
-        try {
-          const response_totext = await connect_to_server(
-            "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
-            "POST",
-            user_token,
-            "multipart/form-data",
-            formData_totext,
-            "sementic_search"
-          );
-          const result_totext = await response_totext.json();
-          console.log(result_totext);
-          document.getElementById("img2text").innerHTML = `
-            <div class="text-xl font-semibold text-gray-800 mb-4">
-                نام : ${result_totext.data.produc_name}
-            </div>
-            <div class="text-gray-600 mb-4">
-                <span class="font-medium text-gray-700">توضیحات :</span>
-                ${result_totext.data.description}
-            </div>
-            <div class="text-gray-600 mb-4">
-                <span class="font-medium text-gray-700">برند :</span>
-                ${result_totext.data.produc_brand}
-            </div>
-            <div class="text-gray-600">
-                <span class="font-medium text-gray-700">متا دیتا :</span>
-                ${result_totext.data.produc_metadata}
-            </div>`;
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
+    
+    const imageBase64 = imageFile ? await fileToBase64(imageFile) : "";
+    const audioBase64 = audioFile ? await fileToBase64(audioFile) : "";
+    
+    // Set global search parameters for manual search
+    searchParams = {
+      query: query,
+      page: 1,
+      page_limit: 15,
+      image_coordinates: croppedCoordinates,
+      full_content: 1,
+      image: imageBase64,
+      audio: audioBase64
+    };
+    currentPage = 1;
+    await performSearch(currentPage, false);
     hideLoading();
   } catch (error) {
     console.error("Error during search form submission:", error);
     hideLoading();
+  }
+});
+
+// Infinite scroll: when the user nears the bottom, fetch additional pages.
+window.addEventListener("scroll", async () => {
+  if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100) && !isLoadingMore) {
+    isLoadingMore = true;
+    currentPage++;
+    await performSearch(currentPage, true);
+    isLoadingMore = false;
   }
 });
 
@@ -596,16 +571,19 @@ function createProductCard(data_t, product) {
       availability.className = "text-green-600 mb-2";
       card.appendChild(availability);
     }
-
     if (product.textualy_similarity_score !== undefined) {
       const score = document.createElement("p");
       score.textContent = `امتیاز: ${product.textualy_similarity_score + product.visualy_similarity_score}`;
       score.className = "text-green-600 mb-2";
       card.appendChild(score);
     }
-    if (data_t.data[0]?.product_data[0]?.price_info?.price_list[0]?.shipping_fee !== undefined) {
+    if (data_t.data[0]?.product_data[0]?.price_info?.price_list?.[0]?.shipping_fee !== undefined) {
       const shippingFee = document.createElement("p");
-      shippingFee.textContent = `قیمت ارسال: ${data_t.data[0].product_data[0].price_info.price_list.shipping_fee === 0 ? "--- " : `${data_t.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`}`;
+      shippingFee.textContent = `قیمت ارسال: ${
+        data_t.data[0].product_data[0].price_info.price_list[0].shipping_fee === 0
+          ? "--- "
+          : `${data_t.data[0].product_data[0].price_info.price_list[0].shipping_fee} IRR`
+      }`;
       shippingFee.className = "text-gray-600 mb-2";
       card.appendChild(shippingFee);
     }
@@ -637,7 +615,7 @@ async function populateModal(itemid) {
     if (resultsContainer) resultsContainer.innerHTML = "";
     const formData = new FormData();
     formData.append("query", itemid);
-    showLoading()
+    showLoading();
     const response = await connect_to_server(
       "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
       "POST",
@@ -663,7 +641,7 @@ async function populateModal(itemid) {
   } catch (error) {
     console.error("Error populating modal:", error);
   }
-  hideLoading()
+  hideLoading();
 }
 
 // Product details modal handling
