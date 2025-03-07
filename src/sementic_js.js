@@ -530,6 +530,8 @@ window.addEventListener("scroll", async () => {
 // Function to create a product card with error handling
 function createProductCard(data_t, product) {
   try {
+    console.log(data_t);
+    
     const card = document.createElement("div");
     card.className = "bg-white rounded-lg shadow-md p-6 mb-6";
     if (product.metadata?.primary_image) {
