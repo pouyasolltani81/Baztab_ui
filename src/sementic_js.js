@@ -41,7 +41,7 @@ let audioFile;
 // Global variables for search parameters and infinite scroll
 let currentPage = 1;
 let isLoadingMore = false;
-let searchParams = {}; // Will hold {query, page_limit, full_content, image_coordinates, image, audio}
+let searchParams = {}; // {query, page_limit, full_content, image_coordinates, image, audio}
 let croppedCoordinates = null; // Set after cropping
 
 // Helper: safely add event listener
@@ -137,7 +137,6 @@ async function openCropModal() {
       console.error("No image available for cropping.");
       return;
     }
-    // Get image blob from preview src
     const response = await fetch(imagePreview.src);
     const blob = await response.blob();
     const formData = new FormData();
@@ -156,10 +155,8 @@ async function openCropModal() {
 
     if (result && result.return && result.data && result.data.coordinates) {
       const { x1, y1, x2, y2 } = result.data.coordinates;
-
       cropModal.classList.remove("hidden");
       if (cropper) cropper.destroy();
-
       cropper = new Cropper(cropImage, {
         aspectRatio: NaN, // free ratio
         viewMode: 1,
@@ -169,7 +166,6 @@ async function openCropModal() {
         rotatable: true,
         scalable: true,
         ready() {
-          // Set crop box with server response coordinates
           cropper.setCropBoxData({
             left: x1,
             top: y1,
@@ -200,12 +196,10 @@ safeAddListener(imageInput, "change", (event) => {
           imagePreview.classList.remove("hidden");
           if (audioPreview) audioPreview.classList.add("hidden");
           cropImage.src = e.target.result;
-          // Auto open crop modal after image upload
           openCropModal();
         }
       };
-      reader.onerror = (err) =>
-        console.error("Error reading image file:", err);
+      reader.onerror = (err) => console.error("Error reading image file:", err);
       reader.readAsDataURL(file);
       if (previewContainer) previewContainer.classList.remove("hidden");
     }
@@ -214,7 +208,7 @@ safeAddListener(imageInput, "change", (event) => {
   }
 });
 
-// Audio input change: show preview and hide image-to-text (since input is not image)
+// Audio input change: show preview and hide image-to-text
 safeAddListener(audioInput, "change", (event) => {
   try {
     if (!event || !event.target || !event.target.files)
@@ -227,12 +221,10 @@ safeAddListener(audioInput, "change", (event) => {
           audioPreview.src = e.target.result;
           audioPreview.classList.remove("hidden");
           if (imagePreview) imagePreview.classList.add("hidden");
-          // Hide image-to-text container since input is not an image
           document.getElementById("img2text").classList.add("hidden");
         }
       };
-      reader.onerror = (err) =>
-        console.error("Error reading audio file:", err);
+      reader.onerror = (err) => console.error("Error reading audio file:", err);
       reader.readAsDataURL(file);
       if (previewContainer) previewContainer.classList.remove("hidden");
     }
@@ -241,7 +233,7 @@ safeAddListener(audioInput, "change", (event) => {
   }
 });
 
-// Close crop modal (both cancel buttons)
+// Close crop modal
 function closeCropModal() {
   cropModal.classList.add("hidden");
   if (cropper) {
@@ -252,17 +244,21 @@ function closeCropModal() {
 safeAddListener(modalCancelBtn, "click", closeCropModal);
 safeAddListener(modalCancelBtn2, "click", closeCropModal);
 
-// Crop & Apply button – now capture crop coordinates and auto-trigger resize
+// Crop & Apply button – capture crop coordinates, update preview, then trigger resize
 safeAddListener(cropApplyBtn, "click", async () => {
   try {
     if (!cropper) throw new Error("Cropper not initialized.");
     showLoading();
     const canvas = cropper.getCroppedCanvas();
     if (!canvas) throw new Error("Failed to get cropped canvas.");
-    // Get cropped image data URL
     const croppedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+    // Update the main preview with the cropped image
     imagePreview.src = croppedDataUrl;
-    // Capture current crop coordinates (as an object) for the request
+    // Also update the input preview section to show the cropped image
+    if (inputPreviewSection) {
+      inputPreviewSection.innerHTML = `<img src="${croppedDataUrl}" class="w-[40rem] rounded-xl border-4 border-teal-800" />`;
+    }
+    // Capture crop coordinates for request
     croppedCoordinates = cropper.getData(true);
     // Update file input with cropped file
     canvas.toBlob((blob) => {
@@ -279,7 +275,7 @@ safeAddListener(cropApplyBtn, "click", async () => {
       hideLoading();
     }, "image/jpeg", 0.8);
     closeCropModal();
-    // Instead of directly triggering search, trigger resize so that the image is resized before search.
+    // Trigger the resize & search action
     if (resizeApplyBtn) resizeApplyBtn.click();
   } catch (error) {
     console.error("Error applying crop:", error);
@@ -287,8 +283,7 @@ safeAddListener(cropApplyBtn, "click", async () => {
   }
 });
 
-// Resize & Apply button – uses user inputs for max dimension and quality,
-// then automatically triggers the search using the new FormData parameters.
+// Resize & Apply button – resize image then trigger search
 safeAddListener(resizeApplyBtn, "click", async () => {
   try {
     if (!imageInput || !imageInput.files || !imageInput.files[0])
@@ -299,16 +294,8 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     const qualityPercent = qualityInput ? parseInt(qualityInput.value, 10) : 70;
     const quality = qualityPercent / 100;
     showLoading();
-    const resizedBlob = await resizeAndReduceQuality(
-      imageInput.files[0],
-      maxDim,
-      quality
-    );
-    const resizedFile = new File(
-      [resizedBlob],
-      imageInput.files[0].name,
-      { type: "image/jpeg" }
-    );
+    const resizedBlob = await resizeAndReduceQuality(imageInput.files[0], maxDim, quality);
+    const resizedFile = new File([resizedBlob], imageInput.files[0].name, { type: "image/jpeg" });
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target && e.target.result) {
@@ -321,7 +308,7 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     dataTransfer.items.add(resizedFile);
     imageInput.files = dataTransfer.files;
     
-    // Automatically build search parameters and perform search:
+    // Build search parameters and perform search:
     const query = searchInput ? searchInput.value : "";
     const imageFile = imageInput.files[0];
     const audioFile = (audioInput && audioInput.files && audioInput.files[0]) ? audioInput.files[0] : null;
@@ -335,7 +322,6 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     if (audioFile) {
       audioData = await fileToBase64(audioFile);
     }
-    // Set global search parameters
     searchParams = {
       query: query,
       page: 1,
@@ -345,7 +331,7 @@ safeAddListener(resizeApplyBtn, "click", async () => {
       image: imageData,
       audio: audioData
     };
-    currentPage = 1; // reset page number for new search
+    currentPage = 1;
     await performSearch(currentPage, false);
   } catch (error) {
     console.error("Error applying resize:", error);
@@ -353,7 +339,7 @@ safeAddListener(resizeApplyBtn, "click", async () => {
   }
 });
 
-// Function to perform the search (or fetch additional pages) using the new FormData parameters
+// Function to perform the search using the new FormData parameters
 async function performSearch(page, appendResults = false) {
   try {
     showLoading();
@@ -365,7 +351,6 @@ async function performSearch(page, appendResults = false) {
     if (searchParams.image_coordinates) {
       formData.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
     }
-    // Append image depending on flag: either as base64 string or file object.
     if (searchParams.image instanceof File) {
       formData.append("image", searchParams.image);
     } else {
@@ -373,7 +358,6 @@ async function performSearch(page, appendResults = false) {
     }
     formData.append("audio", searchParams.audio || "");
     
-    // Main agent-based search call
     const response = await connect_to_server(
       "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
       "POST",
@@ -388,22 +372,22 @@ async function performSearch(page, appendResults = false) {
     const resultsContainerEl = document.getElementById("sementic_results");
     if (!appendResults && resultsContainerEl) {
       resultsContainerEl.innerHTML = "";
+      // Ensure container is visible
+      resultsContainerEl.classList.remove("hidden");
     }
     if (resultData.data && resultData.data.length > 0) {
-      resultData.data.forEach((product, index) => {
+      resultData.data.forEach((product) => {
         const card = createProductCard(product);
         resultsContainerEl.appendChild(card);
       });
-    } else {
-      if (!appendResults && resultsContainerEl) {
-        const noProductsMessage = document.createElement("p");
-        noProductsMessage.textContent = "No results found.";
-        noProductsMessage.className = "text-gray-600 text-center";
-        resultsContainerEl.appendChild(noProductsMessage);
-      }
+    } else if (resultsContainerEl && !appendResults) {
+      const noProductsMessage = document.createElement("p");
+      noProductsMessage.textContent = "No results found.";
+      noProductsMessage.className = "text-gray-600 text-center";
+      resultsContainerEl.appendChild(noProductsMessage);
     }
     
-    // If an image exists, call the image2text endpoint with the same parameters
+    // Image-to-text call if image exists
     if (searchParams.image) {
       const formDataToText = new FormData();
       formDataToText.append("query", searchParams.query || "");
@@ -462,10 +446,9 @@ safeAddListener(searchForm, "submit", async (e) => {
   try {
     showLoading();
     const query = searchInput ? searchInput.value : "";
-    const imageFile = (imageInput && imageInput.files && imageInput.files[0]) ? imageInput.files[0] : null;
-    const audioFile = (audioInput && audioInput.files && audioInput.files[0]) ? audioInput.files[0] : null;
+    const imageFile = (imageInput && imageInput.files && imageInput.files[0]) || null;
+    const audioFile = (audioInput && audioInput.files && audioInput.files[0]) || null;
     
-    // Update input preview section
     if (inputPreviewSection) {
       if (imageFile) {
         const reader = new FileReader();
@@ -490,15 +473,9 @@ safeAddListener(searchForm, "submit", async (e) => {
     
     let imageData = "";
     if (imageFile) {
-      if (uploadImageAsBase64) {
-        imageData = await fileToBase64(imageFile);
-      } else {
-        imageData = imageFile;
-      }
+      imageData = uploadImageAsBase64 ? await fileToBase64(imageFile) : imageFile;
     }
     const audioData = audioFile ? await fileToBase64(audioFile) : "";
-    
-    // Set global search parameters for manual search
     searchParams = {
       query: query,
       page: 1,
@@ -517,7 +494,7 @@ safeAddListener(searchForm, "submit", async (e) => {
   }
 });
 
-// Infinite scroll: when the user nears the bottom, fetch additional pages.
+// Infinite scroll: fetch additional pages when nearing the bottom.
 window.addEventListener("scroll", async () => {
   if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100) && !isLoadingMore) {
     isLoadingMore = true;
@@ -527,13 +504,13 @@ window.addEventListener("scroll", async () => {
   }
 });
 
-// Updated createProductCard function to match the new data structure and revert tag parsing to the previous approach.
+// Updated createProductCard function (with previous tag parsing method)
 function createProductCard(product) {
   try {
     const card = document.createElement("div");
     card.className = "bg-white rounded-lg shadow-md p-6 mb-6";
     
-    // Display primary image if available
+    // Primary image
     if (product.metadata && product.metadata.primary_image) {
       const img = document.createElement("img");
       img.src = product.metadata.primary_image;
@@ -574,7 +551,7 @@ function createProductCard(product) {
       card.appendChild(categoryEl);
     }
     
-    // Score (if available)
+    // Score
     if (typeof product.scores !== "undefined") {
       const scoreEl = document.createElement("p");
       scoreEl.textContent = `امتیاز: ${product.scores}`;
@@ -582,17 +559,15 @@ function createProductCard(product) {
       card.appendChild(scoreEl);
     }
     
-    // Parse the doc field for description and tags using "[sep]" as a delimiter.
+    // Parse the doc field for description and tags.
     if (product.doc) {
       const parts = product.doc.split("[sep]");
-      // Assume that the 6th part (index 5) contains the description.
       if (parts.length > 5 && parts[5].trim() !== "") {
         const descEl = document.createElement("p");
         descEl.textContent = parts[5].trim();
         descEl.className = "text-gray-600 mb-4";
         card.appendChild(descEl);
       }
-      // Assume that the 7th part (index 6) contains a tags array in string form.
       // if (parts.length > 6 && parts[6].trim() !== "") {
       //   const tagsStr = parts[6].trim();
       //   try {
@@ -616,7 +591,7 @@ function createProductCard(product) {
       // }
     }
     
-    // Link if available
+    // Link
     if (product.metadata && product.metadata.scrape_url) {
       const linkEl = document.createElement("a");
       linkEl.href = product.metadata.scrape_url;
@@ -633,7 +608,7 @@ function createProductCard(product) {
   }
 }
 
-// Function to populate the product details modal
+// Populate the product details modal
 async function populateModal(itemid) {
   try {
     const resultsContainer = document.getElementById("sementic_results_2");
