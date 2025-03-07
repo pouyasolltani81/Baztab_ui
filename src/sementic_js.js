@@ -259,7 +259,9 @@ safeAddListener(cropApplyBtn, "click", async () => {
       hideLoading();
     }, "image/jpeg", 0.8);
     closeCropModal();
-    document.getElementById('resizeApplyBtn').click()
+    // document.getElementById('resizeApplyBtn').click()
+    document.getElementById('submitbutton').click()
+
   } catch (error) {
     console.error("Error applying crop:", error);
     hideLoading();
