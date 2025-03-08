@@ -675,6 +675,8 @@ function createProductCard(product) {
 // Populate the product details modal
 async function populateModal(itemid) {
   try {
+    console.log(itemid);
+    
     const resultsContainer = document.getElementById("sementic_results_2");
     if (resultsContainer) resultsContainer.innerHTML = "";
     const formData = new FormData();
