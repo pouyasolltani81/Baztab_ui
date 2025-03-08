@@ -307,7 +307,7 @@ safeAddListener(resizeApplyBtn, "click", async () => {
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(resizedFile);
     imageInput.files = dataTransfer.files;
-    
+
     // Build search parameters and perform search:
     const query = searchInput ? searchInput.value : "";
     const imageFile = imageInput.files[0];
@@ -357,7 +357,7 @@ async function performSearch(page, appendResults = false) {
       formData.append("image", searchParams.image || "");
     }
     formData.append("audio", searchParams.audio || "");
-    
+
     const response = await connect_to_server(
       "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
       "POST",
@@ -368,7 +368,7 @@ async function performSearch(page, appendResults = false) {
     );
     const resultData = await response.json();
     console.log(resultData);
-    
+
     const resultsContainerEl = document.getElementById("sementic_results");
     if (!appendResults && resultsContainerEl) {
       resultsContainerEl.innerHTML = "";
@@ -376,10 +376,10 @@ async function performSearch(page, appendResults = false) {
       resultsContainerEl.classList.remove("hidden");
     }
     if (resultData.data && resultData.data.length > 0) {
-      resultData.data.forEach((product) => {
-        const card = createProductCard(product);
+      resultData.data.forEach((product , index) => {
+        const card = createProductCard_main(product , index);
         resultsContainerEl.appendChild(card);
-         document.getElementById('sementic_resultsSection').classList.remove('hidden')
+        document.getElementById('sementic_resultsSection').classList.remove('hidden')
         document.getElementById('preview').classList.add('hidden')
       });
     } else if (resultsContainerEl && !appendResults) {
@@ -388,7 +388,7 @@ async function performSearch(page, appendResults = false) {
       noProductsMessage.className = "text-gray-600 text-center";
       resultsContainerEl.appendChild(noProductsMessage);
     }
-    
+
     // Image-to-text call if image exists
     if (searchParams.image) {
       const formDataToText = new FormData();
@@ -442,6 +442,68 @@ async function performSearch(page, appendResults = false) {
   }
 }
 
+
+function createProductCard_main(item , index) {
+  // const resultsContainerEl = document.getElementById("sementic_results");
+  if (resultsContainerEl) resultsContainerEl.innerHTML = "";
+  
+    console.log(item);
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-lg overflow-hidden";
+    if (item.metadata && item.metadata.primary_image) {
+      const img = document.createElement("img");
+      img.src = item.metadata.primary_image;
+      img.alt = item.metadata.name || "Product Image";
+      img.className = "w-full h-48 object-cover";
+      card.appendChild(img);
+    }
+    const cardBody = document.createElement("div");
+    cardBody.className = "p-4";
+    const nameEl = document.createElement("h3");
+    nameEl.className = "text-lg font-bold mb-2";
+    nameEl.textContent = item.metadata?.name || "Unnamed Product";
+    cardBody.appendChild(nameEl);
+    if (item.metadata?.category) {
+      const categoryEl = document.createElement("p");
+      categoryEl.className = "text-sm text-gray-600";
+      categoryEl.textContent = "کتگوری: " + item.metadata.category;
+      cardBody.appendChild(categoryEl);
+    }
+    if (item.metadata?.price && !isNaN(item.metadata.price)) {
+      const priceEl = document.createElement("p");
+      priceEl.className = "text-sm text-green-600 font-semibold mt-2";
+      priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
+      cardBody.appendChild(priceEl);
+    }
+    if (item.metadata?.id) {
+      const id = document.createElement("p");
+      id.className = "text-sm text-gray-600 font-semibold mt-2";
+      id.textContent = "شناسه: " + item.metadata.id;
+      cardBody.appendChild(id);
+    }
+    if (item.scores) {
+      const score = document.createElement("p");
+      score.className = "text-sm text-green-600 font-semibold mt-2";
+      score.textContent = "امتیاز: " + item.scores;
+      cardBody.appendChild(score);
+    }
+    const info_button = document.createElement("button");
+    info_button.id = "similar_search_" + index;
+    info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+    info_button.textContent = "اطلاعات بیشتر";
+    info_button.onclick = () => {
+      console.log(item.metadata.id);
+      showProductModal();
+      populateModal(item.metadata.id);
+    };
+    cardBody.appendChild(info_button);
+    card.appendChild(cardBody);
+    // resultsContainerEl.appendChild(card);
+    return card 
+    
+  
+}
+
 // Search form submission handling (for manual searches)
 safeAddListener(searchForm, "submit", async (e) => {
   e.preventDefault();
@@ -450,7 +512,7 @@ safeAddListener(searchForm, "submit", async (e) => {
     const query = searchInput ? searchInput.value : "";
     const imageFile = (imageInput && imageInput.files && imageInput.files[0]) || null;
     const audioFile = (audioInput && audioInput.files && audioInput.files[0]) || null;
-    
+
     if (inputPreviewSection) {
       if (imageFile) {
         const reader = new FileReader();
@@ -472,7 +534,7 @@ safeAddListener(searchForm, "submit", async (e) => {
         inputPreviewSection.innerHTML = `<p class="text-gray-800 text-lg font-semibold">Query: ${query}</p>`;
       }
     }
-    
+
     let imageData = "";
     if (imageFile) {
       imageData = uploadImageAsBase64 ? await fileToBase64(imageFile) : imageFile;
@@ -511,7 +573,7 @@ function createProductCard(product) {
   try {
     const card = document.createElement("div");
     card.className = "bg-white rounded-lg shadow-md p-6 mb-6";
-    
+
     // Primary image
     if (product.metadata && product.metadata.primary_image) {
       const img = document.createElement("img");
@@ -520,7 +582,7 @@ function createProductCard(product) {
       img.className = "w-full h-64 object-cover rounded-lg mb-4";
       card.appendChild(img);
     }
-    
+
     // Name
     if (product.metadata && product.metadata.name) {
       const nameEl = document.createElement("h3");
@@ -528,7 +590,7 @@ function createProductCard(product) {
       nameEl.className = "text-xl font-semibold mb-2";
       card.appendChild(nameEl);
     }
-    
+
     // Price
     if (product.metadata && product.metadata.price) {
       const priceEl = document.createElement("p");
@@ -536,7 +598,7 @@ function createProductCard(product) {
       priceEl.className = "text-gray-700 mb-2";
       card.appendChild(priceEl);
     }
-    
+
     // ID
     if (product.metadata && product.metadata.id) {
       const idEl = document.createElement("p");
@@ -544,7 +606,7 @@ function createProductCard(product) {
       idEl.className = "text-gray-700 mb-2";
       card.appendChild(idEl);
     }
-    
+
     // Category
     if (product.metadata && product.metadata.category) {
       const categoryEl = document.createElement("p");
@@ -552,7 +614,7 @@ function createProductCard(product) {
       categoryEl.className = "text-gray-500 mb-2";
       card.appendChild(categoryEl);
     }
-    
+
     // Score
     if (typeof product.scores !== "undefined") {
       const scoreEl = document.createElement("p");
@@ -560,7 +622,7 @@ function createProductCard(product) {
       scoreEl.className = "text-green-600 mb-2";
       card.appendChild(scoreEl);
     }
-    
+
     // Parse the doc field for description and tags.
     if (product.doc) {
       const parts = product.doc.split("[sep]");
@@ -592,7 +654,7 @@ function createProductCard(product) {
       //   }
       // }
     }
-    
+
     // Link
     if (product.metadata && product.metadata.scrape_url) {
       const linkEl = document.createElement("a");
@@ -602,7 +664,7 @@ function createProductCard(product) {
       linkEl.target = "_blank";
       card.appendChild(linkEl);
     }
-    
+
     return card;
   } catch (error) {
     console.error("Error creating product card:", error);

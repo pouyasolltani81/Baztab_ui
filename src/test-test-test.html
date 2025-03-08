@@ -1,45 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-<body>
-
-  <!-- Modal -->
-<div id="myModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl relative">
-      <!-- Close Button -->
-      <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-          &times;
-      </button>
-      
-      <!-- Modal Content -->
-      <h2 class="text-2xl font-semibold mb-4">Modal Title</h2>
-      <p class="text-gray-700">This is the content of the modal. You can place any HTML elements here!</p>
-  </div>
-</div>
-
-<!-- JavaScript to handle modal visibility -->
-<script>
-  const modal = document.getElementById('myModal');
-  const closeModal = document.getElementById('closeModal');
-
-  function showModal() {
-      modal.classList.remove('hidden');
+const resultsContainerEl = document.getElementById("sementic_results");
+if (resultsContainerEl) resultsContainerEl.innerHTML = "";
+resultData.data.forEach((item, index) => {
+  const card = createProductCard(item);
+  console.log(item);
+  const card = document.createElement("div");
+  card.className = "bg-white rounded-lg overflow-hidden";
+  if (item.metadata && item.metadata.primary_image) {
+    const img = document.createElement("img");
+    img.src = item.metadata.primary_image;
+    img.alt = item.metadata.name || "Product Image";
+    img.className = "w-full h-48 object-cover";
+    card.appendChild(img);
   }
-
-  closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-  });
-</script>
-
-<!-- Example button to trigger the modal -->
-<button onclick="showModal()" class="mt-4 p-2 bg-blue-500 text-white rounded">Open Modal</button>
-
-  
-</body>
-</html>
+  const cardBody = document.createElement("div");
+  cardBody.className = "p-4";
+  const nameEl = document.createElement("h3");
+  nameEl.className = "text-lg font-bold mb-2";
+  nameEl.textContent = item.metadata?.name || "Unnamed Product";
+  cardBody.appendChild(nameEl);
+  if (item.metadata?.category) {
+    const categoryEl = document.createElement("p");
+    categoryEl.className = "text-sm text-gray-600";
+    categoryEl.textContent = "کتگوری: " + item.metadata.category;
+    cardBody.appendChild(categoryEl);
+  }
+  if (item.metadata?.price && !isNaN(item.metadata.price)) {
+    const priceEl = document.createElement("p");
+    priceEl.className = "text-sm text-green-600 font-semibold mt-2";
+    priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
+    cardBody.appendChild(priceEl);
+  }
+  if (item.metadata?.id) {
+    const id = document.createElement("p");
+    id.className = "text-sm text-gray-600 font-semibold mt-2";
+    id.textContent = "شناسه: " + item.metadata.id;
+    cardBody.appendChild(id);
+  }
+  if (item.scores) {
+    const score = document.createElement("p");
+    score.className = "text-sm text-green-600 font-semibold mt-2";
+    score.textContent = "امتیاز: " + item.scores;
+    cardBody.appendChild(score);
+  }
+  const info_button = document.createElement("button");
+  info_button.id = "similar_search_" + index;
+  info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+  info_button.textContent = "اطلاعات بیشتر";
+  info_button.onclick = () => {
+    console.log(item.metadata.id);
+    showProductModal();
+    populateModal(item.metadata.id);
+  };
+  cardBody.appendChild(info_button);
+  card.appendChild(cardBody);
+  resultsContainerEl.appendChild(card);
+});
