@@ -711,8 +711,8 @@ async function populateModal(itemid) {
     console.log('ksdjfosiejf');
 
     console.log(result, 'this is from populateMODAL');
-    if (result.data[0]?.similar_products?.length > 0) {
-      result.data[0].similar_products.forEach((product) => {
+    if (result.data.length > 0) {
+      result.data.forEach((product) => {
         const card = createProductCard(product);
         resultsContainer.appendChild(card);
         document.getElementById('sementic_resultsSection').classList.remove('hidden')
