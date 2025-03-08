@@ -445,7 +445,7 @@ async function performSearch(page, appendResults = false) {
 
 function createProductCard_main(item , index) {
   // const resultsContainerEl = document.getElementById("sementic_results");
-  if (resultsContainerEl) resultsContainerEl.innerHTML = "";
+  // if (resultsContainerEl) resultsContainerEl.innerHTML = "";
   
     console.log(item);
     const card = document.createElement("div");
