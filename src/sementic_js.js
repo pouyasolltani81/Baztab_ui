@@ -376,8 +376,8 @@ async function performSearch(page, appendResults = false) {
       resultsContainerEl.classList.remove("hidden");
     }
     if (resultData.data && resultData.data.length > 0) {
-      resultData.data.forEach((product , index) => {
-        const card = createProductCard_main(product , index);
+      resultData.data.forEach((product, index) => {
+        const card = createProductCard_main(product, index);
         resultsContainerEl.appendChild(card);
         document.getElementById('sementic_resultsSection').classList.remove('hidden')
         document.getElementById('preview').classList.add('hidden')
@@ -443,65 +443,65 @@ async function performSearch(page, appendResults = false) {
 }
 
 
-function createProductCard_main(item , index) {
+function createProductCard_main(item, index) {
   // const resultsContainerEl = document.getElementById("sementic_results");
   // if (resultsContainerEl) resultsContainerEl.innerHTML = "";
-  
-    console.log(item);
-    const card = document.createElement("div");
-    card.className = "bg-white rounded-lg overflow-hidden";
-    if (item.metadata && item.metadata.primary_image) {
-      const img = document.createElement("img");
-      img.src = item.metadata.primary_image;
-      img.alt = item.metadata.name || "Product Image";
-      img.className = "w-full h-48 object-cover";
-      card.appendChild(img);
-    }
-    const cardBody = document.createElement("div");
-    cardBody.className = "p-4";
-    const nameEl = document.createElement("h3");
-    nameEl.className = "text-lg font-bold mb-2";
-    nameEl.textContent = item.metadata?.name || "Unnamed Product";
-    cardBody.appendChild(nameEl);
-    if (item.metadata?.category) {
-      const categoryEl = document.createElement("p");
-      categoryEl.className = "text-sm text-gray-600";
-      categoryEl.textContent = "کتگوری: " + item.metadata.category;
-      cardBody.appendChild(categoryEl);
-    }
-    if (item.metadata?.price && !isNaN(item.metadata.price)) {
-      const priceEl = document.createElement("p");
-      priceEl.className = "text-sm text-green-600 font-semibold mt-2";
-      priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
-      cardBody.appendChild(priceEl);
-    }
-    if (item.metadata?.id) {
-      const id = document.createElement("p");
-      id.className = "text-sm text-gray-600 font-semibold mt-2";
-      id.textContent = "شناسه: " + item.metadata.id;
-      cardBody.appendChild(id);
-    }
-    if (item.scores) {
-      const score = document.createElement("p");
-      score.className = "text-sm text-green-600 font-semibold mt-2";
-      score.textContent = "امتیاز: " + item.scores;
-      cardBody.appendChild(score);
-    }
-    const info_button = document.createElement("button");
-    info_button.id = "similar_search_" + index;
-    info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
-    info_button.textContent = "اطلاعات بیشتر";
-    info_button.onclick = () => {
-      // console.log(item.metadata.id);
-      showProductModal();
-      populateModal(item.metadata.id);
-    };
-    cardBody.appendChild(info_button);
-    card.appendChild(cardBody);
-    // resultsContainerEl.appendChild(card);
-    return card 
-    
-  
+
+  console.log(item);
+  const card = document.createElement("div");
+  card.className = "bg-white rounded-lg overflow-hidden";
+  if (item.metadata && item.metadata.primary_image) {
+    const img = document.createElement("img");
+    img.src = item.metadata.primary_image;
+    img.alt = item.metadata.name || "Product Image";
+    img.className = "w-full h-48 object-cover";
+    card.appendChild(img);
+  }
+  const cardBody = document.createElement("div");
+  cardBody.className = "p-4";
+  const nameEl = document.createElement("h3");
+  nameEl.className = "text-lg font-bold mb-2";
+  nameEl.textContent = item.metadata?.name || "Unnamed Product";
+  cardBody.appendChild(nameEl);
+  if (item.metadata?.category) {
+    const categoryEl = document.createElement("p");
+    categoryEl.className = "text-sm text-gray-600";
+    categoryEl.textContent = "کتگوری: " + item.metadata.category;
+    cardBody.appendChild(categoryEl);
+  }
+  if (item.metadata?.price && !isNaN(item.metadata.price)) {
+    const priceEl = document.createElement("p");
+    priceEl.className = "text-sm text-green-600 font-semibold mt-2";
+    priceEl.textContent = "قیمت: " + item.metadata.price.toLocaleString();
+    cardBody.appendChild(priceEl);
+  }
+  if (item.metadata?.id) {
+    const id = document.createElement("p");
+    id.className = "text-sm text-gray-600 font-semibold mt-2";
+    id.textContent = "شناسه: " + item.metadata.id;
+    cardBody.appendChild(id);
+  }
+  if (item.scores) {
+    const score = document.createElement("p");
+    score.className = "text-sm text-green-600 font-semibold mt-2";
+    score.textContent = "امتیاز: " + item.scores;
+    cardBody.appendChild(score);
+  }
+  const info_button = document.createElement("button");
+  info_button.id = "similar_search_" + index;
+  info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+  info_button.textContent = "اطلاعات بیشتر";
+  info_button.onclick = () => {
+    // console.log(item.metadata.id);
+    showProductModal();
+    populateModal(item.metadata.id);
+  };
+  cardBody.appendChild(info_button);
+  card.appendChild(cardBody);
+  // resultsContainerEl.appendChild(card);
+  return card
+
+
 }
 
 // Search form submission handling (for manual searches)
@@ -676,11 +676,28 @@ function createProductCard(product) {
 async function populateModal(itemid) {
   try {
     console.log(itemid);
-    
+
     const resultsContainer = document.getElementById("sementic_results_2");
     if (resultsContainer) resultsContainer.innerHTML = "";
     const formData = new FormData();
     formData.append("query", itemid);
+    formData.append("page", 1);
+    formData.append("page_limit", 10);
+    formData.append("full_content", searchParams.full_content);
+    // formData.append("image_coordinates", JSON.stringify({
+    //   "x1": 0,
+    //   "x2": 0,
+    //   "y1": 0,
+    //   "y2": 0
+    // }));
+
+    if (searchParams.image instanceof File) {
+      formData.append("image", searchParams.image);
+    } else {
+      formData.append("image", searchParams.image || "");
+    }
+    formData.append("audio", searchParams.audio || "");
+
     showLoading();
     const response = await connect_to_server(
       "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
@@ -692,8 +709,8 @@ async function populateModal(itemid) {
     );
     const result = await response.json();
     console.log('ksdjfosiejf');
-    
-    console.log(result , 'this is from populateMODAL');
+
+    console.log(result, 'this is from populateMODAL');
     if (result.data[0]?.similar_products?.length > 0) {
       result.data[0].similar_products.forEach((product) => {
         const card = createProductCard(product);
