@@ -691,7 +691,9 @@ async function populateModal(itemid) {
       "sementic_search"
     );
     const result = await response.json();
-    console.log(result);
+    console.log('ksdjfosiejf');
+    
+    console.log(result , 'this is from populateMODAL');
     if (result.data[0]?.similar_products?.length > 0) {
       result.data[0].similar_products.forEach((product) => {
         const card = createProductCard(product);
