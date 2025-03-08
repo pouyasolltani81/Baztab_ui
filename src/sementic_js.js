@@ -492,7 +492,7 @@ function createProductCard_main(item , index) {
     info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
     info_button.textContent = "اطلاعات بیشتر";
     info_button.onclick = () => {
-      console.log(item.metadata.id);
+      // console.log(item.metadata.id);
       showProductModal();
       populateModal(item.metadata.id);
     };
