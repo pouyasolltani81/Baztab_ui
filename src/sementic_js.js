@@ -481,22 +481,53 @@ function createProductCard_main(item, index) {
     id.textContent = "شناسه: " + item.metadata.id;
     cardBody.appendChild(id);
   }
+  if (item.metadata?.brand) {
+    const brand = document.createElement("p");
+    brand.className = "text-sm text-gray-600 font-semibold mt-2";
+    brand.textContent = "brand: " + item.metadata.brand;
+    cardBody.appendChild(brand);
+  }
+  if (item.metadata?.market) {
+    const market = document.createElement("p");
+    market.className = "text-sm text-gray-600 font-semibold mt-2";
+    market.textContent = "market: " + item.metadata.market;
+    cardBody.appendChild(market);
+  }
+  if (item.metadata?.price) {
+    const price = document.createElement("p");
+    price.className = "text-sm text-gray-600 font-semibold mt-2";
+    price.textContent = "price: " + item.metadata.price;
+    cardBody.appendChild(price);
+  }
+  if (item.metadata) {
+    const availability = document.createElement("p");
+    availability.className = "text-sm text-gray-600 font-semibold mt-2";
+    availability.textContent = "Available: " + item.metadata.is_available;
+    cardBody.appendChild(availability);
+  }
+
   if (item.scores) {
     const score = document.createElement("p");
     score.className = "text-sm text-green-600 font-semibold mt-2";
     score.textContent = "امتیاز: " + item.scores;
     cardBody.appendChild(score);
   }
-  const info_button = document.createElement("button");
-  info_button.id = "similar_search_" + index;
-  info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
-  info_button.textContent = "اطلاعات بیشتر";
-  info_button.onclick = () => {
-    // console.log(item.metadata.id);
-    showProductModal();
-    populateModal(item.metadata.id);
-  };
-  cardBody.appendChild(info_button);
+
+  if (item.metadata.source == "internal_source") {
+
+    const info_button = document.createElement("button");
+    info_button.id = "similar_search_" + index;
+    info_button.className = "w-full bg-teal-500 p-4 mt-4 text-center rounded-xl";
+    info_button.textContent = "اطلاعات بیشتر";
+    info_button.onclick = () => {
+      // console.log(item.metadata.id);
+      showProductModal();
+      populateModal(item.metadata.id);
+    };
+    cardBody.appendChild(info_button);
+
+  }
+
   card.appendChild(cardBody);
   // resultsContainerEl.appendChild(card);
   return card
