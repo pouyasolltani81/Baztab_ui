@@ -4,6 +4,7 @@ const user_token = "8ff3960bbd957b7e663b16467400bba2";
 const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 // Flag: if true, upload image in base64 format; if false, upload as file (normal format)
 let uploadImageAsBase64 = false;
+let fisttime =true ;
 
 // Element selectors with null-checks
 const imageBtn = document.getElementById("imageBtn");
@@ -390,7 +391,7 @@ async function performSearch(page, appendResults = false) {
     }
 
     // Image-to-text call if image exists
-    if (searchParams.image) {
+    if (searchParams.image && fisttime) {
       const formDataToText = new FormData();
       formDataToText.append("query", searchParams.query || "");
       formDataToText.append("page", page);
@@ -493,12 +494,7 @@ function createProductCard_main(item, index) {
     market.textContent = "market: " + item.metadata.market;
     cardBody.appendChild(market);
   }
-  if (item.metadata?.price) {
-    const price = document.createElement("p");
-    price.className = "text-sm text-gray-600 font-semibold mt-2";
-    price.textContent = "price: " + item.metadata.price;
-    cardBody.appendChild(price);
-  }
+  
   if (item.metadata) {
     const availability = document.createElement("p");
     availability.className = "text-sm text-gray-600 font-semibold mt-2";
@@ -594,6 +590,7 @@ window.addEventListener("scroll", async () => {
   if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100) && !isLoadingMore) {
     isLoadingMore = true;
     currentPage++;
+    fisttime  = false
     await performSearch(currentPage, true);
     isLoadingMore = false;
   }
