@@ -4,7 +4,7 @@ const user_token = "8ff3960bbd957b7e663b16467400bba2";
 const mongoDB_id = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 // Flag: if true, upload image in base64 format; if false, upload as file (normal format)
 let uploadImageAsBase64 = false;
-let fisttime =true ;
+let fisttime = true;
 
 // Element selectors with null-checks
 const imageBtn = document.getElementById("imageBtn");
@@ -359,84 +359,175 @@ async function performSearch(page, appendResults = false) {
     }
     formData.append("audio", searchParams.audio || "");
 
-    const response = await connect_to_server(
-      "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
-      "POST",
-      user_token,
-      "multipart/form-data",
-      formData,
-      "sementic_search"
-    );
-    const resultData = await response.json();
-    console.log(resultData);
+    if (!mongoDB_id.test(searchParams.query)) {
 
-    const resultsContainerEl = document.getElementById("sementic_results");
-    if (!appendResults && resultsContainerEl) {
-      resultsContainerEl.innerHTML = "";
-      // Ensure container is visible
-      resultsContainerEl.classList.remove("hidden");
-    }
-    if (resultData.data && resultData.data.length > 0) {
-      resultData.data.forEach((product, index) => {
-        const card = createProductCard_main(product, index);
-        resultsContainerEl.appendChild(card);
-        document.getElementById('sementic_resultsSection').classList.remove('hidden')
-        document.getElementById('preview').classList.add('hidden')
-      });
-    } else if (resultsContainerEl && !appendResults) {
-      const noProductsMessage = document.createElement("p");
-      noProductsMessage.textContent = "No results found.";
-      noProductsMessage.className = "text-gray-600 text-center";
-      resultsContainerEl.appendChild(noProductsMessage);
-    }
 
-    // Image-to-text call if image exists
-    if (searchParams.image && fisttime) {
-      const formDataToText = new FormData();
-      formDataToText.append("query", searchParams.query || "");
-      formDataToText.append("page", page);
-      formDataToText.append("page_limit", searchParams.page_limit);
-      formDataToText.append("full_content", searchParams.full_content);
-      if (searchParams.image_coordinates) {
-        formDataToText.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
-      }
-      if (searchParams.image instanceof File) {
-        formDataToText.append("image", searchParams.image);
-      } else {
-        formDataToText.append("image", searchParams.image || "");
-      }
-      formDataToText.append("audio", searchParams.audio || "");
-      const responseToText = await connect_to_server(
-        "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
+      const response = await connect_to_server(
+        "http://79.175.177.113:21800/AIAnalyze/search/",
         "POST",
         user_token,
         "multipart/form-data",
-        formDataToText,
+        formData,
         "sementic_search"
       );
-      const resultToText = await responseToText.json();
-      console.log(resultToText);
-      const img2textDiv = document.getElementById("img2text");
-      if (img2textDiv) {
-        img2textDiv.innerHTML = `
-          <div class="text-xl font-semibold text-gray-800 mb-4">
-              نام : ${resultToText.data.produc_name}
-          </div>
-          <div class="text-gray-600 mb-4">
-              <span class="font-medium text-gray-700">توضیحات :</span>
-              ${resultToText.data.description}
-          </div>
-          <div class="text-gray-600 mb-4">
-              <span class="font-medium text-gray-700">برند :</span>
-              ${resultToText.data.produc_brand}
-          </div>
-          <div class="text-gray-600">
-              <span class="font-medium text-gray-700">متا دیتا :</span>
-              ${resultToText.data.produc_metadata}
-          </div>`;
+      const resultData = await response.json();
+      console.log(resultData);
+
+      const resultsContainerEl = document.getElementById("sementic_results");
+      if (!appendResults && resultsContainerEl) {
+        resultsContainerEl.innerHTML = "";
+        // Ensure container is visible
+        resultsContainerEl.classList.remove("hidden");
       }
+      if (resultData.data && resultData.data.length > 0) {
+        resultData.data.forEach((product, index) => {
+          const card = createProductCard_main(product, index);
+          resultsContainerEl.appendChild(card);
+          document.getElementById('sementic_resultsSection').classList.remove('hidden')
+          document.getElementById('preview').classList.add('hidden')
+        });
+      } else if (resultsContainerEl && !appendResults) {
+        const noProductsMessage = document.createElement("p");
+        noProductsMessage.textContent = "No results found.";
+        noProductsMessage.className = "text-gray-600 text-center";
+        resultsContainerEl.appendChild(noProductsMessage);
+      }
+
+      // Image-to-text call if image exists
+      if (searchParams.image && fisttime) {
+        const formDataToText = new FormData();
+        formDataToText.append("query", searchParams.query || "");
+        formDataToText.append("page", page);
+        formDataToText.append("page_limit", searchParams.page_limit);
+        formDataToText.append("full_content", searchParams.full_content);
+        if (searchParams.image_coordinates) {
+          formDataToText.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
+        }
+        if (searchParams.image instanceof File) {
+          formDataToText.append("image", searchParams.image);
+        } else {
+          formDataToText.append("image", searchParams.image || "");
+        }
+        formDataToText.append("audio", searchParams.audio || "");
+        const responseToText = await connect_to_server(
+          "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
+          "POST",
+          user_token,
+          "multipart/form-data",
+          formDataToText,
+          "sementic_search"
+        );
+        const resultToText = await responseToText.json();
+        console.log(resultToText);
+        const img2textDiv = document.getElementById("img2text");
+        if (img2textDiv) {
+          img2textDiv.innerHTML = `
+            <div class="text-xl font-semibold text-gray-800 mb-4">
+                نام : ${resultToText.data.produc_name}
+            </div>
+            <div class="text-gray-600 mb-4">
+                <span class="font-medium text-gray-700">توضیحات :</span>
+                ${resultToText.data.description}
+            </div>
+            <div class="text-gray-600 mb-4">
+                <span class="font-medium text-gray-700">برند :</span>
+                ${resultToText.data.produc_brand}
+            </div>
+            <div class="text-gray-600">
+                <span class="font-medium text-gray-700">متا دیتا :</span>
+                ${resultToText.data.produc_metadata}
+            </div>`;
+        }
+      }
+      hideLoading();
+
+
+    } else {
+
+
+      const response = await connect_to_server(
+        "http://79.175.177.113:21800/AIAnalyze/agent_based_find_similar_content/",
+        "POST",
+        user_token,
+        "multipart/form-data",
+        formData,
+        "sementic_search"
+      );
+      const resultData = await response.json();
+      console.log(resultData);
+
+      const resultsContainerEl = document.getElementById("sementic_results");
+      if (!appendResults && resultsContainerEl) {
+        resultsContainerEl.innerHTML = "";
+        // Ensure container is visible
+        resultsContainerEl.classList.remove("hidden");
+      }
+      if (resultData.data && resultData.data.length > 0) {
+        resultData.data.forEach((product, index) => {
+          const card = createProductCard_main(product, index);
+          resultsContainerEl.appendChild(card);
+          document.getElementById('sementic_resultsSection').classList.remove('hidden')
+          document.getElementById('preview').classList.add('hidden')
+        });
+      } else if (resultsContainerEl && !appendResults) {
+        const noProductsMessage = document.createElement("p");
+        noProductsMessage.textContent = "No results found.";
+        noProductsMessage.className = "text-gray-600 text-center";
+        resultsContainerEl.appendChild(noProductsMessage);
+      }
+
+      // Image-to-text call if image exists
+      if (searchParams.image && fisttime) {
+        const formDataToText = new FormData();
+        formDataToText.append("query", searchParams.query || "");
+        formDataToText.append("page", page);
+        formDataToText.append("page_limit", searchParams.page_limit);
+        formDataToText.append("full_content", searchParams.full_content);
+        if (searchParams.image_coordinates) {
+          formDataToText.append("image_coordinates", JSON.stringify(searchParams.image_coordinates));
+        }
+        if (searchParams.image instanceof File) {
+          formDataToText.append("image", searchParams.image);
+        } else {
+          formDataToText.append("image", searchParams.image || "");
+        }
+        formDataToText.append("audio", searchParams.audio || "");
+        const responseToText = await connect_to_server(
+          "http://79.175.177.113:21800/AIAnalyze/Image2text_fa/",
+          "POST",
+          user_token,
+          "multipart/form-data",
+          formDataToText,
+          "sementic_search"
+        );
+        const resultToText = await responseToText.json();
+        console.log(resultToText);
+        const img2textDiv = document.getElementById("img2text");
+        if (img2textDiv) {
+          img2textDiv.innerHTML = `
+            <div class="text-xl font-semibold text-gray-800 mb-4">
+                نام : ${resultToText.data.produc_name}
+            </div>
+            <div class="text-gray-600 mb-4">
+                <span class="font-medium text-gray-700">توضیحات :</span>
+                ${resultToText.data.description}
+            </div>
+            <div class="text-gray-600 mb-4">
+                <span class="font-medium text-gray-700">برند :</span>
+                ${resultToText.data.produc_brand}
+            </div>
+            <div class="text-gray-600">
+                <span class="font-medium text-gray-700">متا دیتا :</span>
+                ${resultToText.data.produc_metadata}
+            </div>`;
+        }
+      }
+      hideLoading();
+
+
     }
-    hideLoading();
+
+
   } catch (error) {
     console.error("Error during performSearch:", error);
     hideLoading();
@@ -494,7 +585,7 @@ function createProductCard_main(item, index) {
     market.textContent = "market: " + item.metadata.market;
     cardBody.appendChild(market);
   }
-  
+
   if (item.metadata) {
     const availability = document.createElement("p");
     availability.className = "text-sm text-gray-600 font-semibold mt-2";
@@ -590,7 +681,7 @@ window.addEventListener("scroll", async () => {
   if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100) && !isLoadingMore) {
     isLoadingMore = true;
     currentPage++;
-    fisttime  = false
+    fisttime = false
     await performSearch(currentPage, true);
     isLoadingMore = false;
   }
