@@ -367,6 +367,7 @@ async function performSearch(page, appendResults = false) {
         "POST",
         user_token,
         "application/json",
+        JSON.stringify(
         {
           "page": 1,
           "page_size": 10,
@@ -380,7 +381,8 @@ async function performSearch(page, appendResults = false) {
             ],
             "category_id": ""
           }
-        },
+        }
+      ),
         "sementic_search"
       );
       const resultData = await response.json();
