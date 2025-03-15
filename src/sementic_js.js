@@ -367,7 +367,20 @@ async function performSearch(page, appendResults = false) {
         "POST",
         user_token,
         "multipart/form-data",
-        formData,
+        {
+          "page": 1,
+          "page_size": 10,
+          "query": searchParams.query,
+          "marketCap_id": "",
+          "filters": {
+            "min_price": 0,
+            "max_price": 0,
+            "brands_id": [
+              ""
+            ],
+            "category_id": ""
+          }
+        },
         "sementic_search"
       );
       const resultData = await response.json();
