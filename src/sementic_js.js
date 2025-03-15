@@ -366,7 +366,7 @@ async function performSearch(page, appendResults = false) {
         "http://79.175.177.113:21800/AIAnalyze/search/",
         "POST",
         user_token,
-        "multipart/form-data",
+        "application/json",
         {
           "page": 1,
           "page_size": 10,
