@@ -360,6 +360,8 @@ async function performSearch(page, appendResults = false) {
     formData.append("audio", searchParams.audio || "");
 
     if (!mongoDB_id.test(searchParams.query)) {
+      console.log('it works till here');
+      
 
 
       const response = await connect_to_server(
